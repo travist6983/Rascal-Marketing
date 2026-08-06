@@ -1,0 +1,8 @@
+{
+  "detector": {
+    "ignoreFiles": [
+      "screenshots/**",
+      "docs/apple-design/**"
+    ]
+  }
+}

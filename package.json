@@ -7,7 +7,9 @@
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "build:artifact": "node scripts/build-artifact.mjs",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "design": "npx --yes impeccable@3.5.0 detect index.html styles.css app.js",
+    "design:live": "node scripts/design-live.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

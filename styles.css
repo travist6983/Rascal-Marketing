@@ -189,14 +189,12 @@ input, button { font-family: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-block: 30px 10px;
-  transition: padding-block 260ms ease;
+  padding-block: 20px;
 }
 .masthead.is-floating {
   background: rgba(253, 250, 244, 0.72);
   backdrop-filter: blur(20px) saturate(180%);
 }
-.masthead.is-floating .masthead__in { padding-block: 14px; }
 
 /* A scroll edge effect, not a 1px divider: the material fades out into the
    content instead of drawing a line across it. */
