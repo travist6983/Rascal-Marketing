@@ -38,13 +38,16 @@ the signup block at the bottom of `app.js`.
 
 Live at **https://travist6983.github.io/Rascal-Marketing/**
 
-`.github/workflows/pages.yml` deploys on every push to `main`. It passes
-`enablement: true` to `actions/configure-pages`, so the first run switches Pages
-on through the API rather than needing the setting flipped by hand.
+Pages serves the `gh-pages` branch, which holds only what the site needs:
+`index.html`, `styles.css`, `app.js`, `fonts/` and a `.nojekyll` marker. Nothing
+on that branch is edited by hand — `.github/workflows/pages.yml` rebuilds and
+force-pushes it on every push to `main`.
 
-The workflow copies just the four things the site serves — `index.html`,
-`styles.css`, `app.js` and `fonts/` — into `_site` and publishes that, so the
-deployed tree carries no tooling or git history.
+That route was chosen over `actions/deploy-pages` deliberately. Creating a Pages
+site through the API needs repo-admin rights that `GITHUB_TOKEN` doesn't have
+(`Resource not accessible by integration`), whereas pushing a branch needs only
+`contents: write` — and creating `gh-pages` got GitHub to turn Pages on by
+itself.
 
 ## Checking it
 
