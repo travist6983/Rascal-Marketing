@@ -1,9 +1,9 @@
-name: Deploy to Pages (Actions source)
+name: Deploy to Pages
 
-# STANDBY WORKFLOW — only run this after Pages is switched to the Actions source:
-#   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# Pages Source is set to "GitHub Actions", so this workflow *is* the deploy.
+# Pushing to gh-pages no longer publishes anything.
 #
-# Why this exists. With Source set to "Deploy from a branch", GitHub runs its
+# Background. With Source set to "Deploy from a branch", GitHub runs its
 # own generated "pages build and deployment" workflow, which we cannot edit.
 # Its deploy step gives up after 10 minutes and then *cancels* the deployment:
 #
@@ -15,14 +15,17 @@ name: Deploy to Pages (Actions source)
 # succeeding in ~5 seconds, so the payload was never the problem — the
 # deployment was just slower than the timer, and got killed each time.
 #
-# actions/deploy-pages exposes that timer as an input, so this waits 30 minutes
-# instead of 10 and lets a slow deployment finish.
+# Switching the source did not fix it: the deployment still sat at
+# `deployment_queued` and was cancelled at ten minutes. The `timeout` input
+# below asks for thirty; the action caps it, so it is documentation of intent
+# rather than an effective lever. Six deploys failed the same way under both
+# source modes, which puts the fault in GitHub's Pages pipeline, not here.
 #
-# It is manual-only on purpose: with Source still set to a branch, deploy-pages
-# fails outright, so this must not fire on push until the setting is flipped.
-# pages.yml keeps handling the branch path in the meantime.
+# Left wired to push so the next commit deploys by itself once Pages recovers.
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -59,4 +62,4 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
         with:
-          timeout: 1800000   # 30 min, vs the 10 that has been killing deploys
+          timeout: 1800000   # asks for 30 min; the action caps it at 10
