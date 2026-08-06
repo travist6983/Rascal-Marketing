@@ -65,40 +65,99 @@ for (const [name, viewport] of [
   await ctx.close();
 }
 
-/* --- deck advances, drags, and snaps back --- */
+/* --- deck: the apple-design behaviours ---
+   A gesture is a distance *and* a speed. These check the deck reads both, and
+   that a card already in flight can still be caught. */
 {
   const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
   const page = await ctx.newPage();
+
+  /** Drag the top card `dist` px left, pausing `gap` ms between moves. */
+  const swipe = async (dist, gap, steps = 6) => {
+    const box = await page.locator('.pcard[aria-hidden="false"]').boundingBox();
+    const cx = box.x + box.width / 2;
+    const cy = box.y + box.height / 2;
+    await page.mouse.move(cx, cy);
+    await page.mouse.down();
+    for (let i = 1; i <= steps; i++) {
+      await page.mouse.move(cx - (dist / steps) * i, cy);
+      await page.waitForTimeout(gap);
+    }
+    await page.mouse.up();
+    await page.waitForTimeout(900);
+  };
+
   await page.goto(url, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(1200);
+  await page.waitForTimeout(1400);
 
   const top = () => page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText();
 
   const first = await top();
   await page.click('#dealAnother');
-  await page.waitForTimeout(700);
+  await page.waitForTimeout(900);
   if ((await top()) === first) fail.push('deck: "Deal another" did not advance the card');
 
-  const before = await top();
-  const box = await page.locator('.pcard[aria-hidden="false"]').boundingBox();
-  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(box.x + box.width / 2 - 160, box.y + box.height / 2, { steps: 12 });
-  await page.mouse.up();
-  await page.waitForTimeout(700);
-  if ((await top()) === before) fail.push('deck: dragging past the threshold did not deal');
+  // Same distance, two speeds — momentum projection has to separate them.
+  // Few, large, tight steps: even if the runner stalls and stretches the gaps,
+  // the per-sample displacement stays big enough to read as a flick.
+  const beforeFlick = await page.evaluate(() => cursor);
+  await swipe(72, 5, 3);
+  if ((await page.evaluate(() => cursor)) === beforeFlick)
+    fail.push('deck: a fast flick did not carry the card away (momentum projection)');
 
-  const held = await top();
-  const box2 = await page.locator('.pcard[aria-hidden="false"]').boundingBox();
-  await page.mouse.move(box2.x + box2.width / 2, box2.y + box2.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(box2.x + box2.width / 2 - 40, box2.y + box2.height / 2, { steps: 6 });
-  await page.mouse.up();
-  await page.waitForTimeout(600);
-  if ((await top()) !== held) fail.push('deck: a short drag dealt instead of snapping back');
+  const beforeSlow = await page.evaluate(() => cursor);
+  await swipe(72, 150);
+  if ((await page.evaluate(() => cursor)) !== beforeSlow)
+    fail.push('deck: a slow drag of the same distance dealt instead of springing back');
 
-  if ((await page.locator('.pcard').count()) !== 4)
+  if ((await page.locator('.pcard:not([data-flying])').count()) !== 4)
     fail.push('deck: the stack is not holding four cards');
+
+  // Interruptibility — the principle the whole rewrite is for.
+  await page.click('#dealAnother');
+  await page.waitForTimeout(90);
+  if ((await page.locator('.pcard[data-flying]').count()) === 0) {
+    fail.push('deck: no card was in flight to try catching');
+  } else {
+    const at = await page.evaluate(() => {
+      const r = document.querySelector('.pcard[data-flying]').getBoundingClientRect();
+      return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    });
+    await page.mouse.move(at.x, at.y);
+    await page.mouse.down();
+    await page.waitForTimeout(60);
+    if ((await page.locator('.pcard[data-flying]').count()) !== 0)
+      fail.push('deck: a card in flight could not be caught (interruptibility)');
+    await page.mouse.up();
+    await page.waitForTimeout(700);
+  }
+
+  await ctx.close();
+}
+
+/* --- reduced motion: gentler, not absent --- */
+{
+  const ctx = await browser.newContext({
+    viewport: { width: 1400, height: 1000 },
+    reducedMotion: 'reduce'
+  });
+  const page = await ctx.newPage();
+  page.on('pageerror', (e) => fail.push(`reduced-motion: uncaught ${e.message}`));
+  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(700);
+
+  const before = await page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText();
+  await page.click('#dealAnother');
+  await page.waitForTimeout(600);
+  const after = await page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText();
+  if (before === after)
+    fail.push('reduced-motion: the deck stopped working instead of cross-fading');
+
+  // A reveal that never fires would hide content outright.
+  const opacity = await page.locator('.shape').first().evaluate(
+    (el) => Number(getComputedStyle(el).opacity)
+  );
+  if (opacity < 0.99) fail.push('reduced-motion: the shape cards never became visible');
 
   await ctx.close();
 }
@@ -135,4 +194,7 @@ if (fail.length) {
   console.error(fail.map((f) => '✗ ' + f).join('\n'));
   process.exit(1);
 }
-console.log('✓ renders clean at 3 sizes; deck deals, drags and snaps; form validates');
+console.log(
+  '✓ renders clean at 3 sizes; deck reads speed as well as distance and can be\n' +
+  '  caught mid-flight; reduced motion still works; form validates'
+);
