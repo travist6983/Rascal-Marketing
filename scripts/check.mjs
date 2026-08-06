@@ -26,7 +26,8 @@ const browser = await chromium.launch({
 for (const [name, viewport] of [
   ['desktop', { width: 1400, height: 1000 }],
   ['tablet', { width: 820, height: 1180 }],
-  ['mobile', { width: 390, height: 844 }]
+  ['mobile', { width: 390, height: 844 }],
+  ['mobile-375', { width: 375, height: 812 }]
 ]) {
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
@@ -135,33 +136,6 @@ for (const [name, viewport] of [
   await ctx.close();
 }
 
-/* --- reduced motion: gentler, not absent --- */
-{
-  const ctx = await browser.newContext({
-    viewport: { width: 1400, height: 1000 },
-    reducedMotion: 'reduce'
-  });
-  const page = await ctx.newPage();
-  page.on('pageerror', (e) => fail.push(`reduced-motion: uncaught ${e.message}`));
-  await page.goto(url, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(700);
-
-  const before = await page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText();
-  await page.click('#dealAnother');
-  await page.waitForTimeout(600);
-  const after = await page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText();
-  if (before === after)
-    fail.push('reduced-motion: the deck stopped working instead of cross-fading');
-
-  // A reveal that never fires would hide content outright.
-  const opacity = await page.locator('.shape').first().evaluate(
-    (el) => Number(getComputedStyle(el).opacity)
-  );
-  if (opacity < 0.99) fail.push('reduced-motion: the shape cards never became visible');
-
-  await ctx.close();
-}
-
 /* --- the form's three validation messages --- */
 {
   const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
@@ -188,6 +162,127 @@ for (const [name, viewport] of [
   await ctx.close();
 }
 
+
+/* --- countdown never shows a negative or a dead zero --- */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const page = await ctx.newPage();
+  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(400);
+
+  const state = await page.locator('[data-role="countdown"]').getAttribute('data-state');
+  if (!['counting', 'grace', 'shipped'].includes(state))
+    fail.push(`countdown: unknown state "${state}"`);
+
+  if (state === 'counting') {
+    const vals = await page.evaluate(() =>
+      ['days', 'hours', 'minutes'].map((u) => {
+        const host = document.querySelector(`[data-unit="${u}"]`);
+        return host ? host.textContent.length : -1;
+      })
+    );
+    if (vals.some((v) => v <= 0)) fail.push('countdown: a unit rendered nothing');
+
+    // The digit tracks encode the value as a translateY; read it back.
+    const read = await page.evaluate(() =>
+      ['days', 'hours', 'minutes'].map((u) =>
+        [...document.querySelectorAll(`[data-unit="${u}"] .digit__track`)]
+          .map((t) => {
+            const m = /translateY\(([-\d.]+)em\)/.exec(t.style.transform || '');
+            return m ? -Number(m[1]) : NaN;
+          })
+          .join('')
+      )
+    );
+    read.forEach((digits, i) => {
+      const n = Number(digits);
+      if (!Number.isFinite(n) || n < 0)
+        fail.push(`countdown: unit ${i} rendered a non-negative-safe value "${digits}"`);
+    });
+  }
+
+  const closeText = await page.locator('[data-role="closeCountdown"]').innerText();
+  if (/-\d/.test(closeText)) fail.push(`countdown: close line shows a negative — "${closeText}"`);
+
+  await ctx.close();
+}
+
+/* --- every SHOTS slot reserves its aspect ratio while src is null --- */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const page = await ctx.newPage();
+  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(400);
+
+  const slots = await page.evaluate(() => {
+    const keys = Object.keys(SHOTS);
+    const screens = [...document.querySelectorAll('.device__screen')];
+    return {
+      keys: keys.length,
+      screens: screens.length,
+      anySrc: keys.some((k) => SHOTS[k].src),
+      boxes: screens.map((s) => {
+        const r = s.getBoundingClientRect();
+        return { h: Math.round(r.height), ratio: r.width > 0 ? r.height / r.width : 0 };
+      })
+    };
+  });
+
+  if (slots.screens !== slots.keys)
+    fail.push(`shots: ${slots.keys} entries in SHOTS but ${slots.screens} slots rendered`);
+  if (!slots.anySrc) {
+    const want = 2796 / 1290;
+    slots.boxes.forEach((b, i) => {
+      if (b.h <= 0) fail.push(`shots: slot ${i} has zero height with src null`);
+      if (Math.abs(b.ratio - want) > 0.02)
+        fail.push(`shots: slot ${i} ratio ${b.ratio.toFixed(2)} != ${want.toFixed(2)}`);
+    });
+  }
+  await ctx.close();
+}
+
+/* --- reduced motion renders a complete page, not a disabled one --- */
+{
+  const ctx = await browser.newContext({
+    viewport: { width: 1400, height: 1000 },
+    reducedMotion: 'reduce'
+  });
+  const page = await ctx.newPage();
+  page.on('pageerror', (e) => fail.push(`reduced-motion: uncaught ${e.message}`));
+  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(700);
+
+  // Nothing may be left mid-transform or invisible.
+  const hidden = await page.evaluate(() => {
+    const sel = ['.ln__i', '.shape', '.beat__copy', '.beat__shot', '.entry__body'];
+    const out = [];
+    sel.forEach((s) => {
+      document.querySelectorAll(s).forEach((el) => {
+        const cs = getComputedStyle(el);
+        if (Number(cs.opacity) < 0.99) out.push(`${s} opacity ${cs.opacity}`);
+        if (cs.transform && cs.transform !== 'none') out.push(`${s} transform ${cs.transform}`);
+      });
+    });
+    return out.slice(0, 5);
+  });
+  hidden.forEach((h) => fail.push(`reduced-motion: ${h}`));
+
+  // The countdown must still be live.
+  const before = await page.locator('[data-role="closeCountdown"]').innerText();
+  if (!before.trim()) fail.push('reduced-motion: countdown rendered empty');
+  const ticking = await page.evaluate(() => typeof paintCountdown === 'function');
+  if (!ticking) fail.push('reduced-motion: countdown updater missing');
+
+  // The deck must still work.
+  const first = await page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText();
+  await page.click('#dealAnother');
+  await page.waitForTimeout(500);
+  if ((await page.locator('.pcard[aria-hidden="false"] .pcard__text').innerText()) === first)
+    fail.push('reduced-motion: the deck stopped advancing');
+
+  await ctx.close();
+}
+
 await browser.close();
 
 if (fail.length) {
@@ -195,6 +290,7 @@ if (fail.length) {
   process.exit(1);
 }
 console.log(
-  '✓ renders clean at 3 sizes; deck reads speed as well as distance and can be\n' +
-  '  caught mid-flight; reduced motion still works; form validates'
+  '✓ renders clean at 4 widths incl. 375px; countdown non-negative; every SHOTS\n' +
+  '  slot reserves its ratio; reduced motion renders complete; deck reads speed\n' +
+  '  and catches mid-flight; form validates'
 );

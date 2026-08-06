@@ -1,9 +1,14 @@
 # RASCAL — marketing site
 
-Landing page for RASCAL: one prompt a day about your kid, free by email, iOS app later.
+Landing page for RASCAL: one question a day about your kid, free by email, with an
+iOS app in App Store review.
 
-A static port of `RASCAL Landing.dc.html` from Claude Design. No framework, no build
-step — `index.html`, `styles.css`, `app.js` and two self-hosted webfonts.
+No framework, no build step, no third-party requests — `index.html`, `styles.css`,
+`app.js`, two self-hosted webfonts, and `assets/` for app screenshots.
+
+The page has two jobs, in this order: get the email signup (the prompts are live
+now), then build anticipation for the app. The countdown is the drama; it is never
+the ask.
 
 ## Running it
 
@@ -34,20 +39,47 @@ It posts `{ email, source }` as JSON and treats any non-2xx as a failure. If you
 provider wants form-encoded fields or different names, adjust the `fetch` call in
 the signup block at the bottom of `app.js`.
 
+## The launch countdown
+
+`LAUNCH` at the top of `app.js` drives the whole thing. The target date is
+expected to move — App Store review runs on its own schedule.
+
+```js
+const LAUNCH = {
+  TARGET: '2026-08-27T16:00:00Z',   // App Store target — pending review
+  GRACE_COPY: 'In review with Apple',
+  SHIPPED_URL: null                  // set to the App Store link on launch day
+};
+```
+
+Three states, all implemented and all visually complete:
+
+| State | When | What renders |
+|---|---|---|
+| **Counting** | before `TARGET` | Days / hours / minutes, live, digits rolling in masked tracks |
+| **Grace** | at or past `TARGET`, `SHIPPED_URL` still null | `GRACE_COPY` plus "Submitted. Apple reviews on its own schedule." No dead zeros, no negatives |
+| **Shipped** | `SHIPPED_URL` set | A Download on the App Store button. The email signup stays on the page below it |
+
+Time is computed from a fixed UTC instant and recomputed from `Date.now()` on
+every tick and on `visibilitychange`, so a tab left open overnight is never
+stale. Remaining time is floored at zero, so the counting state cannot render a
+negative.
+
+## App screenshots
+
+The app isn't built, so `SHOTS` in `app.js` has `src: null` for every slot and
+the page renders designed empty states. Each slot already reserves its exact
+aspect ratio, so dropping in a real PNG causes no layout shift and needs no
+markup or CSS change. See `assets/README.md`.
+
 ## Deploying
 
 Live at **https://travist6983.github.io/Rascal-Marketing/**
 
-Pages serves the `gh-pages` branch, which holds only what the site needs:
-`index.html`, `styles.css`, `app.js`, `fonts/` and a `.nojekyll` marker. Nothing
-on that branch is edited by hand — `.github/workflows/pages.yml` rebuilds and
-force-pushes it on every push to `main`.
-
-That route was chosen over `actions/deploy-pages` deliberately. Creating a Pages
-site through the API needs repo-admin rights that `GITHUB_TOKEN` doesn't have
-(`Resource not accessible by integration`), whereas pushing a branch needs only
-`contents: write` — and creating `gh-pages` got GitHub to turn Pages on by
-itself.
+Pages Source is set to **GitHub Actions**, so
+`.github/workflows/pages-actions.yml` is the deploy. It stages the site, adds a
+content-hash query to `styles.css` and `app.js` so a new deploy can't be served
+with a cached stylesheet, and publishes on every push to `main`.
 
 ## Checking it
 
@@ -69,6 +101,7 @@ form's three validation messages going missing. Screenshots land in
 | `styles.css` | The design's inline styles, lifted into classes |
 | `app.js` | Card deck, drag-to-deal, scroll reveals, timeline, signup |
 | `fonts/` | Nunito and Source Sans 3, self-hosted |
+| `assets/` | App screenshot slots — see `assets/README.md` |
 | `scripts/build-artifact.mjs` | Bundles everything into one self-contained file |
 | `scripts/check.mjs` | The browser checks above |
 | `scripts/serve.mjs` | Local static server |
