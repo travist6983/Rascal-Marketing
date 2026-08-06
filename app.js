@@ -133,14 +133,16 @@ const LIB = [
   { kind: 'ACTIVITY', pre: '', verb: 'Put', post: ' your phone in another room for the whole evening.' }
 ];
 
-const TERRA = '#C05A2B';
-const PERI = '#5566D6';
+/* Read the palette from CSS rather than repeating it here: these were literal
+   hex, so retuning the tokens for contrast left the card badges behind. */
+const TERRA = 'var(--terra)';
+const PERI = 'var(--peri)';
 const KIND = {
-  QUESTION: { bg: '#E9EBFB', ink: PERI },
-  VOICE: { bg: '#E9EBFB', ink: PERI },
-  PHOTO: { bg: '#FBEDE2', ink: TERRA },
-  ACTIVITY: { bg: '#FBEDE2', ink: TERRA },
-  WEEKLY: { bg: '#FBEDE2', ink: TERRA }
+  QUESTION: { bg: 'var(--lav)', ink: PERI },
+  VOICE: { bg: 'var(--lav)', ink: PERI },
+  PHOTO: { bg: 'var(--peach)', ink: TERRA },
+  ACTIVITY: { bg: 'var(--peach)', ink: TERRA },
+  WEEKLY: { bg: 'var(--peach)', ink: TERRA }
 };
 const FAN = [0, 1.8, -2.2, 2.6];
 

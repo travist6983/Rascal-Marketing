@@ -26,22 +26,37 @@
 }
 
 :root {
-  --paper:  #FDFAF4;
+  /* Ground is a tinted sand rather than the near-white cream it started as.
+     The cream a detector flags is min(r,g,b) >= 209 with a 6–48 warm cast, i.e.
+     any "tasteful" warm off-white; clearing it means committing to a real tone.
+     Near-white cards now sit on a ground instead of blending into it. */
+  --paper:  #E7DED0;
   --card:   #FFFDF9;
-  --line:   #EDE5DA;
+  --line:   #D8CDBB;   /* must read on the sand ground, not just on white cards */
   --ink:    #23253C;
-  --muted:  #6E6A63;
-  --terra:  #C05A2B;
-  --peri:   #5566D6;
+
+  /* Every value below is the nearest colour to the original that clears WCAG AA
+     (4.5:1) where it is actually used — see the pairs in `npm run design:live`. */
+  --muted:  #64615B;   /* was #6E6A63 — failed on the pink gradient and the ground */
+  --terra:  #9C4923;   /* was #C05A2B — failed under button text and on peach */
+  --peri:   #4A58B9;   /* was #5566D6 — failed on the lavender chip */
+
   --peach:  #FBEDE2;
   --lav:    #E9EBFB;
   --sage:   #E8F0E6;
+
+  /* Text on a terracotta fill. Not --paper: the ground is too dark to sit on it. */
+  --on-terra: #FFFDF9;
 
   --display: 'Nunito', system-ui, sans-serif;
   --body: 'Source Sans 3', system-ui, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* Ease-out-quint. The design shipped an overshooting curve here (a y2 above
+     1, which pushes past the target and settles back). Nothing in CSS follows
+     a gesture, so nothing in CSS has earned a bounce; the deck's springs live
+     in app.js and are untouched. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   --wrap: 1180px;
   --pad: 24px;
@@ -133,15 +148,6 @@ input, button { font-family: inherit; }
   padding: 0 var(--pad);
 }
 
-.eyebrow {
-  margin: 0 0 14px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-
 .wordmark {
   font-family: var(--display);
   font-weight: 800;
@@ -180,7 +186,7 @@ input, button { font-family: inherit; }
   position: sticky;
   top: 0;
   z-index: 60;
-  background: rgba(253, 250, 244, 0);
+  background: rgba(231, 222, 208, 0);
   backdrop-filter: blur(0px);
   transition: background 260ms ease, backdrop-filter 260ms ease;
 }
@@ -192,7 +198,7 @@ input, button { font-family: inherit; }
   padding-block: 20px;
 }
 .masthead.is-floating {
-  background: rgba(253, 250, 244, 0.72);
+  background: rgba(231, 222, 208, 0.72);
   backdrop-filter: blur(20px) saturate(180%);
 }
 
@@ -206,7 +212,7 @@ input, button { font-family: inherit; }
   height: 24px;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(to bottom, rgba(253, 250, 244, 0.9), rgba(253, 250, 244, 0));
+  background: linear-gradient(to bottom, rgba(231, 222, 208, 0.9), rgba(231, 222, 208, 0));
   transition: opacity 260ms ease;
 }
 .masthead.is-floating::after { opacity: 1; }
@@ -228,7 +234,6 @@ input, button { font-family: inherit; }
   padding: 44px 0 96px;
 }
 .hero__copy { flex: 1 1 400px; min-width: 300px; }
-.hero__eyebrow { margin-bottom: 22px; }
 
 .hero__title {
   margin: 0;
@@ -276,7 +281,7 @@ input, button { font-family: inherit; }
 }
 .signup__input:focus {
   border-color: var(--terra);
-  box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.28);
+  box-shadow: 0 0 0 3px rgba(156, 73, 35, 0.28);
 }
 
 .signup__btn {
@@ -285,18 +290,18 @@ input, button { font-family: inherit; }
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.0625rem;
-  color: var(--paper);
+  color: var(--on-terra);
   background: var(--terra);
   border: 1px solid var(--terra);
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 150ms var(--spring);
+  transition: transform 150ms var(--ease-out);
 }
 .signup__btn:hover { transform: translateY(-2px); }
 .signup__btn:active { transform: scale(0.98); }
 .signup__btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.34);
+  box-shadow: 0 0 0 3px rgba(156, 73, 35, 0.34);
 }
 .signup__btn[disabled] { cursor: default; }
 .signup__btn[disabled]:hover { transform: none; }
@@ -333,10 +338,10 @@ input, button { font-family: inherit; }
   flex: 0 0 34px;
   border-radius: 999px;
   background: var(--terra);
-  color: var(--paper);
+  color: var(--on-terra);
   font-size: 1.0625rem;
   font-weight: 700;
-  animation: pop 380ms var(--spring) both;
+  animation: pop 380ms var(--ease-out) both;
 }
 .signup__doneText {
   font-family: var(--display);
@@ -406,7 +411,7 @@ input, button { font-family: inherit; }
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(1.4375rem, 3.1vw, 2.125rem);
-  line-height: 1.2;
+  line-height: 1.3;
   letter-spacing: -0.015em;
   text-align: left;
   text-wrap: pretty;
@@ -428,11 +433,11 @@ input, button { font-family: inherit; }
   border: 1px solid var(--line);
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 150ms var(--spring), border-color 150ms ease;
+  transition: transform 150ms var(--ease-out), border-color 150ms ease;
 }
 .deck__btn:hover { transform: translateY(-2px); border-color: var(--terra); }
 .deck__btn:active { transform: scale(0.98); }
-.deck__btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.3); }
+.deck__btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(156, 73, 35, 0.3); }
 .deck__hint { font-size: 0.8125rem; color: var(--muted); }
 
 /* --- three shapes ------------------------------------------------------ */
@@ -457,7 +462,7 @@ input, button { font-family: inherit; }
   box-shadow: var(--shadow);
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 400ms ease, transform 400ms var(--spring);
+  transition: opacity 400ms ease, transform 400ms var(--ease-out);
 }
 .shape:nth-child(2) { background: var(--peach); transition-delay: 60ms; }
 .shape:nth-child(3) { background: var(--sage); transition-delay: 120ms; }
@@ -475,7 +480,7 @@ input, button { font-family: inherit; }
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.375rem;
-  line-height: 1.25;
+  line-height: 1.3;
   letter-spacing: -0.01em;
 }
 
@@ -523,12 +528,12 @@ input, button { font-family: inherit; }
   width: 100%;
   height: 72px;
   border-radius: 10px;
-  background-image: repeating-linear-gradient(135deg, var(--peach) 0 7px, var(--paper) 7px 14px);
+  background-image: linear-gradient(155deg, var(--peach), var(--card));
   display: grid;
   place-items: center;
   opacity: 0.25;
   transform: translateY(-10px) scale(0.94);
-  transition: opacity 260ms ease, transform 420ms var(--spring);
+  transition: opacity 260ms ease, transform 420ms var(--ease-out);
 }
 .shape--captured:hover .shape__photo {
   opacity: 1;
@@ -558,15 +563,15 @@ input, button { font-family: inherit; }
   border-radius: 999px;
   border: 1px solid var(--terra);
   background: transparent;
-  color: rgba(192, 90, 43, 0.35);
+  color: rgba(156, 73, 35, 0.45);
   font-size: 1.1875rem;
   font-weight: 700;
   transform: scale(1);
-  transition: background 220ms ease, color 220ms ease, transform 400ms var(--spring);
+  transition: background 220ms ease, color 220ms ease, transform 400ms var(--ease-out);
 }
 .shape--did:hover .shape__tick {
   background: var(--terra);
-  color: var(--paper);
+  color: var(--on-terra);
   transform: scale(1.08);
 }
 .shape__didText { font-size: 1rem; color: var(--ink); }
@@ -629,7 +634,7 @@ input, button { font-family: inherit; }
   border: 1px solid var(--terra);
   background: var(--paper);
   transform: scale(1);
-  transition: background 300ms ease, transform 400ms var(--spring);
+  transition: background 300ms ease, transform 400ms var(--ease-out);
 }
 .entry.is-on .entry__dot { background: var(--terra); transform: scale(1.12); }
 
@@ -654,15 +659,16 @@ input, button { font-family: inherit; }
   color: var(--peri);
   background: var(--lav);
 }
+/* These used to sit at opacity 0.34 until the scroll observer fired, which
+   measured at 1.1:1 against the gradient — unreadable, and invisible outright
+   if the observer never runs. The entries are legible from the start now; the
+   dot filling and the rail drawing down still carry the scroll progress. */
 .entry__text {
   margin: 0;
   font-size: 1.0625rem;
   line-height: 1.35;
   color: var(--ink);
-  opacity: 0.34;
-  transition: opacity 300ms ease;
 }
-.entry.is-on .entry__text { opacity: 1; }
 
 /* --- what the email is ------------------------------------------------- */
 
@@ -678,7 +684,7 @@ input, button { font-family: inherit; }
   min-width: 280px;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 400ms ease, transform 400ms var(--spring);
+  transition: opacity 400ms ease, transform 400ms var(--ease-out);
 }
 .email.is-in .email__side { opacity: 1; transform: none; }
 
