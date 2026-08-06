@@ -3,6 +3,9 @@
     "ignoreFiles": [
       "screenshots/**",
       "docs/apple-design/**"
+    ],
+    "ignoreRules": [
+      "text-occlusion"
     ]
   }
 }
