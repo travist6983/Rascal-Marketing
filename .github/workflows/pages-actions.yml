@@ -55,6 +55,20 @@ jobs:
           cp fonts/*.woff2 _site/fonts/
           touch _site/.nojekyll
 
+          # Cache-bust the assets by content hash. Without this the browser
+          # keeps a stylesheet from a previous deploy while taking the new
+          # HTML, which shipped a page with the new markup and the old palette.
+          # Hashing the contents (not the commit) means an unchanged file keeps
+          # its URL and stays cached.
+          CSS_V=$(md5sum _site/styles.css | cut -c1-8)
+          JS_V=$(md5sum _site/app.js | cut -c1-8)
+          sed -i \
+            -e "s|href=\"styles.css\"|href=\"styles.css?v=$CSS_V\"|" \
+            -e "s|src=\"app.js\"|src=\"app.js?v=$JS_V\"|" \
+            _site/index.html
+          echo "styles.css?v=$CSS_V   app.js?v=$JS_V"
+          grep -nE 'styles\.css\?v=|app\.js\?v=' _site/index.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
