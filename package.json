@@ -1,0 +1,16 @@
+{
+  "name": "rascal-marketing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page for RASCAL — one prompt a day about your kid",
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "build:artifact": "node scripts/build-artifact.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}
