@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RASCAL — one prompt a day about your kid</title>
+<meta name="description" content="A question about your kid or a small mission, in your inbox every morning. Answer it wherever you want. It's free, and the answers become an archive he inherits.">
+<meta property="og:title" content="RASCAL — one prompt a day about your kid">
+<meta property="og:description" content="One question a day about your kid. Free by email, iOS app later.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#E7DED0">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23AF5227'/%3E%3Ctext x='16' y='23' font-family='Nunito,system-ui,sans-serif' font-size='20' font-weight='800' fill='%23FFFDF9' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="page masthead__in">
+    <span class="wordmark">RASCAL</span>
+    <span class="masthead__tag">Free by email &middot; iOS app later</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+
+    <div class="hero__copy">
+      <h1 class="hero__title"><span class="accent">Answer</span> one question a day about your kid.</h1>
+      <p class="hero__lede">
+        A question about him or a small mission, in your inbox every morning.
+        Answer it wherever you want. It&rsquo;s free, and the answers become an archive
+        he inherits.
+      </p>
+
+      <div class="signup" data-signup="hero">
+        <form class="signup__form" novalidate>
+          <div class="signup__row">
+            <label class="visually-hidden" for="email-hero">Email address</label>
+            <input class="signup__input" id="email-hero" type="text" inputmode="email"
+                   autocomplete="email" placeholder="you@email.com" aria-invalid="false"
+                   data-role="input">
+            <button class="signup__btn" type="submit" data-role="submit">Send me the prompts</button>
+          </div>
+          <p class="signup__error" role="alert" data-role="error" hidden></p>
+          <p class="signup__fine">One email each morning. Unsubscribe in one click. Nothing else, ever.</p>
+        </form>
+
+        <div class="signup__done" data-role="done" hidden>
+          <span class="signup__tick" aria-hidden="true">&check;</span>
+          <span class="signup__doneText">You&rsquo;re in. First prompt tomorrow morning.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__deck">
+      <div class="deck" id="deck"></div>
+      <div class="deck__controls">
+        <button class="deck__btn" type="button" id="dealAnother">Deal another</button>
+        <span class="deck__hint">or drag the card away</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===================== THREE SHAPES ===================== -->
+  <section class="shapes" id="shapes">
+    <h2 class="h2 shapes__title">
+      A prompt isn&rsquo;t homework. Some days there&rsquo;s nothing to
+      <span class="accent">keep</span> at all.
+    </h2>
+
+    <div class="shapes__grid">
+
+      <article class="shape shape--wrote">
+        <span class="shape__kind">Wrote it</span>
+        <p class="shape__prompt">
+          What word does he <span style="color:var(--peri)">mispronounce</span>
+          that you don&rsquo;t want to correct?
+        </p>
+        <div class="shape__answer">
+          <span class="shape__answerText">&ldquo;Lellow.&rdquo; I&rsquo;m not fixing it.</span>
+          <span class="shape__caret" aria-hidden="true"></span>
+        </div>
+      </article>
+
+      <article class="shape shape--captured">
+        <span class="shape__kind">Captured it</span>
+        <p class="shape__prompt">
+          <span class="accent">Photograph</span> the mess he made. Don&rsquo;t clean it up first.
+        </p>
+        <div class="shape__frame">
+          <div class="shape__photo">
+            <span class="shape__photoLabel">photo saved &middot; 1 of 412</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="shape shape--did">
+        <span class="shape__kind">Did it</span>
+        <p class="shape__prompt">
+          <span class="accent">Get</span> on the floor for ten minutes. That&rsquo;s the whole mission.
+        </p>
+        <div class="shape__did">
+          <span class="shape__tick" aria-hidden="true">&check;</span>
+          <span class="shape__didText">Nothing to upload. It still counts.</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== WHY ===================== -->
+  <section class="why" id="why">
+    <div class="why__in">
+      <div class="why__copy">
+        <h2 class="h2 why__title">
+          Your camera roll has the photos. It doesn&rsquo;t have the
+          <span class="accent">question</span> that caused them.
+        </h2>
+        <p class="why__body">
+          Four thousand photos, no order, nothing written down, and no way to find any of
+          it in 2040. An answer a day builds the one thing the phone never made: a record
+          with his age on it, in your words, that he can read when he&rsquo;s grown.
+        </p>
+      </div>
+
+      <div class="why__side">
+        <div class="timeline">
+          <div class="timeline__track"></div>
+          <div class="timeline__fill" id="timelineFill"></div>
+          <div id="entries"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHAT THE EMAIL IS ===================== -->
+  <section class="email" id="email">
+    <div class="email__in">
+      <div class="email__copy">
+        <h2 class="h2 email__title">The email, <span class="accent">itemized</span>.</h2>
+      </div>
+
+      <div class="email__side">
+        <dl class="spec">
+          <div class="spec__row">
+            <dt class="spec__key">Arrives</dt>
+            <dd class="spec__val">6:00am your time. One email. That&rsquo;s the whole cadence.</dd>
+          </div>
+          <div class="spec__row">
+            <dt class="spec__key">Contains</dt>
+            <dd class="spec__val">Some mornings a question. Some mornings a mission with nothing to save.</dd>
+          </div>
+          <div class="spec__row">
+            <dt class="spec__key">Optional</dt>
+            <dd class="spec__val">Answering is optional. Nothing counts, nothing tracks, nothing asks you twice.</dd>
+          </div>
+          <div class="spec__row">
+            <dt class="spec__key">Later</dt>
+            <dd class="spec__val">The iOS app is coming, and it keeps every answer you&rsquo;ve already sent. Subscribers hear first.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CLOSING ===================== -->
+  <section class="close">
+    <div class="close__in">
+      <h2 class="close__title">
+        Tomorrow morning, one question. <span class="accent">Answer</span> it or don&rsquo;t.
+      </h2>
+      <p class="close__lede">
+        Free, one email a day, and in a year you&rsquo;ll have something he can read.
+      </p>
+
+      <div class="signup" data-signup="close">
+        <form class="signup__form" novalidate>
+          <div class="signup__row">
+            <label class="visually-hidden" for="email-close">Email address</label>
+            <input class="signup__input" id="email-close" type="text" inputmode="email"
+                   autocomplete="email" placeholder="you@email.com" aria-invalid="false"
+                   data-role="input">
+            <button class="signup__btn" type="submit" data-role="submit">Send me the prompts</button>
+          </div>
+          <p class="signup__error" role="alert" data-role="error" hidden></p>
+          <p class="signup__fine">One email each morning. Unsubscribe in one click. Nothing else, ever.</p>
+        </form>
+
+        <div class="signup__done" data-role="done" hidden>
+          <span class="signup__tick" aria-hidden="true">&check;</span>
+          <span class="signup__doneText">You&rsquo;re in. First prompt tomorrow morning.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="foot__line"><span class="wordmark">RASCAL</span> &mdash; a private archive of a childhood.</p>
+  </footer>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
