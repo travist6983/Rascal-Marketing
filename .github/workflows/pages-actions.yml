@@ -1,0 +1,62 @@
+name: Deploy to Pages (Actions source)
+
+# STANDBY WORKFLOW — only run this after Pages is switched to the Actions source:
+#   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+#
+# Why this exists. With Source set to "Deploy from a branch", GitHub runs its
+# own generated "pages build and deployment" workflow, which we cannot edit.
+# Its deploy step gives up after 10 minutes and then *cancels* the deployment:
+#
+#   Current status: deployment_queued
+#   ##[error]Timeout reached, aborting!
+#   Canceling Pages deployment...
+#
+# Five consecutive deploys died exactly that way while the build step kept
+# succeeding in ~5 seconds, so the payload was never the problem — the
+# deployment was just slower than the timer, and got killed each time.
+#
+# actions/deploy-pages exposes that timer as an input, so this waits 30 minutes
+# instead of 10 and lets a slow deployment finish.
+#
+# It is manual-only on purpose: with Source still set to a branch, deploy-pages
+# fails outright, so this must not fire on push until the setting is flipped.
+# pages.yml keeps handling the branch path in the meantime.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false   # never cancel a deployment that is still working
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - name: Stage site
+        run: |
+          mkdir -p _site/fonts
+          cp index.html styles.css app.js _site/
+          cp fonts/*.woff2 _site/fonts/
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 1800000   # 30 min, vs the 10 that has been killing deploys
