@@ -36,13 +36,15 @@ the signup block at the bottom of `app.js`.
 
 ## Deploying
 
-The GitHub Actions workflow in `.github/workflows/pages.yml` publishes the repo
-root on every push to `main`. It needs Pages switched on once:
+Live at **https://travist6983.github.io/Rascal-Marketing/**
 
-**Settings → Pages → Source: GitHub Actions**
+`.github/workflows/pages.yml` deploys on every push to `main`. It passes
+`enablement: true` to `actions/configure-pages`, so the first run switches Pages
+on through the API rather than needing the setting flipped by hand.
 
-Until that's enabled the workflow will fail on its first run — that's expected,
-and re-running it after flipping the setting is enough.
+The workflow copies just the four things the site serves — `index.html`,
+`styles.css`, `app.js` and `fonts/` — into `_site` and publishes that, so the
+deployed tree carries no tooling or git history.
 
 ## Checking it
 

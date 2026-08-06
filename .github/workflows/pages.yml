@@ -1,7 +1,9 @@
 name: Deploy to GitHub Pages
 
-# Plain static files, no build step, so this uploads the repo root as-is.
-# Enable it once under Settings → Pages → Source: GitHub Actions.
+# Plain static files, no build step, so this uploads the site as-is.
+#
+# `enablement: true` lets the workflow turn Pages on through the API the first
+# time it runs, so the site does not need to be switched on by hand first.
 
 on:
   push:
@@ -25,9 +27,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      # Stage only what the site actually serves, so the deployed tree does not
+      # carry .git, the workflow, or the local tooling.
+      - name: Stage site
+        run: |
+          mkdir -p _site/fonts
+          cp index.html styles.css app.js _site/
+          cp fonts/*.woff2 _site/fonts/
+          touch _site/.nojekyll
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
+
       - id: deployment
         uses: actions/deploy-pages@v4
