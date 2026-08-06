@@ -71,10 +71,9 @@ input, button { font-family: inherit; }
 
 :focus-visible { outline: 2px solid var(--terra); outline-offset: 2px; }
 
-@keyframes dealIn {
-  from { opacity: 0; transform: translateY(96px) scale(0.945); }
-  to   { opacity: 1; transform: none; }
-}
+/* The deck's deal-in used to live here as a @keyframes. Keyframes can't be
+   grabbed and reversed mid-flight, so the deck is spring-driven in app.js
+   now and this only covers the non-gesture flourishes. */
 @keyframes pop {
   from { transform: scale(0.4); opacity: 0; }
   to   { transform: scale(1); opacity: 1; }
@@ -84,13 +83,46 @@ input, button { font-family: inherit; }
   55%, 100% { opacity: 0; }
 }
 
+/* Reduced motion is not "no feedback" — it's a gentler, non-vestibular
+   equivalent. Travel and overshoot go; opacity and colour changes stay,
+   because they're what make state changes comprehensible. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 1ms !important;
-    animation-delay: 0ms !important;
-    transition-duration: 1ms !important;
-    transition-delay: 0ms !important;
+  .shape,
+  .email__side {
+    transform: none;
+    transition: opacity 200ms ease;
+    transition-delay: 0ms;
   }
+  .shapes.is-in .shape,
+  .email.is-in .email__side { transform: none; }
+
+  .signup__btn:hover,
+  .deck__btn:hover { transform: none; }
+
+  .signup__tick { animation: none; }
+  .shape--captured:hover .shape__photo { transform: none; }
+  .shape--did:hover .shape__tick { transform: none; }
+  .entry__dot { transition: background 250ms ease; }
+  .entry.is-on .entry__dot { transform: none; }
+
+  html { scroll-behavior: auto; }
+}
+
+/* Translucent surfaces get frostier rather than clearer when the user has
+   asked for less transparency, and near-solid with a border at high contrast. */
+@media (prefers-reduced-transparency: reduce) {
+  .masthead.is-floating {
+    background: var(--paper);
+    backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  .masthead.is-floating {
+    background: var(--paper);
+    backdrop-filter: none;
+    border-bottom: 1px solid var(--ink);
+  }
+  .masthead.is-floating::after { display: none; }
 }
 
 /* --- shared ------------------------------------------------------------ */
@@ -103,7 +135,7 @@ input, button { font-family: inherit; }
 
 .eyebrow {
   margin: 0 0 14px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -113,7 +145,7 @@ input, button { font-family: inherit; }
 .wordmark {
   font-family: var(--display);
   font-weight: 800;
-  font-size: 19px;
+  font-size: 1.1875rem;
   letter-spacing: 0.14em;
   color: var(--ink);
 }
@@ -122,7 +154,7 @@ input, button { font-family: inherit; }
   margin: 0;
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(28px, 3.6vw, 42px);
+  font-size: clamp(1.75rem, 3.6vw, 2.625rem);
   line-height: 1.1;
   letter-spacing: -0.018em;
   text-wrap: pretty;
@@ -141,15 +173,47 @@ input, button { font-family: inherit; }
 
 /* --- header ------------------------------------------------------------ */
 
+/* A translucent layer the page scrolls under, rather than an opaque strip
+   that permanently eats a band of the viewport. The material only appears
+   once there is content beneath it to separate from. */
 .masthead {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(253, 250, 244, 0);
+  backdrop-filter: blur(0px);
+  transition: background 260ms ease, backdrop-filter 260ms ease;
+}
+.masthead__in {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 0 10px;
   gap: 16px;
+  padding-block: 30px 10px;
+  transition: padding-block 260ms ease;
 }
+.masthead.is-floating {
+  background: rgba(253, 250, 244, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+.masthead.is-floating .masthead__in { padding-block: 14px; }
+
+/* A scroll edge effect, not a 1px divider: the material fades out into the
+   content instead of drawing a line across it. */
+.masthead::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  height: 24px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgba(253, 250, 244, 0.9), rgba(253, 250, 244, 0));
+  transition: opacity 260ms ease;
+}
+.masthead.is-floating::after { opacity: 1; }
 .masthead__tag {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -172,7 +236,7 @@ input, button { font-family: inherit; }
   margin: 0;
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(38px, 5.6vw, 62px);
+  font-size: clamp(2.375rem, 5.6vw, 3.875rem);
   line-height: 1.03;
   letter-spacing: -0.02em;
   text-wrap: pretty;
@@ -180,7 +244,7 @@ input, button { font-family: inherit; }
 
 .hero__lede {
   margin: 22px 0 34px;
-  font-size: clamp(17px, 1.6vw, 20px);
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
   line-height: 1.5;
   color: var(--muted);
   max-width: 30em;
@@ -205,7 +269,7 @@ input, button { font-family: inherit; }
   flex: 1 1 240px;
   min-width: 0;
   padding: 16px 20px;
-  font-size: 17px;
+  font-size: 1.0625rem;
   color: var(--ink);
   background: var(--card);
   border: 1px solid var(--line);
@@ -222,7 +286,7 @@ input, button { font-family: inherit; }
   padding: 16px 26px;
   font-family: var(--display);
   font-weight: 700;
-  font-size: 17px;
+  font-size: 1.0625rem;
   color: var(--paper);
   background: var(--terra);
   border: 1px solid var(--terra);
@@ -241,13 +305,13 @@ input, button { font-family: inherit; }
 
 .signup__error {
   margin: 12px 0 0;
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--terra);
 }
 
 .signup__fine {
   margin: 14px 0 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: var(--muted);
 }
@@ -272,14 +336,14 @@ input, button { font-family: inherit; }
   border-radius: 999px;
   background: var(--terra);
   color: var(--paper);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   animation: pop 380ms var(--spring) both;
 }
 .signup__doneText {
   font-family: var(--display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 1.1875rem;
 }
 
 /* --- card deck --------------------------------------------------------- */
@@ -293,8 +357,10 @@ input, button { font-family: inherit; }
 }
 
 .deck__slot { position: absolute; inset: 0; }
-.deck__slot--dealing { animation: dealIn 460ms var(--spring) both; }
 
+/* transform and opacity are owned by the springs in app.js — declaring a
+   transition here would fight them and break mid-gesture interruption.
+   Only the press shadow, which no gesture drives, is animated in CSS. */
 .pcard {
   position: absolute;
   inset: 0;
@@ -305,8 +371,16 @@ input, button { font-family: inherit; }
   border: 1px solid var(--line);
   border-radius: 20px;
   box-shadow: var(--shadow);
-  will-change: transform;
+  will-change: transform, opacity;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  transition: box-shadow 180ms ease;
+}
+
+/* Picked up: the card lifts off the stack the instant it's pressed. */
+.pcard--held {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 .pcard__head {
   display: flex;
@@ -317,13 +391,13 @@ input, button { font-family: inherit; }
 .pcard__badge {
   padding: 7px 14px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 .pcard__day {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -333,7 +407,7 @@ input, button { font-family: inherit; }
   margin: auto 0 0;
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(23px, 3.1vw, 34px);
+  font-size: clamp(1.4375rem, 3.1vw, 2.125rem);
   line-height: 1.2;
   letter-spacing: -0.015em;
   text-align: left;
@@ -350,7 +424,7 @@ input, button { font-family: inherit; }
   padding: 12px 22px;
   font-family: var(--display);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--ink);
   background: transparent;
   border: 1px solid var(--line);
@@ -361,7 +435,7 @@ input, button { font-family: inherit; }
 .deck__btn:hover { transform: translateY(-2px); border-color: var(--terra); }
 .deck__btn:active { transform: scale(0.98); }
 .deck__btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.3); }
-.deck__hint { font-size: 13px; color: var(--muted); }
+.deck__hint { font-size: 0.8125rem; color: var(--muted); }
 
 /* --- three shapes ------------------------------------------------------ */
 
@@ -392,7 +466,7 @@ input, button { font-family: inherit; }
 .shapes.is-in .shape { opacity: 1; transform: none; }
 
 .shape__kind {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -402,7 +476,7 @@ input, button { font-family: inherit; }
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 1.375rem;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -419,7 +493,7 @@ input, button { font-family: inherit; }
   min-height: 52px;
 }
 .shape__answerText {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--ink);
   opacity: 0;
   transition: opacity 220ms ease;
@@ -464,7 +538,7 @@ input, button { font-family: inherit; }
 }
 .shape__photoLabel {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.04em;
   color: var(--muted);
 }
@@ -487,7 +561,7 @@ input, button { font-family: inherit; }
   border: 1px solid var(--terra);
   background: transparent;
   color: rgba(192, 90, 43, 0.35);
-  font-size: 19px;
+  font-size: 1.1875rem;
   font-weight: 700;
   transform: scale(1);
   transition: background 220ms ease, color 220ms ease, transform 400ms var(--spring);
@@ -497,7 +571,7 @@ input, button { font-family: inherit; }
   color: var(--paper);
   transform: scale(1.08);
 }
-.shape__didText { font-size: 16px; color: var(--ink); }
+.shape__didText { font-size: 1rem; color: var(--ink); }
 
 /* --- why (gradient band + timeline) ------------------------------------ */
 
@@ -520,7 +594,7 @@ input, button { font-family: inherit; }
 .why__title { margin-bottom: 22px; }
 .why__body {
   margin: 0;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.55;
   color: var(--muted);
   max-width: 30em;
@@ -569,14 +643,14 @@ input, button { font-family: inherit; }
 }
 .entry__date {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
   color: var(--muted);
 }
 .entry__age {
   padding: 3px 10px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   color: var(--peri);
@@ -584,7 +658,7 @@ input, button { font-family: inherit; }
 }
 .entry__text {
   margin: 0;
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.35;
   color: var(--ink);
   opacity: 0.34;
@@ -598,7 +672,7 @@ input, button { font-family: inherit; }
 .email__in { display: flex; flex-wrap: wrap; gap: 56px; }
 .email__copy { flex: 1 1 300px; min-width: 260px; }
 .email__title {
-  font-size: clamp(28px, 3.6vw, 40px);
+  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
   max-width: 18em;
 }
 .email__side {
@@ -621,7 +695,7 @@ input, button { font-family: inherit; }
 .spec__key {
   flex: 0 0 130px;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--muted);
@@ -630,7 +704,7 @@ input, button { font-family: inherit; }
 .spec__val {
   flex: 1 1 220px;
   margin: 0;
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.45;
 }
 
@@ -642,14 +716,14 @@ input, button { font-family: inherit; }
   margin: 0 0 20px;
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(30px, 4.4vw, 50px);
+  font-size: clamp(1.875rem, 4.4vw, 3.125rem);
   line-height: 1.06;
   letter-spacing: -0.02em;
   text-wrap: pretty;
 }
 .close__lede {
   margin: 0 0 32px;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.5;
   color: var(--muted);
   max-width: 28em;
@@ -660,7 +734,7 @@ input, button { font-family: inherit; }
 .foot { padding: 0 0 56px; border-top: 1px solid var(--line); }
 .foot__line {
   margin: 24px 0 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   letter-spacing: 0.04em;
   color: var(--muted);
 }
