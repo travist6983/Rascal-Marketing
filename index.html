@@ -3,31 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RASCAL — one prompt a day about your kid</title>
-<meta name="description" content="A question about your kid or a small mission, in your inbox every morning. Answer it wherever you want. It's free, and the answers become an archive he inherits.">
-<meta property="og:title" content="RASCAL — one prompt a day about your kid">
-<meta property="og:description" content="One question a day about your kid. Free by email, iOS app later.">
+<title>RASCAL — one question a day about your kid</title>
+<meta name="description" content="A question about your kid or a small mission, in your inbox every morning. Free, starting tomorrow. The iOS app follows, and every answer you send by email is already in it.">
+<meta property="og:title" content="RASCAL — one question a day about your kid">
+<meta property="og:description" content="One question a day about your kid, free by email. The iOS app follows, and your answers are already in it.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#E7DED0">
+<!-- og:image is deliberately absent until assets/og.png exists; see assets/README.md.
+     Pointing at a missing file is worse than text-only sharing. -->
+<meta name="theme-color" content="#FDFAF4">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23AF5227'/%3E%3Ctext x='16' y='23' font-family='Nunito,system-ui,sans-serif' font-size='20' font-weight='800' fill='%23FFFDF9' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23C05A2B'/%3E%3Ctext x='16' y='23' font-family='Nunito,system-ui,sans-serif' font-size='20' font-weight='800' fill='%23FDFAF4' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
 <header class="masthead">
   <div class="page masthead__in">
     <span class="wordmark">RASCAL</span>
-    <span class="masthead__tag">Free by email &middot; iOS app later</span>
+    <span class="masthead__tag" data-role="tag">Free by email &middot; iOS app soon</span>
+    <span class="chip" data-role="chip" aria-hidden="true">
+      <span class="chip__label">Ships in</span>
+      <span class="chip__value" data-role="chipValue">&nbsp;</span>
+    </span>
   </div>
 </header>
 
 <main class="page">
 
-  <!-- ===================== HERO ===================== -->
+  <!-- ===================== 2. HERO ===================== -->
   <section class="hero">
 
     <div class="hero__copy">
-      <h1 class="hero__title"><span class="accent">Answer</span> one question a day about your kid.</h1>
+      <p class="eyebrow" data-role="cdEyebrow">The app ships in</p>
+
+      <!-- All three launch states live here; app.js shows exactly one. -->
+      <div class="countdown" data-role="countdown" data-state="counting">
+
+        <div class="cd__units" data-role="cdCounting">
+          <div class="cd__unit">
+            <span class="cd__digits" data-unit="days"></span>
+            <span class="cd__label">Days</span>
+          </div>
+          <div class="cd__unit">
+            <span class="cd__digits" data-unit="hours"></span>
+            <span class="cd__label">Hours</span>
+          </div>
+          <div class="cd__unit">
+            <span class="cd__digits" data-unit="minutes"></span>
+            <span class="cd__label">Minutes</span>
+          </div>
+        </div>
+
+        <div class="cd__grace" data-role="cdGrace" hidden>
+          <p class="cd__graceHead" data-role="graceCopy">In review with Apple</p>
+          <p class="cd__graceSub">Submitted. Apple reviews on its own schedule.</p>
+        </div>
+
+        <div class="cd__shipped" data-role="cdShipped" hidden>
+          <a class="btn btn--store" data-role="storeLink" href="#">
+            Download on the App&nbsp;Store
+          </a>
+          <p class="cd__shippedSub">It&rsquo;s out. Your answers are already in it.</p>
+        </div>
+
+      </div>
+
+      <p class="hero__note">
+        <span class="hero__star" aria-hidden="true">*</span>
+        Pending App Store review. The prompts start tomorrow either way.
+      </p>
+
+      <h1 class="hero__title" data-lines>
+        <span class="accent">Answer</span> one question a day about your kid.
+      </h1>
+
       <p class="hero__lede">
         A question about him or a small mission, in your inbox every morning.
         Answer it wherever you want. It&rsquo;s free, and the answers become an archive
@@ -54,6 +102,7 @@
       </div>
     </div>
 
+    <!-- ============ 3. THE DAILY PROMPT ============ -->
     <div class="hero__deck">
       <div class="deck" id="deck"></div>
       <div class="deck__controls">
@@ -64,58 +113,68 @@
 
   </section>
 
-  <!-- ===================== THREE SHAPES ===================== -->
-  <section class="shapes" id="shapes">
-    <h2 class="h2 shapes__title">
-      A prompt isn&rsquo;t homework. Some days there&rsquo;s nothing to
-      <span class="accent">keep</span> at all.
-    </h2>
+  <!-- ===================== 4. THREE SHAPES ===================== -->
+  <section class="shapes pinwrap" id="shapes">
+    <div class="pin">
+      <div class="pin__inner">
+        <h2 class="h2 shapes__title" data-lines>
+          A prompt isn&rsquo;t homework. Some days there&rsquo;s nothing to
+          <span class="accent">keep</span> at all.
+        </h2>
 
-    <div class="shapes__grid">
+        <div class="shapes__grid">
 
-      <article class="shape shape--wrote">
-        <span class="shape__kind">Wrote it</span>
-        <p class="shape__prompt">
-          What word does he <span style="color:var(--peri)">mispronounce</span>
-          that you don&rsquo;t want to correct?
-        </p>
-        <div class="shape__answer">
-          <span class="shape__answerText">&ldquo;Lellow.&rdquo; I&rsquo;m not fixing it.</span>
-          <span class="shape__caret" aria-hidden="true"></span>
+          <article class="shape shape--wrote" data-beat="0">
+            <span class="shape__kind">Wrote it</span>
+            <p class="shape__prompt">
+              What word does he <span class="peri">mispronounce</span>
+              that you don&rsquo;t want to correct?
+            </p>
+            <div class="shape__answer">
+              <span class="shape__answerText" data-role="typed"
+                    data-text="&ldquo;Lellow.&rdquo; I&rsquo;m not fixing it."></span>
+              <span class="shape__caret" aria-hidden="true"></span>
+            </div>
+          </article>
+
+          <article class="shape shape--captured" data-beat="1">
+            <span class="shape__kind">Captured it</span>
+            <p class="shape__prompt">
+              <span class="accent">Photograph</span> the mess he made. Don&rsquo;t clean it up first.
+            </p>
+            <div class="shape__frame">
+              <div class="shape__photo">
+                <span class="shape__photoLabel">photo saved &middot; 1 of 412</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="shape shape--did" data-beat="2">
+            <span class="shape__kind">Did it</span>
+            <p class="shape__prompt">
+              <span class="accent">Get</span> on the floor for ten minutes. That&rsquo;s the whole mission.
+            </p>
+            <div class="shape__did">
+              <span class="shape__tick" aria-hidden="true">
+                <svg viewBox="0 0 40 40" class="tick">
+                  <circle class="tick__ring" cx="20" cy="20" r="19"></circle>
+                  <path class="tick__mark" d="M12 20.5 L17.5 26 L28 15"></path>
+                </svg>
+              </span>
+              <span class="shape__didText">Nothing to upload. It still counts.</span>
+            </div>
+          </article>
+
         </div>
-      </article>
-
-      <article class="shape shape--captured">
-        <span class="shape__kind">Captured it</span>
-        <p class="shape__prompt">
-          <span class="accent">Photograph</span> the mess he made. Don&rsquo;t clean it up first.
-        </p>
-        <div class="shape__frame">
-          <div class="shape__photo">
-            <span class="shape__photoLabel">photo saved &middot; 1 of 412</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="shape shape--did">
-        <span class="shape__kind">Did it</span>
-        <p class="shape__prompt">
-          <span class="accent">Get</span> on the floor for ten minutes. That&rsquo;s the whole mission.
-        </p>
-        <div class="shape__did">
-          <span class="shape__tick" aria-hidden="true">&check;</span>
-          <span class="shape__didText">Nothing to upload. It still counts.</span>
-        </div>
-      </article>
-
+      </div>
     </div>
   </section>
 
-  <!-- ===================== WHY ===================== -->
+  <!-- ===================== 5. WHY ===================== -->
   <section class="why" id="why">
     <div class="why__in">
       <div class="why__copy">
-        <h2 class="h2 why__title">
+        <h2 class="h2 why__title" data-lines>
           Your camera roll has the photos. It doesn&rsquo;t have the
           <span class="accent">question</span> that caused them.
         </h2>
@@ -136,11 +195,25 @@
     </div>
   </section>
 
-  <!-- ===================== WHAT THE EMAIL IS ===================== -->
+  <!-- ===================== 6. WHAT LANDS ===================== -->
+  <section class="lands" id="lands">
+    <div class="lands__head">
+      <p class="eyebrow">What lands on your phone</p>
+      <h2 class="h2" data-lines>The same prompts, with somewhere to put the answer.</h2>
+    </div>
+
+    <div class="lands__beats" data-role="beats"></div>
+
+    <p class="lands__close">
+      Every answer you send by email is <span class="accent">already in it</span>.
+    </p>
+  </section>
+
+  <!-- ===================== 7. WHAT THE EMAIL IS ===================== -->
   <section class="email" id="email">
     <div class="email__in">
       <div class="email__copy">
-        <h2 class="h2 email__title">The email, <span class="accent">itemized</span>.</h2>
+        <h2 class="h2 email__title" data-lines>The email, <span class="accent">itemized</span>.</h2>
       </div>
 
       <div class="email__side">
@@ -158,18 +231,24 @@
             <dd class="spec__val">Answering is optional. Nothing counts, nothing tracks, nothing asks you twice.</dd>
           </div>
           <div class="spec__row">
+            <dt class="spec__key">Launch</dt>
+            <dd class="spec__val">The app ships pending review. Subscribers get the link first.</dd>
+          </div>
+          <div class="spec__row">
             <dt class="spec__key">Later</dt>
-            <dd class="spec__val">The iOS app is coming, and it keeps every answer you&rsquo;ve already sent. Subscribers hear first.</dd>
+            <dd class="spec__val">The iOS app is coming, and it keeps every answer you&rsquo;ve already sent.</dd>
           </div>
         </dl>
       </div>
     </div>
   </section>
 
-  <!-- ===================== CLOSING ===================== -->
+  <!-- ===================== 8. CLOSE ===================== -->
   <section class="close">
     <div class="close__in">
-      <h2 class="close__title">
+      <p class="close__countdown" data-role="closeCountdown">&nbsp;</p>
+
+      <h2 class="close__title" data-lines>
         Tomorrow morning, one question. <span class="accent">Answer</span> it or don&rsquo;t.
       </h2>
       <p class="close__lede">

@@ -1,13 +1,11 @@
 /* ==========================================================================
    RASCAL landing page
 
-   A static port of "RASCAL Landing.dc.html" from Claude Design. Every colour,
-   size, radius, easing and copy string is carried over unchanged; the inline
-   styles are lifted into classes and the x-dc template bindings are replaced
-   with real markup driven by app.js.
+   No framework, no build step. index.html + styles.css + app.js, fonts
+   self-hosted from fonts/. Single theme by intent — not light/dark aware.
 
-   The design commits to one warm paper palette, so this page is deliberately
-   single-theme rather than light/dark aware.
+   Transform and opacity carry every animation; nothing here animates a
+   property that triggers layout.
    ========================================================================== */
 
 @font-face {
@@ -26,38 +24,31 @@
 }
 
 :root {
-  /* Ground is a tinted sand rather than the near-white cream it started as.
-     The cream a detector flags is min(r,g,b) >= 209 with a 6–48 warm cast, i.e.
-     any "tasteful" warm off-white; clearing it means committing to a real tone.
-     Near-white cards now sit on a ground instead of blending into it. */
-  --paper:  #E7DED0;
-  --card:   #FFFDF9;
-  --line:   #D8CDBB;   /* must read on the sand ground, not just on white cards */
-  --ink:    #23253C;
+  /* Fixed palette. Never pure black, never pure white. */
+  --canvas:     #FDFAF4;
+  --surface:    #FFFDF9;
+  --border:     #EDE5DA;
+  --ink:        #23253C;
+  --muted:      #6E6A63;
+  --terracotta: #C05A2B;
+  --peri:       #5566D6;
 
-  /* Every value below is the nearest colour to the original that clears WCAG AA
-     (4.5:1) where it is actually used — see the pairs in `npm run design:live`. */
-  --muted:  #64615B;   /* was #6E6A63 — failed on the pink gradient and the ground */
-  --terra:  #9C4923;   /* was #C05A2B — failed under button text and on peach */
-  --peri:   #4A58B9;   /* was #5566D6 — failed on the lavender chip */
-
-  --peach:  #FBEDE2;
-  --lav:    #E9EBFB;
-  --sage:   #E8F0E6;
-
-  /* Text on a terracotta fill. Not --paper: the ground is too dark to sit on it. */
-  --on-terra: #FFFDF9;
+  /* Section tints — the existing soft wash, nothing new. */
+  --peach: #FBEDE2;
+  --lav:   #E9EBFB;
+  --sage:  #E8F0E6;
 
   --display: 'Nunito', system-ui, sans-serif;
   --body: 'Source Sans 3', system-ui, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Ease-out-quint. The design shipped an overshooting curve here (a y2 above
-     1, which pushes past the target and settles back). Nothing in CSS follows
-     a gesture, so nothing in CSS has earned a bounce; the deck's springs live
-     in app.js and are untouched. */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Entrances arrive and stop. Scrubs are symmetric, for scroll-linked motion.
+     No bounce, no overshoot, never linear. */
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-scrub: cubic-bezier(0.65, 0, 0.35, 1);
+
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-lift: 0 12px 32px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.05);
   --wrap: 1180px;
   --pad: 24px;
 
@@ -72,80 +63,41 @@
 html, body { margin: 0; padding: 0; }
 
 body {
-  background-color: var(--paper);
+  background-color: var(--canvas);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
   color: var(--ink);
   font-family: var(--body);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;   /* pinned sections must never bleed sideways */
 }
 
-a { color: var(--terra); text-decoration: none; }
+a { color: var(--terracotta); text-decoration: none; }
 a:hover { color: var(--ink); text-decoration: underline; }
 
 input, button { font-family: inherit; }
 
-:focus-visible { outline: 2px solid var(--terra); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 2px; }
 
-/* The deck's deal-in used to live here as a @keyframes. Keyframes can't be
-   grabbed and reversed mid-flight, so the deck is spring-driven in app.js
-   now and this only covers the non-gesture flourishes. */
-@keyframes pop {
-  from { transform: scale(0.4); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
 @keyframes caretBlink {
   0%, 45%   { opacity: 1; }
   55%, 100% { opacity: 0; }
 }
 
-/* Reduced motion is not "no feedback" — it's a gentler, non-vestibular
-   equivalent. Travel and overshoot go; opacity and colour changes stay,
-   because they're what make state changes comprehensible. */
-@media (prefers-reduced-motion: reduce) {
-  .shape,
-  .email__side {
-    transform: none;
-    transition: opacity 200ms ease;
-    transition-delay: 0ms;
-  }
-  .shapes.is-in .shape,
-  .email.is-in .email__side { transform: none; }
-
-  .signup__btn:hover,
-  .deck__btn:hover { transform: none; }
-
-  .signup__tick { animation: none; }
-  .shape--captured:hover .shape__photo { transform: none; }
-  .shape--did:hover .shape__tick { transform: none; }
-  .entry__dot { transition: background 250ms ease; }
-  .entry.is-on .entry__dot { transform: none; }
-
-  html { scroll-behavior: auto; }
-}
-
-/* Translucent surfaces get frostier rather than clearer when the user has
-   asked for less transparency, and near-solid with a border at high contrast. */
-@media (prefers-reduced-transparency: reduce) {
-  .masthead.is-floating {
-    background: var(--paper);
-    backdrop-filter: none;
-  }
-}
-@media (prefers-contrast: more) {
-  .masthead.is-floating {
-    background: var(--paper);
-    backdrop-filter: none;
-    border-bottom: 1px solid var(--ink);
-  }
-  .masthead.is-floating::after { display: none; }
-}
-
-/* --- shared ------------------------------------------------------------ */
+/* --- shared ------------------------------------------------------------- */
 
 .page {
   max-width: var(--wrap);
   margin: 0 auto;
   padding: 0 var(--pad);
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
 }
 
 .wordmark {
@@ -161,49 +113,61 @@ input, button { font-family: inherit; }
   font-family: var(--display);
   font-weight: 800;
   font-size: clamp(1.75rem, 3.6vw, 2.625rem);
-  line-height: 1.1;
+  line-height: 1.15;
   letter-spacing: -0.018em;
   text-wrap: pretty;
 }
 
-.accent { color: var(--terra); }
+.accent { color: var(--terracotta); }
+.peri { color: var(--peri); }
 
 .visually-hidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: 1px; height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
 
-/* --- header ------------------------------------------------------------ */
+/* --- per-line headline reveal ------------------------------------------- */
+/* app.js wraps each rendered line in .ln > .ln__i so the mask is a real line
+   box. Untouched markup stays readable if the script never runs. */
 
-/* A translucent layer the page scrolls under, rather than an opaque strip
-   that permanently eats a band of the viewport. The material only appears
-   once there is content beneath it to separate from. */
+.ln { display: block; overflow: hidden; }
+.ln__i { display: block; }
+.js .ln__i {
+  display: block;
+  transform: translateY(24px);
+  opacity: 0;
+  filter: blur(6px);
+  transition:
+    transform 0.9s var(--ease-enter),
+    opacity 0.7s var(--ease-enter),
+    filter 0.7s var(--ease-enter);
+  transition-delay: var(--ln-delay, 0ms);
+}
+.is-revealed .ln__i { transform: none; opacity: 1; filter: blur(0); }
+
+/* --- masthead ------------------------------------------------------------ */
+
 .masthead {
   position: sticky;
   top: 0;
   z-index: 60;
-  background: rgba(231, 222, 208, 0);
+  background: rgba(253, 250, 244, 0);
   backdrop-filter: blur(0px);
-  transition: background 260ms ease, backdrop-filter 260ms ease;
+  transition: background 300ms var(--ease-enter), backdrop-filter 300ms var(--ease-enter);
 }
 .masthead__in {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
   padding-block: 20px;
 }
 .masthead.is-floating {
-  background: rgba(231, 222, 208, 0.72);
+  background: rgba(253, 250, 244, 0.78);
   backdrop-filter: blur(20px) saturate(180%);
 }
-
-/* A scroll edge effect, not a 1px divider: the material fades out into the
-   content instead of drawing a line across it. */
 .masthead::after {
   content: '';
   position: absolute;
@@ -212,45 +176,170 @@ input, button { font-family: inherit; }
   height: 24px;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(to bottom, rgba(231, 222, 208, 0.9), rgba(231, 222, 208, 0));
-  transition: opacity 260ms ease;
+  background: linear-gradient(to bottom, rgba(253, 250, 244, 0.9), rgba(253, 250, 244, 0));
+  transition: opacity 300ms var(--ease-enter);
 }
 .masthead.is-floating::after { opacity: 1; }
+
 .masthead__tag {
+  margin-left: auto;
   font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--muted);
+  transition: opacity 260ms var(--ease-enter);
 }
 
-/* --- hero -------------------------------------------------------------- */
+/* The chip docks in only once the hero countdown has left the screen. */
+.chip {
+  position: absolute;
+  right: var(--pad);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 320ms var(--ease-enter), transform 320ms var(--ease-enter);
+}
+.chip__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.chip__value {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.masthead.is-docked .chip { opacity: 1; transform: none; }
+.masthead.is-docked .masthead__tag { opacity: 0; }
+
+@media (max-width: 560px) {
+  .masthead__tag { font-size: 0.6875rem; }
+}
+
+/* --- hero ---------------------------------------------------------------- */
 
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 56px;
-  padding: 44px 0 96px;
+  padding: 40px 0 96px;
 }
 .hero__copy { flex: 1 1 400px; min-width: 300px; }
+
+/* --- countdown ----------------------------------------------------------- */
+
+.countdown { margin: 0 0 14px; }
+
+.cd__units { display: flex; gap: clamp(20px, 4vw, 40px); align-items: flex-start; }
+.cd__unit { display: flex; flex-direction: column; gap: 4px; }
+
+.cd__digits {
+  display: flex;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(3.25rem, 8.5vw, 5.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* One masked track per digit; the column inside slides to the current value.
+   Tabular numerals keep the width fixed so nothing reflows on a tick. */
+.digit {
+  display: block;
+  overflow: hidden;
+  height: 1em;
+  width: 0.62em;
+}
+.digit__track {
+  display: block;
+  transition: transform 620ms var(--ease-enter);
+  will-change: transform;
+}
+.digit__track > span { display: block; height: 1em; line-height: 1; text-align: center; }
+
+.cd__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.cd__graceHead {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--terracotta);
+}
+.cd__graceSub, .cd__shippedSub {
+  margin: 10px 0 0;
+  font-size: 1.0625rem;
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn--store {
+  padding: 16px 26px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--surface);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  transition: transform 150ms var(--ease-enter);
+}
+.btn--store:hover { transform: translateY(-2px); color: var(--surface); text-decoration: none; }
+.btn--store:active { transform: scale(0.98); }
+
+.hero__note {
+  margin: 0 0 30px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 34em;
+}
+.hero__star { color: var(--terracotta); font-weight: 600; }
 
 .hero__title {
   margin: 0;
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(2.375rem, 5.6vw, 3.875rem);
-  line-height: 1.03;
+  font-size: clamp(2.125rem, 4.8vw, 3.25rem);
+  line-height: 1.08;
   letter-spacing: -0.02em;
   text-wrap: pretty;
 }
 
 .hero__lede {
-  margin: 22px 0 34px;
-  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
-  line-height: 1.5;
+  margin: 20px 0 32px;
+  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+  line-height: 1.55;
   color: var(--muted);
-  max-width: 30em;
+  max-width: 32em;
   text-wrap: pretty;
 }
 
@@ -263,7 +352,7 @@ input, button { font-family: inherit; }
   gap: 22px;
 }
 
-/* --- signup form ------------------------------------------------------- */
+/* --- signup -------------------------------------------------------------- */
 
 .signup { max-width: 560px; }
 .signup__row { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -274,14 +363,14 @@ input, button { font-family: inherit; }
   padding: 16px 20px;
   font-size: 1.0625rem;
   color: var(--ink);
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 999px;
   outline: none;
 }
 .signup__input:focus {
-  border-color: var(--terra);
-  box-shadow: 0 0 0 3px rgba(156, 73, 35, 0.28);
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.28);
 }
 
 .signup__btn {
@@ -290,42 +379,29 @@ input, button { font-family: inherit; }
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.0625rem;
-  color: var(--on-terra);
-  background: var(--terra);
-  border: 1px solid var(--terra);
+  color: var(--canvas);
+  background: var(--terracotta);
+  border: 1px solid var(--terracotta);
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 150ms var(--ease-out);
+  transition: transform 150ms var(--ease-enter);
 }
 .signup__btn:hover { transform: translateY(-2px); }
 .signup__btn:active { transform: scale(0.98); }
-.signup__btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(156, 73, 35, 0.34);
-}
+.signup__btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.34); }
 .signup__btn[disabled] { cursor: default; }
 .signup__btn[disabled]:hover { transform: none; }
 
-.signup__error {
-  margin: 12px 0 0;
-  font-size: 0.9375rem;
-  color: var(--terra);
-}
-
-.signup__fine {
-  margin: 14px 0 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: var(--muted);
-}
+.signup__error { margin: 12px 0 0; font-size: 0.9375rem; color: var(--terracotta); }
+.signup__fine { margin: 14px 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--muted); }
 
 .signup__done {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 20px 22px;
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   max-width: 520px;
   box-shadow: var(--shadow);
@@ -333,23 +409,17 @@ input, button { font-family: inherit; }
 .signup__tick {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 34px; height: 34px;
   flex: 0 0 34px;
   border-radius: 999px;
-  background: var(--terra);
-  color: var(--on-terra);
+  background: var(--terracotta);
+  color: var(--canvas);
   font-size: 1.0625rem;
   font-weight: 700;
-  animation: pop 380ms var(--ease-out) both;
 }
-.signup__doneText {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 1.1875rem;
-}
+.signup__doneText { font-family: var(--display); font-weight: 700; font-size: 1.1875rem; }
 
-/* --- card deck --------------------------------------------------------- */
+/* --- card deck ----------------------------------------------------------- */
 
 .deck {
   position: relative;
@@ -358,20 +428,18 @@ input, button { font-family: inherit; }
   height: clamp(320px, 44vw, 384px);
   touch-action: pan-y;
 }
-
 .deck__slot { position: absolute; inset: 0; }
 
-/* transform and opacity are owned by the springs in app.js — declaring a
-   transition here would fight them and break mid-gesture interruption.
-   Only the press shadow, which no gesture drives, is animated in CSS. */
+/* transform and opacity are owned by the springs in app.js; a transition here
+   would fight them and break mid-gesture interruption. */
 .pcard {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   padding: clamp(22px, 3vw, 30px);
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: var(--shadow);
   will-change: transform, opacity;
@@ -380,17 +448,9 @@ input, button { font-family: inherit; }
   touch-action: pan-y;
   transition: box-shadow 180ms ease;
 }
+.pcard--held { box-shadow: var(--shadow-lift); }
 
-/* Picked up: the card lifts off the stack the instant it's pressed. */
-.pcard--held {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-.pcard__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+.pcard__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .pcard__badge {
   padding: 7px 14px;
   border-radius: 999px;
@@ -411,18 +471,12 @@ input, button { font-family: inherit; }
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(1.4375rem, 3.1vw, 2.125rem);
-  line-height: 1.3;
+  line-height: 1.25;
   letter-spacing: -0.015em;
-  text-align: left;
   text-wrap: pretty;
 }
 
-.deck__controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
+.deck__controls { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .deck__btn {
   padding: 12px 22px;
   font-family: var(--display);
@@ -430,19 +484,34 @@ input, button { font-family: inherit; }
   font-size: 0.9375rem;
   color: var(--ink);
   background: transparent;
-  border: 1px solid var(--line);
+  border: 1px solid var(--border);
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 150ms var(--ease-out), border-color 150ms ease;
+  transition: transform 150ms var(--ease-enter), border-color 150ms ease;
 }
-.deck__btn:hover { transform: translateY(-2px); border-color: var(--terra); }
+.deck__btn:hover { transform: translateY(-2px); border-color: var(--terracotta); }
 .deck__btn:active { transform: scale(0.98); }
-.deck__btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(156, 73, 35, 0.3); }
+.deck__btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(192, 90, 43, 0.3); }
 .deck__hint { font-size: 0.8125rem; color: var(--muted); }
 
-/* --- three shapes ------------------------------------------------------ */
+/* --- pinned sections ----------------------------------------------------- */
+/* .pinwrap is the scroll runway; .pin is what stays put inside it. Below the
+   breakpoint both collapse and the content becomes an ordinary stacked
+   section — a pin that cannot hold 60fps at 375px is not worth shipping. */
 
-.shapes { padding: 40px 0 100px; }
+.pinwrap { position: relative; }
+.pin { position: sticky; top: 0; min-height: 100svh; display: grid; align-items: center; }
+.pin__inner { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--pad); }
+
+@media (max-width: 900px) {
+  .pinwrap { height: auto !important; }
+  .pin { position: static; min-height: 0; display: block; }
+  .pin__inner { padding-block: 72px; }
+}
+
+/* --- three shapes -------------------------------------------------------- */
+
+.shapes { padding: 0 0 40px; }
 .shapes__title { margin-bottom: 40px; max-width: 24em; }
 .shapes__grid {
   display: grid;
@@ -456,17 +525,16 @@ input, button { font-family: inherit; }
   gap: 18px;
   min-height: 300px;
   padding: 26px;
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: var(--shadow);
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 400ms ease, transform 400ms var(--ease-out);
+  transition: opacity 0.6s var(--ease-enter), transform 0.8s var(--ease-enter);
 }
-.shape:nth-child(2) { background: var(--peach); transition-delay: 60ms; }
-.shape:nth-child(3) { background: var(--sage); transition-delay: 120ms; }
-.shapes.is-in .shape { opacity: 1; transform: none; }
+.js .shape { opacity: 0; transform: translateY(20px); }
+.js .shape.is-in { opacity: 1; transform: none; }
+.shape:nth-child(2) { background: var(--peach); }
+.shape:nth-child(3) { background: var(--sage); }
 
 .shape__kind {
   font-size: 0.8125rem;
@@ -484,7 +552,6 @@ input, button { font-family: inherit; }
   letter-spacing: -0.01em;
 }
 
-/* wrote it — typed answer */
 .shape__answer {
   margin-top: auto;
   display: flex;
@@ -495,32 +562,23 @@ input, button { font-family: inherit; }
   border-radius: 14px;
   min-height: 52px;
 }
-.shape__answerText {
-  font-size: 1rem;
-  color: var(--ink);
-  opacity: 0;
-  transition: opacity 220ms ease;
-}
+.shape__answerText { font-size: 1rem; color: var(--ink); }
 .shape__caret {
   display: inline-block;
-  width: 2px;
-  height: 19px;
+  width: 2px; height: 19px;
   background: var(--peri);
   opacity: 0;
 }
-.shape--wrote:hover .shape__answerText,
-.shape--wrote:hover .shape__caret { opacity: 1; }
-.shape--wrote:hover .shape__caret { animation: caretBlink 1s step-end infinite; }
+.shape--wrote.is-typing .shape__caret { opacity: 1; animation: caretBlink 1s step-end infinite; }
 
-/* captured it — photo placeholder */
 .shape__frame {
   margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 14px;
   min-height: 92px;
 }
@@ -528,17 +586,13 @@ input, button { font-family: inherit; }
   width: 100%;
   height: 72px;
   border-radius: 10px;
-  background-image: linear-gradient(155deg, var(--peach), var(--card));
+  background-image: linear-gradient(155deg, var(--peach), var(--surface));
   display: grid;
   place-items: center;
-  opacity: 0.25;
-  transform: translateY(-10px) scale(0.94);
-  transition: opacity 260ms ease, transform 420ms var(--ease-out);
+  transition: opacity 0.4s var(--ease-enter), transform 0.7s var(--ease-enter);
 }
-.shape--captured:hover .shape__photo {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
+.js .shape__photo { opacity: 0; transform: translateY(-10px) scale(0.94); }
+.js .shape--captured.is-settled .shape__photo { opacity: 1; transform: none; }
 .shape__photoLabel {
   font-family: var(--mono);
   font-size: 0.6875rem;
@@ -546,53 +600,39 @@ input, button { font-family: inherit; }
   color: var(--muted);
 }
 
-/* did it — tick */
-.shape__did {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  min-height: 52px;
+.shape__did { margin-top: auto; display: flex; align-items: center; gap: 13px; min-height: 52px; }
+.shape__tick { display: block; width: 40px; height: 40px; flex: 0 0 40px; }
+.tick { width: 100%; height: 100%; overflow: visible; }
+.tick__ring {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 1;
 }
-.shape__tick {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
-  border-radius: 999px;
-  border: 1px solid var(--terra);
-  background: transparent;
-  color: rgba(156, 73, 35, 0.45);
-  font-size: 1.1875rem;
-  font-weight: 700;
-  transform: scale(1);
-  transition: background 220ms ease, color 220ms ease, transform 400ms var(--ease-out);
+.tick__mark {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 30;
+  transition: stroke-dashoffset 0.5s var(--ease-enter);
 }
-.shape--did:hover .shape__tick {
-  background: var(--terra);
-  color: var(--on-terra);
-  transform: scale(1.08);
-}
+.js .tick__mark { stroke-dashoffset: 30; }
+.shape--did.is-checked .tick__mark { stroke-dashoffset: 0; }
+.shape--did.is-checked .tick__ring { fill: rgba(192, 90, 43, 0.1); transition: fill 0.4s var(--ease-enter) 0.35s; }
 .shape__didText { font-size: 1rem; color: var(--ink); }
 
-/* --- why (gradient band + timeline) ------------------------------------ */
+/* --- why ----------------------------------------------------------------- */
 
 .why {
   position: relative;
   margin: 0 calc(-1 * var(--pad));
   padding: 96px var(--pad) 104px;
   background-image: linear-gradient(150deg, #FDE8DC 0%, #F7DDE8 46%, #FBF6EF 100%);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
-.why__in {
-  max-width: 1132px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 56px;
-}
+.why__in { max-width: 1132px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; }
 .why__copy { flex: 1 1 360px; min-width: 280px; }
 .why__title { margin-bottom: 22px; }
 .why__body {
@@ -606,95 +646,159 @@ input, button { font-family: inherit; }
 .why__side { flex: 1 1 380px; min-width: 280px; }
 
 .timeline { position: relative; padding-left: 34px; }
-.timeline__track {
-  position: absolute;
-  left: 7px;
-  top: 6px;
-  bottom: 6px;
-  width: 1px;
-  background: var(--line);
-}
+.timeline__track { position: absolute; left: 7px; top: 6px; bottom: 6px; width: 1px; background: var(--border); }
 .timeline__fill {
   position: absolute;
-  left: 7px;
-  top: 6px;
+  left: 7px; top: 6px;
   width: 1px;
-  background: var(--terra);
-  height: 0%;
+  height: 100%;
+  background: var(--terracotta);
+  transform-origin: top;
 }
+.js .timeline__fill { transform: scaleY(0); }
 
 .entry { position: relative; padding: 0 0 26px; }
 .entry__dot {
   position: absolute;
-  left: -34px;
-  top: 5px;
-  width: 15px;
-  height: 15px;
+  left: -34px; top: 5px;
+  width: 15px; height: 15px;
   border-radius: 999px;
-  border: 1px solid var(--terra);
-  background: var(--paper);
-  transform: scale(1);
-  transition: background 300ms ease, transform 400ms var(--ease-out);
+  border: 1px solid var(--terracotta);
+  background: var(--canvas);
+  transition: background 0.3s var(--ease-enter), transform 0.5s var(--ease-enter);
 }
-.entry.is-on .entry__dot { background: var(--terra); transform: scale(1.12); }
+.entry.is-on .entry__dot { background: var(--terracotta); transform: scale(1.12); }
 
-.entry__meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 5px;
-}
-.entry__date {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-}
+.entry__meta { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+.entry__date { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--muted); }
 .entry__age {
   padding: 3px 10px;
   border-radius: 999px;
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
   color: var(--peri);
   background: var(--lav);
 }
-/* These used to sit at opacity 0.34 until the scroll observer fired, which
-   measured at 1.1:1 against the gradient — unreadable, and invisible outright
-   if the observer never runs. The entries are legible from the start now; the
-   dot filling and the rail drawing down still carry the scroll progress. */
-.entry__text {
-  margin: 0;
-  font-size: 1.0625rem;
-  line-height: 1.35;
-  color: var(--ink);
+/* Entries arrive as the section scrubs. They translate, never fade to
+   unreadable — text at low opacity over a gradient is not a design. */
+.entry__body {
+  transition: opacity 0.5s var(--ease-scrub), transform 0.6s var(--ease-scrub);
+}
+.js .entry__body { opacity: 0; transform: translateY(14px); }
+.js .entry.is-on .entry__body { opacity: 1; transform: none; }
+.entry__text { margin: 0; font-size: 1.0625rem; line-height: 1.35; color: var(--ink); }
+
+/* --- what lands ---------------------------------------------------------- */
+
+.lands { padding: 100px 0 90px; }
+.lands__head { max-width: 30em; margin-bottom: clamp(40px, 6vw, 64px); }
+
+.lands__beats { display: grid; gap: clamp(56px, 8vw, 96px); }
+.beat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+.beat:nth-child(even) .beat__copy { order: 2; }
+@media (max-width: 820px) {
+  .beat { grid-template-columns: minmax(0, 1fr); }
+  .beat:nth-child(even) .beat__copy { order: 0; }
 }
 
-/* --- what the email is ------------------------------------------------- */
+.beat__copy { max-width: 30em; }
+.beat__n {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--terracotta);
+}
+.beat__title {
+  margin: 10px 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.375rem, 2.6vw, 1.875rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.beat__body { margin: 12px 0 0; font-size: 1.0625rem; line-height: 1.55; color: var(--muted); }
 
-.email { padding: 100px 0; }
+.beat__shot { margin: 0; transition: opacity 0.7s var(--ease-enter), transform 0.9s var(--ease-enter); }
+.beat__copy { transition: opacity 0.6s var(--ease-enter), transform 0.8s var(--ease-enter); }
+.js .beat__shot { opacity: 0; transform: translateY(28px); }
+.js .beat__copy { opacity: 0; transform: translateY(20px); }
+.js .beat.is-in .beat__shot,
+.js .beat.is-in .beat__copy { opacity: 1; transform: none; }
+
+/* Device frame — CSS only, a restrained bezel rather than a photoreal phone. */
+.device {
+  width: min(260px, 74vw);
+  margin-inline: auto;
+  padding: 10px;
+  border: 1px solid var(--ink);
+  border-radius: 50px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.device__screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px;
+  aspect-ratio: var(--shot-ar, 1290 / 2796);
+  display: grid;
+  place-items: center;
+}
+.device__screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* src: null renders this — a designed empty state, sized identically to the
+   real screenshot so a swap causes no layout shift. */
+.shot-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--shot-fill, var(--peach));
+  text-align: center;
+}
+.shot-empty__caption {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.lands__close {
+  margin: clamp(56px, 8vw, 88px) 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  max-width: 22em;
+}
+
+/* --- what the email is --------------------------------------------------- */
+
+.email { padding: 90px 0 100px; }
 .email__in { display: flex; flex-wrap: wrap; gap: 56px; }
 .email__copy { flex: 1 1 300px; min-width: 260px; }
-.email__title {
-  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
-  max-width: 18em;
-}
-.email__side {
-  flex: 1 1 420px;
-  min-width: 280px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 400ms ease, transform 400ms var(--ease-out);
-}
-.email.is-in .email__side { opacity: 1; transform: none; }
+.email__title { font-size: clamp(1.75rem, 3.6vw, 2.5rem); max-width: 18em; }
+.email__side { flex: 1 1 420px; min-width: 280px; }
 
-.spec { margin: 0; border-top: 1px solid var(--line); }
+.spec { margin: 0; border-top: 1px solid var(--border); }
 .spec__row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 24px;
   padding: 18px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 .spec__key {
   flex: 0 0 130px;
@@ -705,40 +809,85 @@ input, button { font-family: inherit; }
   color: var(--muted);
   padding-top: 3px;
 }
-.spec__val {
-  flex: 1 1 220px;
-  margin: 0;
-  font-size: 1.0625rem;
-  line-height: 1.45;
-}
+.spec__val { flex: 1 1 220px; margin: 0; font-size: 1.0625rem; line-height: 1.45; }
 
-/* --- closing ----------------------------------------------------------- */
+/* --- close --------------------------------------------------------------- */
 
 .close { padding: 20px 0 110px; }
 .close__in { max-width: 760px; }
+.close__countdown {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
 .close__title {
   margin: 0 0 20px;
   font-family: var(--display);
   font-weight: 800;
   font-size: clamp(1.875rem, 4.4vw, 3.125rem);
-  line-height: 1.06;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   text-wrap: pretty;
 }
-.close__lede {
-  margin: 0 0 32px;
-  font-size: 1.125rem;
-  line-height: 1.5;
-  color: var(--muted);
-  max-width: 28em;
+.close__lede { margin: 0 0 32px; font-size: 1.125rem; line-height: 1.5; color: var(--muted); max-width: 28em; }
+
+/* --- footer -------------------------------------------------------------- */
+
+.foot { padding: 0 0 56px; border-top: 1px solid var(--border); }
+.foot__line { margin: 24px 0 0; font-size: 0.875rem; letter-spacing: 0.04em; color: var(--muted); }
+
+/* ==========================================================================
+   Reduced motion — a genuinely complete page, not a disabled one.
+
+   Everything sits at its final state: lines shown, cards resolved, entries
+   arrived, checkmark drawn, screenshots in place. The countdown keeps
+   ticking; only the digit roll becomes a swap. Nothing is hidden and
+   nothing is left mid-transform.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .ln__i,
+  .shape,
+  .beat__shot,
+  .beat__copy,
+  .entry__body,
+  .shape__photo {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .digit__track { transition: none !important; }
+  .tick__mark { stroke-dashoffset: 0 !important; transition: none !important; }
+  .tick__ring { fill: rgba(192, 90, 43, 0.1) !important; }
+  .entry__dot { transform: none !important; background: var(--terracotta) !important; }
+  .timeline__fill { transform: scaleY(1) !important; }
+  .shape__caret { display: none; }
+
+  .signup__btn:hover,
+  .deck__btn:hover,
+  .btn--store:hover { transform: none; }
+
+  /* No pinning: a pin with no scrub is just a long empty scroll. */
+  .pinwrap { height: auto !important; }
+  .pin { position: static; min-height: 0; display: block; }
+  .pin__inner { padding-block: 72px; }
+
+  html { scroll-behavior: auto; }
 }
 
-/* --- footer ------------------------------------------------------------ */
-
-.foot { padding: 0 0 56px; border-top: 1px solid var(--line); }
-.foot__line {
-  margin: 24px 0 0;
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
-  color: var(--muted);
+@media (prefers-reduced-transparency: reduce) {
+  .masthead.is-floating { background: var(--canvas); backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  .masthead.is-floating {
+    background: var(--canvas);
+    backdrop-filter: none;
+    border-bottom: 1px solid var(--ink);
+  }
+  .masthead.is-floating::after { display: none; }
 }
