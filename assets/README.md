@@ -26,7 +26,7 @@ choreography treats both states identically.
 |---|---|---|---|
 | `assets/today.png` | 1290 × 2796 | `today` | Beat 01 — "The prompt arrives on the phone". Loads eagerly; it is the first slot in the section. |
 | `assets/composer.png` | 1290 × 2796 | `composer` | Beat 02 — "Answering takes under fifteen seconds" |
-| `assets/timeline.png` | 1290 × 2796 | `timeline` | Beat 03 — "Every answer keeps his age on it" |
+| `assets/timeline.png` | 1290 × 2796 | `timeline` | Beat 03 — "Every answer keeps their age on it" |
 | `assets/detail.png` | 1290 × 2796 | `detail` | Beat 04 — "Nothing is ever deleted" |
 | `assets/og.png` | 1200 × 630 | — | Social preview. See below. |
 

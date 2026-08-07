@@ -45,7 +45,7 @@ const SHOTS = {
   today:    { src: null, alt: "The Today screen: one question and one mission.",    w: 1290, h: 2796 },
   composer: { src: null, alt: "The composer, mid-capture.",                         w: 1290, h: 2796 },
   timeline: { src: null, alt: "The timeline, date-grouped with a photo thumbnail.", w: 1290, h: 2796 },
-  detail:   { src: null, alt: "An entry with his age at the time.",                 w: 1290, h: 2796 }
+  detail:   { src: null, alt: "An entry with their age at the time.",                 w: 1290, h: 2796 }
 };
 
 /* Everything that starts hidden is gated on this class, so a script failure
@@ -342,8 +342,8 @@ const BEATS = [
   },
   {
     shot: 'timeline', tint: 'peach',
-    title: 'Every answer keeps his age on it',
-    body: 'The timeline groups by date and stamps how old he was. You will want ' +
+    title: 'Every answer keeps their age on it',
+    body: 'The timeline groups by date and stamps how old they were. You will want ' +
           'to read it by age, not by year.'
   },
   {
@@ -440,21 +440,21 @@ function shotSlot(key, tint) {
    Data — carried over verbatim from the design.
    -------------------------------------------------------------------------- */
 const LIB = [
-  { kind: 'QUESTION', pre: 'What did he ', verb: 'say', post: ' this week that you want to remember exactly?' },
-  { kind: 'PHOTO', pre: '', verb: 'Photograph', post: ' his hands. Just his hands.' },
-  { kind: 'ACTIVITY', pre: 'Never ', verb: 'let go', post: ' of the hug first today. Let him be the one to pull away.' },
-  { kind: 'VOICE', pre: '', verb: 'Record', post: ' him telling you a story. Any story. Don’t correct the words he says wrong.' },
-  { kind: 'QUESTION', pre: 'What word does he ', verb: 'mispronounce', post: ' that you don’t want to correct?' },
-  { kind: 'PHOTO', pre: '', verb: 'Photograph', post: ' the mess he made. Don’t clean it up first.' },
-  { kind: 'QUESTION', pre: 'What did he ', verb: 'do', post: ' today that annoyed you and will be funny in ten years?' },
+  { kind: 'QUESTION', pre: 'What did they ', verb: 'say', post: ' this week that you want to remember exactly?' },
+  { kind: 'PHOTO', pre: '', verb: 'Photograph', post: ' their hands. Just their hands.' },
+  { kind: 'ACTIVITY', pre: 'Never ', verb: 'let go', post: ' of the hug first today. Let them be the one to pull away.' },
+  { kind: 'VOICE', pre: '', verb: 'Record', post: ' them telling you a story. Any story. Don’t correct the words they say wrong.' },
+  { kind: 'QUESTION', pre: 'What word do they ', verb: 'mispronounce', post: ' that you don’t want to correct?' },
+  { kind: 'PHOTO', pre: '', verb: 'Photograph', post: ' the mess they made. Don’t clean it up first.' },
+  { kind: 'QUESTION', pre: 'What did they ', verb: 'do', post: ' today that annoyed you and will be funny in ten years?' },
   { kind: 'WEEKLY', pre: '', verb: 'Go', post: ' somewhere neither of you has been before.' },
-  { kind: 'VOICE', pre: '', verb: 'Record', post: ' him counting as high as he can go.' },
+  { kind: 'VOICE', pre: '', verb: 'Record', post: ' them counting as high as they can go.' },
   { kind: 'PHOTO', pre: '', verb: 'Take', post: ' a photo of the two of you. You’re in almost none of them.' },
   { kind: 'QUESTION', pre: 'What did you get ', verb: 'wrong', post: ' as a parent this week?' },
   { kind: 'ACTIVITY', pre: '', verb: 'Say yes', post: ' to the next thing you’d normally say no to.' },
   { kind: 'VOICE', pre: '', verb: 'Record', post: ' two minutes of dinner. Don’t announce it. Just the room.' },
-  { kind: 'QUESTION', pre: 'What is he ', verb: 'afraid', post: ' of right now?' },
-  { kind: 'PHOTO', pre: 'Get down to his eye level and ', verb: 'take', post: ' the photo from there.' },
+  { kind: 'QUESTION', pre: 'What are they ', verb: 'afraid', post: ' of right now?' },
+  { kind: 'PHOTO', pre: 'Get down to their eye level and ', verb: 'take', post: ' the photo from there.' },
   { kind: 'ACTIVITY', pre: '', verb: 'Put', post: ' your phone in another room for the whole evening.' }
 ];
 
@@ -469,11 +469,11 @@ const KIND = {
 const FAN = [0, 1.8, -2.2, 2.6];
 
 const ENTRIES = [
-  { date: 'MAR 2025', months: 50, text: 'The word he wouldn’t stop saying, spelled the way he said it.' },
-  { date: 'JUN 2025', months: 53, text: 'His hands, on the kitchen floor, mid-argument with a banana.' },
+  { date: 'MAR 2025', months: 50, text: 'The word they wouldn’t stop saying, spelled the way they said it.' },
+  { date: 'JUN 2025', months: 53, text: 'Their hands, on the kitchen floor, mid-argument with a banana.' },
   { date: 'SEP 2025', months: 56, text: 'Two minutes of dinner. Nobody announced it.' },
   { date: 'JAN 2026', months: 60, text: 'What I got wrong that week, written down anyway.' },
-  { date: 'APR 2026', months: 63, text: 'The story he invented about where the moon sleeps.' },
+  { date: 'APR 2026', months: 63, text: 'The story they invented about where the moon sleeps.' },
   { date: 'AUG 2026', months: 67, text: 'Ten minutes on the floor. No photo of it, and that’s fine.' }
 ];
 const ageLabel = (m) => `${Math.floor(m / 12)}y ${m % 12}m`;
