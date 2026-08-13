@@ -12,8 +12,9 @@ import { loadFont } from "@remotion/fonts";
 import { Easing, staticFile } from "remotion";
 
 // Both faces are variable; one file covers the whole weight range each. The
-// files in public/fonts are copies of the site's fonts/ — Remotion can only
-// serve what sits under its own public folder.
+// repo's assets/ is this project's public folder (see remotion.config.ts), so
+// these resolve to assets/fonts/ — copies of the site's fonts/, because
+// Remotion can only serve what sits under one public directory.
 await Promise.all([
   loadFont({
     family: "Nunito",

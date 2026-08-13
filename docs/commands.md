@@ -311,6 +311,26 @@ a transition frame by frame.
 Use `npx remotion add` rather than `npm i` for `@remotion/*`, `mediabunny` and
 `zod` — it pins the version that matches the rest of Remotion.
 
+The video's public directory is the repo's `assets/`, set by
+`Config.setPublicDir("../assets")` in `video/remotion.config.ts`, so
+`staticFile("screens/today.png")` reads the same capture the site serves at
+`assets/screens/today.png`. See [`assets/README.md`](../assets/README.md).
+
+### Converting a screen recording
+
+ffmpeg ships with Remotion, so there is nothing to install. Raw `.mov` captures
+are gitignored; commit the `.mp4`.
+
+```bash
+npx --prefix video remotion ffmpeg -i assets/recordings/composer.mov \
+  -vcodec libx264 -crf 24 -pix_fmt yuv420p -an \
+  assets/recordings/composer.mp4
+```
+
+`-an` drops the audio a UI recording has no use for, `-crf 24` trades quality
+against size (lower is bigger), and `-pix_fmt yuv420p` is what makes it play in
+Safari.
+
 **Animation has to be frame-driven** — `useCurrentFrame()` and `interpolate()`.
 CSS `transition` and `animation` preview correctly in a browser and render
 wrong, because the renderer screenshots discrete frames and anything on a wall

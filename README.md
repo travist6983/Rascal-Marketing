@@ -68,12 +68,23 @@ every tick and on `visibilitychange`, so a tab left open overnight is never
 stale. Remaining time is floored at zero, so the counting state cannot render a
 negative.
 
-## App screenshots
+## App screenshots and recordings
+
+**Every capture lives in `assets/` — screenshots in `assets/screens/`,
+recordings in `assets/recordings/`.** One place, two consumers: the site reads
+it by relative path, and it is also the Remotion project's public directory, so
+the video reads the same files through `staticFile()` without a second copy.
 
 The app isn't built, so `SHOTS` in `app.js` has `src: null` for every slot and
 the page renders designed empty states. Each slot already reserves its exact
 aspect ratio, so dropping in a real PNG causes no layout shift and needs no
-markup or CSS change. See `assets/README.md`.
+markup or CSS change.
+
+Screenshots are 1290 × 2796 PNGs. Recordings are committed as `.mp4` — raw
+`.mov` captures are gitignored, because no browser plays them reliably and git
+would carry them at full size forever. [`assets/README.md`](assets/README.md)
+has the naming, the sizes, the four wired-up slots and the one-line convert
+command.
 
 ## Social cards
 
@@ -218,7 +229,7 @@ form's three validation messages going missing. Screenshots land in
 | `styles.css` | The design's inline styles, lifted into classes |
 | `app.js` | Card deck, drag-to-deal, scroll reveals, timeline, signup |
 | `fonts/` | Nunito and Source Sans 3, self-hosted |
-| `assets/` | App screenshot slots — see `assets/README.md` |
+| `assets/` | Every capture — screenshots, recordings, og image. Also the video's public dir. See `assets/README.md` |
 | `social/prompts.js` | The prompt library in marketing voice — they/them, verb split out |
 | `social/card.mjs` · `social/card.css` | Card rendering and its design |
 | `social/queue.mjs` · `social/queue.json` | The posting schedule and what has gone out |
