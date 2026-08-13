@@ -1,0 +1,137 @@
+/* --------------------------------------------------------------------------
+   Dogear — social card
+
+   One prompt on warm paper, the instruction marked, the wordmark quiet at the
+   bottom. Same palette and same two typefaces as the landing page; the only new
+   idea is that the verb is a filled block rather than coloured ink, because a
+   card scrolling past in a feed gets about a third of a second.
+
+   Tokens mirror styles.css. --tint and --tint-soft are set per card by
+   scripts/social-cards.mjs from the prompt's kind.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --canvas: #FDFAF4;
+  --surface: #FFFDF9;
+  --ink: #23253C;
+  --muted: #6E6A63;
+  --terracotta: #C05A2B;
+  --peri: #5566D6;
+  --peach: #FBEDE2;
+  --lav: #E9EBFB;
+
+  --display: 'Nunito', system-ui, sans-serif;
+  --text: 'Source Sans 3', system-ui, sans-serif;
+
+  --pad: 96px;
+  --body-size: 50px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: var(--w);
+  height: var(--h);
+}
+
+body {
+  font-family: var(--text);
+  /* The page ground shows nowhere — the card is full bleed — but a transparent
+     body would let Chrome's default white through at any rounding seam. */
+  background: var(--surface);
+}
+
+.card {
+  width: var(--w);
+  height: var(--h);
+  padding: var(--pad);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* --- kind badge --------------------------------------------------------- */
+
+.badge {
+  margin: 0;
+  padding: 19px 28px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--tint);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* --- the prompt --------------------------------------------------------- */
+
+/* The box is the space the body may occupy; the fit script measures against it.
+   flex:1 hands it everything between the badge and the wordmark, and the text
+   still sits at the top — the emptiness underneath is the design, not slack. */
+.body-box {
+  flex: 1;
+  width: 100%;
+  /* Measured off the badge's box, not its ink — the marked verb's block rises
+     above the cap height and eats about a third of any gap set by eye. */
+  margin-top: 84px;
+  overflow: hidden;
+}
+
+.body {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--body-size);
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* One sentence per line, the way the deck sets it. A sentence that outruns the
+   measure still wraps inside its own block. */
+.line { display: block; }
+.line + .line { margin-top: 0.1em; }
+
+/* A story is 570px taller than a portrait and the prompt is the same two lines.
+   Top-anchored, that reads as a card that failed to load; centred, the badge and
+   the wordmark frame it and the emptiness is deliberate again. */
+html[data-size='story'] .body-box {
+  display: flex;
+  align-items: center;
+}
+
+mark {
+  background: var(--tint);
+  color: var(--canvas);
+  /* Optical, not geometric: the block wants to sit tight to the letterforms,
+     and Nunito's descenders need the extra below. */
+  padding: 0.06em 0.16em 0.10em;
+  border-radius: 8px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* --- wordmark ----------------------------------------------------------- */
+
+/* Title case, matching the landing page — so no uppercasing, and tracking drops
+   from the 0.18em that kept a small caps label legible to near-neutral.
+   line-height stays at 1: "Dogear" has a descender where the old caps lockup had
+   none, so the g tail now paints a few px below the line box, into the card's
+   96px bottom padding. Nothing clips it, and the wordmark hangs on its baseline
+   the way a signature should. */
+.wordmark {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+}

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   RASCAL landing page
+   Dogear landing page
 
    No framework, no build step. index.html + styles.css + app.js, fonts
    self-hosted from fonts/. Single theme by intent — not light/dark aware.
@@ -100,11 +100,15 @@ input, button { font-family: inherit; }
   color: var(--muted);
 }
 
+/* Set in title case, so the tracking is near-neutral. The 0.14em this carried
+   as an all-caps lockup was doing a job caps need and a name doesn't — spacing
+   letters that have no ascenders or descenders to tell them apart. On "Dogear"
+   the same value reads as a gap, not a wordmark. */
 .wordmark {
   font-family: var(--display);
   font-weight: 800;
   font-size: 1.1875rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.01em;
   color: var(--ink);
 }
 
