@@ -4,3 +4,9 @@ screenshots/
 social/out/
 package-lock.json
 .DS_Store
+
+# Raw device captures. A screen recording comes off an iPhone as a .mov that no
+# browser plays reliably and that git would carry at full size forever. Convert
+# it to .mp4 next to the original and commit that — see assets/README.md.
+assets/**/*.mov
+assets/**/*.MOV
