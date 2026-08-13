@@ -1,0 +1,43 @@
+{
+  "posts": [
+    {
+      "id": "2026-08-15-what-did-they-say-this-week-that-you",
+      "slug": "what-did-they-say-this-week-that-you",
+      "kind": "QUESTION",
+      "prompt": "What did they say this week that you want to remember exactly?",
+      "image": "social/queue/2026-08-15-what-did-they-say-this-week-that-you.png",
+      "scheduledFor": "2026-08-15T15:00:00.000Z",
+      "caption": null,
+      "altText": null,
+      "hashtags": [],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-16-photograph-their-hands-just-their-hands",
+      "slug": "photograph-their-hands-just-their-hands",
+      "kind": "PHOTO",
+      "prompt": "Photograph their hands. Just their hands.",
+      "image": "social/queue/2026-08-16-photograph-their-hands-just-their-hands.png",
+      "scheduledFor": "2026-08-16T15:00:00.000Z",
+      "caption": null,
+      "altText": null,
+      "hashtags": [],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-17-film-them-telling-you-about-their-day-don",
+      "slug": "film-them-telling-you-about-their-day-don",
+      "kind": "VIDEO",
+      "prompt": "Film them telling you about their day. Don’t prompt them.",
+      "image": "social/queue/2026-08-17-film-them-telling-you-about-their-day-don.png",
+      "scheduledFor": "2026-08-17T15:00:00.000Z",
+      "caption": null,
+      "altText": null,
+      "hashtags": [],
+      "postedAt": null,
+      "mediaId": null
+    }
+  ]
+}

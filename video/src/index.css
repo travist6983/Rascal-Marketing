@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/**
+ * The badge palette, mirrored from styles.css.
+ *
+ * social/prompts.js hands out kind tints as `var(--lav)` and `var(--peach)`
+ * rather than as hexes, so these token names are a contract it shares with
+ * social/card.css. Declaring them here is what makes that table work unchanged
+ * in a video — and what keeps a card in motion the same colour as the PNG of it.
+ */
+:root {
+  --peach: #fbede2;
+  --lav: #e9ebfb;
+  --peri: #5566d6;
+  --terracotta: #c05a2b;
+}

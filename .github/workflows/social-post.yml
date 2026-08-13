@@ -1,0 +1,76 @@
+name: Post to Instagram
+
+# Runs hourly and publishes whatever is due, rather than firing once a day at an
+# exact time. GitHub's scheduled runs are best-effort and are routinely delayed
+# under load, so the schedule lives in social/queue.json — where a human can
+# read it — and this workflow just asks "is anything due yet?". At most one post
+# goes out per run.
+#
+# Cost: this repository is public, so Actions minutes are free. Each run is a
+# checkout plus one short Node process, and the poster needs no npm install —
+# it uses only Node built-ins. There is nothing metered here.
+#
+# What this workflow does NOT do: write captions. Those are generated locally
+# with `npm run social:captions`, read by a person, and committed. A post with
+# no caption fails this workflow rather than going out unreviewed.
+
+# ── THE SCHEDULE IS OFF ──────────────────────────────────────────────────────
+# Nothing posts by itself. The only way to run this is Actions → Post to
+# Instagram → Run workflow, which defaults to a dry run.
+#
+# To go live, uncomment the two `schedule` lines below. That is the whole
+# switch — everything under it is already wired.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  # schedule:
+  #   - cron: '5 * * * *'   # hourly, five past
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Check what would post without publishing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # to record postedAt back into social/queue.json
+
+concurrency:
+  group: social-post
+  cancel-in-progress: false   # never interrupt a publish mid-flight
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # No `npm ci`: scripts/social-post.mjs imports nothing outside node:*.
+      # package-lock.json is gitignored in this repo, so `npm ci` would fail anyway.
+      - name: Post the next due card
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          SOCIAL_IMAGE_BASE: ${{ vars.SOCIAL_IMAGE_BASE }}
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            node scripts/social-post.mjs
+          else
+            node scripts/social-post.mjs --live
+          fi
+
+      - name: Record the post
+        run: |
+          if git diff --quiet -- social/queue.json; then
+            echo "queue.json unchanged — nothing was published this run"
+            exit 0
+          fi
+          git config user.name  "dogear-social[bot]"
+          git config user.email "dogear-social@users.noreply.github.com"
+          git add social/queue.json
+          git commit -m "social: record published post"
+          git push

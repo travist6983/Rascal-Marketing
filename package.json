@@ -1,18 +1,25 @@
 {
-  "name": "rascal-marketing",
+  "name": "dogear-marketing",
   "version": "1.0.0",
   "private": true,
-  "description": "Landing page for RASCAL — one prompt a day about your kid",
+  "description": "Landing page for Dogear — one prompt a day about your kid",
   "type": "module",
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "build:artifact": "node scripts/build-artifact.mjs",
     "check": "node scripts/check.mjs",
+    "social": "node scripts/social-cards.mjs",
+    "social:queue": "node scripts/social-queue.mjs",
+    "social:captions": "node scripts/social-caption.mjs",
+    "social:post": "node scripts/social-post.mjs",
+    "social:reel": "node scripts/social-reel.mjs",
+    "video": "npm --prefix video run dev",
     "design": "npx --yes impeccable@3.5.0 detect index.html styles.css app.js",
     "design:live": "node scripts/design-live.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
     "playwright": "^1.62.1"
   }
 }

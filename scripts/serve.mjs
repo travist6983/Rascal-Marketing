@@ -36,4 +36,4 @@ createServer(async (req, res) => {
 
   res.writeHead(200, { 'Content-Type': TYPES[extname(file)] || 'application/octet-stream' });
   res.end(body);
-}).listen(port, () => console.log(`RASCAL → http://localhost:${port}`));
+}).listen(port, () => console.log(`Dogear → http://localhost:${port}`));

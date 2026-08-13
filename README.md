@@ -1,6 +1,6 @@
-# RASCAL — marketing site
+# Dogear — marketing site
 
-Landing page for RASCAL: one question a day about your kid, free by email, with an
+Landing page for Dogear: one question a day about your kid, free by email, with an
 iOS app in App Store review.
 
 No framework, no build step, no third-party requests — `index.html`, `styles.css`,
@@ -19,6 +19,9 @@ npm run serve      # http://localhost:4173
 
 Opening `index.html` directly in a browser also works; nothing depends on a server.
 
+Every command in the repo — flags, what it reads, what it writes, what it needs
+in the environment — is in [`docs/commands.md`](docs/commands.md).
+
 ## Turning the signup on
 
 The design's form was a prototype: it waited 800ms and declared success without
@@ -31,7 +34,7 @@ Set one line at the top of `app.js`:
 ```js
 const SIGNUP = {
   ENDPOINT: 'https://formspree.io/f/xxxxxxxx',   // or Buttondown, or your own /api/subscribe
-  SOURCE: 'rascal-landing'
+  SOURCE: 'dogear-landing'
 };
 ```
 
@@ -72,9 +75,123 @@ the page renders designed empty states. Each slot already reserves its exact
 aspect ratio, so dropping in a real PNG causes no layout shift and needs no
 markup or CSS change. See `assets/README.md`.
 
+## Social cards
+
+One prompt per image, sized for a feed — warm paper, the kind on a tinted pill,
+the instruction marked, the wordmark quiet at the bottom.
+
+```bash
+npm run social                                      # all 113, 1080 × 1350
+npm run social -- --sheet                           # and a contact sheet of the set
+npm run social -- --kind PHOTO,QUESTION --size square
+npm run social -- --help
+```
+
+PNGs land in `social/out/<size>/`, which is gitignored — they're regenerated,
+not stored. `--size` takes `portrait` (1080 × 1350), `square` (1080 × 1080) or
+`story` (1080 × 1920); `--kind` and `--cadence` filter the set.
+
+It drives the system Chrome directly, so it needs no `npm install` and no
+browser download. Set `CHROME=/path/to/binary` if yours lives somewhere unusual.
+
+**The copy lives in `social/prompts.js`**, seeded from `api/seeds/prompts.yaml`
+in the app repo but deliberately forked in two ways. The 99 seeded prompts
+written he/him are hand-rewritten in they/them — a public feed is not the place
+for the pronoun decision the product has parked, and no conjugator gets "does he
+mispronounce" → "do they mispronounce" right every time. And each prompt is
+split `pre` + `verb` + `post`, the same shape `app.js` uses for the deck, which
+is what lets a card mark one word. The sixteen already in the deck are
+reproduced verbatim.
+
+To change which word is marked, move the `verb` boundary in `social/prompts.js`.
+To change the look, edit `social/card.css` — it reads the same tokens as
+`styles.css`.
+
+## Posting the cards
+
+Three steps, each one handing back to you:
+
+```bash
+npm run social:queue -- --count 7    # pick 7 prompts, render cards, schedule them
+npm run social:captions              # write captions with Claude — then read them
+npm run social:post                  # dry run; add --live to publish
+```
+
+`.github/workflows/social-post.yml` can run the third step on a schedule, **but
+the schedule is currently commented out** — nothing posts by itself. The only way
+to run it is Actions → Run workflow, which defaults to a dry run. Uncommenting
+the two `schedule` lines is the whole switch.
+
+It never runs the first two steps: captions are generated locally, reviewed, and
+committed, and the poster refuses an entry with no caption — so nothing reaches
+the feed that a person hasn't approved.
+
+`social/queue.json` is the schedule and the record of what has gone out.
+`social/queue/*.png` are the card images, committed because Instagram fetches an
+image by public URL rather than accepting an upload.
+
+**Nothing has posted yet, and setup is mostly on Meta's side.** Two docs:
+[`docs/social-setup-checklist.md`](docs/social-setup-checklist.md) is the
+tick-off list with every link you need, and
+[`docs/social-posting.md`](docs/social-posting.md) is the runbook behind it —
+where the images are served from, what expires when, and what each failure
+message means.
+
+## The reel
+
+The same cards, in motion. One sheet of paper; the prompt on it changes.
+
+```bash
+npm run social:reel                          # the next 6 unposted cards
+npm run social:reel -- --from library --count 10
+npm run social:reel -- --seconds 5 --fade 0.5
+npm run social:reel -- --dry-run             # print the running order only
+npm run social:reel -- --help
+```
+
+1080 × 1920, 30fps, four seconds a card. Lands at `social/out/reel.mp4`, which
+is gitignored — unlike the queue PNGs there's no reason to carry it, because a
+Reel is uploaded from disk rather than fetched by URL.
+
+The queue is the default source, so the video shows what is actually going out,
+in the order it is going out. `--from library` ignores the schedule and rotates
+through kinds instead, the same rotation `social:queue` uses.
+
+**The fade dips through the paper rather than dissolving one card into the
+next.** A true cross-fade puts two sentences on the same grid at half opacity
+each, and at 88px that is a quarter-second of mush at exactly the moment the eye
+is looking. So the ink lifts off, the page is empty for a beat, and the next
+prompt arrives — which is also the truer picture of the product. `--fade`
+lengthens that beat; the cards never overlap.
+
+It's a [Remotion](https://remotion.dev) project in `video/`, kept out of the
+root because the site is deliberately no-framework and Remotion needs React,
+TypeScript and a bundler. To work on the design rather than render it:
+
+```bash
+npm run video      # Remotion Studio at http://localhost:3000
+```
+
+Studio scrubs the timeline and edits the prompts in a side panel, writing
+changes back into `defaultProps` in `video/src/PromptReel.tsx`. Two compositions:
+**PromptReel** is the above, **PromptCard** is a single prompt for a one-post
+video. Both read `social/prompts.js` for the badge palette, so a kind that
+changes colour changes it in the PNGs and the video at once.
+
+Animation has to be frame-driven — `useCurrentFrame()` and `interpolate()`. CSS
+`transition` and `animation` preview correctly in a browser and render wrong,
+because the renderer screenshots discrete frames and anything on a wall clock
+freezes.
+
 ## Deploying
 
 Live at **https://travist6983.github.io/Rascal-Marketing/**
+
+The product is Dogear; the repo is still `Rascal-Marketing`. That old name is
+load-bearing in two places — the Pages URL above, and the
+`raw.githubusercontent.com` base in `scripts/social-post.mjs` that Instagram
+fetches card images from. Renaming the repo breaks both until they change with
+it, so it was left alone deliberately.
 
 Pages Source is set to **GitHub Actions**, so
 `.github/workflows/pages-actions.yml` is the deploy. It stages the site, adds a
@@ -102,6 +219,16 @@ form's three validation messages going missing. Screenshots land in
 | `app.js` | Card deck, drag-to-deal, scroll reveals, timeline, signup |
 | `fonts/` | Nunito and Source Sans 3, self-hosted |
 | `assets/` | App screenshot slots — see `assets/README.md` |
+| `social/prompts.js` | The prompt library in marketing voice — they/them, verb split out |
+| `social/card.mjs` · `social/card.css` | Card rendering and its design |
+| `social/queue.mjs` · `social/queue.json` | The posting schedule and what has gone out |
+| `scripts/social-cards.mjs` | Renders the whole library as PNGs for review |
+| `scripts/social-queue.mjs` | Adds posts to the queue |
+| `scripts/social-caption.mjs` | Writes captions with Claude |
+| `scripts/social-post.mjs` | Publishes the next due post |
+| `scripts/social-reel.mjs` | Renders a run of prompts as one video |
+| `video/` | The Remotion project — `PromptReel` and `PromptCard` |
+| `docs/commands.md` | Every command, its flags, inputs and outputs |
 | `scripts/build-artifact.mjs` | Bundles everything into one self-contained file |
 | `scripts/check.mjs` | The browser checks above |
 | `scripts/serve.mjs` | Local static server |
