@@ -1,7 +1,7 @@
 node_modules/
 dist/
 screenshots/
-social/out/
+
 package-lock.json
 .DS_Store
 
