@@ -18,6 +18,7 @@ script that takes flags also takes `--help`.
 | `npm run social:captions` | Writes captions with Claude | `social/queue.json` |
 | `npm run social:post` | Publishes the next due post | `social/queue.json` |
 | `npm run social:reel` | A run of prompts as one video | `social/out/reel.mp4` |
+| `npm run social:showcase` | The Instagram set — 10 posts and 5 reels of the app | `social/out/instagram/` |
 | `npm run video` | Remotion Studio, to work on the video | — |
 
 **First run:** `npm install` at the root is only needed for `npm run check` and
@@ -264,6 +265,40 @@ A card is `--seconds` long *including* its fades, so the run is exactly
 `count × seconds`. `--fade` has to fit twice inside `--seconds` or the script
 refuses.
 
+### `npm run social:showcase`
+
+The Instagram set built from the app captures in `assets/` — 10 feed posts as
+PNGs and 5 reels as MP4s. Where the other two renderers show the *prompts*, this
+one shows the *product*: a phone on paper with a line of copy over it.
+
+```bash
+npm run social:showcase                  # all 15
+npm run social:showcase -- --only posts
+npm run social:showcase -- --id sealed   # the post and reel named sealed
+npm run social:showcase -- --dry-run     # list what would render
+```
+
+**Options** `--only posts|reels` · `--id ID,ID` · `--out DIR`
+(`social/out/instagram`) · `--dry-run`
+
+**Reads** `social/showcase.js` (all the copy), `assets/screens/` and
+`assets/recordings/` (the captures), `video/src/Post.tsx` and
+`video/src/Showcase.tsx` (the design)
+**Writes** `social/out/instagram/post-<id>.png` at 1080 × 1350 and
+`reel-<id>.mp4` at 1080 × 1920, 30fps. Gitignored.
+**Needs** the `video/` package installed. Nothing else.
+
+To change the copy, edit `social/showcase.js` — it is the only file with words
+in it. To change how a post or reel looks, edit the two components.
+
+The run bundles the Remotion project **once** and points all fifteen renders at
+that bundle. Fifteen separate `remotion render` calls would each rebuild the
+project first, which costs more than all fifteen renders put together.
+
+Both `--dry-run` and the real run mark every item whose screenshot has he/him
+copy visible in it, because the archive in the captures is written that way and
+the overlaid copy is not. See [`assets/README.md`](../assets/README.md).
+
 ### `npm run video`
 
 Remotion Studio — the preview and editing surface for the video.
@@ -278,7 +313,9 @@ compositions:
 
 | | |
 |---|---|
-| **PromptReel** | The reel. Length follows the number of prompts. |
+| **Showcase** | An Instagram reel of the app. Length follows its scenes. |
+| **Post** | An Instagram feed post, 1080 × 1350. A still, no timeline. |
+| **PromptReel** | The prompt reel. Length follows the number of prompts. |
 | **PromptCard** | A single prompt, 5s — for a one-post video. |
 
 Runs until you stop it.
