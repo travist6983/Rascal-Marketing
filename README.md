@@ -75,16 +75,18 @@ recordings in `assets/recordings/`.** One place, two consumers: the site reads
 it by relative path, and it is also the Remotion project's public directory, so
 the video reads the same files through `staticFile()` without a second copy.
 
-The app isn't built, so `SHOTS` in `app.js` has `src: null` for every slot and
-the page renders designed empty states. Each slot already reserves its exact
-aspect ratio, so dropping in a real PNG causes no layout shift and needs no
-markup or CSS change.
+31 screenshots and 4 recordings are in, all 1206 × 2622 off an iPhone 16 Pro.
+`SHOTS` in `app.js` still has `src: null` for every slot, so the page renders
+its designed empty states; each slot reserves its aspect ratio, so promoting a
+real PNG causes no layout shift and needs no markup or CSS change.
 
-Screenshots are 1290 × 2796 PNGs. Recordings are committed as `.mp4` — raw
-`.mov` captures are gitignored, because no browser plays them reliably and git
-would carry them at full size forever. [`assets/README.md`](assets/README.md)
-has the naming, the sizes, the four wired-up slots and the one-line convert
-command.
+**[`assets/README.md`](assets/README.md) classifies every capture** — what each
+one shows, what it is good for in marketing, and which four to promote into
+`SHOTS`. Read the caveats at the top of it first: the archive in these captures
+is written he/him, which the site's own copy deliberately is not.
+
+Recordings are committed as `.mp4` — raw `.mov` captures are gitignored, because
+no browser plays them reliably and git would carry them at full size forever.
 
 ## Social cards
 
@@ -194,6 +196,34 @@ Animation has to be frame-driven — `useCurrentFrame()` and `interpolate()`. CS
 because the renderer screenshots discrete frames and anything on a wall clock
 freezes.
 
+## The Instagram set
+
+Ten feed posts and five reels of the app itself — a phone on the same warm
+paper, one line of copy over it.
+
+```bash
+npm run social:showcase                  # all 15
+npm run social:showcase -- --only posts
+npm run social:showcase -- --id sealed   # the post and reel of that name
+npm run social:showcase -- --dry-run     # the running order only
+```
+
+Posts are 1080 × 1350, reels 1080 × 1920 at 30fps, 12–15 seconds. They land in
+`social/out/instagram/`, gitignored like the rest of `social/out`.
+
+**All the words live in `social/showcase.js`** — ten posts and five reels, each
+naming a capture from `assets/screens` and the copy that goes over it. The
+design is `video/src/Post.tsx` and `video/src/Showcase.tsx`, which share the
+phone frame, the paper and the dip-through fade with the prompt reel. Reels use
+the same three-beat shape: a line on bare paper, the app, a line to close.
+
+**The copy over the top is they/them; the archive inside the screenshots is
+not.** The captures were taken against a he/him profile, so several of these
+have "him" visible on the phone under a caption that says "they". Both the dry
+run and the real run mark which ones. It is worth re-capturing against a
+they/them archive before these go out — the app supports it, and
+[`assets/README.md`](assets/README.md) says which screens are affected.
+
 ## Deploying
 
 Live at **https://travist6983.github.io/Rascal-Marketing/**
@@ -238,6 +268,8 @@ form's three validation messages going missing. Screenshots land in
 | `scripts/social-caption.mjs` | Writes captions with Claude |
 | `scripts/social-post.mjs` | Publishes the next due post |
 | `scripts/social-reel.mjs` | Renders a run of prompts as one video |
+| `social/showcase.js` | Copy for the Instagram set — 10 posts, 5 reels |
+| `scripts/social-showcase.mjs` | Renders the Instagram set from the app captures |
 | `video/` | The Remotion project — `PromptReel` and `PromptCard` |
 | `docs/commands.md` | Every command, its flags, inputs and outputs |
 | `scripts/build-artifact.mjs` | Bundles everything into one self-contained file |

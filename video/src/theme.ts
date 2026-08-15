@@ -32,6 +32,7 @@ export const DISPLAY = "'Nunito', system-ui, sans-serif";
 export const TEXT = "'Source Sans 3', system-ui, sans-serif";
 
 export const CANVAS = "#FDFAF4";
+export const SURFACE = "#FFFDF9";
 export const INK = "#23253C";
 export const MUTED = "#6E6A63";
 
