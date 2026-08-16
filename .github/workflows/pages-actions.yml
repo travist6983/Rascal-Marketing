@@ -48,26 +48,54 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build site
+        run: node scripts/build.mjs
+
       - name: Stage site
         run: |
-          mkdir -p _site/fonts
-          cp index.html styles.css app.js _site/
-          cp fonts/*.woff2 _site/fonts/
+          cp -R dist _site
           touch _site/.nojekyll
 
-          # Cache-bust the assets by content hash. Without this the browser
-          # keeps a stylesheet from a previous deploy while taking the new
-          # HTML, which shipped a page with the new markup and the old palette.
-          # Hashing the contents (not the commit) means an unchanged file keeps
-          # its URL and stays cached.
-          CSS_V=$(md5sum _site/styles.css | cut -c1-8)
-          JS_V=$(md5sum _site/app.js | cut -c1-8)
-          sed -i \
-            -e "s|href=\"styles.css\"|href=\"styles.css?v=$CSS_V\"|" \
-            -e "s|src=\"app.js\"|src=\"app.js?v=$JS_V\"|" \
-            _site/index.html
-          echo "styles.css?v=$CSS_V   app.js?v=$JS_V"
-          grep -nE 'styles\.css\?v=|app\.js\?v=' _site/index.html
+          # Cache-bust the shared assets by content hash. Without this the
+          # browser keeps a stylesheet from a previous deploy while taking the
+          # new HTML, which shipped a page with the new markup and the old
+          # palette. Hashing the contents (not the commit) means an unchanged
+          # file keeps its URL and stays cached. Every built page references
+          # /assets/site.css and /assets/site.js, so every page gets the sed.
+          CSS_V=$(md5sum _site/assets/site.css | cut -c1-8)
+          JS_V=$(md5sum _site/assets/site.js | cut -c1-8)
+          mv _site/assets/site.css "_site/assets/site.$CSS_V.css"
+          mv _site/assets/site.js "_site/assets/site.$JS_V.js"
+          find _site -name '*.html' -exec sed -i \
+            -e "s|/assets/site\.css|/assets/site.$CSS_V.css|g" \
+            -e "s|/assets/site\.js|/assets/site.$JS_V.js|g" {} +
+          echo "site.$CSS_V.css   site.$JS_V.js"
+          grep -c "site\.$CSS_V\.css" _site/index.html
+
+          # Project-pages base path. The build emits root-absolute URLs
+          # (/assets/…, /pricing) because the real deployment target is a
+          # custom domain at its root. Until that domain exists, Pages serves
+          # this repo at /<repo-name>/, so every absolute URL gets the prefix
+          # here — at staging time only, never in the build. When the custom
+          # domain goes live (a CNAME + ORIGIN in site.config.json), set
+          # BASE= empty below and this block becomes a no-op.
+          BASE="/${GITHUB_REPOSITORY#*/}"
+          if [ -n "$BASE" ]; then
+            find _site -name '*.html' -exec sed -i \
+              -e "s|href=\"/|href=\"$BASE/|g" \
+              -e "s|src=\"/|src=\"$BASE/|g" \
+              -e "s|content=\"/|content=\"$BASE/|g" {} +
+            find _site -name '*.css' -exec sed -i \
+              -e "s|url('/|url('$BASE/|g" \
+              -e "s|url(\"/|url(\"$BASE/|g" \
+              -e "s|url(/|url($BASE/|g" {} +
+            echo "base path: $BASE"
+            grep -c "href=\"$BASE/" _site/index.html
+          fi
 
       - uses: actions/upload-pages-artifact@v3
         with:

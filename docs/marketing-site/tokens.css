@@ -1,0 +1,120 @@
+/* ============================================================
+   Dogear — web tokens (Prompt 1 foundation)
+   Source of record: design-system.md `Color` extension (audited
+   Aug 12 2026 against the shipped client), cross-checked against
+   Rascal-Marketing styles.css + social/card.css — 10/10 overlapping
+   values identical. Values compiled, not quoted.
+   ============================================================ */
+:root {
+  /* ---------- INHERITED — iOS palette, verbatim ---------- */
+  --canvas: #FDFAF4;            /* app/page background */
+  --surface: #FFFDF9;           /* cards */
+  --border: #EDE5DA;            /* hairlines on cream */
+  --ink: #23253C;               /* headlines, body */
+  --ink-muted: #6E6A63;         /* metadata, framing text */
+  --ink-faint: #B4ADA3;         /* merely present — NOT a reading color (2.13:1) */
+  --terracotta: #C05A2B;        /* missions, photo/video, primary — FILL, not body text (G1) */
+  --terracotta-soft: #FBEDE2;   /* tinted fills */
+  --terracotta-deep: #9A431E;   /* pressed; web body-size terracotta text (G1) */
+  --periwinkle: #5566D6;        /* questions, voice, written; focus ring (G3) */
+  --periwinkle-soft: #E9EBFB;
+  --periwinkle-border: #DADDF7; /* hairline on a periwinkle fill */
+  --periwinkle-deep: #3F4FB0;   /* periwinkle text on a periwinkle ground */
+  --sage: #E8F0E6;              /* did-it / completed fills */
+  --sage-border: #D8E4D5;
+  --sage-ink: #4B7A4F;          /* the ink sage needs at small sizes */
+  --sage-soft: #DCE8DA;
+  --chip-plain: #F4EEE5;        /* neutral chip; disabled primary fill */
+  --sealed-border: #F0DFD5;
+  --sealed-ink: #A79A92;        /* non-reading text only */
+  --rule-terracotta: #EBD8C8;   /* 2px quote rules, by kind */
+  --rule-periwinkle: #C6CCF2;
+  --rule-sage: #B7CDB3;
+  --wash: linear-gradient(135deg, #FDE8DC 0%, #F7DDE8 50%, #FBF6EF 100%); /* Gradients.wash — emotional beats only, never behind a list */
+
+  /* Inherited shape / elevation / motion */
+  --r-card: 20px;               /* full card */
+  --r-row: 18px;                /* compact row */
+  --r-quote: 16px;              /* filled prompt block */
+  --r-media: 14px;              /* media inset; sheet fields */
+  --r-glyph: 11px;
+  --r-pill: 999px;              /* chips, buttons */
+  --shadow-card: 0 2px 8px rgba(35, 37, 60, 0.04);
+  --dur-tap: 0.12s;             /* TapScaleButtonStyle */
+  --dur-enter: 0.28s;           /* fade-and-rise entry, ease-out, 16px travel */
+
+  /* ============================================================
+     WEB-ONLY ADDITIONS — everything below is new to the web
+     surface. Each derives from an inherited token; no new colors.
+     ============================================================ */
+
+  /* G1 — terracotta at body size fails AA (4.25:1). Following the
+     sageInk precedent: terracotta-as-text resolves to the deep step.
+     6.31:1 on canvas, 6.47:1 on surface, 5.73:1 on terracottaSoft. */
+  --text-terracotta: var(--terracotta-deep);
+
+  /* G2 — hover. Quiet, per TapScaleButtonStyle (0.98 / 0.12s).
+     Primary fill hovers to the pressed color; active adds the scale. */
+  --shadow-card-hover: 0 3px 10px rgba(35, 37, 60, 0.07);
+
+  /* G3 — focus. Periwinkle clears 3:1 on every ground in the system
+     (canvas 4.73, surface 4.85, soft fills >= 4.17). */
+  --focus-ring: 2px solid var(--periwinkle);
+  --focus-ring-offset: 2px;
+
+  /* G6 — inline links. Deep for the word (AA at body size),
+     base terracotta for the underline (non-text, 4.25:1 >= 3:1). */
+  --link: var(--terracotta-deep);
+  --link-underline: var(--terracotta);
+
+  /* G5 — fluid type. Every curve lands EXACTLY on the app value at
+     393px viewport and grows to the desktop cap at 1200px. */
+  --t-hero: clamp(2.125rem, 1.212rem + 3.717vw, 4rem);        /* 34px @393 -> 64px */
+  --t-section: clamp(1.8125rem, 1.356rem + 1.859vw, 2.75rem); /* 29px @393 -> 44px */
+  --t-title: clamp(1.375rem, 1.192rem + 0.743vw, 1.75rem);    /* 22px @393 -> 28px */
+  --t-prompt: 20px;   /* line-height 1.30 — fixed at every width */
+  --t-card-title: 17px;
+  --t-body: 16px;     /* line-height 1.45 */
+  --t-quote: 14px;    /* italic at the use site, line-height 1.4 */
+  --t-meta: 13px;
+  --t-label: 12px;    /* semibold, +0.6px tracking, uppercase */
+
+  /* G4 — breakpoints (reference; custom props can't hold media queries)
+     393  design base — the app's phone width
+     600  phone layout stops being the right answer
+     900  two-column layouts begin
+     1200 full desktop grid
+     Max content width: 1120px. Margins: 16px / 28px / 48px.
+     Grid: single column < 600; 8-col, 24px gutter to 900;
+     12-col, 32px gutter above. */
+}
+
+/* G3 — every interactive element */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* G6 — inline text links */
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--link);
+}
+/* :visited — deliberately unchanged. The palette has no second link hue
+   and an archive product does not restyle history. */
+
+/* Motion doctrine floor — every animation must also honour this */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

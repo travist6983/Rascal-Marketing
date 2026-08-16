@@ -1,0 +1,50 @@
+{
+  "today-two-missions": {
+    "w": 660,
+    "h": 1435
+  },
+  "timeline-all": {
+    "w": 600,
+    "h": 1304
+  },
+  "timeline-search": {
+    "w": 600,
+    "h": 1304
+  },
+  "entry-question-answered": {
+    "w": 600,
+    "h": 1304
+  },
+  "entry-sealed-locked": {
+    "w": 560,
+    "h": 1217
+  },
+  "entry-sealed-open": {
+    "w": 560,
+    "h": 1217
+  },
+  "entry-voice": {
+    "w": 600,
+    "h": 1304
+  },
+  "entry-photo-single": {
+    "w": 600,
+    "h": 1304
+  },
+  "entry-written-note": {
+    "w": 600,
+    "h": 1304
+  },
+  "moments-on-this-day": {
+    "w": 600,
+    "h": 1304
+  },
+  "timeline-filter-voice": {
+    "w": 600,
+    "h": 1304
+  },
+  "composer-empty": {
+    "w": 600,
+    "h": 1304
+  }
+}

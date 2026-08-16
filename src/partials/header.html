@@ -1,0 +1,23 @@
+<header class="masthead">
+  <div class="masthead__in">
+    <a class="wordmark" href="/">{{PRODUCT}}</a>
+
+    <!-- <details> rather than a JS drawer. It is keyboard-operable and
+         screen-reader-correct with no script, which matters on a site whose
+         pitch is that it doesn't run things behind your back. -->
+    <details class="navwrap">
+      <summary class="navwrap__toggle" aria-label="Menu">
+        <span class="navwrap__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="navwrap__word">Menu</span>
+      </summary>
+      <nav class="nav" aria-label="Primary">
+        <a href="/how-it-works">How it works</a>
+        <a href="/prompts">Prompts</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/promise">The promise</a>
+        <a href="/blog">Blog</a>
+        <a class="btn btn--primary btn--sm nav__cta" href="/waitlist">{{CTA}}</a>
+      </nav>
+    </details>
+  </div>
+</header>

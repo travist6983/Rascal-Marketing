@@ -1,0 +1,41 @@
+{
+  "_readme": [
+    "Every {{TOKEN}} in src/ is replaced from this file at build time. This is the",
+    "'set it once' file site-content.md asks for: a rename or a price change is one",
+    "edit here, not a crawl through markup.",
+    "",
+    "PRODUCT is deliberately left as the literal placeholder. site-content.md keeps",
+    "the name a token until the App Store / domain collisions with the reading-app",
+    "cluster are resolved, and seo-plan.md calls that the dependency everything else",
+    "sits on. To ship, change PRODUCT to the real name -- one word, one line, and",
+    "every title tag, OG tag, wordmark and body sentence on all 20 routes follows.",
+    "",
+    "ORIGIN is empty on purpose. The moment it holds a real https origin the build",
+    "starts emitting self-referencing canonicals, absolute OG image URLs and",
+    "sitemap.xml. Until then nothing fake ships. Nothing else needs to change."
+  ],
+
+  "PRODUCT": "{{PRODUCT}}",
+  "DOMAIN": "{{DOMAIN}}",
+  "ORIGIN": "",
+
+  "PRICE_YEAR": "$59.99",
+  "PRICE_MONTH": "$5.99",
+  "FREE_PHOTOS": "100",
+  "TRIAL_DAYS": "Fourteen",
+
+  "CTA": "Get tomorrow's prompt",
+  "CTA_SUPPORT": "One a day, by email. A note when it opens and when the price goes live. Nothing else.",
+
+  "_cta_note": [
+    "CTA describes the outcome, which is only honest if the daily waitlist email",
+    "actually ships. If it doesn't: set CTA to 'Join the waitlist' and CTA_SUPPORT",
+    "to \"We'll email when it opens and when pricing goes live. Nothing else.\"",
+    "That is the whole revert -- both strings live here and nowhere else."
+  ],
+
+  "SUPPORT_EMAIL": "hello@{{DOMAIN}}",
+  "PROMPT_COUNT": "133",
+  "VERIFIED_ON": "August 15, 2026",
+  "YEAR": "2026"
+}
