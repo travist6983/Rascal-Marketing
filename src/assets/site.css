@@ -239,7 +239,9 @@ a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--link); }
   padding: 6px 0; transition: color var(--dur-tap) ease-out;
 }
 .nav a:hover { color: var(--ink); }
-.nav a.btn { color: var(--surface); }
+/* .nav a's (0,1,1) specificity beats .btn--sm's (0,1,0), so the CTA pill's
+   padding has to be restated here or the text sits flush against the pill. */
+.nav a.btn { color: var(--surface); padding: 10px 20px; }
 
 /* The current page is stated, not just colored — aria-current would need JS to
    set, so the route on <body> does it in CSS instead. */
@@ -502,10 +504,16 @@ a.card:hover, .card--tap:hover {
 }
 .device img { border-radius: 42px; width: min(320px, 70vw); }
 .device--stack { position: relative; }
+/* The stacked frames wrap each img in <picture> for the webp source, so the
+   sibling selector has to match the wrappers too — img + img alone leaves the
+   frames stacked vertically inside a very tall, very empty phone. */
+.device--stack picture { display: block; }
+.device--stack picture + picture,
 .device--stack img + img { position: absolute; inset: 11px; }
 .device--stack img { transition: opacity 0.35s var(--ease); }
 .device--light { background: var(--surface); border: 1px solid var(--sealed-border); border-radius: 36px; padding: 10px; box-shadow: 0 30px 70px rgba(35, 37, 60, 0.14); }
 .device--light img { border-radius: 28px; width: min(280px, 68vw); }
+.device--light.device--stack picture + picture,
 .device--light.device--stack img + img { inset: 10px; }
 
 /* ------------------------------------------------------------------- blobs */
@@ -610,6 +618,7 @@ a.card:hover, .card--tap:hover {
   .arch__step { min-height: 0; }
   .arch__sticky { position: static; }
   /* Only one phone is meaningful without the scroll pairing it to the copy. */
+  .arch__sticky .device--stack picture + picture,
   .arch__sticky .device--stack img + img { display: none; }
 }
 
