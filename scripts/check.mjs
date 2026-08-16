@@ -174,7 +174,47 @@ try {
   fail.push('dist/robots.txt missing');
 }
 
-console.log(`static: checked ${pages.length} pages`);
+/* ------------------------------------------------------- markdown twins */
+/* Every page that declares a markdown alternate must ship one; llms.txt must
+   exist and every link in it must resolve; the twins must be actual markdown —
+   no unresolved tokens (DOMAIN excepted) and no leaked HTML tags. */
+let mdCount = 0;
+for (const { rel, html } of pages) {
+  const alt = (html.match(/rel="alternate" type="text\/markdown" href="([^"]+)"/) || [])[1];
+  if (!alt) continue;
+  mdCount++;
+  let md;
+  try {
+    md = await readFile(join(dist, alt.slice(1)), 'utf8');
+  } catch {
+    fail.push(`${rel}: declared markdown twin ${alt} missing`);
+    continue;
+  }
+  for (const t of md.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)) {
+    if (t[1] !== 'DOMAIN') fail.push(`${alt}: unresolved token {{${t[1]}}}`);
+  }
+  const tagLeak = md.match(/<\/?[a-z][a-z0-9-]*[\s>]/);
+  if (tagLeak) fail.push(`${alt}: leaked HTML: ${tagLeak[0]}`);
+  /* backslash-escaped braces are the md form of the HTML's entity-encoded
+     demonstration tokens — deliberate, not a renderer failure */
+  const mdLeak = md.replace(/\\[{}]/g, '').match(PRONOUN_LEAK);
+  if (mdLeak) fail.push(`${alt}: PRONOUN TOKEN LEAKED: "${mdLeak[0]}"`);
+}
+try {
+  const llms = await readFile(join(dist, 'llms.txt'), 'utf8');
+  for (const m of llms.matchAll(/\]\((\/[^)]+)\)/g)) {
+    try {
+      await stat(join(dist, m[1].slice(1)));
+    } catch {
+      fail.push(`llms.txt: dead link ${m[1]}`);
+    }
+  }
+  await stat(join(dist, 'llms-full.txt'));
+} catch {
+  fail.push('dist/llms.txt or llms-full.txt missing');
+}
+
+console.log(`static: checked ${pages.length} pages, ${mdCount} markdown twins`);
 
 /* ----------------------------------------------------------------- browser */
 

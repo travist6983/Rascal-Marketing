@@ -94,6 +94,9 @@ jobs:
               -e "s|url('/|url('$BASE/|g" \
               -e "s|url(\"/|url(\"$BASE/|g" \
               -e "s|url(/|url($BASE/|g" {} +
+            # The markdown twins and llms indexes carry root-relative links too.
+            find _site \( -name '*.md' -o -name 'llms*.txt' \) -exec sed -i \
+              -e "s|](/|]($BASE/|g" {} +
             echo "base path: $BASE"
             grep -c "href=\"$BASE/" _site/index.html
           fi
