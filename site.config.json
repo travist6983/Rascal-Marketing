@@ -4,18 +4,17 @@
     "'set it once' file site-content.md asks for: a rename or a price change is one",
     "edit here, not a crawl through markup.",
     "",
-    "PRODUCT is deliberately left as the literal placeholder. site-content.md keeps",
-    "the name a token until the App Store / domain collisions with the reading-app",
-    "cluster are resolved, and seo-plan.md calls that the dependency everything else",
-    "sits on. To ship, change PRODUCT to the real name -- one word, one line, and",
-    "every title tag, OG tag, wordmark and body sentence on all 20 routes follows.",
+    "PRODUCT was a literal placeholder until Aug 16 2026. The name was settled as",
+    "Dogear on Aug 12 2026 (Project-Rascal docs/decisions-log.md, closing open",
+    "item 1), so the site now says it. The App Store listing collision noted in",
+    "seo-plan.md is a marketing problem, not a naming one anymore.",
     "",
     "ORIGIN is empty on purpose. The moment it holds a real https origin the build",
     "starts emitting self-referencing canonicals, absolute OG image URLs and",
     "sitemap.xml. Until then nothing fake ships. Nothing else needs to change."
   ],
 
-  "PRODUCT": "{{PRODUCT}}",
+  "PRODUCT": "Dogear",
   "DOMAIN": "{{DOMAIN}}",
   "ORIGIN": "",
 
