@@ -697,7 +697,44 @@ a.card:hover, .card--tap:hover {
   padding-block: 14px; margin-bottom: 28px;
 }
 @supports not (backdrop-filter: blur(1px)) { .plib__bar { background: var(--canvas); } }
+
+/* Search sits on the same line as the count, which is empty until something is
+   actually filtered — the row is 44px tall either way, so the sticky bar never
+   changes height under the reader and the page never jumps. */
+.plib__find { display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; }
 .plib__count { font: 400 var(--t-meta) var(--text); color: var(--ink-muted); }
+/* A search box with nothing behind it is a worse promise than no search box,
+   so the field only exists once site.js has claimed the document. */
+.plib__search { display: none; }
+.js .plib__search { display: block; flex: 1 1 240px; max-width: 360px; }
+.plib__search input {
+  width: 100%; min-height: 44px; padding: 9px 16px;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--border); border-radius: var(--r-pill);
+  font: 400 15px var(--text);
+  transition: border-color var(--dur-tap) ease-out;
+}
+.plib__search input::placeholder { color: var(--ink-faint); }
+.plib__search input:hover { border-color: var(--terracotta); }
+.plib__search input:focus { border-color: var(--periwinkle); }
+.plib__empty { margin-top: 28px; }
+
+/* Below 900px the pills wrapped, and a wrapped sticky bar is a bar that owns
+   the phone: 393px of a 700px viewport at 320, half the screen, permanently.
+   One line each, scrolled sideways, holds it at 185px at every width. The rows
+   bleed into the gutter and pad themselves back, so the pill at the edge is cut
+   rather than tidily stopped — which is the thing that says keep swiping. */
+@media (max-width: 899px) {
+  .plib__bar .filters {
+    flex-wrap: nowrap; justify-content: flex-start;
+    overflow-x: auto; scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+  .plib__bar .filters::-webkit-scrollbar { display: none; }
+  .plib__bar .filter { flex: none; }
+}
 
 /* ============================================================ page: blog */
 
