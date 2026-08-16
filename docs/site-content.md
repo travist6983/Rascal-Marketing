@@ -560,6 +560,12 @@ No red — the palette has none.)*
 **Failure:** `That didn't go through. Try again, or email hello@{{DOMAIN}}.`
 **Nav CTA (persistent):** `Get tomorrow's prompt`
 **Footer tagline:** `{{PRODUCT}} — one question a day, a childhood you can find again.`
+**Footer social column:** heading `Elsewhere`, then `Instagram` · `Facebook` · `X` · `TikTok` ·
+`Pinterest`. Plain word marks, no icons — a row of five brand glyphs is louder than anything else
+in that footer, and the palette has nowhere to put their colours. The hrefs are
+`{{SOCIAL_*}}` tokens in `site.config.json` and currently point at the bare platforms; they become
+real profile URLs in one edit there. Linking out is not a third-party *request*, so the fine print
+under it stays true.
 **404 H1:** `That page doesn't exist.`
 **404 body:** `Nothing was lost — which is sort of the whole idea here.` + links to `/` and
 `/how-it-works`.
