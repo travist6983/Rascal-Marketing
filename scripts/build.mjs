@@ -24,6 +24,7 @@
 import { readFile, writeFile, mkdir, readdir, copyFile, rm, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative, extname, sep } from 'node:path';
+import { htmlToMarkdown } from './markdown.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const src = join(root, 'src');
@@ -150,6 +151,12 @@ const pages = (await walk(join(src, 'pages'))).filter((f) => extname(f) === '.ht
 const built = [];
 const seenTitles = new Map();
 
+/* Every indexable page also ships as Markdown (route + ".md") with an
+   /llms.txt index — the emerging convention for making a site legible to
+   LLMs and their crawlers without scraping the HTML. */
+const mdPath = (route) => (route === '/' ? '/index.md' : route + '.md');
+const mdPages = [];
+
 for (const file of pages) {
   const raw = await readFile(file, 'utf8');
   const { meta, body: rawBody } = frontMatter(raw);
@@ -178,13 +185,17 @@ for (const file of pages) {
   const noindex = meta.noindex === 'true';
   const robots = noindex ? '<meta name="robots" content="noindex">\n' : '';
 
+  const hasMd = !noindex;
+  if (hasMd) mdPages.push({ route, title: fill(meta.title), description: fill(meta.description), body });
+
   const depth = out.split('/').length - 1;
   const html = fill(layout, {
     PAGE_TITLE: esc(fill(meta.title)),
     PAGE_DESC: esc(fill(meta.description)),
     PAGE_CLASS: meta.class || '',
     PAGE_ROUTE: route,
-    HEAD_CANONICAL: robots + canonical,
+    HEAD_CANONICAL: robots + canonical +
+      (hasMd ? `<link rel="alternate" type="text/markdown" href="${mdPath(route)}" title="Markdown version of this page">\n` : ''),
     HEAD_EXTRA: fill(pageHead),
     BODY: body
   });
@@ -201,6 +212,78 @@ for (const file of pages) {
   seenTitles.set(title, route);
 
   built.push({ route, out, title, description: fill(meta.description), inSitemap: inSitemap && !noindex, depth });
+}
+
+/* ------------------------------------------------- markdown twins + llms.txt */
+
+{
+  const routesWithMd = new Set(mdPages.map((p) => p.route));
+  /* Markdown pages link to Markdown pages, so a text-only crawler never has
+     to leave text. Anchors survive the rewrite. */
+  const mapHref = (href) => {
+    if (!href.startsWith('/')) return href;
+    const [path, hash] = href.split('#');
+    const clean = path.replace(/\/$/, '') || '/';
+    return routesWithMd.has(clean) ? mdPath(clean) + (hash ? '#' + hash : '') : href;
+  };
+
+  for (const p of mdPages) {
+    p.md =
+      `---\ntitle: ${fill(p.title)}\ndescription: ${fill(p.description)}\nurl: ${p.route}\n---\n\n` +
+      htmlToMarkdown(fill(p.body), { mapHref });
+    const dest = join(dist, mdPath(p.route).slice(1));
+    await mkdir(dirname(dest), { recursive: true });
+    await writeFile(dest, p.md);
+  }
+
+  /* llms.txt — H1, one-line summary, then grouped links to the .md twins.
+     The order is editorial: the pages a reader (of any species) should hit
+     first come first. Unlisted new routes append under their group or Pages. */
+  const GROUPS = [
+    ['Product', ['/', '/how-it-works', '/prompts', '/pricing', '/promise', '/faq', '/waitlist']],
+    ['Comparisons', ['/compare/tinybeans', '/compare/qeepsake', '/compare/camera-roll']],
+    ['Blog', ['/blog', '/blog/the-photo-survives', '/blog/what-to-write-in-a-baby-book',
+      '/blog/streaks-are-a-bad-idea', '/blog/record-your-kids-voice', '/blog/an-archive-they-can-inherit']],
+    ['Small print', ['/privacy', '/terms']]
+  ];
+  const listed = new Set(GROUPS.flatMap(([, rs]) => rs));
+  const leftovers = mdPages.filter((p) => !listed.has(p.route)).map((p) => p.route);
+  if (leftovers.length) GROUPS.splice(1, 0, ['Pages', leftovers]);
+
+  const LABELS = {
+    '/': 'Home', '/how-it-works': 'How it works', '/prompts': 'The prompt library',
+    '/pricing': 'Pricing', '/promise': 'The promise', '/faq': 'FAQ',
+    '/waitlist': 'Get tomorrow’s prompt',
+    '/compare/tinybeans': '{{PRODUCT}} vs Tinybeans', '/compare/qeepsake': '{{PRODUCT}} vs Qeepsake',
+    '/compare/camera-roll': 'Why not just use your camera roll?',
+    '/blog': 'Blog', '/privacy': 'Privacy', '/terms': 'Terms'
+  };
+  const byRoute = new Map(mdPages.map((p) => [p.route, p]));
+  const section = ([name, routes]) => {
+    const lines = routes.filter((r) => byRoute.has(r)).map((r) => {
+      const p = byRoute.get(r);
+      const label = LABELS[r] || p.title.split(' | ')[0];
+      return `- [${label}](${mdPath(r)}): ${p.description}`;
+    });
+    return lines.length ? `## ${name}\n\n${lines.join('\n')}` : '';
+  };
+
+  const llms = fill(
+    `# {{PRODUCT}}\n\n` +
+    `> A private, prompted archive of your kid's childhood — every moment saved with the question that caused it.\n\n` +
+    `{{PRODUCT}} asks parents one question and one small mission a day, files every answer with ` +
+    `the prompt that caused it, and builds a searchable archive a kid can inherit. No streaks, no ` +
+    `ads, on iPhone. Every page below is available as Markdown; the whole site's text is in ` +
+    `[llms-full.txt](/llms-full.txt).\n\n` +
+    GROUPS.map(section).filter(Boolean).join('\n\n') + '\n'
+  );
+  await writeFile(join(dist, 'llms.txt'), llms);
+
+  await writeFile(
+    join(dist, 'llms-full.txt'),
+    mdPages.map((p) => p.md).join('\n\n---\n\n')
+  );
+  console.log(`markdown: ${mdPages.length} pages → *.md, llms.txt, llms-full.txt`);
 }
 
 /* Static files. assets/ is shared with the Remotion project through staticFile(),
