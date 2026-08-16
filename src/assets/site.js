@@ -407,22 +407,56 @@
 
   /* -------------------------------------------------------- 6 · archive */
   /* The phone cross-fades as the copy beside it scrolls. Below 900px the copy
-     is stacked and the pairing has no meaning, so the observer does not run. */
+     is stacked and the pairing has no meaning, so the observer does not run.
+
+     The root is squeezed to a band across the middle of the viewport and a step
+     owns the phone while that band is inside it. A visible-ratio threshold does
+     not survive real viewports: a step taller than the window never reaches
+     0.5, two 58vh steps can both clear it at once, and landing mid-archive on a
+     reload crosses nothing at all — each of which leaves the wrong screen up.
+     Exactly one screen is at opacity 1 at every scroll position. */
   (function archive() {
     var steps = $$('[data-arch]');
-    if (!steps.length || !('IntersectionObserver' in window)) return;
-    if (!window.matchMedia('(min-width: 900px)').matches) return;
     var imgs = $$('[data-arch-img]');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var want = e.target.getAttribute('data-arch');
-        imgs.forEach(function (img) {
-          img.style.opacity = img.getAttribute('data-arch-img') === want ? '1' : '0';
-        });
+    if (!steps.length || !imgs.length || !('IntersectionObserver' in window)) return;
+
+    var live = [];   /* live[i] — is step i crossing the band right now */
+    var shown = null;
+    var show = function (want) {
+      if (want === null || want === shown) return;
+      shown = want;
+      imgs.forEach(function (img) {
+        img.style.opacity = img.getAttribute('data-arch-img') === want ? '1' : '0';
       });
-    }, { threshold: 0.5 });
-    steps.forEach(function (s) { io.observe(s); });
+    };
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { live[steps.indexOf(e.target)] = e.isIntersecting; });
+      /* Lowest index wins while two steps overlap the band, so the handover
+         happens once instead of flickering back and forth across the seam. */
+      for (var i = 0; i < steps.length; i++) {
+        if (live[i]) return show(steps[i].getAttribute('data-arch'));
+      }
+      /* Band is past either end of the copy: hold the last screen. Blanking the
+         phone is the one thing this section must never do. */
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    /* Wired to the query, not read once: resizing up out of the stacked layout
+       has to start the pairing, and resizing down has to hand the phone back to
+       the first screen, which is the only one that layout shows. */
+    var mq = window.matchMedia('(min-width: 900px)');
+    var watching = false;
+    var sync = function () {
+      if (mq.matches === watching) return;
+      watching = mq.matches;
+      if (watching) { steps.forEach(function (s) { io.observe(s); }); return; }
+      io.disconnect();
+      live = [];
+      show('0');
+    };
+    sync();
+    if (mq.addEventListener) mq.addEventListener('change', sync);
+    else if (mq.addListener) mq.addListener(sync);
   })();
 
   /* ----------------------------------------------------------- 7 · seal */

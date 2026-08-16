@@ -508,8 +508,13 @@ a.card:hover, .card--tap:hover {
    sibling selector has to match the wrappers too — img + img alone leaves the
    frames stacked vertically inside a very tall, very empty phone. */
 /* Surface-colored while the lazy image is still fetching, so the frame reads
-   as an empty screen for a beat instead of a solid navy slab. */
-.device--stack picture { display: block; background: var(--surface); border-radius: 42px; min-height: 200px; }
+   as an empty screen for a beat instead of a solid navy slab. Only the in-flow
+   frame paints it. The stacked siblings sit on top of it, and the cross-fade
+   runs on the img, not the wrapper — an opaque background on the wrappers hides
+   whichever screen is currently faded in underneath, leaving an empty phone
+   unless the topmost one happens to be the active screen. */
+.device--stack picture { display: block; border-radius: 42px; min-height: 200px; }
+.device--stack picture:first-child { background: var(--surface); }
 .device--light.device--stack picture { border-radius: 28px; }
 .device--stack picture + picture,
 .device--stack img + img { position: absolute; inset: 11px; }
