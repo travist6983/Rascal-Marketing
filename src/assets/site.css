@@ -536,10 +536,20 @@ a.card:hover, .card--tap:hover {
 
 .hero { padding-block: clamp(56px, 8vw, 92px); }
 .hero__grid { display: grid; gap: clamp(40px, 6vw, 56px); align-items: center; }
-@media (min-width: 900px) { .hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); } }
 /* The H1 is real text and is never faded in by script — it is the LCP element
    and measuring it after a script runs is how a fast page scores slow. */
-.hero h1 { font: 800 clamp(2.125rem, 1rem + 4.6vw, 4.75rem)/1.06 var(--display); letter-spacing: -0.015em; }
+.hero h1 { font: 800 clamp(2.125rem, 1rem + 4.6vw, 4.75rem)/1.06 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
+/* Two columns only once the words have room for a display size beside the
+   phone. The media column is sized to the phone itself — as a fraction it
+   reserved ~120px of nothing next to a 342px frame and took it from the
+   headline. And the full-width type curve tops out at 76px, which set nine
+   lines in that leftover gutter and stood a head taller than the image; beside
+   the phone the H1 is sized to its column instead, five even lines inside the
+   frame's height. Below this the hero stacks, where the wide curve is right. */
+@media (min-width: 1000px) {
+  .hero__grid { grid-template-columns: minmax(0, 1fr) auto; }
+  .hero h1 { font-size: clamp(3.25rem, 0.75rem + 4vw, 3.75rem); }
+}
 .hero__badge {
   display: inline-flex; align-items: center; gap: 9px; align-self: flex-start;
   background: var(--surface); border: 1px solid var(--border);
