@@ -7,6 +7,10 @@
  *
  *   - aria-hidden subtrees, <script>, <style>, <template>, <svg>, <form> and
  *     <button> are dropped whole — decoration and UI chrome, not content
+ *   - so is anything marked data-chrome, for the chrome that is none of those:
+ *     a filter bar's live count and an empty state nobody has triggered are
+ *     interface state, and a twin that reads "Showing all 133 prompts" is
+ *     telling a crawler about a control it cannot press
  *   - h1..h6, p, ul/ol/li, blockquote, hr, table, figure map to Markdown
  *   - <summary> becomes a ### heading (the FAQ's question rows)
  *   - <span class="chip"> becomes bold — it labels the thing after it
@@ -105,7 +109,7 @@ export function htmlToMarkdown(html, options = {}) {
       if (skipDepth === 0) skipTag = null;
       continue;
     }
-    if (!closing && (SKIP.has(tag) || attrs['aria-hidden'] === 'true')) {
+    if (!closing && (SKIP.has(tag) || attrs['aria-hidden'] === 'true' || 'data-chrome' in attrs)) {
       if (!selfClosed) { skipDepth = 1; skipTag = tag; }
       continue;
     }

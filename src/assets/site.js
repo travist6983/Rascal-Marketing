@@ -476,27 +476,55 @@
 
   /* -------------------------------------------------- 8 · prompt filters */
   /* Every prompt is already in the HTML. This hides and shows what is there —
-     it never fetches, and the page ranks with the full library present. */
+     it never fetches, and the page ranks with the full library present.
+
+     Three filters, ANDed: kind, age band, and the search field. The field is
+     the one control that is not honest without this file — a box that swallows
+     what you type would be worse than no box — so CSS keeps it hidden until
+     the `js` class is on the document, and only this makes it work. */
   (function promptFilters() {
     var list = $('#prompt-list');
     if (!list) return;
     var cards = $$('.prompt', list);
     var count = $('[data-prompt-count]');
-    var state = { kind: '', band: '' };
+    var empty = $('[data-prompt-empty]');
+    var query = $('[data-prompt-query]');
+    var state = { kind: '', band: '', q: '' };
+
+    /* Fold once, match many. Apostrophes are dropped on both sides so "whats"
+       finds "What's", and the whole card is the haystack — the body, the kind
+       and "Opens at 18" — because someone hunting for the letter prompts will
+       type "letter" as readily as they will click the pill. */
+    var fold = function (s) {
+      return s.toLowerCase().replace(/[‘’']/g, '').replace(/\s+/g, ' ').trim();
+    };
+    var haystack = cards.map(function (card) { return fold(card.textContent); });
+
+    /* role="status" speaks every change it sees, so a count written on each
+       keystroke narrates the whole word being typed. Write it once, after. */
+    var pending = null;
+    function say(shown) {
+      if (!count) return;
+      var text = (state.kind || state.band || state.q)
+        ? shown + (shown === 1 ? ' prompt' : ' prompts')
+        : '';
+      clearTimeout(pending);
+      pending = setTimeout(function () { count.textContent = text; }, 250);
+    }
 
     function apply() {
+      var terms = state.q ? fold(state.q).split(' ') : [];
       var shown = 0;
-      cards.forEach(function (card) {
-        var okKind = !state.kind || card.getAttribute('data-kind') === state.kind;
-        var okBand = !state.band || card.getAttribute('data-bands').split(' ').indexOf(state.band) !== -1;
-        card.hidden = !(okKind && okBand);
-        if (!card.hidden) shown++;
+      cards.forEach(function (card, i) {
+        var ok =
+          (!state.kind || card.getAttribute('data-kind') === state.kind) &&
+          (!state.band || card.getAttribute('data-bands').split(' ').indexOf(state.band) !== -1) &&
+          terms.every(function (t) { return haystack[i].indexOf(t) !== -1; });
+        card.hidden = !ok;
+        if (ok) shown++;
       });
-      if (count) {
-        count.textContent = (state.kind || state.band)
-          ? 'Showing ' + shown + ' of ' + cards.length + ' prompts.'
-          : 'Showing all ' + cards.length + ' prompts.';
-      }
+      if (empty) empty.hidden = shown !== 0;
+      say(shown);
     }
 
     $$('[data-filter]').forEach(function (btn) {
@@ -510,13 +538,20 @@
       });
     });
 
+    if (query) query.addEventListener('input', function () {
+      state.q = query.value;
+      apply();
+    });
+
     var reset = $('[data-prompt-reset]');
     if (reset) reset.addEventListener('click', function () {
-      state = { kind: '', band: '' };
+      state = { kind: '', band: '', q: '' };
+      if (query) query.value = '';
       $$('[data-filter]').forEach(function (b) {
         b.setAttribute('aria-pressed', String(b.getAttribute('data-value') === ''));
       });
       apply();
+      if (query) query.focus();
     });
 
     /* A deep link into a filtered library must still land on its prompt. */
