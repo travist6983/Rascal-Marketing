@@ -10,10 +10,15 @@ og: /assets/og/compare-qeepsake.png
      a laptop. Under 900px .cols collapses and the two read in DOM order, which
      is the order they were written in. -->
 <section class="section section--tight">
-  <div class="wrap">
+  <!-- The eyebrow sits above the grid, not inside the first column. Inside it,
+       it pushes the H1 down a row that the second column does not have, and the
+       two headings start on different lines; above it, both columns open on the
+       same row and the headings align with no spacer. It labels the page rather
+       than the H1 anyway. -->
+  <div class="wrap stack gap-14">
+    <p class="eyebrow">Compared</p>
     <div class="cols cols--2 cols--top">
       <div class="stack gap-14 measure">
-        <p class="eyebrow">Compared</p>
         <h1 class="t-hero">{{PRODUCT}} vs Qeepsake</h1>
         <p class="lede">
           If you're weighing a Qeepsake alternative, start with what Qeepsake gets right. Prompts arrive

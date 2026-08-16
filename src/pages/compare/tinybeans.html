@@ -4,32 +4,30 @@ description: Tinybeans is a shared family album with ads on the free tier. {{PRO
 og: /assets/og/compare-tinybeans.png
 -->
 
+<!-- Same shape as /compare/qeepsake: the short version rides in the hero's
+     second column instead of a band below it, and the eyebrow sits above the
+     grid so both columns open on the same row and the two headings align.
+     Under 900px .cols collapses and the two read in DOM order. -->
 <section class="section section--tight">
-  <div class="wrap">
-    <div class="stack gap-14 measure">
-      <p class="eyebrow">The comparison</p>
-      <h1 class="t-hero">{{PRODUCT}} vs Tinybeans</h1>
-      <p class="lede">
-        Tinybeans is a shared family album with the grandparents in it. {{PRODUCT}} is a private
-        archive one parent builds to hand over. If you got here searching for a Tinybeans alternative,
-        the useful first fact is that the two apps are doing different jobs — which is what makes an
-        honest comparison possible.
-      </p>
-      <p class="t-body muted">
-        Every claim about Tinybeans on this page carries the date it was checked, in the page itself
-        and in its source. Nothing here is guessed.
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="section section--surface">
-  <div class="wrap">
-    <div class="cols cols--sidebar cols--top">
-      <div class="stack gap-12">
-        <h2 class="t-section">The short version</h2>
+  <div class="wrap stack gap-14">
+    <p class="eyebrow">The comparison</p>
+    <div class="cols cols--2 cols--top">
+      <div class="stack gap-14 measure">
+        <h1 class="t-hero">{{PRODUCT}} vs Tinybeans</h1>
+        <p class="lede">
+          Tinybeans is a shared family album with the grandparents in it. {{PRODUCT}} is a private
+          archive one parent builds to hand over. If you got here searching for a Tinybeans alternative,
+          the useful first fact is that the two apps are doing different jobs — which is what makes an
+          honest comparison possible.
+        </p>
+        <p class="t-body muted">
+          Every claim about Tinybeans on this page carries the date it was checked, in the page itself
+          and in its source. Nothing here is guessed.
+        </p>
       </div>
+
       <div class="stack gap-14">
+        <h2 class="t-section">The short version</h2>
         <p class="t-body muted">
           Tinybeans is a shared album for the extended family. You post photos of your kid;
           grandparents, aunts and uncles follow along and comment. It's built for an audience that
@@ -54,7 +52,9 @@ og: /assets/og/compare-tinybeans.png
   </div>
 </section>
 
-<section class="section">
+<!-- section--rule, not the default: the tinted band that used to sit here was
+     what separated the hero from the table, and both are canvas without it. -->
+<section class="section section--rule">
   <div class="wrap stack gap-24">
     <div class="stack gap-14 measure">
       <h2 class="t-section">What a Tinybeans alternative needs to get right</h2>
