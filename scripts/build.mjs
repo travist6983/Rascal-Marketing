@@ -242,7 +242,7 @@ for (const file of pages) {
   const GROUPS = [
     ['Product', ['/', '/how-it-works', '/prompts', '/pricing', '/promise', '/faq', '/waitlist']],
     ['Comparisons', ['/compare/tinybeans', '/compare/qeepsake', '/compare/camera-roll']],
-    ['Blog', ['/blog', '/blog/the-photo-survives', '/blog/what-to-write-in-a-baby-book',
+    ['Blog', ['/blog', '/blog/the-photo-survives', '/blog/what-to-write-in-a-keepsake-book',
       '/blog/streaks-are-a-bad-idea', '/blog/record-your-kids-voice', '/blog/an-archive-they-can-inherit']],
     ['Small print', ['/privacy', '/terms']]
   ];

@@ -113,7 +113,7 @@ export const PROMPTS = [
   { kind: 'ACTIVITY', cadence: 'daily', pre: 'Never ', verb: 'let go', post: ' of the hug first today. Let them be the one to pull away.' },
   { kind: 'ACTIVITY', cadence: 'daily', pre: '', verb: 'Get', post: ' on the floor for ten minutes. That’s the whole mission.' },
   { kind: 'ACTIVITY', cadence: 'daily', pre: '', verb: 'Carry', post: ' them when they ask, even though they can walk fine.' },
-  { kind: 'ACTIVITY', cadence: 'daily', pre: '', verb: 'Use', post: ' their baby nickname out loud today, while they still answer to it.' },
+  { kind: 'ACTIVITY', cadence: 'daily', pre: '', verb: 'Use', post: ' their oldest nickname out loud today, while they still answer to it.' },
   { kind: 'ACTIVITY', cadence: 'daily', pre: '', verb: 'Let', post: ' them help with something, even though it triples the time.' },
   { kind: 'ACTIVITY', cadence: 'daily', pre: 'Don’t ', verb: 'rush', post: ' lights-out tonight. Stay an extra ten minutes.' },
   { kind: 'ACTIVITY', cadence: 'daily', pre: '', verb: 'Say yes', post: ' to the next thing you’d normally say no to.' },
