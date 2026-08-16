@@ -4,47 +4,54 @@ description: Qeepsake sends prompts by text and sells printed books. {{PRODUCT}}
 og: /assets/og/compare-qeepsake.png
 -->
 
+<!-- The short version rides in the hero's second column rather than as its own
+     band below it: the hero copy is one measure wide, so a full-width section
+     under it left half the fold empty and pushed the summary below the fold on
+     a laptop. Under 900px .cols collapses and the two read in DOM order, which
+     is the order they were written in. -->
 <section class="section section--tight">
   <div class="wrap">
-    <div class="stack gap-14 measure">
-      <p class="eyebrow">Compared</p>
-      <h1 class="t-hero">{{PRODUCT}} vs Qeepsake</h1>
-      <p class="lede">
-        If you're weighing a Qeepsake alternative, start with what Qeepsake gets right. Prompts arrive
-        by text message, and a question you can answer without opening an app is the lowest-friction
-        version of this idea there is. You reply to a text and you're done. That's a real advantage,
-        and a comparison that won't concede it isn't one.
-      </p>
-      <!-- verified 2026-08-15: Tinybeans announced its acquisition of Qeepsake on
-           Nov 3 2025 and completed it Nov 14 2025. Source linked below:
-           https://www.nasdaq.com/press-release/tinybeans-acquires-qeepsake-creating-leading-privacy-first-family-memory-platform -->
-      <p class="t-body muted">
-        In November 2025, <a href="https://www.nasdaq.com/press-release/tinybeans-acquires-qeepsake-creating-leading-privacy-first-family-memory-platform" rel="noopener">Tinybeans
-        acquired Qeepsake</a>.
-        <a href="/compare/tinybeans">{{PRODUCT}} vs Tinybeans is its own page.</a>
-      </p>
+    <div class="cols cols--2 cols--top">
+      <div class="stack gap-14 measure">
+        <p class="eyebrow">Compared</p>
+        <h1 class="t-hero">{{PRODUCT}} vs Qeepsake</h1>
+        <p class="lede">
+          If you're weighing a Qeepsake alternative, start with what Qeepsake gets right. Prompts arrive
+          by text message, and a question you can answer without opening an app is the lowest-friction
+          version of this idea there is. You reply to a text and you're done. That's a real advantage,
+          and a comparison that won't concede it isn't one.
+        </p>
+        <!-- verified 2026-08-15: Tinybeans announced its acquisition of Qeepsake on
+             Nov 3 2025 and completed it Nov 14 2025. Source linked below:
+             https://www.nasdaq.com/press-release/tinybeans-acquires-qeepsake-creating-leading-privacy-first-family-memory-platform -->
+        <p class="t-body muted">
+          In November 2025, <a href="https://www.nasdaq.com/press-release/tinybeans-acquires-qeepsake-creating-leading-privacy-first-family-memory-platform" rel="noopener">Tinybeans
+          acquired Qeepsake</a>.
+          <a href="/compare/tinybeans">{{PRODUCT}} vs Tinybeans is its own page.</a>
+        </p>
+      </div>
+
+      <div class="stack gap-14">
+        <h2 class="t-section">The short version</h2>
+        <p class="t-body muted">
+          Both apps are built on the same observation: a parent who is asked a question writes things
+          down, and a parent who has to think of it themselves mostly doesn't. Past that, the two real
+          differences are where the prompt arrives and where the archive ends up.
+        </p>
+        <p class="t-body muted">
+          Qeepsake sends the question by text and points your answers at a printed book. {{PRODUCT}}
+          asks in an app and points everything at a searchable iPhone archive built to be handed over —
+          the question filed with the moment, so either of you can find it again. Neither is the wrong
+          choice. They're different destinations.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section section--surface">
-  <div class="wrap wrap--mid stack gap-14">
-    <h2 class="t-section">The short version</h2>
-    <p class="t-body muted measure">
-      Both apps are built on the same observation: a parent who is asked a question writes things
-      down, and a parent who has to think of it themselves mostly doesn't. Past that, the two real
-      differences are where the prompt arrives and where the archive ends up.
-    </p>
-    <p class="t-body muted measure">
-      Qeepsake sends the question by text and points your answers at a printed book. {{PRODUCT}}
-      asks in an app and points everything at a searchable iPhone archive built to be handed over —
-      the question filed with the moment, so either of you can find it again. Neither is the wrong
-      choice. They're different destinations.
-    </p>
-  </div>
-</section>
-
-<section class="section">
+<!-- section--rule, not the default: the tinted band that used to sit here was
+     what separated the hero from the table, and both are canvas without it. -->
+<section class="section section--rule">
   <div class="wrap stack gap-20">
     <div class="stack gap-12">
       <h2 class="t-section">Side by side</h2>
@@ -204,9 +211,6 @@ og: /assets/og/compare-qeepsake.png
         <ul class="check-list">
           <li><span class="tick" aria-hidden="true">✓</span><span>You want a printed book as the primary output, and you'd rather never open an app.</span></li>
           <li><span class="tick" aria-hidden="true">✓</span><span>You want prompts by text, with nothing to install at all.</span></li>
-          <!-- verified 2026-08-15: Qeepsake runs over SMS with iOS and Android apps;
-               {{PRODUCT}} is iPhone only. -->
-          <li><span class="tick" aria-hidden="true">✓</span><span>You or your partner are on Android today.</span></li>
         </ul>
         <p class="t-body muted">
           Those are real cases, and Qeepsake serves them well. If they're yours, use Qeepsake.
@@ -226,24 +230,9 @@ og: /assets/og/compare-qeepsake.png
   </div>
 </section>
 
+<!-- The CTA carries the surface tone because it now follows the choose-if cards
+     directly. Two plain .section blocks in a row read as one long block. -->
 <section class="section section--surface">
-  <div class="wrap wrap--mid stack gap-14">
-    <h2 class="t-section">Where {{PRODUCT}} falls short as a Qeepsake alternative</h2>
-    <p class="t-body muted measure">
-      As of {{VERIFIED_ON}}: there is no printed book here — print output is planned, not built,
-      and Qeepsake's is core and shipping. {{PRODUCT}} is iPhone only, while Qeepsake works over
-      SMS, iOS and Android. Qeepsake has years of users and reviews; {{PRODUCT}} has neither yet,
-      and won't invent any. And it's one developer, which is why the full, offline export exists —
-      so choosing this doesn't have to be a permanent decision.
-    </p>
-    <p class="t-body muted measure">
-      If any of that is disqualifying, that's a fair reading, and Qeepsake is the more proven
-      product today.
-    </p>
-  </div>
-</section>
-
-<section class="section">
   <div class="wrap wrap--narrow center stack gap-20">
     <h2 class="t-section">Try the question before the app</h2>
     <p class="lede" style="max-width:none">
