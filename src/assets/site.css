@@ -609,10 +609,11 @@ a.card:hover, .card--tap:hover {
 .filter:active { transform: scale(0.98); }
 .filter[aria-pressed="true"] { background: var(--terracotta); color: var(--canvas); border-color: var(--terracotta); }
 
-/* Three shapes. The [hidden] rule must out-specify .stack's display:flex —
-   the attribute alone loses to any author display and all three panels show. */
+/* Three shapes. The one justified !important in this file: a hidden panel must
+   stay hidden against .stack's display:flex AND the did-panel's inline
+   display:flex — without it, switching pills leaves the old panel showing. */
 .shapes__out { min-height: 232px; }
-[data-shape-panel][hidden] { display: none; }
+[data-shape-panel][hidden] { display: none !important; }
 .ring { width: 30px; height: 30px; flex: none; }
 
 /* Archive — copy scrolls, the phone stays put */
