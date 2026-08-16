@@ -372,8 +372,14 @@ email. No competitor publishes theirs — Qeepsake meters them by tier.
 > All 133 of them, free to read, free to use, and free inside the app forever. Take them and use
 > them in a notebook if you'd rather — that's fine. The app just remembers so you don't have to.
 
-**Filters:** by kind (question · photo · voice · video · activity · letter · measurement) and by age
-band. **Each prompt gets its own anchor** (`/prompts#p-0042`).
+**Filters:** by kind (question · photo · voice · video · activity · letter · measurement), by age
+band, and a search field over the bodies — the three AND together. No counts on the pills; one live
+count of what is actually showing. **Each prompt gets its own anchor** (`/prompts#p-0042`).
+
+**Order:** woven across kinds, not grouped by them. The seed is grouped, and rendering it that way
+opened the page on thirty questions in a row — the library looked like a question library until you
+scrolled past ten rows. Within a kind the seed's order is kept, so a filtered view still reads in
+the authored order.
 
 **Hard constraint — build requirement, not a nicety.** Library bodies store pronoun tokens:
 `{they}`, `{them}`, `{their}`, `{theirs}`, `{themself}`, the agreement compounds `{they_are}`
@@ -614,7 +620,7 @@ pages.
 1. **"The photo survives. The story doesn't."** — *how to remember childhood details*. The core
    essay: why context decays faster than images, what a prompt actually does, why the question is
    the artifact.
-2. **"What to write in a baby book when you have no idea what to write"** — *baby book prompt
+2. **"What to write in a keepsake book when you have no idea what to write"** — *keepsake book prompt
    ideas*. High-volume, low-difficulty, obvious intent. Give away 40 real prompts as a usable list.
    Genuinely useful standalone; product mentioned once, at the end.
 3. **"Streaks are a bad idea in a parenting app"** — *parenting app guilt*. The strongest thing you
@@ -667,3 +673,8 @@ wrong register for this product regardless.
   and that is correct.** Invented quotes on a trust-first product is the one unrecoverable mistake.
 - Stock photography of children, on any page, ever
 - A literal `{their}` anywhere the token renderer should have run
+- **The word "baby", anywhere, in any form.** The subject is a child, and "child" or
+  "childhood" is the term — including in compounds ("childhood journal app", "childhood
+  memory app"), in prose about the paper object ("keepsake book"), in prompt bodies, in
+  routes and slugs, and in the SEO targets in `seo-plan.md`. Several real search terms
+  use the word; they are deliberately forgone, not overlooked.

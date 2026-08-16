@@ -57,18 +57,18 @@ Intent: **I** informational · **C** commercial · **T** transactional · **N** 
 |---|---|---|---|---|---|
 | 1 | tinybeans alternative | Moderate | **High** | C | `/compare/tinybeans` |
 | 2 | qeepsake alternative | Easy | **High** | C | `/compare/qeepsake` |
-| 3 | baby book prompt ideas | Easy | **High** | I | Blog 2 |
-| 4 | ad free baby memory app | Easy | **High** | C | `/promise` |
+| 3 | keepsake book prompt ideas | Easy | **High** | I | Blog 2 |
+| 4 | ad free childhood memory app | Easy | **High** | C | `/promise` |
 | 5 | childhood memory app no ads | Easy | **High** | C | `/promise` |
 | 6 | questions to ask your 4 year old | Easy | **High** | I | `/prompts` |
 | 7 | record child's voice memories | Easy | **High** | I | Blog 4 |
 | 8 | daily prompt journal for parents | Easy | **High** | C | `/how-it-works` |
-| 9 | private baby journal app | Moderate | **High** | C | `/` |
+| 9 | private childhood journal app | Moderate | **High** | C | `/` |
 | 10 | app that asks questions about your child | Easy | **High** | C | `/how-it-works` |
 | 11 | daily prompts to remember your child's childhood | Easy | **High** | I | `/prompts` |
 | 12 | journal prompts for toddlers parents | Easy | Medium | I | `/prompts` |
 | 13 | how to remember things your kid says | Easy | Medium | I | `/prompts` |
-| 14 | best baby journal app | Hard | Medium | C | `/compare/tinybeans` |
+| 14 | best childhood journal app | Hard | Medium | C | `/compare/tinybeans` |
 | 15 | childhood time capsule app | Easy | Medium | C | Blog 5 |
 | 16 | digital memory box for child | Easy | Medium | C | Blog 5 |
 | 17 | how to remember childhood details | Easy | Medium | I | Blog 1 |
@@ -82,8 +82,8 @@ Intent: **I** informational · **C** commercial · **T** transactional · **N** 
 | 25 | monthly milestone questions toddler | Easy | Medium | I | `/prompts` |
 | 26 | letter to my child to open at 18 | Easy | Medium | I | `/how-it-works` |
 | 27 | best family journal app | Hard | Low | C | `/` |
-| 28 | export baby journal data | Easy | Low | I | `/promise` |
-| 29 | what to write in a baby book | Moderate | Low | I | Blog 2 |
+| 28 | export childhood journal data | Easy | Low | I | `/promise` |
+| 29 | what to write in a keepsake book | Moderate | Low | I | Blog 2 |
 | 30 | app to save kids drawings and photos | Easy | Low | C | `/how-it-works` |
 
 **Where the opportunity concentrates:** rows 1, 2, 4, 5, 20, 24 — commercial-intent searches by
@@ -94,7 +94,7 @@ honestly answers the question.
 **The `/prompts` cluster is rows 6, 11, 12, 13, 25.** Individually small, collectively the largest
 addressable surface here, and none of them are contested by anyone with a budget.
 
-**Rows 14 and 27 are traps.** "Best baby journal app" is owned by well-resourced comparison sites
+**Rows 14 and 27 are traps.** "Best childhood journal app" is owned by well-resourced comparison sites
 (ourtifacts.com, nappi.app and similar) publishing dozens of posts on this exact cluster. Do not
 build a strategy on outranking them in year one. Target the term; do not depend on it.
 
@@ -113,11 +113,11 @@ for an ongoing childhood, not the first six months, and ranking would bring traf
 
 | Page | Primary keyword | Title tag (≤60) | Notes |
 |---|---|---|---|
-| `/` | private baby journal app | `{{PRODUCT}} — a daily prompt journal for your kid's childhood` | H1 stays the emotional line; keyword lives in title + first 100 words |
+| `/` | private childhood journal app | `{{PRODUCT}} — a daily prompt journal for your kid's childhood` | H1 stays the emotional line; keyword lives in title + first 100 words |
 | `/how-it-works` | daily prompt journal for parents | `How {{PRODUCT}} works — one prompt a day, saved with context` | Best `HowTo` schema candidate |
 | `/prompts` | questions to ask your 4 year old | `Every question {{PRODUCT}} asks — 133 daily prompts` | **Pillar. Highest long-tail surface on the site** |
 | `/pricing` | *(brand + pricing)* | `{{PRODUCT}} pricing — free forever tier, {{PRICE_YEAR}}/year` | Low organic value, high conversion value |
-| `/promise` | ad free baby memory app | `Our promise — what happens to your archive \| {{PRODUCT}}` | Natural backlink target |
+| `/promise` | ad free childhood memory app | `Our promise — what happens to your archive \| {{PRODUCT}}` | Natural backlink target |
 | `/compare/tinybeans` | tinybeans alternative | `{{PRODUCT}} vs Tinybeans — a private, ad-free alternative` | Highest-value page on the site |
 | `/compare/qeepsake` | qeepsake alternative | `{{PRODUCT}} vs Qeepsake — prompted journaling compared` | |
 | `/compare/camera-roll` | how to organize photos of your kids | `Why not just use your camera roll? \| {{PRODUCT}}` | Highest-converting, moderate traffic |
@@ -165,7 +165,7 @@ well written. It fails silently and publicly. The table already exists in
 | Voice/audio memory capture | Almost uncovered by competitors, who are photo-first | Blog 4 | **High** | Half day |
 | What happens to photos after you cancel | High-anxiety query; you have a genuinely better answer than the category | Blog 5 + `/promise` | **High** | Moderate |
 | Data portability / export | Competitors are quiet because their answers are worse | `/promise` | Medium | Quick |
-| Older-kid entry point ("my kid is 7") | Category is dominated by baby/newborn framing; 4–12 is underserved | FAQ + blog | Medium | Quick |
+| Older-kid entry point ("my kid is 7") | Category is dominated by infant-and-newborn framing; 4–12 is underserved | FAQ + blog | Medium | Quick |
 | Handoff / inheritance framing | Nobody owns "an archive your child inherits." Category-defining if it lands | Blog 5 | Medium | Multi-day |
 | Age-banded `/prompts` sub-pages | Splits the pillar into a cluster | Sub-pages | Medium | Moderate |
 | Dad-specific angle | Category copy is overwhelmingly mother-directed | Blog angle | Low | Half day |

@@ -42,7 +42,7 @@ const CARDS = [
   ['waitlist.png', 'The waitlist', "Get tomorrow's prompt.", "tomorrow's"],
   ['blog.png', 'The blog', 'Notes on keeping a childhood.', 'childhood'],
   ['blog-the-photo-survives.png', 'Memory', "The photo survives. The story doesn't.", 'story'],
-  ['blog-what-to-write-in-a-baby-book.png', 'Prompts', 'What to write in a baby book when you have no idea what to write.', 'baby book'],
+  ['blog-what-to-write-in-a-keepsake-book.png', 'Prompts', 'What to write in a keepsake book when you have no idea what to write.', 'keepsake book'],
   ['blog-streaks-are-a-bad-idea.png', 'Design', 'Streaks are a bad idea in a parenting app.', 'bad idea'],
   ['blog-record-your-kids-voice.png', 'How-to', 'Record their voice before it changes.', 'voice'],
   ['blog-an-archive-they-can-inherit.png', 'Archives', 'An archive your kid can actually inherit.', 'inherit'],
