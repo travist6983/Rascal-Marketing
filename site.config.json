@@ -33,6 +33,21 @@
     "That is the whole revert -- both strings live here and nowhere else."
   ],
 
+  "_social_note": [
+    "Placeholders on purpose. No account exists yet, so each link points at the",
+    "bare platform rather than a handle we'd have to invent. Swap in the real",
+    "profile URLs here and the footer follows -- they appear nowhere else in the",
+    "markup. Until they are real, they stay out of the Organization sameAs in",
+    "layout.html: a footer link a reader can shrug at is not the same as telling",
+    "a crawler, in machine-readable terms, that instagram.com IS this product."
+  ],
+
+  "SOCIAL_INSTAGRAM": "https://instagram.com",
+  "SOCIAL_FACEBOOK": "https://facebook.com",
+  "SOCIAL_X": "https://x.com",
+  "SOCIAL_TIKTOK": "https://tiktok.com",
+  "SOCIAL_PINTEREST": "https://pinterest.com",
+
   "SUPPORT_EMAIL": "hello@{{DOMAIN}}",
   "PROMPT_COUNT": "133",
   "VERIFIED_ON": "August 15, 2026",
