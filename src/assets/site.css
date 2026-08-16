@@ -561,9 +561,20 @@ a.card:hover, .card--tap:hover {
    lines in that leftover gutter and stood a head taller than the image; beside
    the phone the H1 is sized to its column instead, five even lines inside the
    frame's height. Below this the hero stacks, where the wide curve is right. */
+/* The curve is in rem, so it scales with the reader's browser font size — and
+   at Chrome's "Large" the same headline set nine lines and stood a head taller
+   than the phone again, the exact shape this breakpoint exists to prevent. So
+   the words column is a query container and the size is capped against its own
+   width. The curve peaks at 10.28% of that column (52px in the 506px column at
+   1000px wide), so 10.4cqi clears every default-size width by a hair and never
+   bites at 16px root — it only takes over once the type would outgrow the
+   column it lives in. Declared twice on purpose: where cq units are missing
+   the second rule drops whole and the plain curve above still lands. */
 @media (min-width: 1000px) {
   .hero__grid { grid-template-columns: minmax(0, 1fr) auto; }
+  .hero__grid > .stack { container-type: inline-size; }
   .hero h1 { font-size: clamp(3.25rem, 0.75rem + 4vw, 3.75rem); }
+  .hero h1 { font-size: min(clamp(3.25rem, 0.75rem + 4vw, 3.75rem), 10.4cqi); }
 }
 .hero__badge {
   display: inline-flex; align-items: center; gap: 9px; align-self: flex-start;
