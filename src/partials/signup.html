@@ -1,0 +1,26 @@
+<!-- The waitlist form. Used inline on / and as the whole of /waitlist.
+
+     Two consent fields, not one flag — decisions.md D3a. The daily prompt is
+     the thing being asked for and the launch note is a separate promise, so
+     they are separate booleans on the wire from the first row written. One flag
+     untangled later, under a GDPR or CCPA request, is the cost this avoids, and
+     it costs one column now.
+
+     No endpoint is wired yet. Until SIGNUP.ENDPOINT is set in site.js the form
+     says plainly that nothing was stored rather than faking a success — see the
+     note there. -->
+<form class="stack gap-12" data-signup novalidate>
+  <div class="form">
+    <label class="vh" for="wl-email">Email address</label>
+    <input class="field" id="wl-email" name="email" type="email"
+           inputmode="email" autocomplete="email" placeholder="you@email.com"
+           aria-invalid="false" aria-describedby="wl-msg" required>
+    <button class="btn btn--primary" type="submit" data-signup-btn>{{CTA}}</button>
+  </div>
+
+  <input type="hidden" name="marketing_consent" value="true">
+  <input type="hidden" name="transactional_consent" value="true">
+
+  <p class="form__msg" id="wl-msg" role="status" data-signup-msg hidden></p>
+  <p class="form__fine">{{CTA_SUPPORT}} Unsubscribe in one click.</p>
+</form>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Nunito';src:url('fonts/nunito-var-latin.woff2') format('woff2');font-weight:200 1000;font-display:swap;}
+html{overflow-x:clip;}
+body{margin:0;background:#FDFAF4;color:#23253C;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+a{color:#9A431E;text-decoration:underline;text-decoration-color:#C05A2B;text-decoration-thickness:1px;text-underline-offset:3px;}
+a:hover{text-decoration-thickness:2px;text-decoration-color:#9A431E;}
+:focus-visible{outline:2px solid #5566D6;outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+</style>
+</helmet>
+
+<header data-screen-label="Header" style="position:sticky;top:0;z-index:50;background:#FDFAF4;border-bottom:1px solid #EDE5DA">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+    <a href="Dogear Home v2.dc.html" style="font:700 22px 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C;text-decoration:none">Dogear</a>
+    <nav style="display:flex;gap:22px;flex-wrap:wrap;margin-left:auto;align-items:center">
+      <a href="Dogear Home v2.dc.html#engine" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">How it works</a>
+      <a href="Dogear Home v2.dc.html#promises" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">The promise</a>
+      <span style="font:600 15px system-ui;color:#23253C">Blog</span>
+      <a href="Dogear Home v2.dc.html#waitlist" style="background:#C05A2B;color:#FFFDF9;font:700 15px 'Nunito',system-ui;padding:10px 20px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:background 0.12s ease-out" style-hover="background:#9A431E">Get tomorrow's prompt</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<sc-if value="{{ isIndex }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Blog index" style="max-width:900px;margin:0 auto;padding:72px 24px 110px;display:flex;flex-direction:column;gap:48px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:14px">
+      <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#B4ADA3">Blog</div>
+      <h1 style="margin:0;font:700 clamp(2.125rem,1.212rem + 3.717vw,4rem)/1.1 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">Notes on keeping a childhood</h1>
+      <p style="margin:0;font:400 17px/1.6 system-ui;color:#6E6A63;max-width:560px">Essays on memory, archives, and why most parenting apps get the psychology backwards. Useful whether or not you ever use Dogear.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <a href="#" onClick="{{ openFeatured }}" style="text-decoration:none;color:inherit">
+        <article data-reveal="" style="background:{{ featured.soft }};border:1px solid {{ featured.borderC }};border-radius:24px;padding:36px;display:flex;flex-direction:column;gap:14px;transition:box-shadow 0.12s ease-out,transform 0.12s ease-out;cursor:pointer" style-hover="box-shadow:0 14px 36px rgba(35,37,60,0.10);transform:translateY(-2px)">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <span style="font:600 12px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ featured.ink }};background:{{ featured.chipBg }};padding:4px 10px;border-radius:999px">{{ featured.tag }}</span>
+            <span style="font:400 13px system-ui;color:#6E6A63">{{ featured.date }} · {{ featured.mins }} min read</span>
+          </div>
+          <h2 style="margin:0;font:700 clamp(1.5rem,1.2rem + 1.3vw,2.25rem)/1.15 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">{{ featured.title }}</h2>
+          <p style="margin:0;font:400 17px/1.6 system-ui;color:#6E6A63;max-width:620px">{{ featured.dek }}</p>
+          <span style="font:600 15px system-ui;color:#9A431E">Read the essay →</span>
+        </article>
+      </a>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+        <sc-for list="{{ restPosts }}" as="p" hint-placeholder-count="4">
+          <a href="#" onClick="{{ p.open }}" style="text-decoration:none;color:inherit;display:flex">
+            <article data-reveal="" data-delay="{{ p.d }}" style="flex:1;background:#FFFDF9;border:1px solid #EDE5DA;border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;transition:box-shadow 0.12s ease-out,transform 0.12s ease-out;cursor:pointer" style-hover="box-shadow:0 3px 10px rgba(35,37,60,0.07);transform:translateY(-1px)">
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="font:600 12px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ p.ink }};background:{{ p.chipBg }};padding:4px 10px;border-radius:999px">{{ p.tag }}</span>
+                <span style="font:400 13px system-ui;color:#6E6A63">{{ p.mins }} min</span>
+              </div>
+              <h2 style="margin:0;font:700 21px/1.25 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">{{ p.title }}</h2>
+              <p style="margin:0;font:400 15px/1.55 system-ui;color:#6E6A63">{{ p.dek }}</p>
+              <span style="margin-top:auto;font:600 14px system-ui;color:#9A431E">Read →</span>
+            </article>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+  <article data-screen-label="Blog post" style="padding:64px 24px 110px">
+    <div style="max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:34px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <button onClick="{{ backToIndex }}" style="align-self:flex-start;cursor:pointer;background:none;border:none;padding:6px 0;font:400 15px system-ui;color:#6E6A63;text-decoration:underline;text-underline-offset:3px;transition:color 0.12s ease-out" style-hover="color:#23253C">← All essays</button>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <span style="font:600 12px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ post.ink }};background:{{ post.chipBg }};padding:4px 10px;border-radius:999px">{{ post.tag }}</span>
+          <span style="font:400 13px system-ui;color:#6E6A63">{{ post.date }} · {{ post.mins }} min read</span>
+        </div>
+        <h1 style="margin:0;font:700 clamp(1.9rem,1.3rem + 2.4vw,3rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">{{ post.title }}</h1>
+        <p style="margin:0;font:400 19px/1.55 system-ui;color:#6E6A63">{{ post.dek }}</p>
+      </div>
+      <div style="height:2px;background:{{ post.rule }};border-radius:999px"></div>
+      <sc-for list="{{ post.blocks }}" as="b" hint-placeholder-count="6">
+        <sc-if value="{{ b.isH }}" hint-placeholder-val="{{ false }}"><h2 style="margin:14px 0 -14px;font:700 24px/1.25 'Nunito',ui-rounded,system-ui,sans-serif">{{ b.t }}</h2></sc-if>
+        <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}"><p style="margin:0;font:400 17px/1.75 system-ui;color:#23253C">{{ b.t }}</p></sc-if>
+        <sc-if value="{{ b.isQ }}" hint-placeholder-val="{{ false }}"><blockquote style="margin:6px 0;font:italic 400 19px/1.55 system-ui;color:#6E6A63;border-left:2px solid {{ post.rule }};padding-left:16px">{{ b.t }}</blockquote></sc-if>
+        <sc-if value="{{ b.isCard }}" hint-placeholder-val="{{ false }}">
+          <div style="background:{{ post.soft }};border:1px solid {{ post.borderC }};border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:9px">
+            <span style="align-self:flex-start;font:600 11px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ post.ink }};background:{{ post.chipBg }};padding:3px 9px;border-radius:999px">{{ b.k }}</span>
+            <div style="font:400 18px/1.35 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C">{{ b.t }}</div>
+          </div>
+        </sc-if>
+      </sc-for>
+      <div style="height:1px;background:#EDE5DA"></div>
+      <div style="background:#FDFAF4;border:1px solid #EDE5DA;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px">
+        <div style="font:700 19px 'Nunito',ui-rounded,system-ui,sans-serif">One question a day. A childhood you can find again.</div>
+        <p style="margin:0;font:400 15px/1.6 system-ui;color:#6E6A63">Dogear sends one prompt like these every morning, free, until the app opens. <a href="Dogear Home v2.dc.html#waitlist">Get tomorrow's prompt</a>.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#6E6A63">Keep reading</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+          <sc-for list="{{ related }}" as="r" hint-placeholder-count="2">
+            <a href="#" onClick="{{ r.open }}" style="text-decoration:none;color:inherit;display:flex">
+              <div style="flex:1;background:#FFFDF9;border:1px solid #EDE5DA;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:box-shadow 0.12s ease-out" style-hover="box-shadow:0 3px 10px rgba(35,37,60,0.07)">
+                <span style="font:600 11px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ r.ink }}">{{ r.tag }}</span>
+                <span style="font:700 16px/1.3 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C">{{ r.title }}</span>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </article>
+</sc-if>
+</main>
+
+<footer data-screen-label="Footer" style="border-top:1px solid #EDE5DA">
+  <div style="max-width:1200px;margin:0 auto;padding:36px 24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline">
+    <div style="font:400 14px system-ui;color:#6E6A63">Dogear — one question a day, a childhood you can find again.</div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="Dogear Home v2.dc.html#promises" style="font:400 13px system-ui;color:#6E6A63">The promise</a><a href="Dogear Home v2.dc.html#faq" style="font:400 13px system-ui;color:#6E6A63">FAQ</a><span style="font:400 13px ui-monospace,monospace;color:#B4ADA3">TODO: domain · privacy · terms</span></div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const P = (t) => ({ isP: true, t });
+const H = (t) => ({ isH: true, t });
+const Q = (t) => ({ isQ: true, t });
+const CARD = (k, t) => ({ isCard: true, k, t });
+const TONES = {
+  terracotta: { ink: '#9A431E', chipBg: 'rgba(192,90,43,0.12)', soft: '#FBEDE2', borderC: '#EDE5DA', rule: '#EBD8C8' },
+  periwinkle: { ink: '#3F4FB0', chipBg: 'rgba(85,102,214,0.12)', soft: '#E9EBFB', borderC: '#DADDF7', rule: '#C6CCF2' },
+  sage: { ink: '#4B7A4F', chipBg: '#DCE8DA', soft: '#E8F0E6', borderC: '#D8E4D5', rule: '#B7CDB3' }
+};
+const POSTS = [
+  { slug: 'photo-survives', tone: 'terracotta', tag: 'Memory', date: 'August 12, 2026', mins: 8,
+    title: 'The photo survives. The story doesn\u2019t.',
+    dek: 'Context decays faster than images. Why the question that made you take the photo is the artifact worth keeping \u2014 and what a prompt actually does.',
+    blocks: [
+      P('Open your camera roll and scroll back three years. You\u2019ll find a photo you cannot explain. A shoe on a windowsill. A drawing of what might be a horse. Your kid holding something up to the lens, delighted, about something. You took that photo on purpose. The purpose is gone.'),
+      P('This is the quiet failure of the modern childhood record. We are the most-photographed generation of parents in history and we are producing archives our own kids won\u2019t be able to read. The image survives perfectly \u2014 better than any generation\u2019s before it \u2014 and the reason evaporates within months.'),
+      H('Context decays faster than images'),
+      P('Memory researchers call it cue-dependent forgetting: the memory is often still in there, but the retrieval cue is gone. The photo was supposed to be the cue. But a photo of a half-eaten sandwich cues nothing, because the thing that mattered \u2014 he would only eat it if the crusts were cut into triangles, specifically triangles, and he checked \u2014 was never attached to it.'),
+      Q('The picture was never the memory. It was a pointer to the memory, and pointers rot.'),
+      P('Paper baby books solved this accidentally. The prompt was printed on the page: \u201cFirst word.\u201d \u201cWhat made them laugh.\u201d The answer was written under the question, and forty years later both are still there, together. Digital photography threw away the question and kept only the answer, a million times over.'),
+      H('What a prompt actually does'),
+      P('A prompt does two jobs. Before the moment, it directs attention \u2014 you notice their hands today because something asked you to. After the moment, it becomes the label the memory is filed under. It\u2019s both the assignment and the index card.'),
+      CARD('Photo', 'Photograph their hands. Just their hands.'),
+      P('Twenty years from now, that image with that sentence attached is not a random close-up. It\u2019s an answer to a question, dated, with an age on it. Searchable. \u201cWhat he was afraid of.\u201d \u201cThe word she wouldn\u2019t let us correct.\u201d You can find it, because the finding-word was saved with the thing.'),
+      P('That\u2019s the whole design argument: keep the question. Everything else \u2014 the app, the timeline, the search \u2014 is plumbing for that one decision.')
+    ] },
+  { slug: 'baby-book-prompts', tone: 'periwinkle', tag: 'Prompts', date: 'August 5, 2026', mins: 11,
+    title: 'What to write in a baby book when you have no idea what to write',
+    dek: 'The blank page is the enemy. Forty real prompts you can answer in under a minute \u2014 tonight, in whatever notebook or notes app you already have.',
+    blocks: [
+      P('Every baby book dies the same death. Pages one through six: birth weight, first foods, a hospital bracelet taped in. Page seven: blank. Page two hundred: blank. Not because you stopped caring \u2014 because \u201cwrite something meaningful\u201d is a terrible assignment, and that\u2019s the assignment a blank page gives you.'),
+      P('Questions fix this. You cannot write \u201ca meaningful memory\u201d on demand, but you can answer \u201cwhat do they call you?\u201d in fifteen seconds, and the answer turns out to be the meaningful memory. Here are forty that work. Use them anywhere \u2014 a notebook, your notes app, the back of a receipt. The tool doesn\u2019t matter. The question does.'),
+      H('What they say'),
+      CARD('Question', 'What word do they mispronounce that you don\u2019t want to correct?'),
+      P('Also: What did they say this week that you want to remember exactly? What do they call you \u2014 every version? How do they say goodbye? What\u2019s their word for the thing they love most? What question do they ask constantly right now? What did they whisper when they thought nobody heard?'),
+      H('What they do'),
+      P('What are they obsessed with right now? What are they pretending to be this week? What will they eat only if it\u2019s cut a specific way? What\u2019s the current bedtime negotiation tactic? What do they do with their hands when they concentrate? What made them laugh so hard they fell over? What are they afraid of \u2014 right now, this month?'),
+      H('Who they are, this exact month'),
+      P('Kids replace themselves every season and the old version leaves no forwarding address. What\u2019s changed about them in the last three months? What did they teach themself this month? What\u2019s something they can suddenly do that they couldn\u2019t do at their last birthday? Who is their best friend and what\u2019s the state of that alliance?'),
+      Q('Two sentences is plenty. The entry you actually write beats the essay you meant to write.'),
+      H('The ones you\u2019ll be gladdest you kept'),
+      P('Describe their laugh \u2014 actually describe it, the mechanics of it. Write down the story of the day they were born while you still remember the details. Write them a letter about exactly who they are right now; they won\u2019t be this person next year. And write what you\u2019d want them to know if you weren\u2019t around to say it.'),
+      P('Forty questions is a year of baby book if you answer one a week. If you\u2019d rather have one arrive every morning instead of keeping the list somewhere, that\u2019s the exact thing Dogear does \u2014 but the prompts are yours either way.')
+    ] },
+  { slug: 'streaks', tone: 'sage', tag: 'Design', date: 'July 28, 2026', mins: 7,
+    title: 'Streaks are a bad idea in a parenting app',
+    dek: 'The mechanic that works for language apps is quietly poisonous when the subject is your kid. Why we refused it, and what we built instead.',
+    blocks: [
+      P('Every retention playbook says the same thing: give them a streak. A number that grows daily, a flame icon, a little grief when it dies. It works \u2014 the data is unambiguous. We refused it anyway, and the reason is worth writing down, because it\u2019s really a claim about what kind of thing a childhood record is.'),
+      H('Streaks optimize the wrong variable'),
+      P('A streak measures consecutive compliance. It does not measure whether the entries are any good, whether they\u2019re honest, or whether you were present for the moment you were logging. It measures whether you opened the app. So people write \u201cgood day\u201d at 11:58pm to keep a number alive, and the archive fills with entries written for the counter, not for the kid.'),
+      Q('The day you break a streak is the day you delete the app.'),
+      P('And you will break it. A sick week, a work trip, a newborn sibling. The streak mechanic converts an ordinary hard week into evidence of failure, delivered by the app you installed out of love. That\u2019s not a motivation system. That\u2019s a guilt dispenser with good retention numbers.'),
+      H('Guilt is a churn machine wearing a retention costume'),
+      P('The parents most likely to break a streak are the parents having the hardest month \u2014 exactly the people a parenting app should be gentlest with. Punishing them is morally backwards and commercially stupid: shame doesn\u2019t re-engage, it uninstalls.'),
+      H('What we built instead'),
+      CARD('Activity', 'Get on the floor for ten minutes. That\u2019s the whole mission.'),
+      P('Skip a day and nothing happens. Skip a week and nothing happens. Missed prompts wait quietly for two weeks, then leave without comment. There\u2019s no counter, no badge, and nothing in the interface ever turns red because you were busy. A hundred entries a year with zero guilt beats three hundred entries written at a flame icon\u2019s gunpoint \u2014 because in twenty years, nobody inherits a streak.')
+    ] },
+  { slug: 'record-voice', tone: 'periwinkle', tag: 'How-to', date: 'July 21, 2026', mins: 9,
+    title: 'How to record your kid\u2019s voice before it changes',
+    dek: 'The voice goes first and nobody warns you. A practical guide: what to record, how to get them talking naturally, and how to keep the files findable.',
+    blocks: [
+      P('Ask any parent of a teenager what they wish they\u2019d kept and the answer is strangely consistent: the voice. Photos, they have thousands. But the specific sound of a four-year-old explaining something urgent \u2014 the pitch, the cadence, the words assembled slightly wrong \u2014 that\u2019s gone, and it went without a farewell. The voice doesn\u2019t change one day. It drifts, weekly, and the drift is invisible until it\u2019s finished.'),
+      H('What to record (not a performance)'),
+      P('The instinct is to record recitals: say your ABCs, sing the song. Resist it. Performances all sound the same. What you\u2019ll want later is the ordinary machinery of them talking:'),
+      CARD('Voice', 'Record them telling you a story. Any story. Don\u2019t correct the words they say wrong.'),
+      P('The mispronunciations are the point. Also worth keeping: them counting as high as they can go, an explanation of how something works according to them, the current joke they think is devastating, and two minutes of an ordinary dinner \u2014 don\u2019t announce it, just the room. That last one is the recording that will wreck you in fifteen years, in the good way.'),
+      H('How to get them talking'),
+      P('Don\u2019t say \u201csay something for the recording.\u201d Ask a question they have opinions about \u2014 which dinosaur would win, what the dog is thinking \u2014 and start recording before you ask. Kids under six mostly don\u2019t care about the phone if you don\u2019t make it an event. Over six, give them a job: \u201cexplain this to someone who\u2019s never seen it.\u201d'),
+      H('Keep it findable or lose it twice'),
+      P('A voice memo named \u201cNew Recording 47\u201d is as lost as a memory. Whatever you use, attach three things: the date, their age, and one sentence about what\u2019s on it. Better, save the question that prompted it \u2014 \u201ctelling the dinosaur bus story, age 4\u201d is searchable forever. If the recording is transcribed, the words themselves become searchable, which is how you find one sentence forty seconds into a clip you\u2019d never relisten to. That\u2019s the design Dogear uses: transcribed on the phone, filed with the prompt. But a labeled voice memo tonight beats a perfect system someday.')
+    ] },
+  { slug: 'inherit', tone: 'terracotta', tag: 'Archives', date: 'July 14, 2026', mins: 10,
+    title: 'A childhood archive your kid can actually inherit',
+    dek: 'Most digital memory boxes are leases, not archives. What survives twenty years, what doesn\u2019t, and the questions to ask any app holding your kid\u2019s childhood.',
+    blocks: [
+      P('Here\u2019s an uncomfortable exercise: whatever you\u2019re keeping your kid\u2019s childhood in right now \u2014 an app, a cloud album, a subscription service \u2014 imagine it in 2044. Your kid is grown. The company was acquired twice and sunset the product in 2031. What, exactly, do they inherit?'),
+      P('For most services the honest answer is: whatever you remembered to download before the shutdown email\u2019s deadline, in whatever format the export tool produced, if you still had a login. That\u2019s not an archive. That\u2019s a lease with sentimental stakes.'),
+      H('What twenty years actually filters out'),
+      P('Twenty years is longer than most startups, most file formats\u2019 fashionability, and several entire platforms. It is not longer than JPEG, MP4, MP3, or plain text \u2014 boring formats with billions of files in them survive because the world can\u2019t afford to lose them. So the first rule of an inheritable archive: the moment it leaves the app, it must be ordinary files in boring formats, organized by something a human understands. Folders by date qualifies. A proprietary backup blob does not.'),
+      Q('An export that needs a server isn\u2019t an archive. It\u2019s a hostage with visiting hours.'),
+      H('The index is the inheritance'),
+      P('A shoebox of ten thousand unlabeled photos and a hard drive of ten thousand unlabeled files are the same object at different temperatures. What makes an archive inheritable isn\u2019t storage \u2014 it\u2019s that a stranger can find something in it. Dates, ages, and above all context: what was asked, what was answered, why this photo exists. Text is the miracle format here. It\u2019s tiny, it\u2019s greppable, and it will open in anything, forever.'),
+      H('Questions to ask any app holding a childhood'),
+      P('Can I export everything, free, without support tickets? Is the export readable with no account and no internet \u2014 double-click a file, see the childhood? If I stop paying, is anything deleted, and what exactly? And is there a written answer to \u201cwhat happens when they turn eighteen?\u201d \u2014 because handoff is the entire point, and an app with no answer is telling you it never thought about the person all this was for.'),
+      P('We built Dogear\u2019s export to pass this interview: a zip of ordinary files in date folders, plus an index.html that opens in any browser, offline, forever. Free even if you stopped paying years ago. But whatever you use \u2014 make it pass. Someone specific inherits this, and they can\u2019t log in.')
+    ] }
+];
+
+class Component extends DCLogic {
+  state = { slug: null };
+  componentDidMount() {
+    this.rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fromHash = location.hash.replace('#', '');
+    if (POSTS.some(p => p.slug === fromHash)) this.setState({ slug: fromHash }, () => this.observe());
+    else setTimeout(() => this.observe(), 60);
+  }
+  observe() {
+    if (this.rm) return;
+    const reveals = document.querySelectorAll('[data-reveal]');
+    reveals.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity 0.28s ease-out, transform 0.28s ease-out'; el.style.transitionDelay = (el.dataset.delay || 0) + 'ms'; });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; io.unobserve(e.target); } }), { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+  }
+  go(slug) {
+    this.setState({ slug }, () => {
+      try { history.replaceState(null, '', slug ? '#' + slug : location.pathname.split('#')[0]); } catch (e) {}
+      document.documentElement.scrollTop = 0; document.body.scrollTop = 0;
+      setTimeout(() => this.observe(), 60);
+    });
+  }
+  renderVals() {
+    const decorate = p => ({ ...p, ...TONES[p.tone], open: e => { e.preventDefault(); this.go(p.slug); } });
+    const all = POSTS.map(decorate);
+    const current = all.find(p => p.slug === this.state.slug) || null;
+    const related = current ? all.filter(p => p.slug !== current.slug).slice(0, 2) : [];
+    return {
+      isIndex: !current, isPost: !!current,
+      featured: { ...all[0] },
+      openFeatured: e => { e.preventDefault(); this.go(all[0].slug); },
+      restPosts: all.slice(1).map((p, i) => ({ ...p, d: i * 60 })),
+      post: current || all[0],
+      related,
+      backToIndex: () => this.go(null)
+    };
+  }
+}
+</script>
+</body>
+</html>

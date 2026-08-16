@@ -5,6 +5,9 @@
   "description": "Landing page for Dogear — one prompt a day about your kid",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build.mjs",
+    "prompts": "node scripts/prompts.mjs",
+    "og": "node scripts/og.mjs",
     "serve": "node scripts/serve.mjs",
     "build:artifact": "node scripts/build-artifact.mjs",
     "check": "node scripts/check.mjs",

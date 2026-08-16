@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Nunito';src:url('fonts/nunito-var-latin.woff2') format('woff2');font-weight:200 1000;font-display:swap;}
+html{overflow-x:clip;}
+body{margin:0;background:#FDFAF4;color:#23253C;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+a{color:#9A431E;text-decoration:underline;text-decoration-color:#C05A2B;text-decoration-thickness:1px;text-underline-offset:3px;}
+a:hover{text-decoration-thickness:2px;text-decoration-color:#9A431E;}
+:focus-visible{outline:2px solid #5566D6;outline-offset:2px;}
+@keyframes wob{0%,100%{transform:scaleY(0.5)}50%{transform:scaleY(1)}}
+@keyframes marqL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marqR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes drift1{from{transform:translate(0,0)}to{transform:translate(26px,-18px)}}
+@keyframes drift2{from{transform:translate(0,0)}to{transform:translate(-22px,20px)}}
+@keyframes softpulse{0%,100%{opacity:0.55;transform:scale(1)}50%{opacity:1;transform:scale(1.35)}}
+@keyframes glowbreathe{0%,100%{opacity:0.5}50%{opacity:0.85}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+</style>
+</helmet>
+
+<header data-screen-label="Header" style="position:sticky;top:0;z-index:50;background:#FDFAF4;border-bottom:1px solid #EDE5DA">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+    <a href="#top" style="font:700 22px 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C;text-decoration:none">Dogear</a>
+    <nav style="display:flex;gap:22px;flex-wrap:wrap;margin-left:auto;align-items:center">
+      <a href="#engine" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">How it works</a>
+      <a href="#archive" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">The archive</a>
+      <a href="#promises" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">The promise</a>
+      <a href="#pricing" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">Pricing</a>
+      <a href="Dogear Blog.dc.html" style="font:400 15px system-ui;color:#6E6A63;text-decoration:none">Blog</a>
+      <a href="#waitlist" style="background:#C05A2B;color:#FFFDF9;font:700 15px 'Nunito',system-ui;padding:10px 20px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:background 0.12s ease-out" style-hover="background:#9A431E">Get tomorrow's prompt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section data-screen-label="1 Hero" style="position:relative;overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;top:-80px;right:8%;width:460px;height:460px;border-radius:999px;background:#FBEDE2;filter:blur(70px);opacity:0.8;animation:drift1 26s ease-in-out infinite alternate"></div>
+  <div aria-hidden="true" style="position:absolute;bottom:-120px;left:-60px;width:380px;height:380px;border-radius:999px;background:#E9EBFB;filter:blur(70px);opacity:0.7;animation:drift2 34s ease-in-out infinite alternate"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto;padding:84px 24px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div style="display:inline-flex;align-items:center;gap:9px;align-self:flex-start;background:#FFFDF9;border:1px solid #EDE5DA;border-radius:999px;padding:7px 14px"><span style="width:7px;height:7px;border-radius:999px;background:#C05A2B"></span><span style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#6E6A63">Free by email · iOS app soon</span></div>
+      <h1 style="margin:0;font:700 clamp(2.125rem,1rem + 4.6vw,4.75rem)/1.06 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C;letter-spacing:-0.01em;text-wrap:pretty">Your camera roll remembers what they looked like. Dogear remembers what they <em style="font-style:normal;color:#C05A2B">were</em> like.</h1>
+      <p style="margin:0;font:400 18px/1.6 system-ui;color:#6E6A63;max-width:540px">One question and one small mission a day. Answer it in fifteen seconds, or skip it — nothing keeps score. Every moment is filed with the prompt that caused it, so in 2040 you can search <em>"what he was afraid of"</em> and actually find something.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+        <a href="#waitlist" style="background:#C05A2B;color:#FFFDF9;font:700 20px 'Nunito',ui-rounded,system-ui,sans-serif;padding:17px 34px;border-radius:999px;text-decoration:none;box-shadow:0 10px 24px rgba(192,90,43,0.28);transition:background 0.12s ease-out,transform 0.12s ease-out" style-hover="background:#9A431E" style-active="transform:scale(0.98)">Get tomorrow's prompt</a>
+        <div style="font:400 14px system-ui;color:#6E6A63">One a day, by email, until Dogear opens. Free.</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center">
+      <div data-reveal="" style="background:#23253C;border-radius:52px;padding:11px;box-shadow:0 40px 90px rgba(35,37,60,0.22),0 4px 14px rgba(35,37,60,0.08)">
+        <img src="assets/screens/today-two-missions.png" alt="Dogear's Today tab: a video mission and a question stacked as tinted cards, with Capture it and Write it buttons" width="1206" height="2622" style="display:block;width:min(330px,72vw);height:auto;border-radius:42px" loading="eager" decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="1b Prompt marquee" aria-label="A sample of the 113 prompts" style="border-top:1px solid #EDE5DA;border-bottom:1px solid #EDE5DA;background:#FFFDF9;padding:28px 0;display:flex;flex-direction:column;gap:14px;overflow:hidden">
+  <div style="display:flex;width:max-content;gap:14px;animation:marqL 80s linear infinite" style-hover="animation-play-state:paused">
+    <sc-for list="{{ marqueeA2 }}" as="c" hint-placeholder-count="8">
+      <div style="width:290px;flex-shrink:0;background:{{ c.soft }};border:1px solid {{ c.border }};border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+        <span style="align-self:flex-start;font:600 10px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ c.ink }};background:{{ c.bg }};padding:3px 8px;border-radius:999px">{{ c.kind }}</span>
+        <div style="font:400 15px/1.35 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C">{{ c.body }}</div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display:flex;width:max-content;gap:14px;animation:marqR 96s linear infinite" style-hover="animation-play-state:paused">
+    <sc-for list="{{ marqueeB2 }}" as="c" hint-placeholder-count="8">
+      <div style="width:290px;flex-shrink:0;background:{{ c.soft }};border:1px solid {{ c.border }};border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+        <span style="align-self:flex-start;font:600 10px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ c.ink }};background:{{ c.bg }};padding:3px 8px;border-radius:999px">{{ c.kind }}</span>
+        <div style="font:400 15px/1.35 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C">{{ c.body }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="2 The problem" style="background:#23253C">
+  <div style="max-width:1200px;margin:0 auto;padding:110px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:center">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#B4ADA3">01 · The problem</div>
+      <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;color:#FDFAF4;text-wrap:pretty">Four thousand photos. Almost no context.</h2>
+      <p style="margin:0;font:400 18px/1.65 system-ui;color:#B4ADA3;max-width:460px">You know the ones. A blurry shot of a shoe. Him holding something up to the camera. A drawing you photographed because you couldn't keep it.</p>
+      <p style="margin:0;font:400 18px/1.65 system-ui;color:#B4ADA3;max-width:460px">In ten years you'll have all of those and no idea why you took them.</p>
+      <p style="margin:0;font:700 24px/1.4 'Nunito',ui-rounded,system-ui,sans-serif;color:#FDFAF4">The photo survives. The reason doesn't.</p>
+    </div>
+    <div id="mosaic" style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+        <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="15">
+          <div style="aspect-ratio:1;border-radius:12px;background:{{ t.bg }};display:flex;align-items:flex-end;padding:7px;opacity:{{ t.op }};transition:opacity 0.45s ease-out;box-shadow:{{ t.ring }}"><span style="font:400 9px ui-monospace,monospace;color:rgba(253,250,244,0.6)">{{ t.label }}</span></div>
+        </sc-for>
+      </div>
+      <div style="font:italic 400 15px/1.5 system-ui;color:#FDFAF4;border-left:2px solid #E28B5B;padding-left:12px;opacity:{{ mosaicQuoteOp }};transition:opacity 0.5s ease-out 0.2s">"Photograph their face mid-laugh. Burst mode. Take twenty, keep one." — the one that stays is the one with the question still attached.</div>
+    </div>
+  </div>
+</section>
+
+<section id="engine" data-screen-label="3 Prompt engine" style="position:relative;overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;top:26%;left:50%;width:660px;height:660px;margin-left:-330px;border-radius:999px;background:{{ topSoft }};filter:blur(90px);opacity:0.9;transition:background 0.6s ease-out"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:44px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px;max-width:680px;margin:0 auto;text-align:center;align-items:center">
+      <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#B4ADA3">02 · The prompt engine</div>
+      <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">The prompt is saved with the moment</h2>
+      <p style="margin:0;font:400 17px/1.6 system-ui;color:#6E6A63">This is the whole idea, and no other app does it. A picture of a half-eaten sandwich is nothing. A picture of a half-eaten sandwich filed under <em>"what will they eat only if it's cut a specific way"</em> is a story. There are <strong style="color:#23253C;font-variant-numeric:tabular-nums">{{ count }}</strong> of them. Here's the deck:</p>
+    </div>
+
+    <div onMouseEnter="{{ pause }}" onMouseLeave="{{ resume }}" onFocusCapture="{{ pause }}" onBlurCapture="{{ resume }}" style="display:flex;flex-direction:column;gap:26px;align-items:center">
+      <div role="group" aria-label="Filter the deck by kind" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:640px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="7">
+          <button onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="cursor:pointer;background:{{ f.bg }};color:{{ f.ink }};border:1px solid {{ f.border }};border-radius:999px;padding:9px 16px;font:600 15px system-ui;min-height:44px;transition:background 0.12s ease-out,transform 0.12s ease-out" style-active="transform:scale(0.98)">{{ f.label }}</button>
+        </sc-for>
+      </div>
+
+      <div ref="{{ deckRef }}" style="position:relative;width:min(100%,520px);height:300px;touch-action:pan-y">
+        <sc-for list="{{ deckCards }}" as="c" hint-placeholder-count="4">
+          <div data-card="" style="position:absolute;inset:0;will-change:transform">
+            <article style="height:100%;box-sizing:border-box;background:#FFFDF9;border:1px solid {{ c.border }};border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 14px 36px rgba(35,37,60,0.09);user-select:none">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+                <span style="font:600 12px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ c.ink }};background:{{ c.bg }};padding:5px 11px;border-radius:999px">{{ c.kind }}</span>
+                <span style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#6E6A63">{{ c.day }}</span>
+              </div>
+              <p style="margin:auto 0 0;font:700 clamp(1.25rem,0.95rem + 1.2vw,1.75rem)/1.28 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C;text-wrap:pretty">{{ c.pre }}<span style="color:{{ c.ink }}">{{ c.verb }}</span>{{ c.post }}</p>
+            </article>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+        <button onClick="{{ dealAnother }}" style="cursor:pointer;background:#FFFDF9;border:1px solid #EDE5DA;border-radius:999px;padding:13px 26px;font:700 16px 'Nunito',system-ui;color:#23253C;min-height:44px;box-shadow:0 2px 8px rgba(35,37,60,0.04);transition:border-color 0.12s ease-out,transform 0.12s ease-out" style-hover="border-color:#C05A2B" style-active="transform:scale(0.98)">Deal another</button>
+        <div style="font:400 13px system-ui;color:#6E6A63">or drag the card away</div>
+      </div>
+      <div aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">{{ announce }}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center;border-top:1px solid #EDE5DA;padding-top:44px;max-width:900px;margin:0 auto;width:100%">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#6E6A63">Not everything worth keeping is a photograph</div>
+        <p style="margin:0;font:400 16px/1.6 system-ui;color:#6E6A63">Half of what matters produces no file. One prompt — <em>"get on the floor for ten minutes"</em> — lands three different ways. Switch between them:</p>
+        <div role="group" aria-label="Completion shape" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onClick="{{ setDid }}" aria-pressed="{{ sDid }}" style="cursor:pointer;background:{{ didBg }};border:1px solid {{ didBorder }};border-radius:999px;padding:11px 20px;font:700 15px 'Nunito',system-ui;color:#4B7A4F;min-height:44px;transition:background 0.12s ease-out,transform 0.12s ease-out" style-active="transform:scale(0.98)">Did it</button>
+          <button onClick="{{ setCap }}" aria-pressed="{{ sCap }}" style="cursor:pointer;background:{{ capBg }};border:1px solid #EDE5DA;border-radius:999px;padding:11px 20px;font:700 15px 'Nunito',system-ui;color:#9A431E;min-height:44px;transition:background 0.12s ease-out,transform 0.12s ease-out" style-active="transform:scale(0.98)">Captured it</button>
+          <button onClick="{{ setWrote }}" aria-pressed="{{ sWrote }}" style="cursor:pointer;background:{{ wroteBg }};border:1px solid {{ wroteBorder }};border-radius:999px;padding:11px 20px;font:700 15px 'Nunito',system-ui;color:#3F4FB0;min-height:44px;transition:background 0.12s ease-out,transform 0.12s ease-out" style-active="transform:scale(0.98)">Wrote it</button>
+        </div>
+        <p style="margin:0;font:400 14px/1.5 system-ui;color:#6E6A63">An app that only counts the days you produced a file is measuring the wrong thing. Terracotta is a mission, periwinkle is a question or a voice, sage means it happened.</p>
+      </div>
+      <div aria-live="polite">
+        <sc-if value="{{ sDid }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#E8F0E6;border:1px solid #D8E4D5;border-radius:18px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 14px 36px rgba(35,37,60,0.08)">
+            <div style="width:28px;height:28px;border-radius:999px;background:#4B7A4F;color:#E8F0E6;font:700 14px system-ui;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div>
+            <div style="display:flex;flex-direction:column;gap:5px"><div style="font:400 17px/1.4 system-ui;color:#6E6A63">Get on the floor for ten minutes. That's the whole mission.</div><div style="font:400 13px system-ui;color:#6E6A63">Did it · 7:05 PM</div><div style="font:400 14px/1.4 system-ui;color:#4B7A4F">Nothing to upload. Still a complete entry.</div></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sCap }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFDF9;border:1px solid #EDE5DA;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 14px 36px rgba(35,37,60,0.08)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <sc-if value="{{ ringBusy }}" hint-placeholder-val="{{ false }}">
+                <svg width="30" height="30" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="rgba(192,90,43,0.18)" stroke-width="3"></circle><circle cx="17" cy="17" r="15" fill="none" stroke="#C05A2B" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="{{ ringOffset }}" transform="rotate(-90 17 17)"></circle></svg>
+              </sc-if>
+              <sc-if value="{{ ringDone }}" hint-placeholder-val="{{ true }}">
+                <div style="width:30px;height:30px;border-radius:999px;background:#C05A2B;color:#FFFDF9;font:700 14px system-ui;display:flex;align-items:center;justify-content:center">✓</div>
+              </sc-if>
+              <span style="font:400 13px system-ui;color:#6E6A63">{{ ringLabel }}</span>
+            </div>
+            <div style="height:150px;border-radius:14px;background:linear-gradient(135deg,#FBEDE2,#F7DDE8 60%,#E9EBFB);display:flex;align-items:center;justify-content:center"><span style="font:400 11px ui-monospace,monospace;color:#6E6A63;background:rgba(255,253,249,0.85);padding:5px 11px;border-radius:999px">the tower, mid-collapse</span></div>
+            <div style="font:italic 400 14px/1.4 system-ui;color:#6E6A63;border-left:2px solid #EBD8C8;padding-left:11px">Get on the floor for ten minutes. That's the whole mission.</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="font:600 13px system-ui;color:#9A431E;background:#FBEDE2;padding:5px 11px;border-radius:999px">Photo</span><span style="font:400 13px system-ui;color:#6E6A63">Photo · 7:05 PM</span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sWrote }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFDF9;border:1px solid #EDE5DA;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:13px;box-shadow:0 14px 36px rgba(35,37,60,0.08)">
+            <div style="font:italic 400 14px/1.4 system-ui;color:#6E6A63;border-left:2px solid #EBD8C8;padding-left:11px">Get on the floor for ten minutes. That's the whole mission.</div>
+            <div style="font:400 19px/1.5 system-ui;color:#23253C">A tower went up and came down eleven times. I stayed for all eleven.</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="font:600 13px system-ui;color:#3F4FB0;background:#E9EBFB;padding:5px 11px;border-radius:999px">Written</span><span style="font:400 13px system-ui;color:#6E6A63">9:20 PM · two sentences is plenty</span></div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="4 No streaks" style="border-top:1px solid #EDE5DA;background:#FFFDF9">
+  <div style="max-width:620px;margin:0 auto;padding:130px 24px;display:flex;flex-direction:column;gap:20px;text-align:center">
+    <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif">No streaks. No badges. No red.</h2>
+    <p style="margin:0;font:400 18px/1.7 system-ui;color:#6E6A63">Skip a day and nothing happens. Skip a week and nothing happens. Missed prompts stack quietly and expire after two weeks, and the app never mentions it again.</p>
+    <p style="margin:0;font:400 18px/1.7 system-ui;color:#6E6A63">There is no counter to break, no confetti when you comply, and nothing in the interface turns red because you were busy.</p>
+    <p style="margin:0;font:600 18px/1.6 'Nunito',system-ui;color:#23253C">An app that punishes a parent for a hard week is a bad parenting app. That's a design decision, not a missing feature.</p>
+  </div>
+</section>
+
+<section id="archive" data-screen-label="5 The archive" style="border-top:1px solid #EDE5DA">
+  <div style="max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:44px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:14px;max-width:640px">
+      <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#B4ADA3">03 · The archive</div>
+      <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">Built to be searched, not scrolled</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:start">
+      <div style="display:flex;flex-direction:column">
+        <div data-arch="0" style="min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:14px">
+          <h3 style="margin:0;font:600 clamp(1.375rem,1.192rem + 0.743vw,1.75rem)/1.2 'Nunito',ui-rounded,system-ui,sans-serif">A timeline with their age on every day</h3>
+          <p style="margin:0;font:400 17px/1.65 system-ui;color:#6E6A63;max-width:440px">Scan it by date. Age is stamped on every entry, so you're not doing arithmetic to work out whether he was three or four. The point of an archive isn't that it's stored. It's that somebody can find something in it.</p>
+        </div>
+        <div data-arch="1" style="min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:14px">
+          <h3 style="margin:0;font:600 clamp(1.375rem,1.192rem + 0.743vw,1.75rem)/1.2 'Nunito',ui-rounded,system-ui,sans-serif">Search everything — even what was spoken</h3>
+          <p style="margin:0;font:400 17px/1.65 system-ui;color:#6E6A63;max-width:440px">Everything you wrote, everything they said, and every prompt you were asked. Voice notes are transcribed on your phone, so a sentence forty seconds into a recording you'll never relisten to is still one search away.</p>
+        </div>
+        <div data-arch="2" style="min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:14px">
+          <h3 style="margin:0;font:600 clamp(1.375rem,1.192rem + 0.743vw,1.75rem)/1.2 'Nunito',ui-rounded,system-ui,sans-serif">The question and the answer, one object</h3>
+          <p style="margin:0;font:400 17px/1.65 system-ui;color:#6E6A63;max-width:440px">Every entry keeps the prompt that caused it. And <strong style="color:#23253C">backdating is normal here, not a workaround</strong> — the day something happened and the day you got around to writing it down are two different facts, and both are kept.</p>
+        </div>
+      </div>
+      <div style="position:sticky;top:90px;display:flex;justify-content:center;padding:20px 0">
+        <div style="position:relative;background:#23253C;border-radius:52px;padding:11px;box-shadow:0 40px 90px rgba(35,37,60,0.20)">
+          <img src="assets/screens/timeline-all.png" alt="Dogear's timeline grouped by date, with the child's age on each day header" width="1206" height="2622" style="display:block;width:min(300px,70vw);height:auto;border-radius:42px;opacity:{{ arch0Op }};transition:opacity 0.35s ease-out" loading="lazy" decoding="async">
+          <img src="assets/screens/timeline-search.png" alt="Searching the archive for a word and finding matching entries" width="1206" height="2622" style="position:absolute;inset:11px;width:min(300px,70vw);height:auto;border-radius:42px;opacity:{{ arch1Op }};transition:opacity 0.35s ease-out" loading="lazy" decoding="async">
+          <img src="assets/screens/entry-question-answered.png" alt="A question above the parent's answer, saved together as one entry" width="1206" height="2622" style="position:absolute;inset:11px;width:min(300px,70vw);height:auto;border-radius:42px;opacity:{{ arch2Op }};transition:opacity 0.35s ease-out" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="promises" data-screen-label="6 The promises" style="border-top:1px solid #EDE5DA;background:#FFFDF9">
+  <div style="max-width:1200px;margin:0 auto;padding:110px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:64px;align-items:start">
+    <div data-reveal="" style="position:sticky;top:110px;display:flex;flex-direction:column;gap:14px">
+      <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#B4ADA3">04 · The promise</div>
+      <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">Your kid isn't the product</h2>
+      <p style="margin:0;font:400 17px/1.6 system-ui;color:#6E6A63;max-width:400px">Most apps handle this badly, so here it is in full, before you sign up.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:12px"><div data-rule="" style="height:2px;background:#C05A2B;border-radius:999px"></div><h3 style="margin:0;font:600 19px 'Nunito',system-ui">No ads. No data sale. Ever.</h3><p style="margin:0;font:400 16px/1.65 system-ui;color:#6E6A63">Not now, not at a bigger scale, not ever. Nothing about your child is sold, brokered, or used to train anything. Sign in with Apple, or Google. No Facebook login — routing a private record of a child through an ad company contradicts the thing being sold.</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div data-rule="" style="height:2px;background:#C05A2B;border-radius:999px"></div><h3 style="margin:0;font:600 19px 'Nunito',system-ui">Private by default</h3><p style="margin:0;font:400 16px/1.65 system-ui;color:#6E6A63">Nobody sees the archive unless you invite them. There is no feed, no likes, and no place other people perform.</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div data-rule="" style="height:2px;background:#C05A2B;border-radius:999px"></div><h3 style="margin:0;font:600 19px 'Nunito',system-ui">We have never deleted a word a parent wrote</h3><p style="margin:0;font:400 16px/1.65 system-ui;color:#6E6A63">If you stop paying, Dogear drops to the free tier. <strong style="color:#23253C">Nothing is locked.</strong> Your whole archive stays readable. You keep answering the daily question — text and did-it entries never stop. New photo and video uploads pause. After ninety days, original photos move to cheaper cold storage: thumbnails stay instant, search still works, and pulling an original back takes about an hour. That's a property of the storage, not a penalty.</p><p style="margin:0;font:400 16px/1.65 system-ui;color:#23253C"><strong>Text is never deleted. Not ever.</strong> If media is ever going to be removed, you get warned three times — ninety, thirty, and seven days out — each with a free one-click export. Sign in once during that window and it's cancelled outright. If we can't reach you, we keep it.</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div data-rule="" style="height:2px;background:#C05A2B;border-radius:999px"></div><h3 style="margin:0;font:600 19px 'Nunito',system-ui">An export you can't read isn't a backup</h3><p style="margin:0;font:400 16px/1.65 system-ui;color:#6E6A63">One tap gives you a zip: every entry, every photo, every recording, in folders by date — plus an <span style="font-family:ui-monospace,monospace;font-size:14px">index.html</span> you double-click. It opens in any browser, offline, with no account and no internet. Free, complete, always — even if you stopped paying years ago. An archive meant to last eighteen years shouldn't depend on this company lasting eighteen years.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" data-screen-label="7 Handoff and pricing" style="border-top:1px solid #EDE5DA">
+  <div style="max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:72px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center;background:linear-gradient(135deg,#FDE8DC 0%,#F7DDE8 50%,#FBF6EF 100%);border:1px solid #F0DFD5;border-radius:28px;padding:56px 40px">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+        <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#A79A92">05 · The handoff</div>
+        <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C;text-wrap:pretty">It isn't yours forever. That's the point.</h2>
+        <p style="margin:0;font:400 17px/1.65 system-ui;color:#23253C;max-width:480px">Everything in here is being kept for one person, and it isn't you. When your family decides they're ready, they get all of it. Some things you can seal until a birthday you choose — a letter meant for eighteen stays shut until eighteen.</p>
+        <button onClick="{{ toggleSeal }}" style="align-self:flex-start;border:none;cursor:pointer;background:#C05A2B;color:#FFFDF9;font:700 17px 'Nunito',system-ui;padding:13px 26px;border-radius:999px;transition:background 0.12s ease-out,transform 0.12s ease-out" style-hover="background:#9A431E" style-active="transform:scale(0.98)">{{ sealBtnLabel }}</button>
+      </div>
+      <div style="display:flex;justify-content:center">
+        <div style="position:relative;background:#FFFDF9;border:1px solid #F0DFD5;border-radius:36px;padding:10px;box-shadow:0 30px 70px rgba(35,37,60,0.14)">
+          <img src="assets/screens/entry-sealed-locked.png" alt="A sealed letter card reading Sealed until 18, written and waiting" width="1206" height="2622" style="display:block;width:min(280px,68vw);height:auto;border-radius:28px;opacity:{{ sealLockedOp }};transition:opacity 0.4s ease-out" loading="lazy" decoding="async">
+          <img src="assets/screens/entry-sealed-open.png" alt="The same letter opened: Dear you, on the day you turn eighteen" width="1206" height="2622" style="position:absolute;inset:10px;width:min(280px,68vw);height:auto;border-radius:28px;opacity:{{ sealOpenOp }};transition:opacity 0.4s ease-out" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+    <div id="pricing-block" style="display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center">
+      <h3 data-reveal="" style="margin:0;font:600 clamp(1.375rem,1.192rem + 0.743vw,1.75rem)/1.2 'Nunito',ui-rounded,system-ui,sans-serif;max-width:620px;text-wrap:pretty">Free to start. Here's what it costs when you outgrow it.</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:820px;width:100%">
+        <div data-reveal="" style="background:#FFFDF9;border:1px solid #EDE5DA;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:10px;text-align:left;transition:box-shadow 0.12s ease-out,transform 0.12s ease-out" style-hover="box-shadow:0 3px 10px rgba(35,37,60,0.07);transform:translateY(-1px)">
+          <div style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#6E6A63">Free — not a trial</div>
+          <div style="font:700 34px 'Nunito',system-ui;color:#23253C;font-variant-numeric:tabular-nums">$0</div>
+          <p style="margin:0;font:400 15px/1.65 system-ui;color:#6E6A63">Every question and every mission, forever, uncapped. Unlimited written and did-it entries. Voice recordings up to two minutes. <strong style="color:#23253C">{{ freePhotos }} photos, lifetime</strong> — that's the line, and it's the only one.</p>
+        </div>
+        <div data-reveal="" data-delay="60" style="background:#FFFDF9;border:1px solid #EDE5DA;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:10px;text-align:left;transition:box-shadow 0.12s ease-out,transform 0.12s ease-out" style-hover="box-shadow:0 3px 10px rgba(35,37,60,0.07);transform:translateY(-1px)">
+          <div style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#9A431E">Dogear Plus</div>
+          <div style="font:700 34px 'Nunito',system-ui;color:#23253C;font-variant-numeric:tabular-nums">{{ plusPrice }}<span style="font:400 17px system-ui;color:#6E6A63">/year</span></div>
+          <p style="margin:0;font:400 15px/1.65 system-ui;color:#6E6A63">Two months free versus monthly — or $5.99 a month. One price covers the whole household: every kid, both parents. Fourteen days free first.</p>
+        </div>
+      </div>
+      <p style="margin:0;font:400 14px system-ui;color:#6E6A63;max-width:520px"><em>Ships with the App Store launch. Waitlist members will hear the price before it goes live, not after.</em></p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" data-screen-label="8 FAQ and final CTA" style="border-top:1px solid #EDE5DA;background:#FFFDF9">
+  <div style="max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:80px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:start">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:14px">
+        <div style="font:600 12px system-ui;letter-spacing:2px;text-transform:uppercase;color:#B4ADA3">06 · Questions</div>
+        <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.12 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">Questions parents actually ask</h2>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+          <details style="border-top:1px solid #EDE5DA;padding:16px 0">
+            <summary style="font:600 17px 'Nunito',system-ui;color:#23253C;cursor:pointer">{{ f.q }}</summary>
+            <p style="margin:10px 0 0;font:400 16px/1.6 system-ui;color:#6E6A63">{{ f.a }}</p>
+          </details>
+        </sc-for>
+      </div>
+    </div>
+    <div id="waitlist" style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center;background:#FDFAF4;border:1px solid #EDE5DA;border-radius:28px;padding:64px 44px;overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;top:-140px;right:-80px;width:520px;height:520px;border-radius:999px;background:#FBEDE2;filter:blur(80px);opacity:0.7;animation:glowbreathe 14s ease-in-out infinite"></div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:22px">
+        <div data-reveal="" style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font:700 clamp(1.8125rem,1.11rem + 2.85vw,3.25rem)/1.1 'Nunito',ui-rounded,system-ui,sans-serif;text-wrap:pretty">Tomorrow morning, one question is waiting.</h2>
+          <p style="margin:0;font:400 18px/1.6 system-ui;color:#6E6A63;max-width:460px">Dogear opens on iPhone soon. Until then the prompts come to you by email — the same ones from the deck, one a day, free. Answer one tonight in your notes app if you like. That's the habit, and it starts before the app does.</p>
+        </div>
+        <sc-if value="{{ fNotDone }}" hint-placeholder-val="{{ true }}">
+          <form data-reveal="" data-delay="80" noValidate="{{ true }}" onSubmit="{{ submitForm }}" style="display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:480px">
+            <input type="email" aria-label="Email address" placeholder="you@email.com" value="{{ email }}" onChange="{{ emailChange }}" style="flex:1;min-width:200px;background:{{ fieldBg }};border:{{ fieldBorder }};border-radius:14px;padding:16px 18px;font:400 17px system-ui;color:#23253C" />
+            <button type="submit" disabled="{{ fBusy }}" style="border:none;cursor:pointer;background:{{ btnBg }};color:{{ btnInk }};font:700 19px 'Nunito',ui-rounded,system-ui,sans-serif;padding:16px 30px;border-radius:999px;white-space:nowrap;box-shadow:{{ btnShadow }};transition:background 0.12s ease-out,transform 0.12s ease-out" style-hover="background:{{ btnHoverBg }}" style-active="transform:scale(0.98)">{{ btnLabel }}</button>
+          </form>
+          <sc-if value="{{ fHasMsg }}" hint-placeholder-val="{{ false }}"><div style="font:400 14px system-ui;color:#6E6A63">{{ formMsg }}</div></sc-if>
+        </sc-if>
+        <sc-if value="{{ fSuccess }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#E8F0E6;border:1px solid #D8E4D5;border-radius:16px;padding:18px 22px;display:flex;gap:12px;align-items:center;max-width:480px"><div style="width:26px;height:26px;border-radius:999px;background:#4B7A4F;color:#E8F0E6;font:700 13px system-ui;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font:400 16px/1.45 system-ui;color:#23253C">You're in. The first one lands tomorrow morning — <strong>{{ firstPromptLabel }}</strong>.</div></div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:9px;max-width:460px">
+          <sc-for list="{{ closerPoints }}" as="pt" hint-placeholder-count="3">
+            <div data-reveal="" data-delay="{{ pt.d }}" style="display:flex;gap:10px;align-items:flex-start"><span style="width:20px;height:20px;border-radius:999px;background:#E8F0E6;color:#4B7A4F;font:700 11px system-ui;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">✓</span><span style="font:400 15px/1.5 system-ui;color:#6E6A63">{{ pt.t }}</span></div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:relative;display:flex;justify-content:center">
+        <div style="width:min(100%,400px);display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px;padding-left:4px"><span style="width:7px;height:7px;border-radius:999px;background:#C05A2B;animation:softpulse 3.4s ease-in-out infinite"></span><span style="font:600 12px system-ui;letter-spacing:0.6px;text-transform:uppercase;color:#6E6A63">Your next three mornings</span></div>
+          <sc-for list="{{ inbox }}" as="m" hint-placeholder-count="3">
+            <div data-reveal="" data-delay="{{ m.d }}" style="background:#FFFDF9;border:1px solid {{ m.border }};border-left:3px solid {{ m.accent }};border-radius:16px;padding:15px 17px;display:flex;flex-direction:column;gap:8px;box-shadow:{{ m.shadow }};transition:box-shadow 0.12s ease-out,transform 0.12s ease-out" style-hover="box-shadow:0 3px 10px rgba(35,37,60,0.07);transform:translateY(-1px)">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                <span style="font:600 12px 'Nunito',system-ui;letter-spacing:0.6px;text-transform:uppercase;color:{{ m.ink }};background:{{ m.bg }};padding:4px 9px;border-radius:999px">{{ m.kind }}</span>
+                <span style="font:400 12px ui-monospace,monospace;color:#6E6A63">{{ m.when }}</span>
+              </div>
+              <div style="font:400 16px/1.35 'Nunito',ui-rounded,system-ui,sans-serif;color:#23253C">{{ m.body }}</div>
+            </div>
+          </sc-for>
+          <div style="font:400 13px/1.5 system-ui;color:#6E6A63;padding-left:4px">…and {{ remaining }} more after that. No streaks, no reminders about the ones you skip.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer data-screen-label="Footer" style="border-top:1px solid #EDE5DA">
+  <div style="max-width:1200px;margin:0 auto;padding:36px 24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline">
+    <div style="font:400 14px system-ui;color:#6E6A63">Dogear — one question a day, a childhood you can find again.</div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="#promises" style="font:400 13px system-ui;color:#6E6A63">The promise</a><a href="#faq" style="font:400 13px system-ui;color:#6E6A63">FAQ</a><a href="Dogear Blog.dc.html" style="font:400 13px system-ui;color:#6E6A63">Blog</a><span style="font:400 13px ui-monospace,monospace;color:#B4ADA3">TODO: domain · privacy · terms</span></div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;autoDealSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:5,&quot;max&quot;:20,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Prompt deck&quot;},&quot;forceReducedMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Break tests&quot;}}">
+/* Spring, projection, FLING/COMMIT thresholds and the FAN are lifted verbatim
+   from the marketing repo's app.js so the web deck matches the shipped one. */
+const SPRING = { settle: { damping: 1.0, response: 0.40 }, momentum: { damping: 0.8, response: 0.35 }, fade: { damping: 1.0, response: 0.28 } };
+class Spring {
+  constructor(value = 0, params = SPRING.settle) { this.value = value; this.target = value; this.velocity = 0; this.use(params); }
+  use({ damping, response }) { this.zeta = damping; this.omega = (2 * Math.PI) / response; return this; }
+  to(target, { velocity, params } = {}) { if (params) this.use(params); this.target = target; if (typeof velocity === 'number') this.velocity = velocity; return this; }
+  jump(value) { this.value = this.target = value; this.velocity = 0; return this; }
+  step(dt) {
+    let remaining = Math.min(dt, 0.064); const h = 1 / 240;
+    while (remaining > 0) {
+      const s = Math.min(h, remaining);
+      const accel = -this.omega * this.omega * (this.value - this.target) - 2 * this.zeta * this.omega * this.velocity;
+      this.velocity += accel * s; this.value += this.velocity * s; remaining -= s;
+    }
+  }
+  get settled() { return Math.abs(this.value - this.target) < 0.05 && Math.abs(this.velocity) < 0.05; }
+}
+const project = (velocity, rate = 0.998) => ((velocity / 1000) * rate) / (1 - rate);
+
+class Component extends DCLogic {
+  state = { cursor: 0, filter: 'ALL', shape: 'did', count: 0, mosaicN: 0, dim: false, email: '', form: 'idle', announce: '', archI: 0, ringP: 1, sealed: true, photos: 0, price: 0 };
+  DEPTH = 4;
+  FAN = [0, 1.8, -2.2, 2.6];
+  FLING_X = 620; COMMIT_PX = 140; HYSTERESIS = 8;
+  LIB = [
+    ['QUESTION', 'What did they ', 'say', ' this week that you want to remember exactly?'],
+    ['PHOTO', '', 'Photograph', ' their hands. Just their hands.'],
+    ['ACTIVITY', 'Never ', 'let go', ' of the hug first today. Let them be the one to pull away.'],
+    ['VOICE', '', 'Record', ' them singing. Whatever they’re singing.'],
+    ['QUESTION', 'What are they ', 'obsessed', ' with right now?'],
+    ['VIDEO', '', 'Film', ' them telling you about their day. Don’t prompt them.'],
+    ['LETTER', '', 'Write', ' them a letter about exactly who they are right now. They won’t be this person next year.'],
+    ['PHOTO', '', 'Photograph', ' their shoes by the door.'],
+    ['QUESTION', 'What word do they ', 'mispronounce', ' that you don’t want to correct?'],
+    ['ACTIVITY', '', 'Get', ' on the floor for ten minutes. That’s the whole mission.'],
+    ['VOICE', '', 'Record', ' them counting as high as they can go.'],
+    ['PHOTO', 'Get down to their eye level and ', 'take', ' the photo from there.'],
+    ['VIDEO', '', 'Record', ' them running toward you.'],
+    ['QUESTION', '', 'Describe', ' their laugh.'],
+    ['LETTER', '', 'Write down', ' the story of the day they were born, in as much detail as you can still remember.'],
+    ['ACTIVITY', '', 'Let', ' them help with something, even though it triples the time.'],
+    ['VOICE', '', 'Record', ' two minutes of dinner. Don’t announce it. Just the room.'],
+    ['QUESTION', 'What are they ', 'afraid', ' of right now?'],
+    ['PHOTO', '', 'Photograph', ' the mess they made. Don’t clean it up first.'],
+    ['VIDEO', '', 'Film', ' them explaining how something works.'],
+    ['LETTER', '', 'Write', ' them what you’d want them to know if you weren’t around to say it.'],
+    ['VOICE', '', 'Record', ' them telling you a story. Any story. Don’t correct the words they say wrong.'],
+    ['ACTIVITY', '', 'Ask', ' them to teach you something.'],
+    ['QUESTION', 'What do they ', 'call', ' you? Write down every version.'],
+    ['PHOTO', '', 'Take', ' a photo of the two of you. You’re in almost none of them.'],
+    ['VIDEO', '', 'Film', ' the bedtime routine start to finish, one take.'],
+    ['LETTER', '', 'Write down', ' what you hope they keep from being four years old.']
+  ];
+  KINDMETA = {
+    QUESTION: { soft: '#E9EBFB', border: '#DADDF7', ink: '#3F4FB0', bg: 'rgba(85,102,214,0.12)' },
+    VOICE: { soft: '#E9EBFB', border: '#DADDF7', ink: '#3F4FB0', bg: 'rgba(85,102,214,0.12)' },
+    PHOTO: { soft: '#FBEDE2', border: '#EDE5DA', ink: '#9A431E', bg: 'rgba(192,90,43,0.12)' },
+    VIDEO: { soft: '#FBEDE2', border: '#EDE5DA', ink: '#9A431E', bg: 'rgba(192,90,43,0.12)' },
+    ACTIVITY: { soft: '#FBEDE2', border: '#EDE5DA', ink: '#9A431E', bg: 'rgba(192,90,43,0.12)' },
+    LETTER: { soft: '#FBEDE2', border: '#EDE5DA', ink: '#9A431E', bg: 'rgba(192,90,43,0.12)' }
+  };
+  FILTERS = [['ALL', 'All'], ['QUESTION', 'Questions'], ['PHOTO', 'Photo'], ['VOICE', 'Voice'], ['VIDEO', 'Video'], ['ACTIVITY', 'Activity'], ['LETTER', 'Letters']];
+  MARQ_A = [['QUESTION', 'What are they obsessed with right now?'], ['PHOTO', 'Photograph their shoes by the door.'], ['VOICE', 'Record them singing. Whatever they’re singing.'], ['ACTIVITY', 'Let them help with something, even though it triples the time.'], ['QUESTION', 'Describe their laugh.'], ['VIDEO', 'Record them running toward you.'], ['LETTER', 'Write them a letter about exactly who they are right now.'], ['QUESTION', 'What song is stuck in the house right now?'], ['PHOTO', 'Take a photo of the two of you. You’re in almost none of them.'], ['ACTIVITY', 'Never let go of the hug first today.']];
+  MARQ_B = [['VOICE', 'Record them counting as high as they can go.'], ['QUESTION', 'What do they call you? Write down every version.'], ['PHOTO', 'Get down to their eye level and take the photo from there.'], ['QUESTION', 'What did they teach themself this month?'], ['ACTIVITY', 'Ask them to teach you something.'], ['VIDEO', 'Film them explaining how something works.'], ['QUESTION', 'How do they say goodbye?'], ['PHOTO', 'Photograph the mess they made. Don’t clean it up first.'], ['VOICE', 'Record two minutes of dinner. Don’t announce it. Just the room.'], ['QUESTION', 'What’s changed about them in the last three months?']];
+  TILES = ['the shoe', 'a puddle', 'the drawing', 'mid-laugh', 'the mess', 'a hand', 'the fort', 'breakfast', 'the costume', 'asleep', 'by the door', 'the haircut', 'a snail', 'the tower', 'day one'];
+  submitted = {};
+
+  lib() { const f = this.state.filter; return f === 'ALL' ? this.LIB : this.LIB.filter(r => r[0] === f); }
+  slotOf(e) { return (e - (this.state.cursor % this.DEPTH) + this.DEPTH) % this.DEPTH; }
+  els() { return this.deck ? Array.from(this.deck.querySelectorAll('[data-card]')) : []; }
+
+  componentDidMount() {
+    this.rm = (this.props.forceReducedMotion ?? false) || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.paused = false; this.flying = null; this.drag = null; this.raf = null; this.lastFrame = 0;
+    this.springs = [];
+    for (let e = 0; e < this.DEPTH; e++) {
+      const slot = e;
+      this.springs.push({ x: new Spring(0), y: new Spring(slot * 16), scale: new Spring(1 - slot * 0.035), rot: new Spring(this.FAN[slot] ?? 0), op: new Spring(0), delay: this.rm ? 0 : (this.DEPTH - 1 - slot) * 0.08 });
+    }
+    if (!this.rm) this.springs.forEach((r, e) => { r.y.jump(e * 16 + 96); r.scale.jump((1 - e * 0.035) * 0.945); });
+    this.springs.forEach((r, e) => this.retarget(e, e));
+    setTimeout(() => { this.bindDeck(); this.setupObservers(); this.kick(); }, 60);
+    const sec = (this.props.autoDealSeconds ?? 9) * 1000;
+    this.dealTimer = setInterval(() => { if (!this.paused && !this.drag) this.deal(1, 0); }, sec);
+  }
+  componentWillUnmount() { clearInterval(this.dealTimer); if (this.raf) cancelAnimationFrame(this.raf); }
+
+  retarget(e, slot) {
+    const r = this.springs[e];
+    r.y.to(slot * 16); r.scale.to(1 - slot * 0.035); r.rot.to(this.FAN[slot] ?? 0); r.op.to(slot >= 3 ? 0.55 : 1);
+  }
+  paint() {
+    const els = this.els();
+    els.forEach((el, e) => {
+      const r = this.springs[e]; if (!r) return;
+      const slot = this.slotOf(e); const isTop = this.flying !== e && slot === 0;
+      el.style.zIndex = String(this.flying === e ? 50 : 40 - slot);
+      el.style.transform = `translate3d(${r.x.value.toFixed(2)}px, ${r.y.value.toFixed(2)}px, 0) scale(${r.scale.value.toFixed(4)}) rotate(${r.rot.value.toFixed(2)}deg)`;
+      el.style.opacity = r.op.value.toFixed(3);
+      el.style.pointerEvents = isTop ? 'auto' : 'none';
+      el.setAttribute('aria-hidden', isTop ? 'false' : 'true');
+      const art = el.firstElementChild; if (art) art.style.cursor = isTop ? (this.drag ? 'grabbing' : 'grab') : 'default';
+    });
+  }
+  frame = now => {
+    const dt = this.lastFrame ? Math.min((now - this.lastFrame) / 1000, 0.064) : 1 / 60;
+    this.lastFrame = now; let busy = false;
+    this.springs.forEach((r, e) => {
+      const slot = this.slotOf(e); const held = this.drag && this.drag.e === e;
+      if (r.delay > 0) { r.delay -= dt; busy = true; return; }
+      if (!held) r.x.step(dt);
+      r.y.step(dt); r.scale.step(dt); r.op.step(dt);
+      if (this.flying !== e && slot === 0) r.rot.jump(r.x.value / 30); else r.rot.step(dt);
+      if (held) busy = true;
+      else if (!(r.x.settled && r.y.settled && r.scale.settled && r.op.settled)) busy = true;
+    });
+    this.paint();
+    if (busy || this.drag) this.raf = requestAnimationFrame(this.frame); else { this.raf = null; this.lastFrame = 0; }
+  };
+  kick() { if (this.raf === null) { this.lastFrame = 0; this.raf = requestAnimationFrame(this.frame); } }
+
+  deal(dir = 1, velocity = 0) {
+    if (this.flying !== null) return;
+    const e = this.state.cursor % this.DEPTH; const r = this.springs[e];
+    this.flying = e;
+    if (this.rm) { r.op.to(0, { params: { damping: 1, response: 0.18 } }); }
+    else {
+      r.x.to(dir * this.FLING_X, { velocity, params: SPRING.momentum });
+      r.y.to(60, { params: SPRING.momentum });
+      r.rot.to(dir * 16, { params: SPRING.momentum });
+      r.scale.to(0.98, { params: SPRING.momentum });
+      r.op.to(0, { params: SPRING.fade });
+    }
+    for (let i = 0; i < this.DEPTH; i++) if (i !== e) this.retarget(i, Math.max(0, this.slotOf(i) - 1));
+    this.kick();
+    setTimeout(() => this.commit(e), this.rm ? 160 : 380);
+  }
+  commit(flown) {
+    this.flying = null;
+    this.setState(s => ({ cursor: s.cursor + 1 }), () => {
+      for (let e = 0; e < this.DEPTH; e++) {
+        const slot = this.slotOf(e); const r = this.springs[e];
+        r.x.jump(0);
+        if (e === flown) {
+          r.rot.jump(this.FAN[slot] ?? 0); r.op.jump(0);
+          if (!this.rm) { r.y.jump(slot * 16 + 96); r.scale.jump((1 - slot * 0.035) * 0.945); }
+        }
+        this.retarget(e, slot);
+      }
+      this.announceTop(); this.kick();
+    });
+  }
+  announceTop() {
+    const lib = this.lib(); const row = lib[this.state.cursor % lib.length];
+    this.setState({ announce: row[1] + row[2] + row[3] });
+  }
+  resetDeck(filter) {
+    this.setState({ filter, cursor: 0 }, () => {
+      for (let e = 0; e < this.DEPTH; e++) {
+        const r = this.springs[e]; r.x.jump(0); r.rot.jump(this.FAN[e] ?? 0); r.op.jump(0);
+        if (!this.rm) { r.y.jump(e * 16 + 96); r.scale.jump((1 - e * 0.035) * 0.945); }
+        r.delay = this.rm ? 0 : (this.DEPTH - 1 - e) * 0.06;
+        this.retarget(e, e);
+      }
+      this.announceTop(); this.kick();
+    });
+  }
+  bindDeck() {
+    const deck = this.deck; if (!deck) return;
+    const sample = (d, x) => { d.history.push({ x, t: performance.now() }); if (d.history.length > 8) d.history.shift(); };
+    const releaseVelocity = d => {
+      const h = d.history; if (h.length < 2) return 0;
+      const last = h[h.length - 1]; let ref = h[0];
+      for (let i = h.length - 1; i >= 0; i--) { if (last.t - h[i].t > 80) break; ref = h[i]; }
+      const dt = (last.t - ref.t) / 1000; return dt > 0 ? (last.x - ref.x) / dt : 0;
+    };
+    deck.addEventListener('pointerdown', ev => {
+      if (this.drag || this.flying !== null) return;
+      const el = ev.target.closest('[data-card]'); if (!el) return;
+      const e = this.els().indexOf(el); if (e < 0 || this.slotOf(e) !== 0) return;
+      this.paused = true;
+      el.setPointerCapture(ev.pointerId);
+      this.drag = { e, pointerId: ev.pointerId, startX: ev.clientX, baseX: this.springs[e].x.value, moved: false, history: [] };
+      sample(this.drag, ev.clientX);
+      this.springs[e].x.velocity = 0; this.springs[e].scale.to((1 - 0) * 1.02);
+      this.kick();
+    });
+    deck.addEventListener('pointermove', ev => {
+      const d = this.drag; if (!d || ev.pointerId !== d.pointerId) return;
+      const dx = ev.clientX - d.startX; sample(d, ev.clientX);
+      if (!d.moved && Math.abs(dx) < this.HYSTERESIS) return;
+      d.moved = true;
+      const r = this.springs[d.e]; r.x.value = d.baseX + dx; r.x.velocity = 0;
+    });
+    const end = ev => {
+      const d = this.drag; if (!d || ev.pointerId !== d.pointerId) return;
+      const r = this.springs[d.e]; const velocity = releaseVelocity(d); const moved = d.moved;
+      this.drag = null; r.scale.to(1);
+      if (!moved) { this.kick(); return; }
+      const projected = r.x.value + project(velocity);
+      if (Math.abs(projected) > this.COMMIT_PX) this.deal(Math.sign(projected) || 1, velocity);
+      else r.x.to(0, { velocity, params: SPRING.settle });
+      this.kick();
+    };
+    deck.addEventListener('pointerup', end);
+    deck.addEventListener('pointercancel', end);
+  }
+  setShape(sh) {
+    if (sh === 'cap') {
+      if (this.rm) { this.setState({ shape: 'cap', ringP: 1 }); return; }
+      this.setState({ shape: 'cap', ringP: 0 });
+      const t0 = performance.now();
+      const step = now => { const k = Math.min(1, (now - t0) / 1100); this.setState({ ringP: k }); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step); return;
+    }
+    this.setState({ shape: sh });
+  }
+  setupObservers() {
+    const reveals = document.querySelectorAll('[data-reveal]');
+    if (!this.rm) {
+      reveals.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity 0.28s ease-out, transform 0.28s ease-out'; el.style.transitionDelay = (el.dataset.delay || 0) + 'ms'; });
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; io.unobserve(e.target); } }), { threshold: 0.15 });
+      reveals.forEach(el => io.observe(el));
+    }
+    const rules = document.querySelectorAll('[data-rule]');
+    if (!this.rm) {
+      rules.forEach(el => { el.style.transform = 'scaleX(0)'; el.style.transformOrigin = 'left'; el.style.transition = 'transform 0.6s ease-out'; });
+      const rio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.transform = 'scaleX(1)'; rio.unobserve(e.target); } }), { threshold: 0.6 });
+      rules.forEach(el => rio.observe(el));
+    }
+    const aio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) this.setState({ archI: +e.target.dataset.arch }); }), { threshold: 0.5 });
+    document.querySelectorAll('[data-arch]').forEach(el => aio.observe(el));
+    const mosaic = document.getElementById('mosaic');
+    if (mosaic) {
+      const mio = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return; mio.unobserve(e.target);
+        if (this.rm) { this.setState({ mosaicN: 15, dim: true }); return; }
+        let n = 0; const t = setInterval(() => { n++; this.setState({ mosaicN: n }); if (n >= 15) { clearInterval(t); setTimeout(() => this.setState({ dim: true }), 650); } }, 80);
+      }), { threshold: 0.3 });
+      mio.observe(mosaic);
+    }
+    const pricing = document.getElementById('pricing-block');
+    if (pricing) {
+      const pio = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return; pio.unobserve(e.target);
+        if (this.rm) { this.setState({ photos: 100, price: 59.99 }); return; }
+        const t0 = performance.now();
+        const step = now => {
+          const k = Math.min(1, (now - t0) / 850); const e3 = 1 - Math.pow(1 - k, 3);
+          this.setState({ photos: Math.round(100 * e3), price: 59.99 * e3 });
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }), { threshold: 0.35 });
+      pio.observe(pricing);
+    }
+    const eng = document.getElementById('engine');
+    if (eng) {
+      const cio = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return; cio.unobserve(e.target);
+        if (this.rm) { this.setState({ count: 113 }); return; }
+        const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / 900); this.setState({ count: Math.round(113 * (1 - Math.pow(1 - k, 3))) }); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step);
+      }), { threshold: 0.2 });
+      cio.observe(eng);
+    }
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    const email = this.state.email.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ form: 'invalid' }); return; }
+    if (this.submitted[email]) { this.setState({ form: 'duplicate' }); return; }
+    this.setState({ form: 'submitting' });
+    /* TODO: waitlist POST endpoint — replace this stub. Writes marketing_consent + transactional_consent as two fields. */
+    setTimeout(() => { this.submitted[email] = true; this.setState({ form: 'success' }); }, 900);
+  }
+  renderVals() {
+    const s = this.state, lib = this.lib(), len = lib.length;
+    const cards = [];
+    for (let e = 0; e < this.DEPTH; e++) {
+      const slot = (e - (s.cursor % this.DEPTH) + this.DEPTH) % this.DEPTH;
+      const row = lib[(s.cursor + slot) % len]; const km = this.KINDMETA[row[0]];
+      cards.push({ kind: row[0], pre: row[1], verb: row[2], post: row[3], ink: km.ink, bg: km.bg, border: km.border, day: slot === 0 ? 'Today' : '' });
+    }
+    const topKind = lib[s.cursor % len][0];
+    const mk = ([kind, body]) => { const km = this.KINDMETA[kind]; return { kind: kind.charAt(0) + kind.slice(1).toLowerCase(), body, soft: km.soft, border: km.border, ink: km.ink, bg: km.bg }; };
+    const A = this.MARQ_A.map(mk), B = this.MARQ_B.map(mk);
+    const tileBgs = ['linear-gradient(135deg,rgba(226,139,91,0.30),rgba(253,250,244,0.05))', 'linear-gradient(135deg,rgba(154,166,240,0.26),rgba(253,250,244,0.05))', 'rgba(253,250,244,0.08)'];
+    const tiles = this.TILES.map((label, i) => ({ label, bg: tileBgs[i % 3], op: i < s.mosaicN ? (s.dim && i !== 3 ? 0.16 : 1) : 0, ring: s.dim && i === 3 ? '0 0 0 2px #E28B5B' : 'none' }));
+    const formMsgs = { invalid: "That doesn't look like an email address.", duplicate: "You're already on the list — nothing to do.", idle: '', submitting: '' };
+    const ringDone = s.ringP >= 1;
+    return {
+      deckRef: el => { this.deck = el; },
+      deckCards: cards, topSoft: this.KINDMETA[topKind].soft, announce: s.announce,
+      dealAnother: () => { this.paused = true; this.deal(1, this.rm ? 0 : 900); },
+      filters: this.FILTERS.map(([key, label]) => ({
+        label, on: s.filter === key,
+        bg: s.filter === key ? '#C05A2B' : '#FFFDF9', ink: s.filter === key ? '#FDFAF4' : '#6E6A63',
+        border: s.filter === key ? '#C05A2B' : '#EDE5DA',
+        pick: () => this.resetDeck(key)
+      })),
+      pause: () => { this.paused = true; }, resume: () => { this.paused = false; },
+      count: s.count === 0 ? 113 : s.count,
+      marqueeA2: [...A, ...A], marqueeB2: [...B, ...B],
+      tiles, mosaicQuoteOp: s.dim ? 1 : 0,
+      sDid: s.shape === 'did', sCap: s.shape === 'cap', sWrote: s.shape === 'wrote',
+      didBg: s.shape === 'did' ? '#E8F0E6' : '#FFFDF9', didBorder: s.shape === 'did' ? '#D8E4D5' : '#EDE5DA',
+      capBg: s.shape === 'cap' ? '#FBEDE2' : '#FFFDF9',
+      wroteBg: s.shape === 'wrote' ? '#E9EBFB' : '#FFFDF9', wroteBorder: s.shape === 'wrote' ? '#DADDF7' : '#EDE5DA',
+      setDid: () => this.setShape('did'), setCap: () => this.setShape('cap'), setWrote: () => this.setShape('wrote'),
+      ringBusy: !ringDone, ringDone, ringOffset: 94.2 * (1 - s.ringP),
+      ringLabel: ringDone ? 'Filed. Fifteen seconds, start to finish.' : 'Uploading — no loading state to fake',
+      freePhotos: s.photos === 0 ? 100 : s.photos,
+      plusPrice: '$' + (s.price === 0 ? 59.99 : s.price).toFixed(2),
+      arch0Op: s.archI === 0 ? 1 : 0, arch1Op: s.archI === 1 ? 1 : 0, arch2Op: s.archI === 2 ? 1 : 0,
+      sealLockedOp: s.sealed ? 1 : 0, sealOpenOp: s.sealed ? 0 : 1,
+      sealBtnLabel: s.sealed ? 'Open it' : 'Seal it again',
+      toggleSeal: () => this.setState(st => ({ sealed: !st.sealed })),
+      faqs: [
+        { q: 'My kid is seven. Is it too late?', a: 'No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app.' },
+        { q: 'How long does this actually take?', a: "Under fifteen seconds for most days, one-handed. If it takes longer than that, that's a bug." },
+        { q: 'What if I miss days?', a: "Nothing happens. That's the point." },
+        { q: 'Can my partner use it too?', a: 'Yes, on the same archive. One subscription covers everyone in the household.' },
+        { q: 'Do I have to use it for eighteen years for it to be worth anything?', a: "No. A hundred entries is already a thing your kid doesn't have. There's no threshold." },
+        { q: 'What happens to it when they grow up?', a: "That's a decision the family makes, not one the app makes for you. Sealed entries can be written to open at an age you choose. The export means the archive is handed over as a real object, whatever you decide." }
+      ],
+      inbox: [
+        { kind: 'Question', when: 'Tomorrow, 7:00', body: 'What are they obsessed with right now?', ink: '#3F4FB0', bg: 'rgba(85,102,214,0.12)', border: '#DADDF7', accent: '#5566D6', shadow: '0 10px 26px rgba(35,37,60,0.09)', d: 0 },
+        { kind: 'Photo', when: 'Monday, 7:00', body: 'Photograph their hands. Just their hands.', ink: '#9A431E', bg: 'rgba(192,90,43,0.12)', border: '#EDE5DA', accent: '#C05A2B', shadow: '0 2px 8px rgba(35,37,60,0.04)', d: 70 },
+        { kind: 'Activity', when: 'Tuesday, 7:00', body: "Get on the floor for ten minutes. That's the whole mission.", ink: '#9A431E', bg: 'rgba(192,90,43,0.12)', border: '#EDE5DA', accent: '#C05A2B', shadow: '0 2px 8px rgba(35,37,60,0.04)', d: 140 }
+      ],
+      remaining: 110,
+      firstPromptLabel: 'what are they obsessed with right now?',
+      closerPoints: [
+        { t: 'Free, and not a trial — the email prompts stay free whatever happens to the app.', d: 0 },
+        { t: 'No third-party trackers, no ad pixels, no analytics on this page. Your address goes nowhere else.', d: 60 },
+        { t: 'One click unsubscribes, and we say so in every send.', d: 120 }
+      ],
+      btnShadow: s.form === 'submitting' ? 'none' : '0 10px 24px rgba(192,90,43,0.28)',
+      email: s.email, emailChange: e => this.setState({ email: e.target.value, form: 'idle' }),
+      submitForm: e => this.handleSubmit(e),
+      fNotDone: s.form !== 'success', fSuccess: s.form === 'success', fBusy: s.form === 'submitting',
+      fHasMsg: !!formMsgs[s.form], formMsg: formMsgs[s.form] || '',
+      fieldBg: s.form === 'submitting' ? '#F4EEE5' : '#FFFDF9',
+      fieldBorder: s.form === 'invalid' ? '2px solid #C05A2B' : '1px solid #EDE5DA',
+      btnBg: s.form === 'submitting' ? '#F4EEE5' : '#C05A2B', btnInk: s.form === 'submitting' ? '#B4ADA3' : '#FFFDF9',
+      btnHoverBg: s.form === 'submitting' ? '#F4EEE5' : '#9A431E',
+      btnLabel: s.form === 'submitting' ? 'Adding you…' : "Get tomorrow's prompt"
+    };
+  }
+}
+</script>
+</body>
+</html>

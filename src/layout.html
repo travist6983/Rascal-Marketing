@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PAGE_TITLE}}</title>
+<meta name="description" content="{{PAGE_DESC}}">
+
+<!-- Self-hosted, subset, preloaded. seo-plan.md calls the font row positioning
+     rather than performance: a Google Fonts request on a site promising nobody
+     tracks your kid is the leak somebody screenshots. There is no CDN here. -->
+<link rel="preload" href="/fonts/nunito-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+
+<meta name="theme-color" content="#FDFAF4">
+<meta property="og:site_name" content="{{PRODUCT}}">
+<meta property="og:title" content="{{PAGE_TITLE}}">
+<meta property="og:description" content="{{PAGE_DESC}}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{PAGE_TITLE}}">
+<meta name="twitter:description" content="{{PAGE_DESC}}">
+{{HEAD_CANONICAL}}
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/icon-180.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "{{PRODUCT}}",
+      "description": "A private, prompted archive of your kid's childhood — every moment saved with the question that caused it."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "{{PRODUCT}}",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "iOS",
+      "description": "One question and one small mission a day. Every moment is filed with the prompt that caused it, so you can still find it in twenty years.",
+      "offers": [
+        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free — every prompt, forever" },
+        { "@type": "Offer", "price": "59.99", "priceCurrency": "USD", "name": "{{PRODUCT}} Plus, yearly" }
+      ]
+    }
+  ]
+}
+</script>
+{{HEAD_EXTRA}}
+</head>
+<body data-route="{{PAGE_ROUTE}}" class="{{PAGE_CLASS}}">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!--#include partials/header.html -->
+
+<main id="main">
+{{BODY}}
+</main>
+
+<!--#include partials/footer.html -->
+
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

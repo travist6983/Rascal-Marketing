@@ -1,0 +1,233 @@
+<!--page
+title: Frequently asked questions | {{PRODUCT}}
+description: Plain answers about the daily loop, the money, the archive, and trust — including the ones we can't answer yet, like the launch date.
+og: /assets/og/faq.png
+-->
+
+<template data-head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "My kid is seven. Is it too late?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app." } },
+    { "@type": "Question", "name": "How long does this actually take?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under fifteen seconds for most days, one-handed. If it takes longer than that, that's a bug." } },
+    { "@type": "Question", "name": "What if I miss days?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nothing happens. That's the point." } },
+    { "@type": "Question", "name": "Can my partner use it too?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, on the same archive. One subscription covers everyone in the household." } },
+    { "@type": "Question", "name": "Do I have to use it for eighteen years for it to be worth anything?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. A hundred entries is already a thing your kid doesn't have. There's no threshold." } },
+    { "@type": "Question", "name": "What happens to it when they grow up?",
+      "acceptedAnswer": { "@type": "Answer", "text": "That's a decision the family makes, not one the app makes for you. Sealed entries can be written to open at an age you choose. The export means the archive is handed over as a real object, whatever you decide." } },
+    { "@type": "Question", "name": "What is a mission, exactly?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The second half of the daily card. Take a photo, shoot ten seconds of video, record their voice, or just go do something — get on the floor for ten minutes. Some missions produce a file. Some don't. Both count. A bigger one lands weekly, and a measurement mission lands monthly — height, hand, foot, the things you'll want a number for later. All {{PROMPT_COUNT}} prompts are published, so you can read every one before signing up for anything." } },
+    { "@type": "Question", "name": "What happens to the prompts I miss?",
+      "acceptedAnswer": { "@type": "Answer", "text": "They stack quietly and expire after two weeks, and the app never mentions them again. There is no counter to break, and nothing turns red because you were busy." } },
+    { "@type": "Question", "name": "What does it cost?",
+      "acceptedAnswer": { "@type": "Answer", "text": "{{PRICE_YEAR}} a year — two months free versus monthly — or {{PRICE_MONTH}} a month. One price covers the whole household: every kid, both parents. {{TRIAL_DAYS}} days free first. Both tiers, line by line, are on the pricing page." } },
+    { "@type": "Question", "name": "Is free really free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, and it isn't a trial — it has no end date. Every question and every mission, forever. Unlimited written and did-it entries. Voice recordings up to two minutes. {{FREE_PHOTOS}} photos, lifetime — that's the line, and it's the only one." } },
+    { "@type": "Question", "name": "What happens if I stop paying?",
+      "acceptedAnswer": { "@type": "Answer", "text": "{{PRODUCT}} drops to the free tier and nothing is locked. Your whole archive stays readable, you keep answering the daily question, and text is never deleted — not ever. New photo and video uploads pause. The full version, including what happens to originals after ninety days, is on the promise page." } },
+    { "@type": "Question", "name": "How do I cancel?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Settings on your iPhone, two taps, like any other subscription. Apple handles it, and we don't get to make it hard." } },
+    { "@type": "Question", "name": "Can I get the whole archive out?",
+      "acceptedAnswer": { "@type": "Answer", "text": "One tap gives you a zip: every entry, every photo, every recording, in folders by date — plus an index.html you double-click. It opens in any browser, offline, with no account and no internet. Free and complete on every tier, even if you stopped paying years ago." } },
+    { "@type": "Question", "name": "What can I search?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Everything you wrote, every transcript of something they said, and every prompt you were asked. You aren't searching filenames and dates — you're searching the questions and the answers, which is much closer to how you'll actually remember it." } },
+    { "@type": "Question", "name": "How do voice recordings work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hold to record, up to two minutes each. It's transcribed on your phone, so you can search a recording you'll never have time to relisten to." } },
+    { "@type": "Question", "name": "What are sealed letters?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Some prompts ask you to write forward — to who they'll be at eighteen, or something you'd want them to know. You seal it until an age you choose, and a letter meant for eighteen stays shut until eighteen." } },
+    { "@type": "Question", "name": "Do both parents share one archive?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Both answer into the same archive on one subscription, and whoever was there that day writes it down. Neither of you has to reconstruct the other's week." } },
+    { "@type": "Question", "name": "Are there ads?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Not on any tier, not at a bigger scale, not ever." } },
+    { "@type": "Question", "name": "How do I sign in?",
+      "acceptedAnswer": { "@type": "Answer", "text": "With Apple, or Google. There is no Facebook login — routing a private record of a child through an ad company contradicts the thing being sold." } },
+    { "@type": "Question", "name": "Is anything about my child used to train AI?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Nothing about your child is sold, brokered, or used to train anything." } },
+    { "@type": "Question", "name": "Is there an Android app?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Not today. As of {{VERIFIED_ON}}, {{PRODUCT}} is iPhone only — no Android app and no web app. We'd rather say that plainly than hint at a roadmap we can't promise." } },
+    { "@type": "Question", "name": "When does it open?",
+      "acceptedAnswer": { "@type": "Answer", "text": "{{PRODUCT}} is in private testing now and opening on iPhone soon. We don't have a date to give you, so we won't give you one. The waitlist gets one prompt a day by email in the meantime, and hears the price before it goes live, not after." } }
+  ]
+}
+</script>
+</template>
+
+<section class="section section--tight">
+  <div class="wrap stack gap-14 measure">
+    <p class="eyebrow">Questions</p>
+    <h1 class="t-hero">Frequently asked questions</h1>
+    <p class="lede">
+      Short answers, grouped by subject. A couple of things can't be answered yet — when it opens,
+      and what it will finally be called — and where that's true, this page says so instead of
+      talking around it.
+    </p>
+  </div>
+</section>
+
+<section class="section section--surface">
+  <div class="wrap">
+    <div class="stack gap-44">
+
+      <div class="cols cols--sidebar cols--top">
+        <div class="stack gap-12" style="position:sticky;top:110px">
+          <p class="eyebrow">01</p>
+          <h2 class="t-section">The daily loop</h2>
+          <p class="t-body muted measure--tight">
+            The six from the home page, plus the ones that come up right after.
+          </p>
+        </div>
+        <div class="faq">
+          <details class="faq__item">
+            <summary class="faq__q">My kid is seven. Is it too late?</summary>
+            <div class="faq__a"><p>No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How long does this actually take?</summary>
+            <div class="faq__a"><p>Under fifteen seconds for most days, one-handed. If it takes longer than that, that's a bug.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What if I miss days?</summary>
+            <div class="faq__a"><p>Nothing happens. That's the point.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Can my partner use it too?</summary>
+            <div class="faq__a"><p>Yes, on the same archive. One subscription covers everyone in the household.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Do I have to use it for eighteen years for it to be worth anything?</summary>
+            <div class="faq__a"><p>No. A hundred entries is already a thing your kid doesn't have. There's no threshold.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What happens to it when they grow up?</summary>
+            <div class="faq__a"><p>That's a decision the family makes, not one the app makes for you. Sealed entries can be written to open at an age you choose. The export means the archive is handed over as a real object, whatever you decide.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What is a mission, exactly?</summary>
+            <div class="faq__a"><p>The second half of the daily card. Take a photo, shoot ten seconds of video, record their voice, or just go do something — get on the floor for ten minutes. Some missions produce a file. Some don't. Both count. A bigger one lands weekly, and a measurement mission lands monthly — height, hand, foot, the things you'll want a number for later. <a href="/prompts">All {{PROMPT_COUNT}} prompts are published</a>, so you can read every one before signing up for anything.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What happens to the prompts I miss?</summary>
+            <div class="faq__a"><p>They stack quietly and expire after two weeks, and the app never mentions them again. There is no counter to break, and nothing turns red because you were busy.</p></div>
+          </details>
+        </div>
+      </div>
+
+      <div class="cols cols--sidebar cols--top">
+        <div class="stack gap-12" style="position:sticky;top:110px">
+          <p class="eyebrow">02</p>
+          <h2 class="t-section">Money</h2>
+          <p class="t-body muted measure--tight">
+            What it costs, what free means, and what happens when you stop.
+          </p>
+        </div>
+        <div class="faq">
+          <details class="faq__item">
+            <summary class="faq__q">What does it cost?</summary>
+            <div class="faq__a"><p>{{PRICE_YEAR}} a year — two months free versus monthly — or {{PRICE_MONTH}} a month. One price covers the whole household: every kid, both parents. {{TRIAL_DAYS}} days free first. <a href="/pricing">Both tiers, line by line, are on the pricing page.</a></p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Is free really free?</summary>
+            <div class="faq__a"><p>Yes, and it isn't a trial — it has no end date. Every question and every mission, forever. Unlimited written and did-it entries. Voice recordings up to two minutes. {{FREE_PHOTOS}} photos, lifetime — that's the line, and it's the only one.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What happens if I stop paying?</summary>
+            <div class="faq__a"><p>{{PRODUCT}} drops to the free tier and nothing is locked. Your whole archive stays readable, you keep answering the daily question, and text is never deleted — not ever. New photo and video uploads pause. <a href="/promise">The full version, including what happens to originals after ninety days, is on the promise page.</a></p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How do I cancel?</summary>
+            <div class="faq__a"><p>Settings on your iPhone, two taps, like any other subscription. Apple handles it, and we don't get to make it hard.</p></div>
+          </details>
+        </div>
+      </div>
+
+      <div class="cols cols--sidebar cols--top">
+        <div class="stack gap-12" style="position:sticky;top:110px">
+          <p class="eyebrow">03</p>
+          <h2 class="t-section">The archive</h2>
+          <p class="t-body muted measure--tight">
+            Getting things in is easy. These are about getting them out.
+          </p>
+        </div>
+        <div class="faq">
+          <details class="faq__item">
+            <summary class="faq__q">Can I get the whole archive out?</summary>
+            <div class="faq__a"><p>One tap gives you a zip: every entry, every photo, every recording, in folders by date — plus an <code>index.html</code> you double-click. It opens in any browser, offline, with no account and no internet. Free and complete on every tier, even if you stopped paying years ago.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What can I search?</summary>
+            <div class="faq__a"><p>Everything you wrote, every transcript of something they said, and every prompt you were asked. You aren't searching filenames and dates — you're searching the questions and the answers, which is much closer to how you'll actually remember it.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How do voice recordings work?</summary>
+            <div class="faq__a"><p>Hold to record, up to two minutes each. It's transcribed on your phone, so you can search a recording you'll never have time to relisten to.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What are sealed letters?</summary>
+            <div class="faq__a"><p>Some prompts ask you to write forward — to who they'll be at eighteen, or something you'd want them to know. You seal it until an age you choose, and a letter meant for eighteen stays shut until eighteen.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Do both parents share one archive?</summary>
+            <div class="faq__a"><p>Yes. Both answer into the same archive on one subscription, and whoever was there that day writes it down. Neither of you has to reconstruct the other's week.</p></div>
+          </details>
+        </div>
+      </div>
+
+      <div class="cols cols--sidebar cols--top">
+        <div class="stack gap-12" style="position:sticky;top:110px">
+          <p class="eyebrow">04</p>
+          <h2 class="t-section">Trust</h2>
+          <p class="t-body muted measure--tight">
+            The questions that decide whether any of the rest matters.
+          </p>
+        </div>
+        <div class="faq">
+          <details class="faq__item">
+            <summary class="faq__q">Are there ads?</summary>
+            <div class="faq__a"><p>No. Not on any tier, not at a bigger scale, not ever.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How do I sign in?</summary>
+            <div class="faq__a"><p>With Apple, or Google. There is no Facebook login — routing a private record of a child through an ad company contradicts the thing being sold.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Is anything about my child used to train AI?</summary>
+            <div class="faq__a"><p>No. Nothing about your child is sold, brokered, or used to train anything.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Is there an Android app?</summary>
+            <div class="faq__a"><p>Not today. As of {{VERIFIED_ON}}, {{PRODUCT}} is iPhone only — no Android app and no web app. We'd rather say that plainly than hint at a roadmap we can't promise.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">When does it open?</summary>
+            <div class="faq__a"><p>{{PRODUCT}} is in private testing now and opening on iPhone soon. We don't have a date to give you, so we won't give you one. The waitlist gets one prompt a day by email in the meantime, and hears the price before it goes live, not after.</p></div>
+          </details>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap wrap--narrow center stack gap-20">
+    <h2 class="t-section">Anything we missed?</h2>
+    <p class="lede" style="max-width:none">
+      Email <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a> and a person answers. Or start
+      with the part that's already free — one prompt, by email, tomorrow morning.
+    </p>
+    <div class="ctarow ctarow--center">
+      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
+      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+    </div>
+    <p class="t-meta">
+      <a href="/compare/camera-roll">Still wondering why not just use your camera roll?</a>
+    </p>
+  </div>
+</section>

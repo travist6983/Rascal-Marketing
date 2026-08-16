@@ -1,0 +1,640 @@
+<!--page
+title: {{PRODUCT}} — a daily prompt journal for your kid's childhood
+description: One question and one small mission a day. Every moment is saved with the prompt that caused it, so you can still find it in twenty years. No streaks, no ads.
+og: /assets/og/home.png
+class: home
+-->
+
+<template data-head>
+<!-- The deck's copy, generated from the live library. Both scripts are deferred
+     and deferred scripts run in document order, so DECK exists before site.js. -->
+<script src="/assets/deck.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "My kid is seven. Is it too late?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app." } },
+    { "@type": "Question", "name": "How long does this actually take?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under fifteen seconds for most days, one-handed. If it takes longer than that, that's a bug." } },
+    { "@type": "Question", "name": "What if I miss days?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nothing happens. That's the point." } },
+    { "@type": "Question", "name": "Can my partner use it too?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, on the same archive. One subscription covers everyone in the household." } },
+    { "@type": "Question", "name": "Do I have to use it for eighteen years for it to be worth anything?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. A hundred entries is already a thing your kid doesn't have. There's no threshold." } },
+    { "@type": "Question", "name": "What happens to it when they grow up?",
+      "acceptedAnswer": { "@type": "Answer", "text": "That's a decision the family makes, not one the app makes for you. Sealed entries can be written to open at an age you choose. The export means the archive is handed over as a real object, whatever you decide." } }
+  ]
+}
+</script>
+</template>
+
+
+<!-- ═══════════════ MOVEMENT 1 · HERO ═══════════════════════════════════════
+     The H1 is real text in the markup and is never faded in by script. It is
+     the LCP element, and a headline that arrives after JS is measured after JS.
+-->
+<section class="hero has-blobs">
+  <div class="blob blob--a" aria-hidden="true" style="top:-80px;right:8%;width:460px;height:460px"></div>
+  <div class="blob blob--b" aria-hidden="true" style="bottom:-120px;left:-60px;width:380px;height:380px"></div>
+
+  <div class="wrap">
+    <div class="hero__grid">
+      <div class="stack gap-24">
+        <p class="hero__badge">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="t-label">Free by email · iPhone app soon</span>
+        </p>
+
+        <h1>Your camera roll remembers what they looked&nbsp;like. {{PRODUCT}} remembers what they <em class="accent" style="font-style:normal">were</em> like.</h1>
+
+        <p class="lede">
+          One question and one small mission a day. Answer it in fifteen seconds, or skip it —
+          nothing keeps score. {{PRODUCT}} is a private baby journal app that grows into a whole
+          childhood: every moment is filed with the prompt that caused it, so in 2040 you can search
+          <em>“what he was afraid of”</em> and actually find something.
+        </p>
+
+        <div class="ctarow">
+          <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
+          <p class="ctarow__note">One a day, by email, until {{PRODUCT}} opens. Free.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:center">
+        <div class="device" data-reveal>
+          <picture>
+            <source srcset="/media/today-two-missions.webp" type="image/webp">
+            <img src="/media/today-two-missions.png" width="660" height="1435"
+                 alt="{{PRODUCT}}'s Today screen: a video mission and a question stacked as tinted cards, with Capture it and Write it buttons"
+                 fetchpriority="high" decoding="async">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────── A sample of the library, drifting past ─────────── -->
+<section class="marquee section--surface" aria-label="A sample of the {{PROMPT_COUNT}} prompts" style="border-bottom:1px solid var(--border)">
+  <div class="marquee__row marquee__row--l" aria-hidden="true">
+    <!--#include partials/marquee-a.html -->
+    <!--#include partials/marquee-a.html -->
+  </div>
+  <div class="marquee__row marquee__row--r" aria-hidden="true">
+    <!--#include partials/marquee-b.html -->
+    <!--#include partials/marquee-b.html -->
+  </div>
+  <p class="wrap t-meta" style="margin-top:6px">
+    A few of them. <a href="/prompts">All {{PROMPT_COUNT}} are published</a>, free to read and free to use.
+  </p>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 2 · THE PROBLEM ══════════════════════════════ -->
+<section class="section section--ink">
+  <div class="wrap">
+    <div class="cols cols--2 cols--mid">
+      <div class="stack gap-20" data-reveal>
+        <p class="eyebrow">01 · The problem</p>
+        <h2 class="t-section">You have four thousand photos and almost no context</h2>
+        <p class="lede" style="color:var(--ink-faint)">
+          You know the ones. A blurry shot of a shoe. Him holding something up to the camera.
+          A drawing you photographed because you couldn't keep it.
+        </p>
+        <p class="lede" style="color:var(--ink-faint)">
+          In ten years you'll have all of those and no idea why you took them.
+        </p>
+        <p class="t-title" style="color:var(--canvas)">The photo survives. The reason doesn't.</p>
+      </div>
+
+      <div class="stack gap-14">
+        <div class="mosaic" id="mosaic" aria-hidden="true">
+          <span class="mosaic__tile">the shoe</span>
+          <span class="mosaic__tile">a puddle</span>
+          <span class="mosaic__tile">the drawing</span>
+          <span class="mosaic__tile is-kept">mid-laugh</span>
+          <span class="mosaic__tile">the mess</span>
+          <span class="mosaic__tile">a hand</span>
+          <span class="mosaic__tile">the fort</span>
+          <span class="mosaic__tile">breakfast</span>
+          <span class="mosaic__tile">the costume</span>
+          <span class="mosaic__tile">asleep</span>
+          <span class="mosaic__tile">by the door</span>
+          <span class="mosaic__tile">the haircut</span>
+          <span class="mosaic__tile">a snail</span>
+          <span class="mosaic__tile">the tower</span>
+          <span class="mosaic__tile">day one</span>
+        </div>
+        <p class="mosaic__note quote" id="mosaic-note" style="color:var(--canvas);border-color:#E28B5B">
+          “Photograph their face mid-laugh. Burst mode. Take twenty, keep one.” — the one that stays
+          is the one with the question still attached.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 3 ★ · THE PROMPT ENGINE ══════════════════════
+     The centrepiece, and the only place amplitude is spent.
+-->
+<section class="section has-blobs" id="engine">
+  <div class="blob blob--a" aria-hidden="true" id="engine-glow"
+       style="top:22%;left:50%;width:660px;height:660px;margin-left:-330px;opacity:.85;animation:none;transition:background .6s var(--ease)"></div>
+
+  <div class="wrap stack gap-44">
+
+    <div class="stack gap-14 center measure" style="margin-inline:auto;align-items:center" data-reveal>
+      <p class="eyebrow">02 · The prompt engine</p>
+      <h2 class="t-section">Three things, once a day</h2>
+      <p class="lede" style="max-width:38em">
+        There are <strong class="num" data-count-to="{{PROMPT_COUNT}}">{{PROMPT_COUNT}}</strong> of them.
+        Here's the deck — drag a card away, or filter it down to one kind.
+      </p>
+    </div>
+
+    <!-- The deck. Physics, thresholds and the fan are the app's own. -->
+    <div class="stack gap-24" style="align-items:center" id="deckwrap">
+      <div class="filters" role="group" aria-label="Filter the deck by kind">
+        <button class="filter" type="button" data-deck="" aria-pressed="true">All</button>
+        <button class="filter" type="button" data-deck="QUESTION" aria-pressed="false">Questions</button>
+        <button class="filter" type="button" data-deck="PHOTO" aria-pressed="false">Photo</button>
+        <button class="filter" type="button" data-deck="VOICE" aria-pressed="false">Voice</button>
+        <button class="filter" type="button" data-deck="VIDEO" aria-pressed="false">Video</button>
+        <button class="filter" type="button" data-deck="ACTIVITY" aria-pressed="false">Activity</button>
+        <button class="filter" type="button" data-deck="LETTER" aria-pressed="false">Letters</button>
+      </div>
+
+      <div class="deck" id="deck"></div>
+
+      <div class="ctarow ctarow--center">
+        <button class="btn btn--quiet" type="button" id="deal">Deal another</button>
+        <p class="ctarow__note">or drag the card away</p>
+      </div>
+      <p class="vh" role="status" id="deck-live"></p>
+    </div>
+
+    <!-- The three things, spelled out -->
+    <div class="grid-auto grid-auto--wide">
+      <div class="card stack gap-12" data-reveal>
+        <span class="chip chip--peri">One question</span>
+        <h3 class="t-card">Something you'd never think to write down</h3>
+        <p class="t-body muted"><em>What is he pretending to be this week?</em> Answer it in a sentence.</p>
+      </div>
+      <div class="card stack gap-12" data-reveal style="--reveal-delay:60ms">
+        <span class="chip chip--terra">One mission</span>
+        <h3 class="t-card">Sometimes there's nothing to upload</h3>
+        <p class="t-body muted">
+          Take a photo, shoot ten seconds of video, record their voice, or just go do something —
+          get on the floor for ten minutes. Some missions produce a file. Some don't. Both count.
+        </p>
+      </div>
+      <div class="card stack gap-12" data-reveal style="--reveal-delay:120ms">
+        <span class="chip chip--sage">It files itself</span>
+        <h3 class="t-card">Nothing to tag, nothing to organise</h3>
+        <p class="t-body muted">
+          The answer, the prompt that asked for it, the date it actually happened, and anything you
+          captured all land on one timeline. Bigger missions land weekly; a measurement mission lands
+          monthly — height, hand, foot, the things you'll want a number for later.
+        </p>
+      </div>
+    </div>
+
+    <!-- The whole idea -->
+    <div class="cols cols--2 cols--mid" style="border-top:1px solid var(--border);padding-top:44px">
+      <div class="stack gap-16" data-reveal>
+        <h2 class="t-section">The prompt is saved with the moment</h2>
+        <p class="t-body muted">
+          This is the whole idea, and no other app does it. Every photo album stores the photo.
+          {{PRODUCT}} stores the photo <strong>and the question that made you take it.</strong>
+        </p>
+        <p class="t-body muted">
+          A picture of a half-eaten sandwich is nothing. A picture of a half-eaten sandwich filed
+          under <em>“what will he eat only if it's cut a specific way”</em> is a story.
+        </p>
+        <p class="t-body muted">
+          That's also why search works. You are not searching filenames and dates. You are searching
+          the questions you were asked and the answers you gave.
+        </p>
+      </div>
+      <div class="stack gap-14">
+        <div class="card card--peri stack gap-12">
+          <span class="chip chip--peri">Question</span>
+          <p class="t-prompt">What will he eat only if it's cut a specific way?</p>
+          <p class="t-meta">Asked Tuesday · answered in nine seconds</p>
+        </div>
+        <div class="card stack gap-12">
+          <div style="height:120px;border-radius:var(--r-media);background:var(--wash);display:flex;align-items:center;justify-content:center">
+            <span class="t-meta" style="background:rgba(255,253,249,.85);padding:5px 11px;border-radius:var(--r-pill)">a half-eaten sandwich</span>
+          </div>
+          <p class="quote">Triangles. Specifically triangles. He checks.</p>
+          <p class="t-meta">Photo · 12:40 PM · age 4 years 2 months</p>
+        </div>
+        <p class="t-meta center">One object. In twenty years it still explains itself.</p>
+      </div>
+    </div>
+
+    <!-- The three shapes -->
+    <div class="cols cols--2 cols--mid" style="border-top:1px solid var(--border);padding-top:44px">
+      <div class="stack gap-16">
+        <h2 class="t-section">Not everything worth keeping is a photograph</h2>
+        <p class="t-body muted">
+          Most memory apps assume you have media. Half of what matters doesn't produce a file. One
+          prompt — <em>“get on the floor for ten minutes”</em> — lands three different ways.
+        </p>
+        <div class="filters" role="group" aria-label="Completion shape" style="justify-content:flex-start">
+          <button class="filter" type="button" data-shape="did" aria-pressed="true">Did it</button>
+          <button class="filter" type="button" data-shape="cap" aria-pressed="false">Captured it</button>
+          <button class="filter" type="button" data-shape="wrote" aria-pressed="false">Wrote it</button>
+        </div>
+        <p class="t-meta">
+          An app that only counts the days you produced a file is measuring the wrong thing.
+          Terracotta is a mission, periwinkle is a question or a voice, sage means it happened.
+        </p>
+      </div>
+
+      <div class="shapes__out" aria-live="polite">
+        <div class="card card--sage" data-shape-panel="did" style="display:flex;gap:14px;align-items:flex-start">
+          <span class="tick tick--lg" aria-hidden="true">✓</span>
+          <span class="stack gap-8">
+            <span class="t-body muted">Get on the floor for ten minutes. That's the whole mission.</span>
+            <span class="t-meta">Did it · 7:05 PM</span>
+            <span class="t-body" style="color:var(--sage-ink)">Nothing to upload. Still a complete entry.</span>
+          </span>
+        </div>
+
+        <div class="card stack gap-14" data-shape-panel="cap" hidden>
+          <span style="display:flex;align-items:center;gap:10px">
+            <span class="tick tick--terra tick--lg" aria-hidden="true">✓</span>
+            <span class="t-meta">Filed. Fifteen seconds, start to finish.</span>
+          </span>
+          <span style="height:150px;border-radius:var(--r-media);background:var(--wash);display:flex;align-items:center;justify-content:center">
+            <span class="t-meta" style="background:rgba(255,253,249,.85);padding:5px 11px;border-radius:var(--r-pill)">the tower, mid-collapse</span>
+          </span>
+          <span class="quote">Get on the floor for ten minutes. That's the whole mission.</span>
+          <span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="chip chip--terra chip--md">Photo</span><span class="t-meta">7:05 PM</span>
+          </span>
+        </div>
+
+        <div class="card stack gap-12" data-shape-panel="wrote" hidden>
+          <span class="quote">Get on the floor for ten minutes. That's the whole mission.</span>
+          <span style="font:400 19px/1.5 var(--text)">A tower went up and came down eleven times. I stayed for all eleven.</span>
+          <span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="chip chip--peri chip--md">Written</span>
+            <span class="t-meta">9:20 PM · two sentences is plenty</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice -->
+    <div class="cols cols--flip cols--mid" style="border-top:1px solid var(--border);padding-top:44px">
+      <div class="stack gap-16">
+        <h2 class="t-section">Record how they actually sound</h2>
+        <p class="t-body muted">
+          Their voice changes faster than their face and nobody thinks to record it. Some missions ask
+          for ten seconds of audio — a song they're mangling, how they say a word wrong, what they
+          think a job is.
+        </p>
+        <p class="t-body muted">
+          It's transcribed on your phone, so you can search a recording you'll never have time to
+          relisten to.
+        </p>
+        <p><a href="/blog/record-your-kids-voice">How to record your kid's voice before it changes →</a></p>
+      </div>
+      <div style="display:flex;justify-content:center">
+        <div class="device" data-reveal>
+          <picture>
+            <source srcset="/media/entry-voice.webp" type="image/webp">
+            <img src="/media/entry-voice.png" width="600" height="1304" loading="lazy"
+                 alt="A voice entry in {{PRODUCT}} showing a waveform and the transcript underneath it"
+                 decoding="async">
+          </picture>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctarow ctarow--center">
+      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
+      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 4 · NO STREAKS ═══════════════════════════════
+     The calmest thing on the page, immediately after the loudest. Deliberate
+     drop in energy: no reveal, no motion, let the copy carry it.
+-->
+<section class="section section--surface">
+  <div class="wrap wrap--narrow center stack gap-20">
+    <h2 class="t-section">No streaks. No badges. No red.</h2>
+    <p class="lede" style="max-width:none">
+      Skip a day and nothing happens. Skip a week and nothing happens. Missed prompts stack quietly
+      and expire after two weeks, and the app never mentions it again.
+    </p>
+    <p class="lede" style="max-width:none">
+      There is no counter to break, no confetti when you comply, and nothing in the interface turns
+      red because you were busy.
+    </p>
+    <p class="t-title">
+      An app that punishes a parent for a hard week is a bad parenting app. That's a design decision,
+      not a missing feature.
+    </p>
+    <p><a href="/blog/streaks-are-a-bad-idea">Why we refused streaks, at length →</a></p>
+  </div>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 5 · THE ARCHIVE ══════════════════════════════ -->
+<section class="section section--rule" id="archive">
+  <div class="wrap stack gap-44">
+    <div class="stack gap-14 measure" data-reveal>
+      <p class="eyebrow">03 · The archive</p>
+      <h2 class="t-section">Built to be searched, not scrolled</h2>
+    </div>
+
+    <div class="cols cols--2 cols--top">
+      <div>
+        <div class="arch__step" data-arch="0">
+          <h3 class="t-title">A timeline with their age on every day</h3>
+          <p class="t-body muted measure--tight">
+            Scan it by date. Age is stamped on every entry, so you're not doing arithmetic to work
+            out whether he was three or four. The point of an archive isn't that it's stored. It's
+            that somebody can find something in it.
+          </p>
+        </div>
+        <div class="arch__step" data-arch="1">
+          <h3 class="t-title">Search everything — even what was spoken</h3>
+          <p class="t-body muted measure--tight">
+            Everything you wrote, everything they said, and every prompt you were asked. Voice notes
+            are transcribed on your phone, so a sentence forty seconds into a recording you'll never
+            relisten to is still one search away.
+          </p>
+        </div>
+        <div class="arch__step" data-arch="2">
+          <h3 class="t-title">The question and the answer, one object</h3>
+          <p class="t-body muted measure--tight">
+            Every entry keeps the prompt that caused it. And <strong>backdating is normal here, not a
+            workaround</strong> — the day something happened and the day you got around to writing it
+            down are two different facts, and both are kept.
+          </p>
+        </div>
+      </div>
+
+      <div class="arch__sticky">
+        <div class="device device--stack" id="arch-phone">
+          <picture>
+            <source srcset="/media/timeline-all.webp" type="image/webp">
+            <img src="/media/timeline-all.png" width="600" height="1304" loading="lazy" decoding="async"
+                 data-arch-img="0" style="opacity:1"
+                 alt="{{PRODUCT}}'s timeline grouped by date, with the child's age on each day header">
+          </picture>
+          <picture>
+            <source srcset="/media/timeline-search.webp" type="image/webp">
+            <img src="/media/timeline-search.png" width="600" height="1304" loading="lazy" decoding="async"
+                 data-arch-img="1" style="opacity:0"
+                 alt="Searching the archive for a word and finding the entries that match">
+          </picture>
+          <picture>
+            <source srcset="/media/entry-question-answered.webp" type="image/webp">
+            <img src="/media/entry-question-answered.png" width="600" height="1304" loading="lazy" decoding="async"
+                 data-arch-img="2" style="opacity:0"
+                 alt="A question above the parent's answer, saved together as one entry">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 6 · THE PROMISES ═════════════════════════════ -->
+<section class="section section--surface" id="promises">
+  <div class="wrap">
+    <div class="cols cols--sidebar cols--top">
+      <div class="stack gap-14" style="position:sticky;top:110px" data-reveal>
+        <p class="eyebrow">04 · The promise</p>
+        <h2 class="t-section">Your kid isn't the product</h2>
+        <p class="t-body muted measure--tight">Most apps handle this badly, so here it is in full, before you sign up.</p>
+        <p><a href="/promise">The whole promise, in detail →</a></p>
+      </div>
+
+      <div class="stack gap-32">
+        <div class="stack gap-12">
+          <hr class="rule--accent" data-rule-grow>
+          <h3 class="t-card">No ads. No data sale. Ever.</h3>
+          <p class="t-body muted">
+            Not now, not at a bigger scale, not ever. Nothing about your child is sold, brokered, or
+            used to train anything. Sign in with Apple, or Google. No Facebook login — routing a
+            private record of a child through an ad company contradicts the thing being sold.
+          </p>
+        </div>
+        <div class="stack gap-12">
+          <hr class="rule--accent" data-rule-grow>
+          <h3 class="t-card">Private by default</h3>
+          <p class="t-body muted">
+            Nobody sees the archive unless you invite them. There is no feed, no likes, and no place
+            other people perform.
+          </p>
+        </div>
+        <div class="stack gap-12">
+          <hr class="rule--accent" data-rule-grow>
+          <h3 class="t-card">We have never deleted a word a parent wrote</h3>
+          <p class="t-body muted">
+            If you stop paying, {{PRODUCT}} drops to the free tier. <strong>Nothing is locked.</strong>
+            Your whole archive stays readable. You keep answering the daily question — text and did-it
+            entries never stop. New photo and video uploads pause. After ninety days, original photos
+            move to cheaper cold storage: thumbnails stay instant, search still works, and pulling a
+            full-resolution original back takes about an hour. That's a property of the storage, not a
+            penalty.
+          </p>
+          <p class="t-body">
+            <strong>Text is never deleted. Not ever.</strong> And if media is ever going to be removed,
+            you get warned three times — ninety days out, thirty days out, seven days out — each with a
+            free one-click export of the whole archive. Sign in once during that window and it's
+            cancelled outright. If we can't reach you, we keep it.
+          </p>
+        </div>
+        <div class="stack gap-12">
+          <hr class="rule--accent" data-rule-grow>
+          <h3 class="t-card">An export you can't read isn't a backup</h3>
+          <p class="t-body muted">
+            One tap gives you a zip: every entry, every photo, every recording, in folders by date —
+            plus an <code>index.html</code> you double-click. It opens in any browser, offline, with no
+            account and no internet. No app required, including this one.
+          </p>
+          <p class="t-body muted">
+            Free, complete, always. Even on the free tier. Even if you stopped paying years ago. It's
+            built that way because an archive meant to last eighteen years shouldn't depend on this
+            company lasting eighteen years.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 7 · HANDOFF, THEN PRICING ════════════════════
+     Emotional beat first, then the ask. Never reversed.
+-->
+<section class="section section--rule" id="pricing">
+  <div class="wrap stack" style="--gap:72px">
+
+    <div class="card card--wash card--pad">
+      <div class="cols cols--2 cols--mid">
+        <div class="stack gap-16" data-reveal>
+          <p class="eyebrow" style="color:var(--sealed-ink)">05 · The handoff</p>
+          <h2 class="t-section">It isn't yours forever. That's the point.</h2>
+          <p class="t-body">
+            Everything in here is being kept for one person, and it isn't you. When your family
+            decides they're ready, they get all of it — the entries, the photos, the recordings, the
+            questions. Some things you can seal until a birthday you choose. A letter meant for
+            eighteen stays shut until eighteen.
+          </p>
+          <button class="btn btn--primary" type="button" id="seal" aria-pressed="false">Open it</button>
+        </div>
+        <div style="display:flex;justify-content:center">
+          <div class="device device--light device--stack" id="sealphone">
+            <picture>
+              <source srcset="/media/entry-sealed-locked.webp" type="image/webp">
+              <img src="/media/entry-sealed-locked.png" width="560" height="1217" loading="lazy" decoding="async"
+                   data-seal="locked" style="opacity:1"
+                   alt="A sealed letter card reading “Sealed until 18”, written and waiting">
+            </picture>
+            <picture>
+              <source srcset="/media/entry-sealed-open.webp" type="image/webp">
+              <img src="/media/entry-sealed-open.png" width="560" height="1217" loading="lazy" decoding="async"
+                   data-seal="open" style="opacity:0"
+                   alt="The same letter opened: “Dear you, on the day you turn eighteen”">
+            </picture>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack gap-24 center" style="align-items:center" id="pricing-block">
+      <h2 class="t-section measure" style="max-width:20em">Free to start. Here's what it costs when you outgrow it.</h2>
+      <div class="grid-auto" style="max-width:820px;width:100%;text-align:left">
+        <div class="card card--tap stack gap-12" data-reveal>
+          <p class="t-label">Free — not a trial</p>
+          <p class="num" style="font:700 34px var(--display)">$0</p>
+          <p class="t-body muted">
+            Every question and every mission, forever, uncapped. Unlimited written and did-it entries.
+            Voice recordings up to two minutes. <strong>{{FREE_PHOTOS}} photos, lifetime</strong> —
+            that's the line, and it's the only one.
+          </p>
+        </div>
+        <div class="card card--tap stack gap-12" data-reveal style="--reveal-delay:60ms">
+          <p class="t-label accent">{{PRODUCT}} Plus</p>
+          <p class="num" style="font:700 34px var(--display)">{{PRICE_YEAR}}<span style="font:400 17px var(--text);color:var(--ink-muted)">/year</span></p>
+          <p class="t-body muted">
+            Two months free versus monthly — or {{PRICE_MONTH}} a month. One price covers the whole
+            household: every kid, both parents. {{TRIAL_DAYS}} days free first.
+          </p>
+        </div>
+      </div>
+      <a class="btn btn--quiet" href="/pricing">See what's in each tier →</a>
+      <p class="t-meta measure">
+        <em>Ships with the App Store launch. Waitlist members will hear the price before it goes live,
+        not after.</em>
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ MOVEMENT 8 · FAQ AND FINAL CTA ════════════════════════ -->
+<section class="section section--surface" id="faq">
+  <div class="wrap stack" style="--gap:80px">
+
+    <div class="cols cols--sidebar cols--top">
+      <div class="stack gap-14" data-reveal>
+        <p class="eyebrow">06 · Questions</p>
+        <h2 class="t-section">Questions parents actually ask a private baby journal app</h2>
+        <p><a href="/faq">The full set →</a></p>
+      </div>
+      <div class="faq">
+        <details class="faq__item">
+          <summary class="faq__q">My kid is seven. Is it too late?</summary>
+          <div class="faq__a"><p>No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">How long does this actually take?</summary>
+          <div class="faq__a"><p>Under fifteen seconds for most days, one-handed. If it takes longer than that, that's a bug.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">What if I miss days?</summary>
+          <div class="faq__a"><p>Nothing happens. That's the point.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Can my partner use it too?</summary>
+          <div class="faq__a"><p>Yes, on the same archive. One subscription covers everyone in the household.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Do I have to use it for eighteen years for it to be worth anything?</summary>
+          <div class="faq__a"><p>No. A hundred entries is already a thing your kid doesn't have. There's no threshold.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">What happens to it when they grow up?</summary>
+          <div class="faq__a"><p>That's a decision the family makes, not one the app makes for you. Sealed entries can be written to open at an age you choose. The export means the archive is handed over as a real object, whatever you decide.</p></div>
+        </details>
+      </div>
+    </div>
+
+    <div class="card card--canvas card--pad has-blobs" id="waitlist">
+      <div class="blob blob--a blob--breathe" aria-hidden="true" style="top:-140px;right:-80px;width:520px;height:520px"></div>
+      <div class="wrap" style="padding:0">
+        <div class="cols cols--2 cols--mid">
+          <div class="stack gap-24">
+            <div class="stack gap-14" data-reveal>
+              <h2 class="t-section">One question. Tonight.</h2>
+              <p class="lede">
+                {{PRODUCT}} is in private testing and opening soon on iPhone. Until then the prompts
+                come to you by email — the same ones from the deck, one a day, free.
+              </p>
+            </div>
+            <!--#include partials/signup.html -->
+            <ul class="check-list">
+              <li><span class="tick" aria-hidden="true">✓</span><span>Free, and not a trial — the email prompts stay free whatever happens to the app.</span></li>
+              <li><span class="tick" aria-hidden="true">✓</span><span>No third-party trackers, no ad pixels, no analytics on this page. Your address goes nowhere else.</span></li>
+              <li><span class="tick" aria-hidden="true">✓</span><span>One click unsubscribes, and we say so in every send.</span></li>
+            </ul>
+          </div>
+
+          <div class="stack gap-12">
+            <p style="display:flex;align-items:center;gap:8px">
+              <span class="dot" aria-hidden="true" style="animation:softpulse 3.4s ease-in-out infinite"></span>
+              <span class="t-label">Your next three mornings</span>
+            </p>
+            <div class="card inbox__item inbox__item--peri stack gap-8">
+              <span style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+                <span class="chip chip--peri">Question</span><span class="t-meta">Tomorrow, 7:00</span>
+              </span>
+              <span class="pcard__body" style="font-size:16px">What are they obsessed with right now?</span>
+            </div>
+            <div class="card inbox__item inbox__item--terra stack gap-8">
+              <span style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+                <span class="chip chip--terra">Photo</span><span class="t-meta">Monday, 7:00</span>
+              </span>
+              <span class="pcard__body" style="font-size:16px">Photograph their hands. Just their hands.</span>
+            </div>
+            <div class="card inbox__item inbox__item--terra stack gap-8">
+              <span style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+                <span class="chip chip--terra">Activity</span><span class="t-meta">Tuesday, 7:00</span>
+              </span>
+              <span class="pcard__body" style="font-size:16px">Get on the floor for ten minutes. That's the whole mission.</span>
+            </div>
+            <p class="t-meta">…and 130 more after that. No streaks, no reminders about the ones you skip.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

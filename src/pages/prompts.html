@@ -1,0 +1,112 @@
+<!--page
+title: Every question {{PRODUCT}} asks — {{PROMPT_COUNT}} daily prompts
+description: All {{PROMPT_COUNT}} questions and missions, free to read. Filter by age and type — voice, photo, activity, or just something worth writing down.
+og: /assets/og/prompts.png
+class: prompts
+-->
+
+<template data-head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Every question {{PRODUCT}} asks",
+  "description": "All {{PROMPT_COUNT}} daily prompts — questions, photo and video missions, voice recordings, activities, letters and monthly measurements.",
+  "isPartOf": { "@type": "WebSite", "name": "{{PRODUCT}}" }
+}
+</script>
+</template>
+
+<section class="section section--tight">
+  <div class="wrap stack gap-14 measure">
+    <p class="eyebrow">The library</p>
+    <h1 class="t-hero">Every question {{PRODUCT}} asks</h1>
+    <p class="lede">
+      All {{PROMPT_COUNT}} of them, free to read, free to use, and free inside the app forever.
+      Whether you want questions to ask your 4 year old, a reason to record their voice, or one
+      small thing to go and do tonight, it's on this page. Take them and use them in a notebook if
+      you'd rather — that's fine. The app just remembers so you don't have to.
+    </p>
+    <p class="t-body muted">
+      Nothing here is metered. Some apps in this category charge you per question per day; that's
+      the thing worth not doing. <a href="/pricing">Pricing is here</a> if you want to see where the
+      line actually is.
+    </p>
+  </div>
+</section>
+
+<!-- Filters and the full library. Every prompt is in the HTML before any script
+     runs — the filters hide and show what is already there. -->
+<!--#include partials/prompt-library.html -->
+
+<section class="section--tight section--rule">
+  <div class="wrap stack gap-12 measure" style="padding-block:36px">
+    <h2 class="t-title">The same questions to ask your 4 year old still work at nine</h2>
+    <p class="t-body muted">
+      Age bands are a starting filter, not a rule. <em>“What are they pretending to be this
+      week?”</em> is as good at nine as at four — the answer just grows up with them, which is
+      the point of asking it more than once.
+    </p>
+  </div>
+</section>
+
+<section class="section section--surface">
+  <div class="wrap">
+    <div class="cols cols--2 cols--top">
+      <div class="stack gap-16">
+        <h2 class="t-section">How to use these without the app</h2>
+        <p class="t-body muted">
+          Genuinely: take them. Put one in your calendar for 7am. Answer it in your notes app, or on
+          paper, or in the back of whatever notebook is nearest. Two sentences is plenty, and the
+          entry you actually write beats the essay you meant to write.
+        </p>
+        <p class="t-body muted">
+          Three things make an answer survive twenty years, and none of them need software: the date,
+          their age, and the question you were answering. Write those down with it. That third one is
+          the one everybody skips, and it's the one that turns a note into something findable.
+        </p>
+        <p><a href="/blog/the-photo-survives">Why the question is the artifact worth keeping →</a></p>
+      </div>
+
+      <div class="stack gap-14">
+        <h2 class="t-section">Why they're written like this</h2>
+        <p class="t-body muted">
+          Every prompt asks for one concrete, observable thing. Not <em>“capture a special
+          moment”</em> — an assignment like that is why baby books die on page seven. <em>“What word
+          do they mispronounce that you don't want to correct?”</em> is answerable in nine seconds
+          because there is exactly one right answer and you already know it.
+        </p>
+        <p class="t-body muted">
+          They're also written to be read by any family. The bodies store pronoun tokens and the name
+          as placeholders, and each one is filled in the moment before you read it — so the app says
+          <em>her</em> to a family with a daughter and <em>them</em> to a family that hasn't said. On
+          this page there's no child to ask, so they render neutrally.
+        </p>
+        <div class="callout callout--peri stack gap-8">
+          <p class="t-label">Stored</p>
+          <!-- Entities, not literal braces: the checker fails the build on a raw
+               pronoun token anywhere in dist, and this page is the one that
+               would deserve it most. -->
+          <p class="t-body"><code>What word does &#123;name&#125; mispronounce that you don't want to correct?</code></p>
+          <p class="t-label">Read</p>
+          <p class="t-body">What word does Maya mispronounce that you don't want to correct?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap wrap--narrow center stack gap-20">
+    <h2 class="t-section">One of these, tomorrow morning</h2>
+    <p class="lede" style="max-width:none">
+      The waitlist isn't an announcement list. It's one prompt a day, by email, starting tomorrow —
+      the same ones on this page. Answer them anywhere. When {{PRODUCT}} opens, backdating means
+      nothing you wrote in a notebook is wasted.
+    </p>
+    <div class="ctarow ctarow--center">
+      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
+      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+    </div>
+  </div>
+</section>
