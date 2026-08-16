@@ -25,13 +25,15 @@ og: /assets/og/how-it-works.png
 <section class="section section--tight">
   <div class="wrap">
     <div class="stack gap-14 measure">
-      <p class="eyebrow">How it works</p>
       <h1 class="t-hero">How it works</h1>
       <p class="lede">
         {{PRODUCT}} is a daily prompt journal for parents. One question and one small mission arrive
         each morning; you answer in about fifteen seconds, one-handed, and the answer is filed with the
-        question that caused it. That last part is the whole product. Everything below is how it
-        actually goes.
+        question that caused it. That last part is the whole product.
+      </p>
+      <p class="lede">
+        So here is how it actually goes — laid out the way {{PRODUCT}} lays out everything: on a
+        timeline. It starts tomorrow morning and runs to the morning they turn eighteen.
       </p>
     </div>
   </div>
@@ -39,176 +41,306 @@ og: /assets/og/how-it-works.png
 
 <section class="section section--surface">
   <div class="wrap">
-    <ol class="numbered">
+    <div class="hiw">
+      <div class="hiw__fill" aria-hidden="true"></div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">The morning card</h2>
-          <p class="t-body muted">
-            One notification, at a time you pick. Open it and there are two things: a question and a
-            mission. Not a feed, not a dashboard, not eleven things you're behind on.
-          </p>
-          <div class="grid-auto">
-            <div class="card card--peri stack gap-10">
-              <span class="chip chip--peri">Question</span>
-              <p class="t-prompt">What are they pretending to be this week?</p>
-              <p class="t-meta">Answer in a sentence</p>
+      <!-- ── Tomorrow, 7:00 — the morning card ─────────────────────────── -->
+      <div class="hiw-scene">
+        <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Tomorrow · 7:00 a.m.</p>
+        <div class="cols cols--2 cols--mid">
+          <div class="stack gap-14">
+            <h2 class="t-title">The morning card</h2>
+            <p class="t-body muted measure">
+              One notification, at a time you pick. Open it and there are two things: a question and a
+              mission. Not a feed, not a dashboard, not eleven things you're behind on.
+            </p>
+            <p class="t-body muted measure">
+              There are four kinds you'll see most days — a question, a capture mission, an activity
+              with nothing to upload, and occasionally a letter. <a href="/prompts">All {{PROMPT_COUNT}}
+              are published</a>, so you can read every one before you sign up for anything.
+            </p>
+          </div>
+          <div class="grid-auto hiw-deal">
+            <div class="hiw-deal__l">
+              <div class="card card--peri stack gap-10" data-reveal style="height:100%">
+                <span class="chip chip--peri">Question</span>
+                <p class="t-prompt">What are they pretending to be this week?</p>
+                <p class="t-meta">Answer in a sentence</p>
+              </div>
             </div>
-            <div class="card card--terra stack gap-10">
-              <span class="chip chip--terra">Photo</span>
-              <p class="t-prompt">Photograph their hands. Just their hands.</p>
-              <p class="t-meta">Today's mission</p>
+            <div class="hiw-deal__r">
+              <div class="card card--terra stack gap-10" data-reveal style="--reveal-delay:90ms;height:100%">
+                <span class="chip chip--terra">Photo</span>
+                <p class="t-prompt">Photograph their hands. Just their hands.</p>
+                <p class="t-meta">Today's mission</p>
+              </div>
             </div>
           </div>
-          <p class="t-body muted">
-            There are four kinds you'll see most days — a question, a capture mission, an activity
-            with nothing to upload, and occasionally a letter. <a href="/prompts">All {{PROMPT_COUNT}}
-            are published</a>, so you can read every one before you sign up for anything.
-          </p>
         </div>
-      </li>
+      </div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">The four ways to answer</h2>
-          <p class="t-body muted">
-            The fifteen-second claim is a real constraint, not a slogan. Each of these is one tap
-            from the card, and none of them opens a form.
-          </p>
-          <div class="grid-auto">
-            <div class="card stack gap-8">
-              <p class="t-card">Photo or video</p>
-              <p class="t-body muted">Camera opens on the card. Shoot, keep, done. The prompt is attached before you've put the phone down.</p>
+      <!-- ── Fifteen seconds later — the four verbs ─────────────────────── -->
+      <div class="hiw-scene">
+        <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Fifteen seconds later</p>
+        <div class="cols cols--2 cols--top">
+          <div class="stack gap-14">
+            <h2 class="t-title">The four ways to answer</h2>
+            <p class="t-body muted measure">
+              The fifteen-second claim is a real constraint, not a slogan. Each of these is one tap
+              from the card, and none of them opens a form.
+            </p>
+            <div class="filters" role="group" aria-label="The four ways to answer" style="justify-content:flex-start">
+              <button class="filter" type="button" data-shape="photo" aria-pressed="true">Photo or video</button>
+              <button class="filter" type="button" data-shape="voice" aria-pressed="false">Voice</button>
+              <button class="filter" type="button" data-shape="wrote" aria-pressed="false">Written</button>
+              <button class="filter" type="button" data-shape="did" aria-pressed="false">Did it</button>
             </div>
-            <div class="card stack gap-8">
-              <p class="t-card">Voice</p>
-              <p class="t-body muted">Hold to record, up to two minutes. Transcribed on your phone, so the words are searchable and the audio never leaves for a transcription service.</p>
+          </div>
+          <div class="shapes__out hiw-verbs" aria-live="polite">
+            <div class="card stack gap-14" data-shape-panel="photo">
+              <p class="t-body muted">
+                Camera opens on the card. Shoot, keep, done. The prompt is attached before you've put
+                the phone down.
+              </p>
+              <span style="height:130px;border-radius:var(--r-media);background:var(--wash);display:flex;align-items:center;justify-content:center">
+                <span class="t-meta" style="background:rgba(255,253,249,.85);padding:5px 11px;border-radius:var(--r-pill)">their hands, Tuesday morning</span>
+              </span>
+              <span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <span class="chip chip--terra chip--md">Photo</span>
+                <span class="t-meta">7:00:14 · filed with its prompt</span>
+              </span>
             </div>
-            <div class="card stack gap-8">
-              <p class="t-card">Written</p>
+            <div class="card stack gap-12" data-shape-panel="voice" hidden>
+              <p class="t-body muted">
+                Hold to record, up to two minutes. Transcribed on your phone, so the words are
+                searchable and the audio never leaves for a transcription service.
+              </p>
+              <span class="quote quote--peri quote--lg">Tell me the dinosaur one again. No, the loud dinosaur one.</span>
+              <span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <span class="chip chip--peri chip--md">Voice</span>
+                <span class="t-meta">0:41 · every word of it searchable</span>
+              </span>
+            </div>
+            <div class="card stack gap-12" data-shape-panel="wrote" hidden>
               <p class="t-body muted">Two sentences is plenty. Most entries are shorter than this paragraph.</p>
+              <span style="font:400 18px/1.5 var(--text)">He asked if the moon follows only our car. I said yes.</span>
+              <span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <span class="chip chip--peri chip--md">Written</span>
+                <span class="t-meta">9:20 p.m. · two sentences, done</span>
+              </span>
             </div>
-            <div class="card stack gap-8">
-              <p class="t-card">Did it</p>
-              <p class="t-body muted">You got on the floor for ten minutes. One tap. Nothing to upload, and it is a complete entry — not a lesser one.</p>
+            <div class="card card--sage" data-shape-panel="did" hidden style="display:flex;gap:14px;align-items:flex-start">
+              <span class="tick tick--lg" aria-hidden="true">✓</span>
+              <span class="stack gap-8">
+                <span class="t-body muted">
+                  You got on the floor for ten minutes. One tap. Nothing to upload, and it is a
+                  complete entry — not a lesser one.
+                </span>
+                <span class="t-meta">Did it · 7:05 p.m.</span>
+              </span>
             </div>
           </div>
         </div>
-      </li>
+      </div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">Missions: daily, weekly, monthly</h2>
-          <p class="t-body muted">
-            Most days it's small. Once a week something slightly bigger lands — film the bedtime
-            routine start to finish, one take. Once a month a measurement mission asks for a number:
-            height, hand, foot, the things you'll want on a chart later and will never reconstruct
-            from memory.
-          </p>
-          <div class="callout stack gap-8">
-            <p class="t-label">Monthly</p>
-            <p class="t-body">Trace their hand on paper. Photograph it next to last month's.</p>
+      <!-- ── That week, that month — the rhythm ─────────────────────────── -->
+      <div class="hiw-scene">
+        <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>That week · that month</p>
+        <div class="cols cols--2 cols--mid">
+          <div class="stack gap-14">
+            <h2 class="t-title">Missions: daily, weekly, monthly</h2>
+            <p class="t-body muted measure">
+              Most days it's small. Once a week something slightly bigger lands — film the bedtime
+              routine start to finish, one take. Once a month a measurement mission asks for a number:
+              height, hand, foot, the things you'll want on a chart later and will never reconstruct
+              from memory.
+            </p>
+            <div class="callout stack gap-8">
+              <p class="t-label">Monthly</p>
+              <p class="t-body">Trace their hand on paper. Photograph it next to last month's.</p>
+            </div>
+          </div>
+          <div class="stack gap-14">
+            <div class="hiw-month" aria-hidden="true">
+              <i></i><i></i><i></i><i class="is-off"></i><i></i><i class="is-wk"></i><i></i>
+              <i></i><i class="is-off"></i><i></i><i></i><i></i><i class="is-wk"></i><i></i>
+              <i></i><i></i><i class="is-off"></i><i class="is-off"></i><i></i><i class="is-wk"></i><i></i>
+              <i></i><i></i><i></i><i class="is-off"></i><i></i><i class="is-wk"></i><i class="is-msr"></i>
+            </div>
+            <p class="t-meta measure">
+              A month, more or less: something small most days, one bigger mission on a weekend, one
+              measurement at the end. The empty days cost nothing.
+            </p>
           </div>
         </div>
-      </li>
+      </div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">Backdating, which is normal here</h2>
-          <p class="t-body muted">
-            The day something happened and the day you got around to writing it down are two
-            different facts, and {{PRODUCT}} keeps both. File a memory under the day it happened,
-            whenever you get to it. Nothing marks it as late, because it isn't.
-          </p>
-          <p class="t-body muted">
-            This is also the answer to <em>“my kid is seven, is it too late?”</em> — no. Plenty of a
-            real archive will be older than the app that holds it.
-          </p>
+      <!-- ── Whenever you get to it — backdating ────────────────────────── -->
+      <div class="hiw-scene">
+        <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Whenever you get to it</p>
+        <div class="cols cols--2 cols--mid">
+          <div class="stack gap-14">
+            <h2 class="t-title">Backdating, which is normal here</h2>
+            <p class="t-body muted measure">
+              The day something happened and the day you got around to writing it down are two
+              different facts, and {{PRODUCT}} keeps both. File a memory under the day it happened,
+              whenever you get to it. Nothing marks it as late, because it isn't.
+            </p>
+            <p class="t-body muted measure">
+              This is also the answer to <em>“my kid is seven, is it too late?”</em> — no. Plenty of a
+              real archive will be older than the app that holds it.
+            </p>
+          </div>
+          <div class="card stack gap-10" style="max-width:430px" data-reveal>
+            <span style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+              <span class="chip chip--md">Filed under Saturday, June 14</span>
+              <span class="t-meta num">written June 29</span>
+            </span>
+            <span style="font:400 18px/1.5 var(--text)">First time to the top of the big slide. Went straight back up before I'd finished clapping.</span>
+            <span class="t-meta">Two dates, both kept. Nothing marks it late.</span>
+          </div>
         </div>
-      </li>
+      </div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">The timeline</h2>
-          <p class="t-body muted">
-            Everything lands in one place, grouped by date, with their age stamped on every day
-            header. You are never doing arithmetic to work out whether he was three or four.
-          </p>
-          <div style="display:flex;justify-content:center;padding-top:8px">
-            <div class="device" data-reveal>
+      <!-- ── Years in — the archive pays out ────────────────────────────── -->
+      <div class="cols cols--2 cols--top">
+        <div>
+          <div class="hiw-scene hiw-scene--arch arch__step" data-arch="0">
+            <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Year three</p>
+            <h2 class="t-title">The timeline</h2>
+            <p class="t-body muted measure--tight">
+              Everything lands in one place, grouped by date, with their age stamped on every day
+              header. You are never doing arithmetic to work out whether he was three or four.
+            </p>
+          </div>
+          <div class="hiw-scene hiw-scene--arch arch__step" data-arch="1">
+            <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Year nine</p>
+            <h2 class="t-title">Search, and why the prompt matters</h2>
+            <p class="t-body muted measure--tight">
+              Search runs across everything you wrote, every transcript of something they said, and
+              every prompt you were asked. That third one is what nothing else has.
+            </p>
+            <p class="t-body muted measure--tight">
+              Searching a camera roll means searching dates, places and whatever the machine thinks it
+              sees. Searching {{PRODUCT}} means searching the questions — <em>“afraid of”</em>,
+              <em>“pretending to be”</em>, <em>“wouldn't let us correct”</em> — which is much closer to
+              how you'll actually remember it in twenty years.
+            </p>
+          </div>
+        </div>
+
+        <div class="arch__sticky">
+          <div class="device device--stack" data-reveal>
+            <picture>
+              <source srcset="/media/timeline-all.webp" type="image/webp">
+              <img src="/media/timeline-all.png" width="600" height="1304" loading="lazy" decoding="async"
+                   data-arch-img="0" style="opacity:1"
+                   alt="{{PRODUCT}}'s timeline grouped by date, with the child's age on each day header">
+            </picture>
+            <picture>
+              <source srcset="/media/timeline-search.webp" type="image/webp">
+              <img src="/media/timeline-search.png" width="600" height="1304" loading="lazy" decoding="async"
+                   data-arch-img="1" style="opacity:0"
+                   alt="Searching the archive for a word and finding the entries that match, each showing the prompt it was filed under">
+            </picture>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Any given night — letters ──────────────────────────────────── -->
+      <div class="hiw-scene">
+        <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Any given night</p>
+        <div class="cols cols--2 cols--mid">
+          <div class="stack gap-14">
+            <h2 class="t-title">Letters, sealed until an age you pick</h2>
+            <p class="t-body muted measure">
+              Some prompts ask you to write forward — a letter to who they'll be at eighteen, or what
+              you'd want them to know if you weren't around to say it. You choose when it opens. A
+              letter meant for eighteen stays shut until eighteen.
+            </p>
+            <button class="btn btn--quiet" type="button" id="seal" aria-pressed="false">Open it</button>
+          </div>
+          <div style="display:flex;justify-content:center">
+            <div class="device device--light device--stack" data-reveal>
               <picture>
-                <source srcset="/media/timeline-all.webp" type="image/webp">
-                <img src="/media/timeline-all.png" width="600" height="1304" loading="lazy" decoding="async"
-                     alt="{{PRODUCT}}'s timeline grouped by date, with the child's age on each day header">
+                <source srcset="/media/entry-sealed-locked.webp" type="image/webp">
+                <img src="/media/entry-sealed-locked.png" width="560" height="1217" loading="lazy" decoding="async"
+                     data-seal="locked" style="opacity:1"
+                     alt="A sealed letter card reading “Sealed until 18”, written and waiting">
+              </picture>
+              <picture>
+                <source srcset="/media/entry-sealed-open.webp" type="image/webp">
+                <img src="/media/entry-sealed-open.png" width="560" height="1217" loading="lazy" decoding="async"
+                     data-seal="open" style="opacity:0"
+                     alt="The same letter opened: “Dear you, on the day you turn eighteen”">
               </picture>
             </div>
           </div>
         </div>
-      </li>
+      </div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">Search, and why the prompt matters</h2>
-          <p class="t-body muted">
-            Search runs across everything you wrote, every transcript of something they said, and
-            every prompt you were asked. That third one is what nothing else has.
-          </p>
-          <p class="t-body muted">
-            Searching a camera roll means searching dates, places and whatever the machine thinks it
-            sees. Searching {{PRODUCT}} means searching the questions — <em>“afraid of”</em>,
-            <em>“pretending to be”</em>, <em>“wouldn't let us correct”</em> — which is much closer to
-            how you'll actually remember it in twenty years.
-          </p>
-          <div style="display:flex;justify-content:center;padding-top:8px">
-            <div class="device" data-reveal>
-              <picture>
-                <source srcset="/media/timeline-search.webp" type="image/webp">
-                <img src="/media/timeline-search.png" width="600" height="1304" loading="lazy" decoding="async"
-                     alt="Searching the archive for a word and finding the entries that match, each showing the prompt it was filed under">
-              </picture>
+      <!-- ── Every day in between — second parent ───────────────────────── -->
+      <div class="hiw-scene">
+        <p class="hiw-when"><span class="hiw-when__dot" aria-hidden="true"></span>Every day in between</p>
+        <div class="cols cols--2 cols--mid">
+          <div class="stack gap-14">
+            <h2 class="t-title">Second parent, one archive</h2>
+            <p class="t-body muted measure">
+              Both parents answer into the same archive, and it's one subscription, not two. Whoever
+              was there that day writes it down. Neither of you has to reconstruct the other's week.
+            </p>
+          </div>
+          <div class="stack gap-12">
+            <div class="card stack gap-8" data-reveal>
+              <span style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+                <span class="chip chip--peri chip--md">Answered by you</span>
+                <span class="t-meta">Tuesday, 8:41 p.m.</span>
+              </span>
+              <span style="font:400 16px/1.5 var(--text)">The moon question, at bedtime.</span>
             </div>
+            <div class="card stack gap-8" data-reveal style="--reveal-delay:80ms">
+              <span style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+                <span class="chip chip--terra chip--md">Answered by them</span>
+                <span class="t-meta">Wednesday, 4:15 p.m.</span>
+              </span>
+              <span style="font:400 16px/1.5 var(--text)">The hands mission, photographed at the park.</span>
+            </div>
+            <p class="t-meta">Both land on the same timeline, in order.</p>
           </div>
         </div>
-      </li>
+      </div>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">Letters, sealed until an age you pick</h2>
-          <p class="t-body muted">
-            Some prompts ask you to write forward — a letter to who they'll be at eighteen, or what
-            you'd want them to know if you weren't around to say it. You choose when it opens. A
-            letter meant for eighteen stays shut until eighteen.
-          </p>
-        </div>
-      </li>
+    </div>
+  </div>
+</section>
 
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">Second parent, one archive</h2>
-          <p class="t-body muted">
-            Both parents answer into the same archive, and it's one subscription, not two. Whoever
-            was there that day writes it down. Neither of you has to reconstruct the other's week.
-          </p>
-        </div>
-      </li>
-
-      <li>
-        <div class="stack gap-14">
-          <h2 class="t-title">Export, which is the actual promise</h2>
-          <p class="t-body muted">
-            One tap gives you a zip: every entry, every photo, every recording, in folders by date —
-            plus an <code>index.html</code> you double-click. It opens in any browser, offline, with
-            no account and no internet. No app required, including this one.
-          </p>
-          <p class="t-body muted">
-            Free, complete, always. Even on the free tier. Even if you stopped paying years ago. It's
-            built that way because an archive meant to last eighteen years shouldn't depend on this
-            company lasting eighteen years. <a href="/promise">The rest of that promise is here.</a>
-          </p>
-        </div>
-      </li>
-
-    </ol>
+<!-- ── Year eighteen — the handoff ──────────────────────────────────────── -->
+<section class="section section--ink">
+  <div class="wrap">
+    <div class="cols cols--2 cols--mid">
+      <div class="stack gap-14">
+        <p class="hiw-when hiw-when--ink"><span class="hiw-when__dot" aria-hidden="true"></span>Year eighteen</p>
+        <h2 class="t-title">Export, which is the actual promise</h2>
+        <p class="t-body" style="color:var(--ink-faint)">
+          One tap gives you a zip: every entry, every photo, every recording, in folders by date —
+          plus an <code style="color:var(--canvas)">index.html</code> you double-click. It opens in any browser, offline, with
+          no account and no internet. No app required, including this one.
+        </p>
+        <p class="t-body" style="color:var(--ink-faint)">
+          Free, complete, always. Even on the free tier. Even if you stopped paying years ago. It's
+          built that way because an archive meant to last eighteen years shouldn't depend on this
+          company lasting eighteen years. <a href="/promise" style="color:var(--canvas);text-decoration-color:var(--terracotta)">The rest of that promise is here.</a>
+        </p>
+      </div>
+      <pre class="hiw-tree" aria-hidden="true" tabindex="-1">export.zip
+├─ 2027/ … 2044/
+├─ 2031/
+│   └─ 06-14/
+│       the-big-slide.jpg
+│       going-back-up.m4a
+│       what-you-wrote.txt
+└─ <b>index.html</b>  <i>← double-click this one</i></pre>
+    </div>
   </div>
 </section>
 

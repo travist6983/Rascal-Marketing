@@ -791,6 +791,146 @@ body.post--sage .prose blockquote { border-color: var(--rule-sage); }
 .callout--peri { border-color: var(--rule-periwinkle); }
 .callout--sage { border-color: var(--rule-sage); }
 
+/* =================================================== page: how-it-works */
+
+/* The page is told as the product's own artifact: a timeline. One spine runs
+   down the scenes, a terracotta fill tracks the reader's place in it (CSS
+   scroll timeline — browsers without it keep the quiet border-colored line,
+   reduced motion gets the line already full), and each scene opens with a
+   sticky time marker whose dot rides the spine. Time accelerates down the
+   page: tomorrow morning, then weeks, then years. */
+.hiw {
+  --indent: clamp(30px, 5vw, 52px);
+  --spine-x: 6px;
+  position: relative;
+  padding-left: var(--indent);
+}
+.hiw::before, .hiw__fill {
+  position: absolute; top: 8px; bottom: 0; left: var(--spine-x); width: 2px;
+  border-radius: var(--r-pill);
+  -webkit-mask-image: linear-gradient(#000 90%, transparent);
+  mask-image: linear-gradient(#000 90%, transparent);
+}
+.hiw::before { content: ''; background: var(--border); }
+.hiw__fill { background: var(--terracotta); transform: scaleY(0); transform-origin: top; }
+@supports (animation-timeline: view()) {
+  .hiw__fill {
+    animation: hiw-fill linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+@keyframes hiw-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .hiw__fill { animation: none !important; transform: none; }
+}
+
+.hiw-scene { position: relative; padding-block: clamp(30px, 5vw, 58px); }
+.hiw-scene--arch { padding-block: clamp(16px, 3vw, 30px); }
+/* Grid items keep a min-content floor, and the nested card grid's floor is
+   wider than a 320px viewport once the spine's indent is spent. Zero it. */
+.hiw-scene .cols > * { min-width: 0; }
+/* .stack stretches children; a pill button stretched to a column is a bar. */
+.hiw-scene .btn { align-self: flex-start; }
+
+/* The time marker. Sticky, so the current moment holds the top of the screen
+   while its scene is read — the page always says what time it is. */
+.hiw-when {
+  position: sticky; top: 74px; z-index: 6;
+  display: inline-flex; align-items: center;
+  width: fit-content;
+  margin-bottom: 16px;
+  padding: 7px 13px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-pill); box-shadow: var(--shadow-hover);
+  font: 600 var(--t-label)/1 var(--text);
+  letter-spacing: 1.1px; text-transform: uppercase; color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.arch__step .hiw-when { margin-bottom: 0; }
+.hiw-when__dot {
+  position: absolute;
+  left: calc(var(--spine-x) - 6.5px - var(--indent));
+  top: 50%; transform: translateY(-50%);
+  width: 9px; height: 9px; border-radius: var(--r-pill);
+  background: var(--terracotta);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+}
+/* On the ink finale there is no spine to reach, so the dot sits inside the
+   pill and the pill quiets down to a hairline. */
+.hiw-when--ink {
+  position: static;
+  background: transparent; border-color: rgba(253, 250, 244, 0.22);
+  box-shadow: none; color: var(--ink-faint);
+  gap: 8px;
+}
+.hiw-when--ink .hiw-when__dot {
+  position: static; transform: none;
+  border: none; box-shadow: none;
+}
+
+/* The morning pair arrives the way the deck deals — slightly fanned. The tilt
+   lives on a wrapper because [data-reveal].is-in resolves to transform: none. */
+.hiw-deal { max-width: 720px; }
+@media (min-width: 600px) {
+  .hiw-deal__l { transform: rotate(-1.4deg); }
+  .hiw-deal__r { transform: rotate(1.2deg) translateY(6px); }
+}
+
+.hiw-verbs { max-width: 580px; }
+
+/* A month of the rhythm: a dot most days, a bigger one on a weekend, one
+   measurement at the end. Decorative — the caption under it carries the fact. */
+.hiw-month {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+  max-width: 400px;
+}
+.hiw-month i {
+  aspect-ratio: 1; border-radius: 9px; background: var(--chip-plain);
+  display: flex; align-items: center; justify-content: center;
+}
+.hiw-month i::after {
+  content: ''; width: 6px; height: 6px; border-radius: var(--r-pill);
+  background: var(--terracotta); opacity: 0.55;
+}
+.hiw-month .is-off { background: transparent; box-shadow: inset 0 0 0 1px var(--border); }
+.hiw-month .is-off::after { content: none; }
+.hiw-month .is-wk { background: var(--terracotta-soft); }
+.hiw-month .is-wk::after { width: 9px; height: 9px; opacity: 0.9; }
+.hiw-month .is-msr { background: var(--terracotta); }
+.hiw-month .is-msr::after { width: 9px; height: 9px; background: var(--canvas); opacity: 1; }
+
+/* The export, drawn as what it is: files. Decoration only — the copy beside
+   it makes every claim. #E28B5B is the mosaic's terracotta-on-ink step. */
+.hiw-tree {
+  margin: 0; overflow-x: auto;
+  font: 400 13px/1.8 var(--mono); color: var(--ink-faint);
+  background: rgba(253, 250, 244, 0.05);
+  border: 1px solid rgba(253, 250, 244, 0.14);
+  border-radius: var(--r-card); padding: 22px 26px;
+}
+.hiw-tree b { font-weight: 600; color: var(--canvas); }
+.hiw-tree i { font-style: normal; color: #E28B5B; }
+/* The widest line must FIT at phone widths — a scrolled tree truncates the
+   punch line at "double-click", which is the whole joke. */
+@media (max-width: 380px) {
+  .hiw-tree { font-size: 11px; padding: 16px 14px; }
+}
+
+/* Below 900px the copy/phone scroll pairing is off and one frame survives.
+   The global arch rule keeps the first frame; on this page the surviving
+   frame sits directly under the search copy, so keep the search screen —
+   the claim nothing else has — instead. The !important beats the inline
+   opacity that site.js's resize-down sync writes. */
+@media (max-width: 899px) {
+  .hiw .arch__sticky .device--stack picture:first-child { display: none; }
+  .hiw .arch__sticky .device--stack picture + picture {
+    display: block; position: static; background: var(--surface);
+  }
+  .hiw .arch__sticky .device--stack img { opacity: 1 !important; }
+}
+
 /* --------------------------------------------------------------- utility */
 .pill-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .check-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
