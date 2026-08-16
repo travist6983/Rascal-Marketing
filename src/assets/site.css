@@ -507,7 +507,10 @@ a.card:hover, .card--tap:hover {
 /* The stacked frames wrap each img in <picture> for the webp source, so the
    sibling selector has to match the wrappers too — img + img alone leaves the
    frames stacked vertically inside a very tall, very empty phone. */
-.device--stack picture { display: block; }
+/* Surface-colored while the lazy image is still fetching, so the frame reads
+   as an empty screen for a beat instead of a solid navy slab. */
+.device--stack picture { display: block; background: var(--surface); border-radius: 42px; min-height: 200px; }
+.device--light.device--stack picture { border-radius: 28px; }
 .device--stack picture + picture,
 .device--stack img + img { position: absolute; inset: 11px; }
 .device--stack img { transition: opacity 0.35s var(--ease); }
