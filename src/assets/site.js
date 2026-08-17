@@ -164,9 +164,28 @@
     var springs = [];
     var els = [];
 
-    var lib = function () {
-      return filter ? window.DECK.filter(function (r) { return r[0] === filter; }) : window.DECK;
-    };
+    /* deck.js is generated grouped by kind — thirty questions, then forty-two
+       photos, and so on — so a sequential cursor deals thirty questions before
+       it ever reaches a photo. Shuffle a copy instead, once per filter, and
+       leave the generated file's order (and its frozen anchors) alone.
+
+       The pool is memoised rather than shuffled per call: content() and
+       announce() both read it for the same cursor, and a fresh shuffle between
+       them would caption the card with someone else's prompt. */
+    var pool = [];
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    function buildPool() {
+      pool = shuffle(filter
+        ? window.DECK.filter(function (r) { return r[0] === filter; })
+        : window.DECK.slice());
+    }
+    var lib = function () { return pool; };
     var slotOf = function (i) { return (i - (cursor % DEPTH) + DEPTH) % DEPTH; };
 
     /* Build the four physical cards once. Their contents are rewritten as the
@@ -302,6 +321,7 @@
 
     function reset(next) {
       filter = next; cursor = 0;
+      buildPool();
       content();
       for (var e = 0; e < DEPTH; e++) {
         var r = springs[e];
@@ -387,6 +407,7 @@
       }, 9000);
     }
 
+    buildPool();
     content(); announce(); kick();
   })();
 
