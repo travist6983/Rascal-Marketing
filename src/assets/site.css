@@ -191,6 +191,12 @@ a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--link); }
   .cols--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
   .cols--top { align-items: start; }
   .cols--mid { align-items: center; }
+  /* A sidebar heading that holds the top of the screen while its column is
+     read. Only inside the two-column grid: below 900px the sidebar and its
+     content are the same column, so a sticky heading would sit on top of the
+     text scrolling under it. Never set this inline — the breakpoint is the
+     whole rule. */
+  .sticky-side { position: sticky; top: 110px; }
 }
 /* min(…, 100%) so the floor never exceeds the container — a 260px minimum
    inside a narrow column is the classic 320px-viewport sideways scroll. */
