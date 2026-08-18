@@ -14,8 +14,12 @@
  *   - NO pronoun-token leaks: a literal {their} on the page whose job is
  *     proving the prompts are well written is a public failure. seo-plan.md
  *     marks this row Critical, and this is the launch break-test it asks for.
- *   - no unresolved {{TOKEN}} — except {{PRODUCT}}/{{DOMAIN}}, which stay
- *     literal on purpose until the name is resolved
+ *   - no unresolved {{TOKEN}} — except {{DOMAIN}}, which stays literal on
+ *     purpose until a domain is bought. {{PRODUCT}} used to be exempt too,
+ *     "until the name is resolved". It resolved (Dogear → Vellum, Aug 17
+ *     2026), so the exemption is gone: a typo in the config key would
+ *     otherwise ship a literal {{PRODUCT}} on every page and still report
+ *     zero failures. The rename is exactly the operation this should guard.
  *   - every internal link and anchor resolves to a built file / a real id
  *   - every og: image referenced actually exists
  *   - every <script type="application/ld+json"> parses as JSON
@@ -132,7 +136,7 @@ for (const { rel, html } of pages) {
   if (!html.includes('class="foot"')) fail.push(`${where}: site footer missing`);
 
   for (const m of html.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)) {
-    if (m[1] !== 'PRODUCT' && m[1] !== 'DOMAIN')
+    if (m[1] !== 'DOMAIN')
       fail.push(`${where}: unresolved token {{${m[1]}}}`);
   }
 

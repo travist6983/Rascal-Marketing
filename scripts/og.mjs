@@ -12,7 +12,7 @@
  * Deliberately absent: the product name, child photos, screenshots. The name is
  * settled (Vellum) but not cleared — no trademark search has been run, and the
  * cards carry the promise instead ("one question a day"). Keeping the name out
- * of the pixels is also what makes a rename cheap: these 18 PNGs did not need
+ * of the pixels is also what makes a rename cheap: these 17 PNGs did not need
  * re-rendering when Dogear became Vellum, and would not need it again.
  *
  * Also renders src/assets/icon-180.png (the apple-touch-icon) from icon.svg,
