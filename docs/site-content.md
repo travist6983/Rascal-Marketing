@@ -56,12 +56,26 @@ open, and all of them are the owner's call:
    **If the animated header lockup is adopted** (`vellum-logo-hover.html` in that directory is
    generated from the artwork and carries the markup and CSS as copy-paste blocks): its SVG is
    `overflow: visible` on purpose, so the fan opens past its own box and the header does not
-   re-flow on hover. Checked against this site — **no `overflow: hidden` exists anywhere in the
-   masthead chain**, so nothing would clip it. Two things that would still need a look:
-   `styles.css`-side, `html` sets `overflow-x: clip`, which only bites if the fan opens *leftward*
-   past the viewport edge, and the wordmark sits in the left gutter; and `.masthead` carries a
-   `backdrop-filter` and a `border-bottom`, so a fan opening downward paints across that bottom
-   rule. Neither is a blocker, both are cheaper to know than to debug.
+   re-flow on hover. **This was measured against this header, and it fits everywhere with room to
+   spare.** Nothing below is a caveat; it is all clearance, recorded so nobody re-opens the
+   question.
+
+   Open-state overhang past the layout box, in viewBox units: left 29.2, bottom 10.1, top 3.6,
+   right 0. At a 34px lockup that is 6.1px left, 2.1px down, 0.8px up, 0 right.
+
+   - **Leftward vs `html { overflow-x: clip }`** — the fan reaches 6.1px left of its box. The
+     narrowest `--gutter` on this site is **16px** (below 600px; the only sub-600 query,
+     `max-width: 380px`, touches `.hiw-tree` and nothing else). 16 > 6.1, so it never reaches the
+     viewport edge — **~10px of margin at 320px**, which the check suite already renders.
+   - **Downward vs the masthead's `border-bottom`** — the fan descends 2.1px. `.masthead__in` has
+     `padding: 12px`, and the nav toggle's `min-height: 44px` makes the row taller than the lockup
+     anyway, so the logo is centred with **at least 12px below it**. The rule is never touched. If
+     it ever were, the fix is padding on the anchor, not disabling the motion.
+   - **Rightward vs the nav** — zero. The word extends further right than the fan does even when
+     open, so the fan can never be the rightmost thing.
+
+   If the leftward reach ever does need shrinking, the number is the `1.45` multiplier in the hover
+   rule; it scales linearly, so `1.25` takes 6.1px to about 3.4px at the same height.
 
    Note also that the animated lockup strokes its card gaps rather than knocking them out — a
    knockout mask is built from where the cards are, so a rotating card leaves its notch behind and
