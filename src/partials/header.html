@@ -3,9 +3,15 @@
     <!-- The drawn lockup, inlined rather than referenced, because an image element gets no
          pointer events and the fan could not open inside one. aria-label carries the name:
          the anchor has no text left to be named by, and check.mjs's alt pass only inspects
-         image tags, so nothing here would have caught an unnamed home link on 21 pages.
-         Keep tag names out of this comment — the checker greps the raw HTML, comments and
-         all, and prose describing a tag reads to it as the tag. -->
+         image tags, so nothing in the suite would have caught an unnamed home link on 21
+         pages. That gap is real and still open.
+
+         This note used to end by telling you to keep tag names out of it, because the
+         checker read comments and failed every page over prose that merely described a
+         tag. True when written, fixed at the source the same day in b1edd78 — comments
+         now come out of `body` before the markup passes. The instruction is struck rather
+         than left standing: a warning about a bug that no longer exists is a rule nobody
+         downstream can tell is obsolete. Write the comment you mean. -->
     <a class="wordmark brand" href="/" aria-label="{{PRODUCT}}">
       <svg viewBox="0 -163.8 845.362 163.8" aria-hidden="true" focusable="false">
         <defs>
