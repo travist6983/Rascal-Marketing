@@ -47,8 +47,19 @@ open, and all of them are the owner's call:
    (*Vellum*) in five places — `src/partials/header.html`, `social/card.mjs`, and the three
    Remotion components. Title case is what ships today. Do not split the difference silently.
 
-Until then: the name is live text set in Nunito 800, never an image, which is what made the last
-rename a one-line change.
+Until then, and this is the part worth keeping: **in the site's own markup the name is live text**,
+set in Nunito 800 — `src/partials/header.html` and `src/partials/footer.html` resolve it from
+`{{PRODUCT}}`, so 21 pages and 18 Markdown twins renamed themselves on a rebuild.
+
+**It is not live text everywhere, and that half is a re-render, not an edit.** The wordmark is
+drawn into pixels by `social/card.mjs` (the queue cards) and by the three Remotion components
+`video/src/Post.tsx`, `Sheet.tsx` and `Showcase.tsx` (the Instagram set and both prompt reels) —
+23 committed binaries in all. The 17 OG cards are the counter-example and the lesson: they carry
+the promise, not the name, so they cost nothing to rename. **Keep the name out of generated
+imagery wherever the design allows it.**
+
+One surface is beyond this repo entirely: `assets/screens/*.png` are captures off a real device,
+so the in-app name is baked in and only an iOS rebuild can change it.
 
 ## Voice
 

@@ -62,6 +62,14 @@
 
 html, body { margin: 0; padding: 0; }
 
+/* The fractalNoise layer below is PAPER GRAIN, which docs/claude-design-prompts-final.md
+   bans by name — it is listed there as one of four things that "slipped" past three
+   consecutive design imports. It survives only because this root page is legacy and is
+   not deployed: pages-actions.yml builds src/ into dist/, and src/assets/site.css has no
+   texture. Left in place rather than quietly removed, but flagged, because the Aug 17
+   2026 rename to Vellum makes it read like brand direction — a writing surface with a
+   tooth to it — when it is actually a known defect in dead code. If this page is ever
+   revived, the grain goes; it is not a Vellum decision that anyone made. */
 body {
   background-color: var(--canvas);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
