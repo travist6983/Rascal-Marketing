@@ -100,23 +100,29 @@ its own; ★★ supports one; ★ is a reference capture.
 
 #### Onboarding — the "it takes a minute" argument
 
-> **⚠ Stale branding — `onboarding-welcome.png` only.** The product was renamed from
-> **Dogear** to **Vellum** on Aug 17 2026. These are captures off a real device, so the
-> in-app name is baked into the pixels and cannot be fixed from this repo — it needs the
-> iOS app rebuilt with the new `CFBundleDisplayName` and a fresh capture.
+> **Re-captured Aug 18 2026 for the Vellum rename — resolved.** `onboarding-welcome.png` was
+> the only screenshot here that showed the product name (a `DOGEAR` eyebrow). It was
+> re-captured off a device from `main` after the iOS rename merged, with
+> `CFBundleDisplayName` verified as **Vellum** in the built `.app` rather than only in
+> source. Same 1206×2622, same 9:41 status bar; the eyebrow now reads `VELLUM`.
 >
-> Every screenshot in `assets/screens/` was checked against this. **`onboarding-welcome.png`
-> is the only one that shows the product name**, as a `DOGEAR` eyebrow label above the
-> headline. All the others are in-app content screens whose chrome is generic (TODAY /
-> TIMELINE / MOMENTS / SETTINGS), so they survive the rename untouched — including all seven
-> used on the live site, which were verified individually.
+> Every other screenshot was checked individually and needed nothing — they are in-app
+> content screens whose chrome is generic (TODAY / TIMELINE / MOMENTS / SETTINGS). That
+> includes all seven used on the live site.
 >
-> Its rating dropped ★★★ → ★ for that reason alone. The copy is still the best hero line
-> the app has; it just cannot be shown until it is re-captured.
+> **Two things changed with the app, not with the capture.** The screen gained a "Continue
+> with Google" row (Google sign-in shipped in phases 55/58, after the original Aug 12
+> capture), and the layout shifts up slightly to fit it.
+>
+> **And that creates a copy problem worth knowing before you publish this.** The supporting
+> line still reads *"Your archive is tied to your Apple ID. There's nothing else to set up."*
+> — which is no longer true for anyone who takes the Google path. That is an in-app copy
+> bug, not a capture artefact, and it is filed against the app rather than fixed here. Crop
+> below the Apple button, or wait for the app to fix the line, before using this as a hero.
 
 | File | What it shows | Good for | |
 |---|---|---|---|
-| `onboarding-welcome.png` | *"Let's save today before it's gone."* under a **`DOGEAR`** eyebrow, with Sign in with Apple | Hero copy is still good. **The branding is the OLD NAME — do not publish this as-is.** See the warning above | ★ |
+| `onboarding-welcome.png` | *"Let's save today before it's gone."* under a **`VELLUM`** eyebrow, with Sign in with Apple and Continue with Google | Ready-made hero copy, and correct branding. **Crop out the "Use the development account" link — and see the Apple ID caveat above before using the sub-headline** | ★★★ |
 | `onboarding-pronouns.png` | *"What are Hendrix's pronouns?"* — he/him, she/her, they/them | **Directly answers the site's they/them position**, and evidence the app was built for it. Worth its own post | ★★★ |
 | `onboarding-birthdate.png` | A date wheel: *"It's what stamps every entry with an exact age, forever."* | Explains the age-stamping the timeline shows. Good second panel in a carousel | ★★ |
 | `onboarding-notifications.png` | *"One note a day? … Never more than one. Off whenever you want."* | The anti-engagement promise, in the app's own words. Strong for a privacy/calm-tech angle | ★★ |
