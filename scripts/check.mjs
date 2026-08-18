@@ -11,6 +11,8 @@
  *   - exactly one <h1>; heading levels never skip (no h2 → h4)
  *   - every <img> has alt, width and height (missing dimensions is the most
  *     common CLS cause; missing alt is an accessibility failure)
+ *   - every link and button that contains no text has an accessible name, so an
+ *     artwork-only control cannot go unnamed while everything else passes
  *   - NO pronoun-token leaks: a literal {their} on the page whose job is
  *     proving the prompts are well written is a public failure. seo-plan.md
  *     marks this row Critical, and this is the launch break-test it asks for.
@@ -128,6 +130,30 @@ for (const { rel, html } of pages) {
       break;
     }
     prev = level;
+  }
+
+  /* An interactive element whose only content is artwork has no text to be named by, so
+     its accessible name lives entirely in an attribute — and an attribute is exactly what
+     a reviewer's eye slides past. The masthead and footer marks are the live case: both
+     are anchors wrapping an inline SVG, and if `aria-label` were dropped the site's home
+     link would be unnamed on all 21 pages while every other check still passed. The alt
+     pass below only inspects image tags, so it cannot see this.
+
+     Named by, in order: aria-label, aria-labelledby, a title attribute, an <img> with a
+     non-empty alt, or an <svg> carrying its own <title>. Text content anywhere inside
+     counts, which is why the ordinary nav links never reach this check. */
+  for (const m of body.matchAll(/<(a|button)\b([^>]*)>([\s\S]*?)<\/\1>/g)) {
+    const [, tag, attrs, inner] = m;
+    const text = inner.replace(/<[^>]*>/g, '').replace(/&[a-z]+;|&#\d+;/gi, ' ').trim();
+    if (text) continue;
+    const named =
+      /\saria-label="[^"]+"/.test(attrs) ||
+      /\saria-labelledby="[^"]+"/.test(attrs) ||
+      /\stitle="[^"]+"/.test(attrs) ||
+      /<img\b[^>]*\salt="[^"]+"/.test(inner) ||
+      /<title[\s>]/.test(inner);
+    if (!named)
+      fail.push(`${where}: <${tag}> has no text and no accessible name: ${m[0].slice(0, 90)}`);
   }
 
   for (const m of body.matchAll(/<img\b[^>]*>/g)) {
