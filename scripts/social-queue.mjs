@@ -24,7 +24,7 @@ import { QUEUE_DIR, readQueue, writeQueue } from '../social/queue.mjs';
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 const HELP = `
-Dogear social queue
+Vellum social queue
 
   npm run social:queue -- [options]
 

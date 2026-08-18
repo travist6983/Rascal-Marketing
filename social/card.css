@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-   Dogear — social card
+   Vellum — social card
 
    One prompt on warm paper, the instruction marked, the wordmark quiet at the
    bottom. Same palette and same two typefaces as the landing page; the only new
@@ -122,10 +122,13 @@ mark {
 
 /* Title case, matching the landing page — so no uppercasing, and tracking drops
    from the 0.18em that kept a small caps label legible to near-neutral.
-   line-height stays at 1: "Dogear" has a descender where the old caps lockup had
-   none, so the g tail now paints a few px below the line box, into the card's
-   96px bottom padding. Nothing clips it, and the wordmark hangs on its baseline
-   the way a signature should. */
+   line-height stays at 1, but the reason it used to give is gone: that note was
+   about "Dogear", whose g tail painted a few px below the line box into the
+   card's 96px bottom padding. "Vellum" has no descender — it sits entirely on
+   the baseline — so nothing hangs below any more. The value is kept because it
+   still renders correctly, not because it is still doing that job: checked
+   against the regenerated cards, the wordmark is unclipped top and bottom. If
+   this lockup is ever redrawn, this is a free line-height to re-pick. */
 .wordmark {
   margin: 0;
   font-family: var(--display);

@@ -1,5 +1,14 @@
 # Dogear — Claude Design prompt sequence (final)
 
+> **Historical record. The product is now called Vellum** (owner decision, Aug 17 2026).
+> This file is left saying "Dogear" on purpose: it is a transcript of prompts that were
+> actually sent to Claude Design, and its output is checked in at `docs/marketing-site/`.
+> Rewriting the name here would misrepresent what was run. It also references
+> `dogear-site-content.md` and `dogear-seo-plan.md`, which no longer exist — they were
+> merged into `docs/site-content.md` and `docs/seo-plan.md` on Aug 15 2026.
+> **If you re-run this sequence, substitute Vellum throughout and re-point those two
+> attachments first.**
+
 **Three prompts, run in order, in one Claude Design project on Fable.** Wait for each to finish
 and read its report before pasting the next. Prompt 1 produces decisions you need to approve
 before Prompt 2 can be correct.

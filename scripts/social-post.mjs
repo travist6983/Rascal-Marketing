@@ -54,7 +54,7 @@ const CONFIG = {
 const DAILY_LIMIT = 25;
 
 const HELP = `
-Dogear social post
+Vellum social post
 
   npm run social:post -- [options]
 

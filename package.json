@@ -1,8 +1,8 @@
 {
-  "name": "dogear-marketing",
+  "name": "vellum-marketing",
   "version": "1.0.0",
   "private": true,
-  "description": "Landing page for Dogear — one prompt a day about your kid",
+  "description": "Landing page for Vellum — one prompt a day about your kid",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",

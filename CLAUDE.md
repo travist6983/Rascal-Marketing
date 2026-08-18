@@ -1,4 +1,4 @@
-# Dogear marketing site
+# Vellum marketing site
 
 Static site, zero dependencies at runtime. Pages live in `src/pages/`, partials in
 `src/partials/`, and `node scripts/build.mjs` (npm run build) renders everything to
@@ -30,7 +30,7 @@ overflow, and the form ladder in real Chromium.
 
 ## Other conventions that must survive edits
 
-- Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Dogear";
+- Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Vellum";
   `{{DOMAIN}}` stays literal until a domain is bought. Never hardcode the name,
   prices, or the prompt count in markup.
 - The prompt library is generated: `npm run prompts` regenerates

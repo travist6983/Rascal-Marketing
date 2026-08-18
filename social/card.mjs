@@ -158,7 +158,7 @@ ${css}
 <article class="card" style="--tint: ${kind.ink}; --tint-soft: ${kind.bg}">
   <p class="badge">${escapeHtml(prompt.kind)}</p>
   <div class="body-box"><p class="body">${body}</p></div>
-  <p class="wordmark">Dogear</p>
+  <p class="wordmark">Vellum</p>
 </article>
 <script>${FIT}</script>
 </body>

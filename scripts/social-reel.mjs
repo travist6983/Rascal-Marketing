@@ -37,7 +37,7 @@ const COMPOSITION = 'PromptReel';
 const VIDEO_DIR = join(root, 'video');
 
 const HELP = `
-Dogear prompt reel
+Vellum prompt reel
 
   npm run social:reel -- [options]
 

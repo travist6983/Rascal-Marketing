@@ -22,14 +22,30 @@ Qeepsake in November 2025, so the two most obvious prompted-journal competitors 
 price roughly 87% in 2024. *Ad-free* and *we never delete what you wrote* are positions the market
 leader structurally cannot take, because ad revenue is in its P&L.
 
-**Biggest structural disadvantage: the brand name is unwinnable as written.** "Dogear" is occupied
-on the App Store by *Dogear: Social Reading Tracker* and *Dogear'd*, on Google Play by a book-quote
-widget, on the Chrome Web Store by a bookmarking extension, and both `thedogearapp.com` and
-`getdogear.com` are live and occupied by book trackers — one with homepage copy nearly identical in
-tone to yours. **You will not rank for your own name**, and branded search is normally the cheapest
-traffic a new product gets. This is a naming decision with an SEO price tag, not an SEO problem to
-be solved with content. It also affects App Store search, which is the same problem in a second
-market.
+**The brand name changed on Aug 17 2026 in response to this section.** It used to read "the brand
+name is unwinnable as written," and it was about *Dogear*: occupied on the App Store by *Dogear:
+Social Reading Tracker* and *Dogear'd*, on Google Play by a book-quote widget, on the Chrome Web
+Store by a bookmarking extension, with `thedogearapp.com` and `getdogear.com` both live and held by
+book trackers — one with homepage copy nearly identical in tone to this product's. The verdict was
+that you would not rank for your own name, and branded search is normally the cheapest traffic a
+new product gets. The owner settled on **Vellum** instead.
+
+**That fixes the old collision. It has not been shown to avoid a new one.** No clearance search has
+been run on "Vellum". One collision is already known without looking: **Vellum by 180g**, a live and
+well-regarded book-formatting app for authors — software, actively sold, in a publishing-adjacent
+category, which is nearer to this product than most of the Dogear cluster was. There is also the
+ordinary-word problem: *vellum* is a material, so generic results will compete for the bare term in
+a way they never did for a coined-ish name.
+
+The risk was put to the owner with that collision named, and **he confirmed the name anyway** on
+Aug 17 2026. Recording it that way on purpose: this is a known risk knowingly accepted, not one
+nobody checked. What is still owed, and is not an SEO task, is a real trademark and App Store
+clearance search before the name gets expensive — an App Store listing can be edited before
+submission, but outbound email cannot be recalled once sent.
+
+**Practical SEO consequence, unchanged in shape from the Dogear analysis:** do not build on ranking
+for the bare brand term. Qualified brand queries are the winnable ones, and the strategy below
+already assumes that.
 
 **The single best asset is `/prompts`.** 133 authored prompts (count generated from the app seed; see scripts/prompts.mjs), published browsable, is a long-tail
 surface of several hundred low-competition parenting queries and the only page here anyone would
@@ -98,8 +114,10 @@ addressable surface here, and none of them are contested by anyone with a budget
 (ourtifacts.com, nappi.app and similar) publishing dozens of posts on this exact cluster. Do not
 build a strategy on outranking them in year one. Target the term; do not depend on it.
 
-**Brand terms are absent from this table on purpose.** Bare "dogear" is a lost cause. Qualified
-brand terms — *{{PRODUCT}} app for parents*, *{{PRODUCT}} childhood archive* — are winnable and
+**Brand terms are absent from this table on purpose.** Bare "vellum" is a lost cause for a
+different reason than bare "dogear" was — not a cluster of book-tracking apps but an ordinary
+English noun plus an established formatting app. Either way the bare term is not winnable, and
+qualified brand terms — *{{PRODUCT}} app for parents*, *{{PRODUCT}} childhood archive* — are, and
 belong in every title tag, OG title, social bio and the App Store subtitle. **Never ship a title
 tag that reads only `{{PRODUCT}}`.**
 

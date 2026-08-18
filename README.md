@@ -1,6 +1,6 @@
-# Dogear — marketing site
+# Vellum — marketing site
 
-Landing page for Dogear: one question a day about your kid, free by email, with an
+Landing page for Vellum: one question a day about your kid, free by email, with an
 iOS app in App Store review.
 
 No framework, no build step, no third-party requests — `index.html`, `styles.css`,
@@ -34,7 +34,7 @@ Set one line at the top of `app.js`:
 ```js
 const SIGNUP = {
   ENDPOINT: 'https://formspree.io/f/xxxxxxxx',   // or Buttondown, or your own /api/subscribe
-  SOURCE: 'dogear-landing'
+  SOURCE: 'vellum-landing'
 };
 ```
 
@@ -228,11 +228,13 @@ they/them archive before these go out — the app supports it, and
 
 Live at **https://travist6983.github.io/Rascal-Marketing/**
 
-The product is Dogear; the repo is still `Rascal-Marketing`. That old name is
+The product is Vellum; the repo is still `Rascal-Marketing`. The product has now
+outlived two names — Rascal, then Dogear — and the repo has kept the first one
+through both, for a reason that hasn't changed: `Rascal-Marketing` is
 load-bearing in two places — the Pages URL above, and the
 `raw.githubusercontent.com` base in `scripts/social-post.mjs` that Instagram
 fetches card images from. Renaming the repo breaks both until they change with
-it, so it was left alone deliberately.
+it, so it was left alone deliberately, again.
 
 Pages Source is set to **GitHub Actions**, so
 `.github/workflows/pages-actions.yml` is the deploy. It stages the site, adds a
