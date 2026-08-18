@@ -14,9 +14,10 @@ Every string below survived it untouched.
 **It stays a token, because the new name is not verified either.** Dogear was abandoned over App
 Store and domain collisions with the reading-app cluster (Dogear: Social Reading Tracker, Dogear'd,
 `thedogearapp.com`, `getdogear.com`, the Play Store widget, the Chrome extension, mozilla/dogear).
-No clearance search has been run on Vellum, and one collision is already known — **Vellum by 180g**,
-a live book-formatting app for authors. The owner was told and confirmed the name anyway. Until a
-real search says otherwise, assume the name can still move, and never hardcode it.
+One collision is known — **Vellum by 180g**, a live book-formatting app for authors — and the
+clearance status is disputed: the owner says the name was checked and is fine, while a separate
+open item filed the same night says no search has been run (see `seo-plan.md`). Until a dated
+search is on file, assume the name can still move, and never hardcode it.
 
 **Price strings are `{{PRICE_YEAR}}` = $59.99 and `{{PRICE_MONTH}}` = $5.99.** Same reason, plus a
 better one: `decisions.md` says unit economics are measured before a price is set, and `blocked.md`
@@ -41,11 +42,33 @@ open, and all of them are the owner's call:
 
 1. **The site mark and the app icon are already different marks.** This is a folded page; the iOS
    app icon is a fan. One product, two symbols.
-2. **A real Vellum set is being drawn** in `Project-Rascal/docs/app-icon/` — wordmark, fan mark,
-   horizontal and stacked lockups, a mono version. Adopting it here is a separate pass.
-3. **That wordmark is lowercase** (*vellum*), and this site sets the name in title case
-   (*Vellum*) in five places — `src/partials/header.html`, `social/card.mjs`, and the three
-   Remotion components. Title case is what ships today. Do not split the difference silently.
+2. **A real Vellum set now exists** in `Project-Rascal/docs/app-icon/` (uncommitted there as of
+   Aug 18 2026): `vellum-wordmark.svg`, `vellum-mark.svg`, `vellum-mark-compact.svg` (3 cards, for
+   ≤24px — favicons, avatars), horizontal and stacked lockups, `vellum-logo-mono.svg`, three
+   app-icon candidates, and `generate-vellum.mjs`, which produces all of them deterministically.
+
+   **`vellum-logo-mono.svg` is the one for this site.** It paints in `currentColor` and separates
+   its cards with a knockout mask rather than a stroke in the ground colour, so one file works on
+   cream, ink and terracotta — reportedly tested at 56px and 24px on all three. The wordmark is
+   drawn geometry (monolinear, round terminals), not outlined type, so no font file and no licence
+   question. Adopting it here is still a separate pass, and the files are not in this repo.
+
+   **The chosen app icon bakes the wordmark into its front card** — an asset that encodes the name,
+   which by the rule at the end of this section ages badly. It was chosen knowingly, with two
+   wordless candidates on the table, and both are kept for the day that matters. Relevant to the OG
+   cards: if one can carry the mark instead of the word, prefer that.
+3. **Casing: the site ships title case; lowercase has reportedly been chosen.** The drawn wordmark
+   is lowercase *vellum*, and the owner is reported to have picked lowercase explicitly, against
+   the title-case specimen. That reached this repo secondhand, so **nothing has been changed on
+   it** — *Vellum* is what ships, in five places: `src/partials/header.html`, `social/card.mjs`,
+   and the three Remotion components `Post.tsx` / `Sheet.tsx` / `Showcase.tsx`.
+
+   Two rules until it is confirmed firsthand: all five move together or none do, and **do not add
+   a sixth title-case rendering** — a new surface should wait rather than deepen the change.
+
+   Worth knowing before scheduling it: this is not five text edits. Four of the five are pixels —
+   changing the Remotion components means re-rendering the 15-file Instagram set and both prompt
+   reels, and `social/card.mjs` means re-rendering the queue cards.
 
 Until then, and this is the part worth keeping: **in the site's own markup the name is live text**,
 set in Nunito 800 — `src/partials/header.html` and `src/partials/footer.html` resolve it from

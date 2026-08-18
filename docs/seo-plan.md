@@ -30,18 +30,27 @@ book trackers — one with homepage copy nearly identical in tone to this produc
 that you would not rank for your own name, and branded search is normally the cheapest traffic a
 new product gets. The owner settled on **Vellum** instead.
 
-**That fixes the old collision. It has not been shown to avoid a new one.** No clearance search has
-been run on "Vellum". One collision is already known without looking: **Vellum by 180g**, a live and
-well-regarded book-formatting app for authors — software, actively sold, in a publishing-adjacent
-category, which is nearer to this product than most of the Dogear cluster was. There is also the
-ordinary-word problem: *vellum* is a material, so generic results will compete for the bare term in
-a way they never did for a coined-ish name.
+**That fixes the old collision. Whether it avoids a new one is, as of Aug 18 2026, disputed.**
+One collision is known without looking: **Vellum by 180g**, a live and well-regarded book-formatting
+app for authors — software, actively sold, in a publishing-adjacent category, which is nearer to
+this product than most of the Dogear cluster was. There is also the ordinary-word problem: *vellum*
+is a material, so generic results compete for the bare term in a way they never did for a
+coined-ish name.
 
-The risk was put to the owner with that collision named, and **he confirmed the name anyway** on
-Aug 17 2026. Recording it that way on purpose: this is a known risk knowingly accepted, not one
-nobody checked. What is still owed, and is not an SEO task, is a real trademark and App Store
-clearance search before the name gets expensive — an App Store listing can be edited before
-submission, but outbound email cannot be recalled once sent.
+**Two accounts of the clearance status are on record and they contradict each other.** The owner
+has said the name was already checked and is fine. A separate open item filed the same night
+(Project-Rascal `decisions.md`, item 15) says no search has been run. This document does not pick a
+side, because neither account arrived with a search to point at.
+
+**What would settle it, and should be attached here when it exists:** a dated trademark search
+naming the classes covered, and confirmation of the App Store name's availability. Until one of
+those is on file, do not treat clearance as done and do not treat it as failed. The ordering, if it
+turns out the search is still owed: an App Store listing can be edited before submission, but
+outbound email cannot be recalled once sent — so email is the deadline that matters.
+
+The risk was put to the owner with the 180g collision named, and he confirmed the name. Recorded
+that way on purpose: whatever the clearance status turns out to be, this was a decision made with
+the collision in view.
 
 **Practical SEO consequence, unchanged in shape from the Dogear analysis:** do not build on ranking
 for the bare brand term. Qualified brand queries are the winnable ones, and the strategy below
