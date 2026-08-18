@@ -3,8 +3,11 @@
     <!-- The drawn lockup, inlined rather than referenced, because an image element gets no
          pointer events and the fan could not open inside one. aria-label carries the name:
          the anchor has no text left to be named by, and check.mjs's alt pass only inspects
-         image tags, so nothing in the suite would have caught an unnamed home link on 21
-         pages. That gap is real and still open.
+         image tags. That used to mean an anchor whose only content is artwork could lose
+         its name on all 21 pages with the suite still green — closed in 2585d98, which
+         fails any link or button that has no text and no accessible name, and is
+         negative-tested by removing this very attribute. So the aria-label below is
+         load-bearing AND enforced; do not drop it expecting a warning.
 
          This note used to end by telling you to keep tag names out of it, because the
          checker read comments and failed every page over prose that merely described a
