@@ -248,7 +248,7 @@ After ninety days, original photos move to cheaper cold storage. Thumbnails stay
 still works, and pulling a full-resolution original back takes about an hour. That's a property of
 the storage, not a penalty.
 
-**Text is never deleted. Not ever.** And if media is ever going to be removed, you get warned three
+**We never delete a word you wrote unless you ask us to.** Lapsing doesn't cost you a sentence and neither does going quiet for a year; the one thing that removes your words is you asking us to close your account, which waits seven days, signs you out, and is cancelled the moment you sign back in. And if media is ever going to be removed, you get warned three
 times — ninety days out, thirty days out, seven days out — each with a free one-click export of the
 whole archive. Sign in once during that window and it's cancelled outright.
 
@@ -445,7 +445,7 @@ The trust page. This wins the parents who've been burned, and no competitor will
 most of them can't.
 
 - **Title:** `Our promise — what happens to your archive | {{PRODUCT}}` (54)
-- **Meta:** `No ads. Text is never deleted. Free complete export forever. Exactly what happens to your child's archive if you stop paying, or if we go away.` (150)
+- **Meta:** `No ads. We never delete a word you wrote unless you ask us to. Free export forever. Exactly what happens to your archive if you stop paying, or if we go away.` (158)
 - **H1:** What happens to the archive
 
 1. **No ads, no data sale.** Ever. Including at scale.
