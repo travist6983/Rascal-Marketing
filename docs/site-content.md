@@ -6,10 +6,17 @@ Merged Aug 15 2026. Where the two sources conflicted, the resolution is recorded
 
 ---
 
-**Product name is written as `{{PRODUCT}}` throughout.** Set it once. Given the App Store and
-domain collisions with the reading-app cluster (Dogear: Social Reading Tracker, Dogear'd,
-`thedogearapp.com`, `getdogear.com`, the Play Store widget, the Chrome extension, mozilla/dogear),
-this stays a token until the name is verified. Every string below survives a rename.
+**Product name is written as `{{PRODUCT}}` throughout.** Set it once. This has now earned itself:
+the name was *Dogear*, and on Aug 17 2026 the owner changed it to **Vellum**, and the whole rename
+was one edit to `PRODUCT` in `site.config.json` plus the handful of places a token cannot reach.
+Every string below survived it untouched.
+
+**It stays a token, because the new name is not verified either.** Dogear was abandoned over App
+Store and domain collisions with the reading-app cluster (Dogear: Social Reading Tracker, Dogear'd,
+`thedogearapp.com`, `getdogear.com`, the Play Store widget, the Chrome extension, mozilla/dogear).
+No clearance search has been run on Vellum, and one collision is already known — **Vellum by 180g**,
+a live book-formatting app for authors. The owner was told and confirmed the name anyway. Until a
+real search says otherwise, assume the name can still move, and never hardcode it.
 
 **Price strings are `{{PRICE_YEAR}}` = $59.99 and `{{PRICE_MONTH}}` = $5.99.** Same reason, plus a
 better one: `decisions.md` says unit economics are measured before a price is set, and `blocked.md`
@@ -21,6 +28,27 @@ comparisons, FAQ — is fully written so the site flips to "Download on the App 
 swap, not a rebuild.
 
 ---
+
+## Brand mark
+
+**`src/assets/icon.svg` is a placeholder, not a resolved mark.** It draws a page with the corner
+folded down. That was a pun: the product used to be called *Dogear*. Since Aug 17 2026 it is
+called **Vellum**, so the mark now illustrates a name the product no longer has.
+
+The artwork is deliberately unchanged — a folded page still reads as *something kept, and
+findable*, which is on-message — but nobody should mistake it for a decision. Three things are
+open, and all of them are the owner's call:
+
+1. **The site mark and the app icon are already different marks.** This is a folded page; the iOS
+   app icon is a fan. One product, two symbols.
+2. **A real Vellum set is being drawn** in `Project-Rascal/docs/app-icon/` — wordmark, fan mark,
+   horizontal and stacked lockups, a mono version. Adopting it here is a separate pass.
+3. **That wordmark is lowercase** (*vellum*), and this site sets the name in title case
+   (*Vellum*) in five places — `src/partials/header.html`, `social/card.mjs`, and the three
+   Remotion components. Title case is what ships today. Do not split the difference silently.
+
+Until then: the name is live text set in Nunito 800, never an image, which is what made the last
+rename a one-line change.
 
 ## Voice
 

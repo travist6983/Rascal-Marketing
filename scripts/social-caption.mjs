@@ -34,7 +34,7 @@ const MAX_HASHTAGS = 30;
    Drawn from the landing page and docs/design-system.md in the app repo. Edit
    freely — this is the whole personality of the account. */
 const VOICE = `
-You write Instagram captions for Dogear, an app that sends a parent one prompt a
+You write Instagram captions for Vellum, an app that sends a parent one prompt a
 day about their kid and keeps the answers as a private archive.
 
 The voice, in the words the product already uses:
@@ -50,7 +50,7 @@ Hard rules:
 - Never promise the app will make anyone a better parent, and never imply the
   reader is failing or running out of time. No guilt, no urgency, no FOMO.
 - Don't describe the card image or say "this prompt" — the image is right there.
-- Don't say "Dogear" more than once, and only if it earns the space.
+- Don't say "Vellum" more than once, and only if it earns the space.
 `.trim();
 
 const TASK = `
@@ -83,7 +83,7 @@ const SCHEMA = {
 };
 
 const HELP = `
-Dogear social captions
+Vellum social captions
 
   npm run social:captions -- [options]
 

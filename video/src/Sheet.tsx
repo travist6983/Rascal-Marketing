@@ -70,7 +70,7 @@ export const Wordmark: React.FC<WordmarkProps> = ({ fadeInAt }) => {
             letterSpacing: "-0.02em",
           }}
         >
-          Dogear
+          Vellum
         </div>
         {/* The still card signs off with the wordmark alone. A video ends on
             bare paper with the wordmark held, which reads thin at one word, so

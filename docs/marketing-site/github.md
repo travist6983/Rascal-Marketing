@@ -1,7 +1,15 @@
+> **Historical export. The product is now called Vellum** (owner decision, Aug 17 2026).
+> Everything in `docs/marketing-site/` — the `.dc.html` canvases, `tokens.css`, `app.js`,
+> `uploads/` — is a point-in-time export from Claude Design made while the product was
+> called Dogear, including the filenames. It is kept unmodified as provenance for the
+> production build in `src/`. Do not rename these files or edit the name inside them;
+> the live site is `src/`, and it resolves the name from `site.config.json`.
+
 repo: travist6983/Rascal-Marketing
 branch: main
 
 ## Last sync
+
 date: 2026-08-15T18:25:42Z
 
 ### Updated in this project

@@ -1,7 +1,7 @@
 /**
  * The prompt library, in marketing voice.
  *
- * Seeded from `api/seeds/prompts.yaml` in the Project-Dogear repo — all 113 of them,
+ * Seeded from `api/seeds/prompts.yaml` in the Project-Rascal repo — all 113 of them,
  * same order, same kinds. Two things are deliberately different here:
  *
  * 1. **They/them.** 99 of the seeded prompts are written he/him, which is a decision

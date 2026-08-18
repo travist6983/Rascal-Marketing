@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Dogear landing page — behaviour
+   Vellum landing page — behaviour
 
    No framework, no build step, no third-party requests. Motion is scroll-driven
    where it can be: sticky pins with scroll progress mapped to transform and
@@ -21,7 +21,7 @@
    -------------------------------------------------------------------------- */
 const SIGNUP = {
   ENDPOINT: '',
-  SOURCE: 'dogear-landing'
+  SOURCE: 'vellum-landing'
 };
 
 /* Design props, from the .dc.html `data-props` block. */

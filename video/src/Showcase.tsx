@@ -105,7 +105,7 @@ const BrandMark: React.FC = () => (
       color: INK,
     }}
   >
-    Dogear
+    Vellum
   </div>
 );
 

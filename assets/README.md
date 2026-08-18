@@ -100,9 +100,23 @@ its own; ★★ supports one; ★ is a reference capture.
 
 #### Onboarding — the "it takes a minute" argument
 
+> **⚠ Stale branding — `onboarding-welcome.png` only.** The product was renamed from
+> **Dogear** to **Vellum** on Aug 17 2026. These are captures off a real device, so the
+> in-app name is baked into the pixels and cannot be fixed from this repo — it needs the
+> iOS app rebuilt with the new `CFBundleDisplayName` and a fresh capture.
+>
+> Every screenshot in `assets/screens/` was checked against this. **`onboarding-welcome.png`
+> is the only one that shows the product name**, as a `DOGEAR` eyebrow label above the
+> headline. All the others are in-app content screens whose chrome is generic (TODAY /
+> TIMELINE / MOMENTS / SETTINGS), so they survive the rename untouched — including all seven
+> used on the live site, which were verified individually.
+>
+> Its rating dropped ★★★ → ★ for that reason alone. The copy is still the best hero line
+> the app has; it just cannot be shown until it is re-captured.
+
 | File | What it shows | Good for | |
 |---|---|---|---|
-| `onboarding-welcome.png` | *"Let's save today before it's gone."* over Dogear branding, with Sign in with Apple | Ready-made hero copy, and correct branding. **Crop out the "Use the development account" link first** | ★★★ |
+| `onboarding-welcome.png` | *"Let's save today before it's gone."* under a **`DOGEAR`** eyebrow, with Sign in with Apple | Hero copy is still good. **The branding is the OLD NAME — do not publish this as-is.** See the warning above | ★ |
 | `onboarding-pronouns.png` | *"What are Hendrix's pronouns?"* — he/him, she/her, they/them | **Directly answers the site's they/them position**, and evidence the app was built for it. Worth its own post | ★★★ |
 | `onboarding-birthdate.png` | A date wheel: *"It's what stamps every entry with an exact age, forever."* | Explains the age-stamping the timeline shows. Good second panel in a carousel | ★★ |
 | `onboarding-notifications.png` | *"One note a day? … Never more than one. Off whenever you want."* | The anti-engagement promise, in the app's own words. Strong for a privacy/calm-tech angle | ★★ |

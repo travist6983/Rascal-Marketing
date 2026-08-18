@@ -30,7 +30,7 @@ import {
 } from '../social/card.mjs';
 
 const HELP = `
-Dogear social cards
+Vellum social cards
 
   npm run social -- [options]
 
@@ -191,7 +191,7 @@ try {
   if (opts.sheet) {
     const html = join(outDir, '_contact-sheet.html');
     const png = join(outDir, '_contact-sheet.png');
-    writeFileSync(html, sheetHtml(jobs, { fonts, size, title: `Dogear — ${opts.size} ${size.w} × ${size.h}` }));
+    writeFileSync(html, sheetHtml(jobs, { fonts, size, title: `Vellum — ${opts.size} ${size.w} × ${size.h}` }));
     await shoot(chrome, html, png, sheetSize(size, jobs.length));
     if (!opts.keepHtml) rmSync(html);
     process.stderr.write(`  contact sheet: ${png}\n`);
