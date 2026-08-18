@@ -1,8 +1,17 @@
 <footer class="foot">
   <div class="foot__in">
-    <!-- The mark sits above the tagline rather than replacing it. That sentence is the
-         only place the product name appears in the footer of every Markdown twin and in
-         llms.txt; turning it into artwork would drop the name off the LLM-facing surface. -->
+    <!-- The mark sits above the tagline rather than replacing it, so the sentence stays
+         real text: it is the site's de-facto tagline, it carries the product name for
+         screen readers and for search, and an anchor whose only content is artwork is
+         worth avoiding twice on a page.
+
+         An earlier version of this note claimed the sentence was the only place the name
+         reaches the Markdown twins and llms.txt. That is wrong, and worth correcting
+         rather than deleting: build.mjs renders the twins from the page BODY only
+         (`htmlToMarkdown(fill(p.body))`), so neither this footer nor the masthead has
+         ever appeared in a twin. Verified — the tagline occurs zero times across
+         index.md, pricing.md and llms-full.txt. Keeping it as text is still right; the
+         reason is the rendered page, not the twins. -->
     <a class="foot__mark brand" href="/" aria-label="{{PRODUCT}}">
       <svg viewBox="0 -163.8 845.362 163.8" aria-hidden="true" focusable="false">
         <defs>
