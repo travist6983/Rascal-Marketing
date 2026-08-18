@@ -961,3 +961,51 @@ body.post--sage .prose blockquote { border-color: var(--rule-sage); }
   font: 700 17px var(--display);
   display: flex; align-items: center; justify-content: center;
 }
+
+/* ── the brand lockup ─────────────────────────────────────────────────────
+   Drawn geometry, inlined. The card gaps are cut out of the card behind rather than
+   painted in the page colour, which is what lets one mark sit on the masthead's
+   translucent cream and the footer's --surface without either being told which.
+
+   That matters most in the masthead: it is color-mix(canvas 88%, transparent) over a
+   backdrop-filter, so page content scrolls underneath and tints it continuously. No
+   solid stroke colour stays right at every scroll position; a cut gap does.
+
+   The mask's shapes carry .brand__card too, so the gap travels with the cards when the
+   fan opens. Leave that class off them and the mark tears the moment it moves. */
+.brand { display: inline-block; line-height: 0; color: var(--ink); border-radius: 6px; }
+.brand svg { display: block; height: 34px; width: auto; overflow: visible; }
+
+/* One rule, two jobs. The cards carry this class and so do the shapes inside each
+   knockout mask, so the gap between two cards travels with the cards rather than staying
+   where they used to be. Without that the mark tears the moment it opens. */
+.brand__card {
+  transform: rotate(calc(var(--a) * 1deg)) translateY(-120px);
+  transition: transform 260ms cubic-bezier(.4, 0, .2, 1);
+}
+/* Opening staggers from the middle outward; closing does not, so the hand snaps shut
+   rather than unravelling. The delay lives in the hover rule for exactly that reason. */
+.brand:hover .brand__card,
+.brand:focus-visible .brand__card {
+  transform: rotate(calc(var(--a) * 1.45deg)) translateY(-127px);
+  transition: transform 460ms cubic-bezier(.22, .9, .28, 1);
+  transition-delay: calc(var(--i) * 45ms);
+}
+.brand:focus-visible { outline: 2px solid #C05A2B; outline-offset: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .brand__card,
+  .brand:hover .brand__card,
+  .brand:focus-visible .brand__card {
+    transform: rotate(calc(var(--a) * 1deg)) translateY(-120px);
+    transition: none;
+  }
+}
+
+/* Sized at the use site — the viewBox carries the proportion, so height is the only
+   number either surface sets. 30px puts the word's ascender at roughly the 22px the
+   live-text wordmark occupied, so the masthead's rhythm is unchanged. */
+.wordmark svg { height: 30px; }
+.foot__mark { margin-bottom: 18px; }
+.foot__mark svg { height: 32px; }
+@media (max-width: 599px) { .wordmark svg { height: 26px; } }
