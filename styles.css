@@ -110,8 +110,12 @@ input, button { font-family: inherit; }
 
 /* Set in title case, so the tracking is near-neutral. The 0.14em this carried
    as an all-caps lockup was doing a job caps need and a name doesn't — spacing
-   letters that have no ascenders or descenders to tell them apart. On "Vellum"
-   the same value reads as a gap, not a wordmark. */
+   letters that have no ascenders or descenders to tell them apart. That was
+   observed on "Dogear" in Aug 2026, when the all-caps "RASCAL" lockup became a
+   title-case name and the same value started reading as a gap rather than a
+   wordmark. The name has since changed again, to "Vellum", and the value still
+   holds — which is the point: 0.01em is right for a title-case word, not for a
+   particular one. */
 .wordmark {
   font-family: var(--display);
   font-weight: 800;
