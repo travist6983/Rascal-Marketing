@@ -103,7 +103,19 @@ for (const { rel, html } of pages) {
   if (!desc) fail.push(`${where}: missing meta description`);
   else if (desc.length > 158) warn.push(`${where}: description ${desc.length} chars (cap 158)`);
 
-  const body = html.replace(/<script[\s\S]*?<\/script>/g, '');
+  /* Scripts and comments both come out before the markup passes below, and for the
+     same reason: neither renders, so neither should be able to trip a check about what
+     a reader sees. Comments were included until Aug 18 2026, when a source comment
+     explaining why the brand lockup is inlined mentioned an image tag by name in its
+     prose — and the alt-text pass read the description as the thing described, failing
+     all 21 pages twice for an <img> that does not exist. Prose about markup should not
+     have to avoid naming tags.
+
+     Deliberately scoped to `body`: the unexpanded-include check below reads `html`,
+     because an unexpanded include IS a comment and stripping them would blind it. */
+  const body = html
+    .replace(/<script[\s\S]*?<\/script>/g, '')
+    .replace(/<!--[\s\S]*?-->/g, '');
 
   const h1s = body.match(/<h1[\s>]/g) || [];
   if (h1s.length !== 1) fail.push(`${where}: ${h1s.length} <h1> elements (must be exactly 1)`);
