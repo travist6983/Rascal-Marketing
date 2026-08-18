@@ -129,6 +129,15 @@ ul, ol { margin: 0; padding: 0; }
   overflow: hidden; clip-path: inset(50%); white-space: nowrap;
 }
 
+/* The signup honeypot. Deliberately NOT display:none or hidden -- both are
+   the first thing a form-filling bot checks for, and skipping the field is
+   the behaviour this is trying to catch. Moved off-screen instead, so it is
+   absent for a human and ordinary in the DOM. */
+.hp {
+  position: absolute; left: -9999px; top: auto;
+  width: 1px; height: 1px; overflow: hidden;
+}
+
 /* ------------------------------------------------------------------- type */
 h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; text-wrap: pretty; }
 

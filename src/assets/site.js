@@ -583,26 +583,81 @@
   })();
 
   /* --------------------------------------------------------- 9 · signup */
-  /* No endpoint is wired. The design prototype waited 800ms and declared
-     success without sending anything; this refuses to do that. Every visible
-     state below is real, and until ENDPOINT is set the form says plainly that
-     nothing was stored — which is the only honest thing a waitlist form with
-     nowhere to post can say. */
+  /* Posts to POST /v1/subscribe. The contract is narrow and worth stating,
+     because three obvious-looking behaviours below are wrong against it:
+
+     1. It answers 202 for EVERY outcome that is not an outage -- new address,
+        already subscribed, already unsubscribed, all identical. That is
+        deliberate: any other answer turns the route into an oracle that tells
+        anyone with a browser whether a given address is on the list. So there
+        is no 409 branch here and no "you're already on the list" state. This
+        page cannot know that, and it must not guess.
+     2. Nothing is stored by us. The list is Resend's, and a contact is
+        unconfirmed until they click Resend's email. So the success state says
+        to check the inbox. "You're in. First prompt lands tomorrow morning."
+        was the old string and it is a lie the confirmation email contradicts
+        within the minute.
+     3. Turnstile is the entire protection -- no rate limit applies to this
+        route, by the owner's call. The server fails closed on a missing or
+        bad token, so a form that posts without one is a form that only ever
+        shows an error. */
   var SIGNUP = {
-    ENDPOINT: null,      // e.g. 'https://formspree.io/f/xxxxxxxx' or your own /api/subscribe
-    SOURCE: 'marketing-site'
+    /* The one thing to change when the API moves. */
+    API_BASE: 'https://rascal-api.fly.dev',
+
+    /* Cloudflare Turnstile's SITE key -- public by design, safe in markup,
+       and not the secret the server holds. Empty until the widget is created
+       in the Cloudflare dashboard. While it is empty the form explains
+       itself and posts nothing, because the server would refuse it. */
+    TURNSTILE_SITE_KEY: '',
+
+    /* How long to wait for a token before giving up. Turnstile normally
+       answers in well under a second; this only exists so a blocked script
+       or a dead network ends in a sentence rather than a spinner. */
+    TOKEN_TIMEOUT_MS: 15000
   };
 
   (function signup() {
     var forms = $$('[data-signup]');
     if (!forms.length) return;
-    var seen = Object.create(null);
+
+    var configured = !!SIGNUP.TURNSTILE_SITE_KEY;
+    var widgets = [];
+
+    /* Which page the address came from. Impossible to reconstruct later and
+       free to record now -- the server logs it and passes it no further. */
+    var source = document.body.getAttribute('data-route') || 'unknown';
+
+    /* Turnstile is loaded once, explicitly, and only when there is a key to
+       load it with. Explicit render rather than auto so each form gets its
+       own widget id and its own token. */
+    if (configured) {
+      window.onTurnstileReady = function () {
+        widgets.forEach(function (w) { w.render(); });
+      };
+      var tag = document.createElement('script');
+      tag.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js' +
+                '?onload=onTurnstileReady&render=explicit';
+      tag.async = true;
+      tag.defer = true;
+      document.head.appendChild(tag);
+    }
 
     forms.forEach(function (form) {
       var input = $('input[type=email]', form);
       var btn = $('[data-signup-btn]', form);
       var msg = $('[data-signup-msg]', form);
+      var honeypot = $('.hp input', form);
+      var holder = $('[data-turnstile]', form);
       var idle = btn ? btn.textContent : '';
+
+      /* The token, and whoever is waiting for it. Turnstile hands it over
+         asynchronously, so a submit that arrives first parks here rather
+         than failing. */
+      var token = null;
+      var waiting = null;
+      var widgetId = null;
+      var timer = null;
 
       function say(text) {
         if (!msg) return;
@@ -612,6 +667,34 @@
       function invalid(is) {
         input.setAttribute('aria-invalid', String(is));
       }
+      function ready() {
+        btn.disabled = false;
+        btn.textContent = idle;
+      }
+      function deliver(value) {
+        token = value;
+        if (!waiting) return;
+        var next = waiting;
+        waiting = null;
+        clearTimeout(timer);
+        next(value);
+      }
+
+      if (configured && holder) {
+        widgets.push({
+          render: function () {
+            widgetId = window.turnstile.render(holder, {
+              sitekey: SIGNUP.TURNSTILE_SITE_KEY,
+              /* Invisible unless Cloudflare actually wants a challenge, so
+                 the ordinary case is a form with nothing extra in it. */
+              appearance: 'interaction-only',
+              callback: deliver,
+              'expired-callback': function () { token = null; },
+              'error-callback': function () { token = null; }
+            });
+          }
+        });
+      }
 
       input.addEventListener('input', function () { invalid(false); say(''); });
 
@@ -619,15 +702,15 @@
         ev.preventDefault();
         var email = input.value.trim();
 
+        /* Filled means not a human. Same visible outcome, no request. */
+        if (honeypot && honeypot.value) { done(); return; }
+
+        /* A shape check, not a validation -- the server decides, and so does
+           whether the confirmation is ever clicked. */
         if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
           invalid(true);
           say("That doesn't look like an email address.");
           input.focus();
-          return;
-        }
-        if (seen[email]) {
-          /* Not an error. Not red. Not an alert. */
-          say("You're already on the list — nothing to do.");
           return;
         }
 
@@ -636,48 +719,58 @@
         btn.textContent = 'Adding you…';
         say('');
 
-        if (!SIGNUP.ENDPOINT) {
-          btn.disabled = false;
-          btn.textContent = idle;
-          say('This form has nowhere to post yet, so nothing was stored — ' +
-              'we are not going to pretend otherwise. Set SIGNUP.ENDPOINT in /assets/site.js.');
+        if (!configured) {
+          ready();
+          say('Signups are not open yet — nothing was sent, and we are not ' +
+              'going to pretend otherwise. Set SIGNUP.TURNSTILE_SITE_KEY in /assets/site.js.');
           return;
         }
 
-        fetch(SIGNUP.ENDPOINT, {
+        if (token) return send(email, token);
+
+        /* The token has not arrived yet. Wait for it rather than posting
+           something the server will refuse. */
+        waiting = function (value) { send(email, value); };
+        timer = setTimeout(function () {
+          waiting = null;
+          ready();
+          say('That didn’t go through. Try again, or email {{SUPPORT_EMAIL}}.');
+        }, SIGNUP.TOKEN_TIMEOUT_MS);
+      });
+
+      function send(email, turnstileToken) {
+        fetch(SIGNUP.API_BASE + '/v1/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({
             email: email,
-            source: SIGNUP.SOURCE,
-            /* Two fields, never one flag — decisions.md D3a. */
-            marketing_consent: true,
-            transactional_consent: true
+            turnstile_token: turnstileToken,
+            source: source
           })
         }).then(function (res) {
-          /* A real endpoint's duplicate signal — HTTP 409, or a JSON body with
-             duplicate: true — gets the specified line, not a fake success and
-             not the failure string. Still not an error, still not red. */
-          if (res.status === 409) {
-            seen[email] = true;
-            btn.disabled = false;
-            btn.textContent = idle;
-            say("You're already on the list — nothing to do.");
-            return;
-          }
           if (!res.ok) throw new Error('HTTP ' + res.status);
-          seen[email] = true;
-          form.innerHTML =
-            '<div class="card card--sage" style="display:flex;gap:12px;align-items:center">' +
-              '<span class="tick" aria-hidden="true">✓</span>' +
-              '<span class="t-body">You\'re in. First prompt lands tomorrow morning.</span>' +
-            '</div>';
+          done();
         }).catch(function () {
-          btn.disabled = false;
-          btn.textContent = idle;
+          ready();
           say('That didn’t go through. Try again, or email {{SUPPORT_EMAIL}}.');
+        }).then(function () {
+          /* A Turnstile token is single-use. Whatever happened, the next
+             attempt needs a fresh one. */
+          token = null;
+          if (widgetId !== null && window.turnstile) window.turnstile.reset(widgetId);
         });
-      });
+      }
+
+      /* The one success state, and it does not say they are subscribed --
+         because they are not until they click Resend's confirmation. */
+      function done() {
+        form.innerHTML =
+          '<div class="card card--sage" style="display:flex;gap:12px;align-items:center">' +
+            '<span class="tick" aria-hidden="true">✓</span>' +
+            '<span class="t-body">Check your inbox — there is a link to confirm. ' +
+            'The first prompt comes the morning after you click it.</span>' +
+          '</div>';
+      }
     });
   })();
 

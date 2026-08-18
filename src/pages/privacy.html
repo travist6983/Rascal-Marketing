@@ -27,8 +27,36 @@ og: /assets/og/default.png
       <h2>What this site collects</h2>
       <p>
         Nothing, until you decide to <a href="/waitlist">join the waitlist</a>. If you do, the
-        form sends your email address, and which page you were on when you typed it. There is no
-        second form and no hidden field.
+        form sends your email address, and which page you were on when you typed it. That is the
+        entire request body — you can watch it leave in your browser's network tab.
+      </p>
+      <p>
+        There is one hidden field in that form, and it is not a tracker: it's an empty box that a
+        human never sees and an automated script fills in anyway. If it comes back with anything
+        in it we quietly drop the signup. It is never sent anywhere, and for a real person it is
+        always empty.
+      </p>
+
+      <h2>The one thing on this site that isn't ours</h2>
+      <p>
+        The signup form is checked by <a href="https://www.cloudflare.com/products/turnstile/"
+        rel="noreferrer">Cloudflare Turnstile</a>, which is the only third-party code this site
+        ever loads. It exists to tell a person from a bot without a puzzle to solve, and it loads
+        on the pages that carry the signup form — usually you'll never see it do anything.
+      </p>
+      <p>
+        <strong>Right now it doesn't load at all.</strong> Signups aren't open yet, so the form is
+        switched off, and until it's on there is no third-party code running on this site
+        whatsoever. Both halves of that are checkable in your browser's network tab, which is
+        why they're written down separately.
+      </p>
+      <p>
+        We chose it because it is the version of this that doesn't track you: it sets no
+        advertising cookie, it doesn't profile you across other websites, and Cloudflare states
+        it does not use the data to build a profile of you. It does necessarily see your IP
+        address and something about your browser, because that is how it tells a person from a
+        script. That is a real third party seeing something real, and it belongs on this page
+        rather than in a footnote.
       </p>
       <p>
         We don't keep it ourselves. The address goes to Resend, the company that sends our email,

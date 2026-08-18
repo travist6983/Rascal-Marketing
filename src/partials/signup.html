@@ -1,14 +1,22 @@
 <!-- The waitlist form. Used inline on / and as the whole of /waitlist.
 
-     Two consent fields, not one flag — decisions.md D3a. The daily prompt is
-     the thing being asked for and the launch note is a separate promise, so
-     they are separate booleans on the wire from the first row written. One flag
-     untangled later, under a GDPR or CCPA request, is the cost this avoids, and
-     it costs one column now.
+     It posts to POST /v1/subscribe, whose contract is settled and narrow: it
+     takes { email, turnstile_token, source }, stores nothing, and hands the
+     address to Resend. See site.js section 9 for the endpoint and the reason
+     the success state says "check your inbox" rather than "you're in".
 
-     No endpoint is wired yet. Until SIGNUP.ENDPOINT is set in site.js the form
-     says plainly that nothing was stored rather than faking a success — see the
-     note there. -->
+     There were two hidden consent inputs here, marketing_consent and
+     transactional_consent, per decisions.md D3a. They are gone because the
+     row they were columns of does not exist: the list is provider-held
+     (open item 12(4)), there is no subscribers table, and the server ignores
+     both fields. Sending a consent flag nowhere is worse than not sending
+     one -- it reads, to anyone auditing this form, like consent is being
+     recorded. D3a comes back with the list, on the day it comes in-house.
+
+     Turnstile is the only thing standing between this form and a bot, since
+     the owner declined a rate limit on the route (open item 12(1)). The
+     widget renders itself into [data-turnstile]; until a site key is set the
+     form says so rather than posting something the server will refuse. -->
 <form class="stack gap-12" data-signup novalidate>
   <div class="form">
     <label class="vh" for="wl-email">Email address</label>
@@ -18,9 +26,16 @@
     <button class="btn btn--primary" type="submit" data-signup-btn>{{CTA}}</button>
   </div>
 
-  <input type="hidden" name="marketing_consent" value="true">
-  <input type="hidden" name="transactional_consent" value="true">
+  <!-- The honeypot. Off-screen rather than display:none, unlabelled, out of
+       the tab order, and never autofilled. A human cannot reach it; a bot
+       that fills every input gets the success state and no request. -->
+  <div class="hp" aria-hidden="true">
+    <label for="wl-company" tabindex="-1">Company</label>
+    <input id="wl-company" name="company" type="text" tabindex="-1" autocomplete="off">
+  </div>
 
-  <p class="form__msg" id="wl-msg" role="status" data-signup-msg hidden></p>
+  <div data-turnstile></div>
+
+  <p class="form__msg" id="wl-msg" role="status" aria-live="polite" data-signup-msg hidden></p>
   <p class="form__fine">{{CTA_SUPPORT}} Unsubscribe in one click.</p>
 </form>

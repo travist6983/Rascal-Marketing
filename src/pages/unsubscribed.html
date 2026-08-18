@@ -1,0 +1,47 @@
+<!--page
+title: Unsubscribed | {{PRODUCT}}
+description: You're unsubscribed. No more prompts, and no further email from us.
+og: /assets/og/default.png
+noindex: true
+-->
+
+<!-- Where an unsubscribe link lands.
+
+     One screen, one line, and no attempt to win anybody back. The runbook is
+     explicit that a resubscribe link is fine and an "are you sure?" is not,
+     and the reason is the same reason the app has no streaks: a person who
+     is leaving has already decided, and asking twice is a small punishment
+     for having decided.
+
+     Reached from an email footer rather than from the site, so noindex and
+     out of the nav.
+
+     One honest caveat lives here rather than in the privacy page's fine
+     print: unsubscribing leaves the address on a suppression list, which is
+     the mechanism that guarantees we never mail it again. It is stated in
+     the same breath as the confirmation, because finding it out later reads
+     like a thing that was hidden. -->
+<section class="section">
+  <div class="wrap wrap--narrow stack gap-24">
+    <h1 class="t-hero">Unsubscribed.</h1>
+
+    <p class="lede">
+      That&rsquo;s done &mdash; no more prompts, and nothing else from us.
+    </p>
+
+    <p class="t-body muted">
+      Your address stays on a do-not-email list so that a future signup form can&rsquo;t put you
+      back by accident. That list is the reason the unsubscribe sticks. If you&rsquo;d rather it
+      were gone entirely, <a href="mailto:{{SUPPORT_EMAIL}}">ask us</a> and we&rsquo;ll remove
+      it &mdash; and then a future form could sign you up again, which is the honest trade.
+    </p>
+
+    <p class="t-body muted">
+      If this was a mistake, <a href="/waitlist">you can join again</a>. And the archive itself
+      never depended on the email &mdash; <a href="/promise">what happens to what you write</a>
+      is written down in full.
+    </p>
+
+    <p class="t-body muted"><a href="/">Back to {{PRODUCT}}</a></p>
+  </div>
+</section>
