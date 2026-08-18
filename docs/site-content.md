@@ -77,10 +77,20 @@ open, and all of them are the owner's call:
    If the leftward reach ever does need shrinking, the number is the `1.45` multiplier in the hover
    rule; it scales linearly, so `1.25` takes 6.1px to about 3.4px at the same height.
 
-   Note also that the animated lockup strokes its card gaps rather than knocking them out — a
-   knockout mask is built from where the cards are, so a rotating card leaves its notch behind and
-   the mark tears. A stroke moves with the card, at the cost of needing to know its background.
-   Fine in a header with one known ground; not interchangeable with the static files.
+   ~~The animated lockup strokes its card gaps rather than knocking them out, because a knockout
+   mask is built from where the cards are — so motion and ground-independence are a trade.~~
+   **That was recorded here as a law and it was not one.** A *static* mask leaves its notch behind
+   when a card rotates; a mask whose shapes carry `.brand__card` alongside the cards moves with
+   them. Animating the mask dissolves the trade entirely, which is what shipped — so the header
+   component and the static files differ in no way that matters, and nothing here needs
+   reconciling.
+
+   Worth keeping the mistake visible: the header could not have used a stroke anyway. `.masthead`
+   is `color-mix(canvas 88%, transparent)` over a `backdrop-filter`, so page content scrolls
+   underneath and tints it continuously — no solid stroke colour is right at every scroll
+   position. Cream would have looked correct at the top of the page and shown as a halo over a
+   photograph twenty pixels later. That is a bug that only appears once you scroll, which is the
+   kind that ships.
 
    **The chosen app icon bakes the wordmark into its front card** — an asset that encodes the name,
    which by the rule at the end of this section ages badly. It was chosen knowingly, with two
