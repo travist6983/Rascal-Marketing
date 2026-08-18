@@ -53,6 +53,21 @@ open, and all of them are the owner's call:
    drawn geometry (monolinear, round terminals), not outlined type, so no font file and no licence
    question. Adopting it here is still a separate pass, and the files are not in this repo.
 
+   **If the animated header lockup is adopted** (`vellum-logo-hover.html` in that directory is
+   generated from the artwork and carries the markup and CSS as copy-paste blocks): its SVG is
+   `overflow: visible` on purpose, so the fan opens past its own box and the header does not
+   re-flow on hover. Checked against this site — **no `overflow: hidden` exists anywhere in the
+   masthead chain**, so nothing would clip it. Two things that would still need a look:
+   `styles.css`-side, `html` sets `overflow-x: clip`, which only bites if the fan opens *leftward*
+   past the viewport edge, and the wordmark sits in the left gutter; and `.masthead` carries a
+   `backdrop-filter` and a `border-bottom`, so a fan opening downward paints across that bottom
+   rule. Neither is a blocker, both are cheaper to know than to debug.
+
+   Note also that the animated lockup strokes its card gaps rather than knocking them out — a
+   knockout mask is built from where the cards are, so a rotating card leaves its notch behind and
+   the mark tears. A stroke moves with the card, at the cost of needing to know its background.
+   Fine in a header with one known ground; not interchangeable with the static files.
+
    **The chosen app icon bakes the wordmark into its front card** — an asset that encodes the name,
    which by the rule at the end of this section ages badly. It was chosen knowingly, with two
    wordless candidates on the table, and both are kept for the day that matters. Relevant to the OG
