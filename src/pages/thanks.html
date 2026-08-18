@@ -1,17 +1,24 @@
 <!--page
 title: You're on the list | {{PRODUCT}}
-description: You're on the list. The first prompt lands tomorrow morning, and there's one here you can answer tonight.
+description: Your address is confirmed. The first prompt lands tomorrow morning, and there's one here you can answer tonight.
 og: /assets/og/default.png
 noindex: true
 -->
 
+<!-- Where the confirmation link lands. This is the ONLY page that may say
+     "you're on the list", because that only becomes true when somebody
+     clicks the link in the confirmation email -- the signup form itself now
+     stays put and says to check the inbox.
+
+     It is reached from the confirmation email rather than from the site, so
+     it stays noindex and stays out of the nav. -->
 <section class="section">
   <div class="wrap wrap--narrow stack gap-24">
     <h1 class="t-hero">You&rsquo;re on the list.</h1>
 
     <p class="lede">
-      First one lands tomorrow morning. Here&rsquo;s one you can answer tonight, on paper, and
-      type in later:
+      That&rsquo;s the address confirmed &mdash; the first one lands tomorrow morning. Here&rsquo;s
+      one you can answer tonight, on paper, and type in later:
     </p>
 
     <figure class="promptbox promptbox--peri">
