@@ -117,7 +117,11 @@ body {
    Three insets, not one. The hairline draws the edge, the tight glow gives it a
    source, and the wide falloff is the only layer doing real work — a single
    large shadow reads as a grey vignette, and the site has no grey. --frame is
-   the one dial: 0 removes the effect without removing the rule.
+   the one dial: 0 removes the effect without removing the rule, and it multiplies
+   all three alphas at once so they keep their ratio to each other. It sits at
+   1.15 — the alphas below are the tuned baseline, and the dial carries the 15%
+   the owner asked for on top, which is why the intent stays readable here
+   instead of disappearing into three re-typed decimals.
 
    It does not breathe. The reference this borrows from pulses, and a pulse on a
    marketing page is a thing in the corner of the eye that never resolves into
@@ -130,7 +134,7 @@ body {
    this is a warm rim you notice second, and over the navy panels — where the
    contrast is far higher — the same values are already assertive. The dark
    sections are what set the ceiling, not the light ones. */
-:root { --frame: 1; }
+:root { --frame: 1.15; }
 
 body::after {
   content: '';
