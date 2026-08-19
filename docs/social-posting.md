@@ -126,7 +126,7 @@ at the top of `.github/workflows/pages-actions.yml`), and a poster that depends
 on a deploy landing is a poster that silently stops when Pages has a bad day.
 
 **If you'd rather serve them from Pages**, set the `SOCIAL_IMAGE_BASE` variable
-to `https://travist6983.github.io/Rascal-Marketing` and add the queue directory
+to `https://getvellumapp.com` and add the queue directory
 to the staging step in `pages-actions.yml`, which currently copies only four
 files:
 

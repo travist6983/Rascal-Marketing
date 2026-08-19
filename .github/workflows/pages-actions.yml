@@ -76,30 +76,22 @@ jobs:
           echo "site.$CSS_V.css   site.$JS_V.js"
           grep -c "site\.$CSS_V\.css" _site/index.html
 
-          # Project-pages base path. The build emits root-absolute URLs
-          # (/assets/…, /pricing) because the real deployment target is a
-          # custom domain at its root. Until that domain exists, Pages serves
-          # this repo at /<repo-name>/, so every absolute URL gets the prefix
-          # here — at staging time only, never in the build. When the custom
-          # domain goes live (a CNAME + ORIGIN in site.config.json), set
-          # BASE= empty below and this block becomes a no-op.
-          BASE="/${GITHUB_REPOSITORY#*/}"
-          if [ -n "$BASE" ]; then
-            find _site -name '*.html' -exec sed -i \
-              -e "s|href=\"/|href=\"$BASE/|g" \
-              -e "s|src=\"/|src=\"$BASE/|g" \
-              -e "s|srcset=\"/|srcset=\"$BASE/|g" \
-              -e "s|content=\"/|content=\"$BASE/|g" {} +
-            find _site -name '*.css' -exec sed -i \
-              -e "s|url('/|url('$BASE/|g" \
-              -e "s|url(\"/|url(\"$BASE/|g" \
-              -e "s|url(/|url($BASE/|g" {} +
-            # The markdown twins and llms indexes carry root-relative links too.
-            find _site \( -name '*.md' -o -name 'llms*.txt' \) -exec sed -i \
-              -e "s|](/|]($BASE/|g" {} +
-            echo "base path: $BASE"
-            grep -c "href=\"$BASE/" _site/index.html
-          fi
+          # No base-path rewrite. The build emits root-absolute URLs (/assets/…,
+          # /pricing) because the deployment target is a custom domain at its
+          # root, and as of Aug 18 2026 that domain exists: getvellumapp.com is
+          # in site.config.json, and the build writes _site/CNAME from it, which
+          # is what tells Pages to serve here rather than at /<repo-name>/.
+          #
+          # A prefixing pass used to live here for the project URL. It is gone
+          # rather than switched off, because the two are mutually exclusive and
+          # a dormant copy is a thing somebody re-enables: with the CNAME in the
+          # artifact every one of those rewrites would point one directory too
+          # deep and 404 the entire site. If the custom domain is ever given up,
+          # clear ORIGIN in site.config.json (which stops the CNAME, canonicals
+          # and sitemap together) and restore the rewrite from this file's
+          # history — not from a commented-out block that drifted meanwhile.
+          test -s _site/CNAME || { echo "no CNAME in the artifact — ORIGIN unset?"; exit 1; }
+          echo "custom domain: $(cat _site/CNAME)"
 
       - uses: actions/upload-pages-artifact@v3
         with:

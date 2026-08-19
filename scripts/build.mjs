@@ -18,8 +18,9 @@
  *   4. Hoists any <template data-head> into <head>, which is how JSON-LD and
  *      per-page preloads get out of the body without a templating language.
  *   5. Writes dist/<route>/index.html so URLs are clean with no server rules.
- *   6. Emits canonicals, absolute OG URLs and sitemap.xml ONLY if ORIGIN is set.
- *      A canonical pointing at a domain you don't own is worse than none.
+ *   6. Emits canonicals, absolute OG URLs, an Organization url, sitemap.xml and
+ *      the Pages CNAME ONLY if ORIGIN is set. A canonical pointing at a domain
+ *      you don't own is worse than none.
  */
 import { readFile, writeFile, mkdir, readdir, copyFile, rm, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -75,15 +76,32 @@ async function copyTree(from, to) {
 }
 
 /**
- * Single pass, deliberately. PRODUCT's default value is the literal string
- * "{{PRODUCT}}" while the name is unresolved, and a recursive replace would
- * either loop forever on that or quietly eat it.
+ * Resolves to a fixed point, not in one pass: a token's value can itself contain
+ * a token. SUPPORT_EMAIL is "hello@{{DOMAIN}}", and one pass expanded that to a
+ * literal `mailto:hello@{{DOMAIN}}` — on five pages, four Markdown twins,
+ * llms-full.txt and site.js. It was invisible for exactly as long as DOMAIN's own
+ * value was the string "{{DOMAIN}}", and would have gone public the hour a real
+ * domain replaced it (getvellumapp.com, Aug 18 2026).
+ *
+ * A self-referencing value is still safe, which is what the single pass was
+ * protecting against: replacing "{{DOMAIN}}" with "{{DOMAIN}}" changes nothing,
+ * so the no-change test ends the loop on the first pass instead of spinning. The
+ * pass cap only catches a real cycle between two tokens, and throws rather than
+ * shipping a half-expanded string.
  */
 function fill(text, extra = {}) {
   const table = { ...tokens, ...extra };
-  return text.replace(/\{\{([A-Z0-9_]+)\}\}/g, (whole, key) =>
-    Object.prototype.hasOwnProperty.call(table, key) ? table[key] : whole
-  );
+  const once = (s) =>
+    s.replace(/\{\{([A-Z0-9_]+)\}\}/g, (whole, key) =>
+      Object.prototype.hasOwnProperty.call(table, key) ? table[key] : whole
+    );
+  let out = text;
+  for (let pass = 0; pass < 6; pass++) {
+    const next = once(out);
+    if (next === out) return out;
+    out = next;
+  }
+  throw new Error('{{TOKEN}} expansion never settled — a token cycle in site.config.json');
 }
 
 const esc = (s) =>
@@ -169,21 +187,27 @@ for (const file of pages) {
   const expanded = await expandIncludes(rawBody);
   const { head: pageHead, body } = hoistHead(expanded);
 
-  /* seo-plan.md: canonicals are self-referencing, and OG images must be absolute
-     to survive being pasted into a parenting group. Both need an origin, so both
-     wait for one rather than shipping a guess. */
-  const origin = (config.ORIGIN || '').replace(/\/$/, '');
-  const ogImage = meta.og || '/assets/og/default.png';
-  const canonical = origin
-    ? `<link rel="canonical" href="${esc(origin + (route === '/' ? '/' : route))}">\n` +
-      `<meta property="og:url" content="${esc(origin + (route === '/' ? '/' : route))}">\n` +
-      `<meta property="og:image" content="${esc(origin + ogImage)}">\n` +
-      `<meta name="twitter:image" content="${esc(origin + ogImage)}">\n`
-    : '';
-
   /* noindex: true in front-matter — /thanks is a post-signup page, not a result. */
   const noindex = meta.noindex === 'true';
   const robots = noindex ? '<meta name="robots" content="noindex">\n' : '';
+
+  /* seo-plan.md: canonicals are self-referencing, and OG images must be absolute
+     to survive being pasted into a parenting group. Both need an origin, so both
+     waited for one rather than shipping a guess.
+
+     The canonical waits on one more thing: the page being indexable. A noindex
+     page with a self-canonical asks a crawler to keep the URL and to drop it in
+     the same breath, and the three noindex pages here (404, thanks, unsubscribed)
+     want only the robots tag. The absolute OG URLs still go on all of them —
+     /thanks does get pasted into a group chat, it just isn't a search result. */
+  const origin = (config.ORIGIN || '').replace(/\/$/, '');
+  const pageUrl = origin + (route === '/' ? '/' : route);
+  const ogImage = meta.og || '/assets/og/default.png';
+  const canonical = !origin ? '' :
+    (noindex ? '' : `<link rel="canonical" href="${esc(pageUrl)}">\n`) +
+    `<meta property="og:url" content="${esc(pageUrl)}">\n` +
+    `<meta property="og:image" content="${esc(origin + ogImage)}">\n` +
+    `<meta name="twitter:image" content="${esc(origin + ogImage)}">\n`;
 
   const hasMd = !noindex;
   if (hasMd) mdPages.push({ route, title: fill(meta.title), description: fill(meta.description), body });
@@ -196,14 +220,21 @@ for (const file of pages) {
     PAGE_ROUTE: route,
     HEAD_CANONICAL: robots + canonical +
       (hasMd ? `<link rel="alternate" type="text/markdown" href="${mdPath(route)}" title="Markdown version of this page">\n` : ''),
+    /* seo-plan.md wants Organization sitewide, and an Organization with no url is
+       an entity a crawler cannot tie to anything. The domain is what supplies it,
+       so this stays gated on ORIGIN exactly like the canonicals above. */
+    JSONLD_URL: origin ? `"url": ${JSON.stringify(origin)},\n      ` : '',
     HEAD_EXTRA: fill(pageHead),
     BODY: body
   });
 
-  const finished = fill(html);
+  /* One call, not two. The body used to be spliced in as a raw {{BODY}} and then
+     filled by a second pass, which is why a token inside a token never resolved
+     in page copy. fill() settles now, so layout, hoisted head and body all come
+     out of the same expansion. */
   const dest = join(dist, out);
   await mkdir(dirname(dest), { recursive: true });
-  await writeFile(dest, finished);
+  await writeFile(dest, html);
 
   const title = fill(meta.title);
   if (seenTitles.has(title)) {
@@ -300,6 +331,13 @@ await writeFile(
   `User-agent: *\nAllow: /\n` + (origin ? `\nSitemap: ${origin}/sitemap.xml\n` : '')
 );
 
+/* GitHub Pages takes the custom domain from a CNAME file in the published
+   artifact. Deriving it from ORIGIN rather than committing a literal keeps the
+   domain a one-line config edit — and makes the worst failure unreachable: a
+   deploy without this file falls back to the project URL (/<repo-name>/), where
+   every root-absolute link on the site 404s. */
+if (origin) await writeFile(join(dist, 'CNAME'), new URL(origin).host + '\n');
+
 if (origin) {
   const urls = built
     .filter((p) => p.inSitemap)
@@ -317,6 +355,6 @@ for (const p of built) {
   console.log(`  ${p.route.padEnd(28)} ${String(p.title.length).padStart(3)}${over}`);
 }
 if (!origin) {
-  console.log('\n  ORIGIN is empty in site.config.json — no canonicals, no sitemap.xml.');
-  console.log('  Set it to the real https origin and both appear on the next build.');
+  console.log('\n  ORIGIN is empty in site.config.json — no canonicals, no sitemap.xml, no CNAME.');
+  console.log('  Set it to the real https origin and all three appear on the next build.');
 }
