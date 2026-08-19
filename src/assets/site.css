@@ -108,6 +108,45 @@ body {
   font: 400 var(--t-body)/1.45 var(--text);
   -webkit-font-smoothing: antialiased;
 }
+/* The window frame. A terracotta glow banked against the viewport edge, the way
+   light sits in the rim of a warm room — the page looks lit rather than pasted
+   onto the screen. Decorative and nothing else: fixed so it never scrolls, no
+   markup, no layout box, pointer-events off so it cannot swallow a click, and
+   invisible to a screen reader because there is nothing there to describe.
+
+   Three insets, not one. The hairline draws the edge, the tight glow gives it a
+   source, and the wide falloff is the only layer doing real work — a single
+   large shadow reads as a grey vignette, and the site has no grey. --frame is
+   the one dial: 0 removes the effect without removing the rule.
+
+   It does not breathe. The reference this borrows from pulses, and a pulse on a
+   marketing page is a thing in the corner of the eye that never resolves into
+   information — the whole site is built on not nagging the reader, and a frame
+   that moves is the same nag in another costume. It lights the edge once and
+   then it is furniture. Nothing here animates, so there is no motion for
+   prefers-reduced-motion to reduce.
+
+   Alphas are tuned to the restrained end deliberately: on the #FDFAF4 canvas
+   this is a warm rim you notice second, and over the navy panels — where the
+   contrast is far higher — the same values are already assertive. The dark
+   sections are what set the ceiling, not the light ones. */
+:root { --frame: 1; }
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0  0 1px rgba(192, 90, 43, calc(0.30 * var(--frame))),
+    inset 0 0 26px    rgba(192, 90, 43, calc(0.22 * var(--frame))),
+    inset 0 0 80px    rgba(192, 90, 43, calc(0.14 * var(--frame)));
+}
+
+/* A glow around the paper is a screen idea; on paper it is a band of wasted ink. */
+@media print { body::after { display: none; } }
+
 img, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
 button, input, select, textarea { font: inherit; color: inherit; }
