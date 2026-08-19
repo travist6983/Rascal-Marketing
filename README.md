@@ -226,20 +226,34 @@ they/them archive before these go out — the app supports it, and
 
 ## Deploying
 
-Live at **https://travist6983.github.io/Rascal-Marketing/**
+Live at **https://getvellumapp.com** — registered Aug 18 2026 and pointed at
+Pages, which replaced `travist6983.github.io/Rascal-Marketing` as the address
+this site is built for.
+
+The domain is one line: `ORIGIN` in `site.config.json`. Setting it is what makes
+the build emit self-referencing canonicals, absolute OG URLs, an Organization
+`url`, `sitemap.xml` and `dist/CNAME` — the last of which is what tells Pages to
+serve at the domain root instead of `/<repo-name>/`. Clearing `ORIGIN` turns all
+five off together, and `npm run check` fails if any of them disagree about the
+host.
 
 The product is Vellum; the repo is still `Rascal-Marketing`. The product has now
 outlived two names — Rascal, then Dogear — and the repo has kept the first one
-through both, for a reason that hasn't changed: `Rascal-Marketing` is
-load-bearing in two places — the Pages URL above, and the
-`raw.githubusercontent.com` base in `scripts/social-post.mjs` that Instagram
-fetches card images from. Renaming the repo breaks both until they change with
-it, so it was left alone deliberately, again.
+through both. One of the two reasons has now expired: the Pages project URL is no
+longer the address anybody visits. The other still holds — `Rascal-Marketing` is
+in the `raw.githubusercontent.com` base in `scripts/social-post.mjs` that
+Instagram fetches card images from, and renaming the repo breaks that until it
+changes with it. So it stays, on one reason instead of two.
 
 Pages Source is set to **GitHub Actions**, so
 `.github/workflows/pages-actions.yml` is the deploy. It stages the site, adds a
 content-hash query to `styles.css` and `app.js` so a new deploy can't be served
 with a cached stylesheet, and publishes on every push to `main`.
+
+**DNS**, for the record: an apex domain on Pages needs A/AAAA records at GitHub's
+four addresses, not a CNAME record — a `CNAME` *file* in the artifact and a CNAME
+*record* at the registrar are different things, and the apex can only use the
+former. `www` may be a CNAME record to `travist6983.github.io`.
 
 ## Checking it
 

@@ -16,14 +16,20 @@
  *   - NO pronoun-token leaks: a literal {their} on the page whose job is
  *     proving the prompts are well written is a public failure. seo-plan.md
  *     marks this row Critical, and this is the launch break-test it asks for.
- *   - no unresolved {{TOKEN}} — except {{DOMAIN}}, which stays literal on
- *     purpose until a domain is bought. {{PRODUCT}} used to be exempt too,
- *     "until the name is resolved". It resolved (Dogear → Vellum, Aug 17
- *     2026), so the exemption is gone: a typo in the config key would
- *     otherwise ship a literal {{PRODUCT}} on every page and still report
- *     zero failures. The rename is exactly the operation this should guard.
+ *   - no unresolved {{TOKEN}}. Nothing is exempt any more. {{PRODUCT}} was,
+ *     "until the name is resolved", and {{DOMAIN}} was, until a domain was
+ *     bought. Both resolved (Vellum Aug 17 2026, getvellumapp.com Aug 18), and
+ *     an exemption that outlives its reason is worse than no check: DOMAIN's
+ *     covered a real bug for a day — SUPPORT_EMAIL is "hello@{{DOMAIN}}", the
+ *     token expander ran one pass, and `mailto:hello@{{DOMAIN}}` was sitting in
+ *     five pages, four twins and site.js while this file reported zero failures.
+ *     A rename or a domain move is exactly the operation this should guard.
  *   - every internal link and anchor resolves to a built file / a real id
  *   - every og: image referenced actually exists
+ *   - the domain is used consistently: canonicals self-reference on ORIGIN and
+ *     only on indexable pages, OG URLs are absolute, sitemap.xml and the set of
+ *     canonicals agree exactly, robots.txt points at the sitemap, CNAME matches
+ *     ORIGIN's host, and nothing shipped still names the old project URL
  *   - every <script type="application/ld+json"> parses as JSON
  *
  * BROWSER — key routes through a real Chromium over a local server:
@@ -173,10 +179,8 @@ for (const { rel, html } of pages) {
   if (!html.includes('class="masthead"')) fail.push(`${where}: site header missing`);
   if (!html.includes('class="foot"')) fail.push(`${where}: site footer missing`);
 
-  for (const m of html.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)) {
-    if (m[1] !== 'DOMAIN')
-      fail.push(`${where}: unresolved token {{${m[1]}}}`);
-  }
+  for (const m of html.matchAll(/\{\{([A-Z0-9_]+)\}\}/g))
+    fail.push(`${where}: unresolved token {{${m[1]}}}`);
 
   for (const m of html.matchAll(/href="(\/[^"]*)"/g)) {
     const href = m[1];
@@ -216,10 +220,99 @@ try {
   fail.push('dist/robots.txt missing');
 }
 
+/* --------------------------------------------------------------- the origin */
+/* Everything here names the domain somewhere a reader never looks — a canonical,
+   a sitemap <loc>, the CNAME the deploy reads — which is why it needs a machine
+   to check it. The failures are all quiet and all expensive: a canonical on the
+   wrong host de-indexes the page carrying it, a sitemap of URLs nothing claims
+   is crawl budget spent on nothing, and a missing CNAME drops Pages back to the
+   project URL, where every root-absolute link on the site 404s.
+
+   The whole pass is gated on ORIGIN, so it stays honest if the domain is ever
+   given up: an empty ORIGIN means the build emits none of this, and none of it
+   is then required. */
+const config = JSON.parse(await readFile(join(root, 'site.config.json'), 'utf8'));
+const origin = (config.ORIGIN || '').replace(/\/$/, '');
+
+if (origin) {
+  const host = new URL(origin).host;
+  const self = (route) => origin + (route === '/' ? '/' : route);
+
+  if (!origin.startsWith('https://'))
+    fail.push(`site.config.json: ORIGIN is not https — ${origin}`);
+  /* SUPPORT_EMAIL is built from DOMAIN, the canonicals from ORIGIN. If those two
+     ever disagree the site invites mail to one domain and ranks another, and
+     nothing on the page looks wrong. */
+  if (config.DOMAIN !== host)
+    fail.push(`site.config.json: DOMAIN "${config.DOMAIN}" is not ORIGIN's host "${host}"`);
+
+  try {
+    const cname = (await readFile(join(dist, 'CNAME'), 'utf8')).trim();
+    if (cname !== host) fail.push(`dist/CNAME is "${cname}", ORIGIN's host is "${host}"`);
+  } catch {
+    fail.push('dist/CNAME missing — Pages would fall back to the project URL');
+  }
+
+  const robotsTxt = await readFile(join(dist, 'robots.txt'), 'utf8').catch(() => '');
+  if (!robotsTxt.includes(`Sitemap: ${origin}/sitemap.xml`))
+    fail.push(`robots.txt does not point at ${origin}/sitemap.xml`);
+
+  let sitemap = '';
+  try {
+    sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8');
+  } catch {
+    fail.push('dist/sitemap.xml missing while ORIGIN is set');
+  }
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+
+  /* Canonicals self-reference, absolutely, and a noindex page carries none:
+     keeping a URL and dropping it are not two things to ask in one breath. */
+  const canonicals = new Set();
+  for (const { rel, html } of pages) {
+    const route = rel === '/index.html' ? '/' : rel.replace(/\/index\.html$/, '').replace(/\.html$/, '');
+    const want = self(route);
+    const canon = (html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
+
+    if (/<meta name="robots" content="noindex">/.test(html)) {
+      if (canon) fail.push(`${rel}: noindex page also carries a canonical (${canon})`);
+    } else if (!canon) {
+      fail.push(`${rel}: no canonical while ORIGIN is set`);
+    } else if (canon !== want) {
+      fail.push(`${rel}: canonical is ${canon}, should be ${want}`);
+    } else {
+      canonicals.add(want);
+    }
+
+    const ogUrl = (html.match(/property="og:url" content="([^"]+)"/) || [])[1];
+    if (ogUrl !== want) fail.push(`${rel}: og:url is ${ogUrl || 'missing'}, should be ${want}`);
+    /* Absolute, or the card is blank everywhere the link gets pasted. */
+    for (const prop of ['og:image', 'twitter:image']) {
+      const v = (html.match(new RegExp(`"${prop}" content="([^"]+)"`)) || [])[1];
+      if (!v || !v.startsWith(origin + '/'))
+        fail.push(`${rel}: ${prop} must be absolute on ${origin} — got ${v || 'nothing'}`);
+    }
+  }
+
+  for (const loc of locs)
+    if (!canonicals.has(loc)) fail.push(`sitemap.xml lists ${loc}, which no page claims as its canonical`);
+  for (const want of canonicals)
+    if (!locs.includes(want)) fail.push(`${want} is canonical but missing from sitemap.xml`);
+}
+
+/* The project URL (travist6983.github.io/Rascal-Marketing) was the deploy target
+   until the custom domain existed. A leftover reference in shipped output points
+   at a URL that now only redirects, and in a canonical or an OG tag it hands the
+   ranking away. Swept across the twins and the llms indexes too — they carry
+   links of their own. */
+for (const file of files.filter((f) => /\.(html|md|txt|xml)$/.test(f))) {
+  const stale = (await readFile(file, 'utf8')).match(/[^\s"'<>()]*github\.io[^\s"'<>()]*/);
+  if (stale) fail.push(`/${relative(dist, file)}: stale project URL ${stale[0]}`);
+}
+
 /* ------------------------------------------------------- markdown twins */
 /* Every page that declares a markdown alternate must ship one; llms.txt must
    exist and every link in it must resolve; the twins must be actual markdown —
-   no unresolved tokens (DOMAIN excepted) and no leaked HTML tags. */
+   no unresolved tokens and no leaked HTML tags. */
 let mdCount = 0;
 for (const { rel, html } of pages) {
   const alt = (html.match(/rel="alternate" type="text\/markdown" href="([^"]+)"/) || [])[1];
@@ -232,9 +325,8 @@ for (const { rel, html } of pages) {
     fail.push(`${rel}: declared markdown twin ${alt} missing`);
     continue;
   }
-  for (const t of md.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)) {
-    if (t[1] !== 'DOMAIN') fail.push(`${alt}: unresolved token {{${t[1]}}}`);
-  }
+  for (const t of md.matchAll(/\{\{([A-Z0-9_]+)\}\}/g))
+    fail.push(`${alt}: unresolved token {{${t[1]}}}`);
   const tagLeak = md.match(/<\/?[a-z][a-z0-9-]*[\s>]/);
   if (tagLeak) fail.push(`${alt}: leaked HTML: ${tagLeak[0]}`);
   /* backslash-escaped braces are the md form of the HTML's entity-encoded

@@ -18,14 +18,21 @@
     "That unresolved question is why this is still a token and not a hardcoded",
     "string: if the name moves again, it moves here and nowhere else.",
     "",
-    "ORIGIN is empty on purpose. The moment it holds a real https origin the build",
-    "starts emitting self-referencing canonicals, absolute OG image URLs and",
-    "sitemap.xml. Until then nothing fake ships. Nothing else needs to change."
+    "DOMAIN and ORIGIN were placeholders until Aug 18 2026, when getvellumapp.com",
+    "was registered and pointed here. Setting them is what switches on",
+    "self-referencing canonicals, absolute OG image URLs, the Organization url,",
+    "sitemap.xml and the Pages CNAME -- none of which shipped while the origin was",
+    "a guess. Nothing else needs to change: SUPPORT_EMAIL is built from DOMAIN, and",
+    "the deploy reads the CNAME the build emits.",
+    "",
+    "Buying the domain is not a trademark clearance. The Vellum question above is",
+    "still open, and a registrar will happily sell you a name somebody else owns",
+    "the mark for. If the name moves, DOMAIN and ORIGIN move with it, here."
   ],
 
   "PRODUCT": "Vellum",
-  "DOMAIN": "{{DOMAIN}}",
-  "ORIGIN": "",
+  "DOMAIN": "getvellumapp.com",
+  "ORIGIN": "https://getvellumapp.com",
 
   "PRICE_YEAR": "$59.99",
   "PRICE_MONTH": "$5.99",

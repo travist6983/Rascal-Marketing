@@ -30,9 +30,15 @@ overflow, and the form ladder in real Chromium.
 
 ## Other conventions that must survive edits
 
-- Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Vellum";
-  `{{DOMAIN}}` stays literal until a domain is bought. Never hardcode the name,
-  prices, or the prompt count in markup.
+- Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Vellum",
+  DOMAIN is "getvellumapp.com", ORIGIN is "https://getvellumapp.com". Never
+  hardcode the name, the domain, prices, or the prompt count in markup. A token's
+  value may contain another token (SUPPORT_EMAIL is `hello@{{DOMAIN}}`); `fill()`
+  resolves to a fixed point, so nesting is fine and nothing is exempt from the
+  unresolved-token check any more.
+- ORIGIN being set is what emits canonicals, absolute OG URLs, `sitemap.xml` and
+  the Pages `CNAME`. Clearing it turns all four off together — that is the whole
+  switch if the domain ever changes, and `npm run check` verifies the four agree.
 - The prompt library is generated: `npm run prompts` regenerates
   `src/partials/prompt-library.html` from Project-Rascal's seed. Anchor ids are
   frozen in `scripts/prompt-anchors.json` — never renumber them.
