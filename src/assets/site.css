@@ -740,10 +740,6 @@ a.card:hover, .card--tap:hover {
 .prompt--sage { background: var(--sage); border-color: var(--sage-border); }
 .prompt__body { font: 400 17px/1.35 var(--display); color: var(--ink); }
 .prompt__meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: auto; }
-.prompt__anchor {
-  font: 400 12px var(--mono); color: var(--ink-faint); text-decoration: none; margin-left: auto;
-}
-.prompt__anchor:hover { color: var(--text-terracotta); text-decoration: underline; }
 .prompt[hidden] { display: none; }
 .prompt:target { box-shadow: 0 0 0 2px var(--periwinkle); }
 
