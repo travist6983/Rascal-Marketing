@@ -245,7 +245,6 @@ weave(all).forEach((p) => {
   bands.forEach((b) => { bandCounts[b.key] = (bandCounts[b.key] || 0) + 1; });
 
   const id = anchorMap[anchorKey(p)];
-  const num = parseInt(id.slice(2), 10);
   const cadence = p.cadence === 'daily' ? '' : `<span class="t-meta">${esc(p.cadence)}</span>`;
   const sealed = p.default_unlock_age ? `<span class="chip chip--md">Opens at ${p.default_unlock_age}</span>` : '';
 
@@ -253,7 +252,6 @@ weave(all).forEach((p) => {
 `<article class="prompt prompt--${meta.tone}" id="${id}" data-kind="${esc(p.kind)}" data-bands="${bands.map((b) => b.key).join(' ')}">
   <div class="prompt__head">
     <span class="chip ${meta.chip}">${meta.label}</span>
-    <a class="prompt__anchor" href="#${id}" aria-label="Link to prompt ${num}">#${num}</a>
   </div>
   <p class="prompt__body">${esc(body)}</p>
   <p class="prompt__meta">
