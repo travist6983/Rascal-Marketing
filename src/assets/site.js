@@ -825,13 +825,23 @@
     if (!main || !window.URLSearchParams) return;
 
     var STATES = {
-      /* Deliberately says nothing about when. The daily send is real but it is
-         hand-run — MARKETING_EMAIL_ENABLED is off and no scheduler exists — so
-         "tomorrow morning" would be true only because somebody typed a command.
-         That is the same class of claim as the one this file used to make about
-         Resend sending a confirmation it never sent. Tighten this the day the
-         daily machine is armed, not before. */
-      '1': { tick: true, text: 'You’re confirmed. The first question comes by email.' },
+      /* "Prompt", not "question". The daily send draws from the whole library,
+         and only 30 of its 133 entries are questions — the rest are photo (43),
+         activity (25), video (12), audio (12), letter (8) and measurement (3).
+         So "the first question comes by email" was wrong about three times in
+         four. "Prompt" is the kind-neutral noun this site already uses for the
+         set (the CTA is "Get tomorrow's prompt", PROMPT_COUNT counts prompts),
+         and it stays true whichever kind lands first.
+
+         Still says nothing about when, and that is still deliberate. The daily
+         machine is reported armed as of Aug 18 2026 (8am America/Detroit) —
+         reported, not verified from here, since it is another repo's infra — so
+         "tomorrow morning" is probably true now. It is not worth saying: a
+         sentence with a time in it goes stale the day the send hour moves, and
+         this line is read once, at a moment when the reader only needs to know
+         it worked. Timing belongs in the signup promise, which is read for
+         months and can be revised in one place. */
+      '1': { tick: true, text: 'You’re confirmed. The first prompt comes by email.' },
       '0': { tick: false, text: 'That link isn’t good any more. Sign up again and we’ll send a fresh one.' },
       'retry': { tick: false, text: 'Something went wrong on our end. Open the link again in a minute.' }
     };
