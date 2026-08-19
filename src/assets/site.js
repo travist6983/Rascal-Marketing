@@ -609,7 +609,7 @@
        and not the secret the server holds. Empty until the widget is created
        in the Cloudflare dashboard. While it is empty the form explains
        itself and posts nothing, because the server would refuse it. */
-    TURNSTILE_SITE_KEY: '',
+    TURNSTILE_SITE_KEY: '0x4AAAAAAEUwlZkn4ah9zsvA',
 
     /* How long to wait for a token before giving up. Turnstile normally
        answers in well under a second; this only exists so a blocked script
