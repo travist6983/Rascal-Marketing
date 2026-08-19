@@ -592,11 +592,14 @@
         anyone with a browser whether a given address is on the list. So there
         is no 409 branch here and no "you're already on the list" state. This
         page cannot know that, and it must not guess.
-     2. Nothing is stored by us. The list is Resend's, and a contact is
-        unconfirmed until they click Resend's email. So the success state says
-        to check the inbox. "You're in. First prompt lands tomorrow morning."
-        was the old string and it is a lie the confirmation email contradicts
-        within the minute.
+     2. Nothing is stored by us. The list is Resend's -- but the double opt-in
+        is OURS, not theirs. Resend's contacts API has no such feature: a
+        contact posted with unsubscribed:false is live the moment it is written
+        and no mail is generated, which is the opposite of what this comment
+        claimed until Aug 18 2026 and was verified against the live API, not
+        inferred. So the create sets unsubscribed:true and our own
+        GET /v1/subscribe/confirm is the only thing that flips it. That is why
+        the success state says to check the inbox.
      3. Turnstile is the entire protection -- no rate limit applies to this
         route, by the owner's call. The server fails closed on a missing or
         bad token, so a form that posts without one is a form that only ever
@@ -762,7 +765,10 @@
       }
 
       /* The one success state, and it does not say they are subscribed --
-         because they are not until they click Resend's confirmation. */
+         because they are not until they click the confirmation link. That link
+         is ours, not Resend's: the contact is created unsubscribed and
+         GET /v1/subscribe/confirm is what flips it. Resend has no double opt-in
+         of its own, whatever the docstrings on the API side used to say. */
       function done() {
         form.innerHTML =
           '<div class="card card--sage" style="display:flex;gap:12px;align-items:center">' +
@@ -797,5 +803,71 @@
     var sync = function () { wrap.open = wide.matches; };
     sync();
     wide.addEventListener ? wide.addEventListener('change', sync) : wide.addListener(sync);
+  })();
+
+  /* ------------------------------------------------ 11 · confirm outcome */
+  /* GET /v1/subscribe/confirm checks the signed token, flips the contact, and
+     303s the browser back to "/" with the result in the query string. So the
+     entire confirmation UI is this: read one param, say one sentence. There is
+     nothing here to validate — the token was verified server-side before the
+     redirect was issued, and by the time this runs the work is already done.
+
+     Three states, not two, because an expired link and an outage on our side
+     are different problems and only one of them is worth trying again. Telling
+     somebody their link is dead when the link is fine sends them back to sign
+     up for nothing.
+
+     No red, and no tick on the two failures. A link that expired is not a
+     mistake the reader made, and in this system the tick affirms a promise
+     kept — it is not a general-purpose "done" marker. */
+  (function confirmOutcome() {
+    var main = $('#main');
+    if (!main || !window.URLSearchParams) return;
+
+    var STATES = {
+      /* Deliberately says nothing about when. The daily send is real but it is
+         hand-run — MARKETING_EMAIL_ENABLED is off and no scheduler exists — so
+         "tomorrow morning" would be true only because somebody typed a command.
+         That is the same class of claim as the one this file used to make about
+         Resend sending a confirmation it never sent. Tighten this the day the
+         daily machine is armed, not before. */
+      '1': { tick: true, text: 'You’re confirmed. The first question comes by email.' },
+      '0': { tick: false, text: 'That link isn’t good any more. Sign up again and we’ll send a fresh one.' },
+      'retry': { tick: false, text: 'Something went wrong on our end. Open the link again in a minute.' }
+    };
+
+    var params = new URLSearchParams(window.location.search);
+    var state = STATES[params.get('confirmed')];
+    /* Absent, or a value we never write. Say nothing rather than guess. */
+    if (!state) return;
+
+    var note = document.createElement('div');
+    note.className = 'wrap';
+    note.style.paddingTop = '24px';
+    note.innerHTML =
+      '<div class="card' + (state.tick ? ' card--sage' : '') + '" tabindex="-1" ' +
+           'style="display:flex;gap:12px;align-items:center">' +
+        (state.tick ? '<span class="tick" aria-hidden="true">✓</span>' : '') +
+        '<span class="t-body"></span>' +
+      '</div>';
+    /* textContent, not interpolation — none of these strings is user data today
+       and none of them should become user data tomorrow without this breaking. */
+    $('.t-body', note).textContent = state.text;
+    main.insertBefore(note, main.firstChild);
+
+    /* Focus rather than role="status". A live region only announces content
+       that arrives after the region exists, and this element and its text are
+       created in the same breath — so the region would be silent on the one
+       load it is for. Moving focus is the reliable form, and it puts somebody
+       on a screen reader on the answer they came for instead of at the top of
+       a page that looks unchanged. */
+    $('.card', note).focus();
+
+    /* Drop the param. A reload should not re-announce an outcome that already
+       happened, and the URL copied out of the bar afterwards should be the
+       homepage, not a stale receipt of somebody's email confirmation. */
+    params.delete('confirmed');
+    var rest = params.toString();
+    history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : '') + window.location.hash);
   })();
 })();
