@@ -15,8 +15,10 @@
  * How Instagram publishing works, and why the queue looks the way it does:
  * the API does not accept an image upload. You give it a **public HTTPS URL**,
  * it fetches the image itself, and you then publish the container it made. That
- * is the whole reason the card PNGs are committed to this repo instead of
- * living in the gitignored render directory.
+ * is the whole reason the card images are committed to this repo instead of
+ * living in the gitignored render directory. They are JPEG because that is the
+ * only format the publishing API accepts — a PNG url comes back as a container
+ * in ERROR rather than as a helpful message.
  *
  * ── FILL IN ──────────────────────────────────────────────────────────────────
  * Everything you need to supply is in CONFIG below and comes from the
@@ -33,7 +35,7 @@ const CONFIG = {
   igUserId: process.env.IG_USER_ID ?? null,
   accessToken: process.env.IG_ACCESS_TOKEN ?? null,
 
-  /* Where the committed card PNGs are publicly readable. Default is raw
+  /* Where the committed card JPEGs are publicly readable. Default is raw
      githubusercontent, which serves this public repo's files the moment a
      commit lands — no Pages deploy in the path. See docs/social-posting.md
      for the GitHub Pages alternative and why this is the default. */
@@ -43,15 +45,18 @@ const CONFIG = {
 
   /* graph.instagram.com is the Instagram-Login flow; graph.facebook.com is the
      Facebook-Login flow. The version string moves — check it against Meta's
-     current docs before the first live run. */
+     current docs before the first live run.
+     verified-on 2026-08-19: content publishing docs are on v25.0 */
   apiHost: process.env.IG_API_HOST ?? 'https://graph.instagram.com',
-  apiVersion: process.env.IG_API_VERSION ?? 'v23.0'
+  apiVersion: process.env.IG_API_VERSION ?? 'v25.0'
 };
 
-/* Meta's documented ceiling is 25 API-published posts per rolling 24 hours.
+/* Meta's documented ceiling is 100 API-published posts per rolling 24 hours.
    One a day sits nowhere near it; this is here so nobody is surprised by a
-   catch-up run that tries to drain a backlog. */
-const DAILY_LIMIT = 25;
+   catch-up run that tries to drain a backlog.
+   verified-on 2026-08-19: "limited to 100 API-published posts within a 24-hour
+   moving period" — it was 25 when this was written, so re-check it on drift. */
+const DAILY_LIMIT = 100;
 
 const HELP = `
 Vellum social post
@@ -65,7 +70,7 @@ Vellum social post
   Environment:
     IG_USER_ID          Instagram professional account id
     IG_ACCESS_TOKEN     long-lived access token
-    SOCIAL_IMAGE_BASE   public base URL for social/queue/*.png   (optional)
+    SOCIAL_IMAGE_BASE   public base URL for social/queue/*.jpg   (optional)
     IG_API_HOST         graph host                               (optional)
     IG_API_VERSION      graph API version                        (optional)
 
