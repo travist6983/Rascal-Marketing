@@ -7,9 +7,15 @@
       "prompt": "What did they say this week that you want to remember exactly?",
       "image": "social/queue/2026-08-15-what-did-they-say-this-week-that-you.png",
       "scheduledFor": "2026-08-15T15:00:00.000Z",
-      "caption": null,
-      "altText": null,
-      "hashtags": [],
+      "caption": "The exact words go first. In a month you'll have the gist, the funny idea, the general shape — but not the wording. Write it down the way they said it, grammar mistakes and all.",
+      "altText": "Cream card with a small badge reading QUESTION above the prompt: \"What did they say this week that you want to remember exactly?\"",
+      "hashtags": [
+        "parenting",
+        "kidsayings",
+        "memorykeeping",
+        "familyarchive",
+        "journalprompt"
+      ],
       "postedAt": null,
       "mediaId": null
     },
@@ -20,9 +26,15 @@
       "prompt": "Photograph their hands. Just their hands.",
       "image": "social/queue/2026-08-16-photograph-their-hands-just-their-hands.png",
       "scheduledFor": "2026-08-16T15:00:00.000Z",
-      "caption": null,
-      "altText": null,
-      "hashtags": [],
+      "caption": "Faces you have thousands of. Hands you have almost none. The scab on the knuckle, the marker stain, the way they hold a fork wrong. That's the part that changes fastest and gets photographed least.",
+      "altText": "Cream card with a small badge reading PHOTO above the prompt text: Photograph their hands. Just their hands.",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyarchive",
+        "dailyprompt",
+        "photodiary"
+      ],
       "postedAt": null,
       "mediaId": null
     },
@@ -33,9 +45,15 @@
       "prompt": "Film them telling you about their day. Don’t prompt them.",
       "image": "social/queue/2026-08-17-film-them-telling-you-about-their-day-don.png",
       "scheduledFor": "2026-08-17T15:00:00.000Z",
-      "caption": null,
-      "altText": null,
-      "hashtags": [],
+      "caption": "Unprompted, the order comes out strange. The dropped cracker before the field trip. That's the part you'd never have thought to ask about, and the part you'll want back.",
+      "altText": "Cream card with a small badge reading VIDEO above the prompt text: Film them telling you about their day. Don't prompt them.",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyarchive",
+        "homevideo",
+        "everydaymoments"
+      ],
       "postedAt": null,
       "mediaId": null
     }
