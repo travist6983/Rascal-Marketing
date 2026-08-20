@@ -161,8 +161,8 @@ npm run social:post -- --force        # dry run
 ## 9. First run in CI
 
 - [ ] Workflow committed and pushed
-- [ ] [Actions](https://github.com/travist6983/Rascal-Marketing/actions) →
-      Post to Instagram → Run workflow, "Check what would post" left **ticked**
+- [x] [Actions](https://github.com/travist6983/Rascal-Marketing/actions) →
+      Post to Instagram → Run workflow, mode left on **dry-run**
 - [ ] Log shows the right image URL and caption
 - [ ] Secrets resolved (no "IG_USER_ID is not set")
 
@@ -172,18 +172,23 @@ npm run social:post -- --force        # dry run
       (`npm run social:queue -- --count 14`)
 - [ ] Every queued post has a caption you've read
       (`npm run social:queue -- --list` shows none needing one)
-- [ ] Uncommented the two `schedule` lines in
+- [x] Uncommented the two `schedule` lines in
       [`.github/workflows/social-post.yml`](../.github/workflows/social-post.yml)
+      — done 2026-08-20
 - [ ] Committed and pushed
 - [ ] Watched the first scheduled run land in
-      [Actions](https://github.com/travist6983/Rascal-Marketing/actions)
+      [Actions](https://github.com/travist6983/Rascal-Marketing/actions), and
+      read its **Summary** rather than the green tick. Most runs have nothing
+      due; the Summary says which kind of run it was.
 
 ---
 
 ## Recurring — put these somewhere with an alarm
 
-- [ ] **Refresh the Instagram token before it expires** (~60 days; set a
-      reminder for ~50). Nothing warns you — the first sign is a failed run.
+- [ ] **Refresh the Instagram token before it expires.** The current one was
+      minted 2026-08-20, so it lapses around **2026-10-19** — set a reminder for
+      ~2026-10-09. Nothing warns you; the first sign is a failed run, and with
+      the schedule on that failure is unattended.
       Check the current expiry any time in the
       [Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/).
 - [ ] Top the queue up before it runs dry

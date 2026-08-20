@@ -35,9 +35,14 @@ export function writeQueue(queue) {
   writeFileSync(QUEUE_FILE, `${JSON.stringify(queue, null, 2)}\n`);
 }
 
-/** The next post that is due and not yet published, or null. */
-export function nextDue(queue, now = new Date()) {
-  return (
-    queue.posts.find((post) => !post.postedAt && new Date(post.scheduledFor) <= now) ?? null
-  );
+/**
+ * Every post that is due and not yet published, earliest first.
+ *
+ * All of them rather than only the first, because the poster steps over an
+ * entry it cannot publish. A queue that is always drained oldest-first turns
+ * one uncaptioned post at the head into a feed that never moves again, and
+ * returning the whole list is what lets the caller skip past it.
+ */
+export function dueNow(queue, now = new Date()) {
+  return queue.posts.filter((post) => !post.postedAt && new Date(post.scheduledFor) <= now);
 }

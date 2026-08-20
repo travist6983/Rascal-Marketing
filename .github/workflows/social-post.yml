@@ -1,10 +1,11 @@
 name: Post to Instagram
 
-# Runs hourly and publishes whatever is due, rather than firing once a day at an
-# exact time. GitHub's scheduled runs are best-effort and are routinely delayed
-# under load, so the schedule lives in social/queue.json — where a human can
-# read it — and this workflow just asks "is anything due yet?". At most one post
-# goes out per run.
+# Runs hourly and publishes whatever is due, rather than firing at four exact
+# times. GitHub's scheduled runs are best-effort and are routinely delayed under
+# load, so the schedule lives in social/queue.json — where a human can read it —
+# and this workflow just asks "is anything due yet?". At most one post goes out
+# per run, and the queue is spaced at least an hour apart, so an hourly check
+# drains it at exactly the rate it was written for.
 #
 # Cost: this repository is public, so Actions minutes are free. Each run is a
 # checkout plus one short Node process, and the poster needs no npm install —
@@ -14,23 +15,29 @@ name: Post to Instagram
 # with `npm run social:captions`, read by a person, and committed. A post with
 # no caption fails this workflow rather than going out unreviewed.
 
-# ── THE SCHEDULE IS OFF ──────────────────────────────────────────────────────
-# Nothing posts by itself. The only way to run this is Actions → Post to
-# Instagram → Run workflow, which defaults to a dry run.
+# ── THE SCHEDULE IS ON ───────────────────────────────────────────────────────
+# The cron below is live: every hour at five past, this checks the queue and
+# publishes the next post whose scheduledFor has passed. Nothing else needs to
+# be switched on.
 #
-# To go live, uncomment the two `schedule` lines below. That is the whole
-# switch — everything under it is already wired.
+# To stop it, comment the two `schedule` lines back out. Manual runs still work
+# either way, and a manual run defaults to `dry-run` — you have to pick
+# `publish` from the dropdown to actually post.
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
-  # schedule:
-  #   - cron: '5 * * * *'   # hourly, five past
+  schedule:
+    - cron: '5 * * * *'   # hourly, five past
   workflow_dispatch:
     inputs:
-      dry_run:
-        description: 'Check what would post without publishing'
-        type: boolean
-        default: true
+      mode:
+        description: 'What to do'
+        type: choice
+        default: dry-run
+        options:
+          - dry-run        # say what would post, publish nothing
+          - publish        # actually post the next due card
+          - check-account  # which Instagram account are the secrets pointing at?
 
 permissions:
   contents: write   # to record postedAt back into social/queue.json
@@ -42,12 +49,28 @@ concurrency:
 jobs:
   post:
     runs-on: ubuntu-latest
+    # A run that hangs holds the concurrency group, and every hourly run behind
+    # it queues up behind that. Ten minutes is many times what a publish needs.
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      # v5 of both of these is the Node 24 build. v4 still declares Node 20,
+      # which the runner now force-upgrades while printing a deprecation
+      # warning on every single run.
+      - uses: actions/checkout@v5
+        with:
+          # Full history, because the record step below rebases onto whatever
+          # landed on main while this run was working. Rebasing across the
+          # boundary of a depth-1 clone is exactly the kind of thing that works
+          # until the day it doesn't, and the whole repo is 3 MB.
+          fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
+          # From v5 setup-node caches automatically when package.json carries a
+          # `packageManager` field. There is no lockfile committed here, so that
+          # cache would only ever fail to find one. Off, explicitly.
+          package-manager-cache: false
 
       # No `npm ci`: scripts/social-post.mjs imports nothing outside node:*.
       # package-lock.json is gitignored in this repo, so `npm ci` would fail anyway.
@@ -56,21 +79,68 @@ jobs:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           SOCIAL_IMAGE_BASE: ${{ vars.SOCIAL_IMAGE_BASE }}
+          MODE: ${{ inputs.mode }}
         run: |
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            node scripts/social-post.mjs
-          else
-            node scripts/social-post.mjs --live
-          fi
+          # A scheduled run has no inputs, so MODE arrives empty. The schedule
+          # exists to publish, so that is what empty means — and the defaulting
+          # is done here rather than in the `${{ }}` expression because an
+          # unexpected empty string would otherwise fall through to the error
+          # branch and quietly turn every scheduled run red.
+          case "${MODE:-publish}" in
+            dry-run)       node scripts/social-post.mjs ;;
+            check-account) node scripts/social-post.mjs --check ;;
+            publish)       node scripts/social-post.mjs --live ;;
+            *) echo "::error::unknown mode '$MODE'"; exit 1 ;;
+          esac
 
       - name: Record the post
+        # RECORD_* is set by the poster, and only after Instagram has actually
+        # published. No publish, nothing to record, step skipped.
+        if: env.RECORD_ID != ''
         run: |
-          if git diff --quiet -- social/queue.json; then
-            echo "queue.json unchanged — nothing was published this run"
-            exit 0
-          fi
           git config user.name  "vellum-social[bot]"
           git config user.email "vellum-social@users.noreply.github.com"
-          git add social/queue.json
-          git commit -m "social: record published post"
-          git push
+
+          # Losing this write is the worst outcome in the pipeline: the post is
+          # already public, and a queue.json that still says pending makes the
+          # next hourly run publish it again.
+          #
+          # So each attempt starts from a clean origin/main and re-applies the
+          # two fields there, rather than replaying a commit built against the
+          # tree as it looked when this run started. Nothing is ever rebased, so
+          # nothing can conflict — and a human commit that landed mid-run is
+          # kept rather than clobbered by a stale copy of the whole file.
+          for attempt in 1 2 3; do
+            git fetch --quiet origin main
+            git reset --quiet --hard origin/main
+
+            node -e '
+              const fs = require("node:fs");
+              const file = "social/queue.json";
+              const queue = JSON.parse(fs.readFileSync(file, "utf8"));
+              const post = queue.posts.find((p) => p.id === process.env.RECORD_ID);
+              if (!post) {
+                console.log(`::error::${process.env.RECORD_ID} is not in queue.json on main`);
+                process.exit(1);
+              }
+              if (post.postedAt) process.exit(3);
+              post.postedAt = process.env.RECORD_POSTED_AT;
+              post.mediaId = process.env.RECORD_MEDIA_ID;
+              fs.writeFileSync(file, `${JSON.stringify(queue, null, 2)}\n`);
+            ' && rc=0 || rc=$?
+            if [ "$rc" = "3" ]; then
+              echo "$RECORD_ID is already recorded on main — nothing to do"
+              exit 0
+            fi
+            [ "$rc" = "0" ] || exit 1
+
+            git add social/queue.json
+            git commit --quiet -m "social: record published post"
+            git push && exit 0
+
+            echo "push attempt $attempt was rejected — refetching and re-applying"
+            sleep 5
+          done
+
+          echo "::error::published $RECORD_ID to Instagram but could not record it in social/queue.json. The next run will find it already on the account and repair the record, but check that it does."
+          exit 1
