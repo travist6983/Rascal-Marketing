@@ -27,7 +27,19 @@ name: Post to Instagram
 
 on:
   schedule:
-    - cron: '5 * * * *'   # hourly, five past
+    # Twice an hour, on deliberately unround minutes.
+    #
+    # GitHub's scheduler is best-effort and sheds load, and its own docs name
+    # "the start of every hour" as the worst time to ask for. :00, :05, :15 and
+    # :30 are what everybody writes, so those are the firings that get delayed
+    # or dropped outright — the first :05 run after this went live never
+    # happened at all. :07 and :37 sit outside that crush.
+    #
+    # Twice rather than once so a dropped firing costs 30 minutes instead of an
+    # hour. It cannot post twice as often: at most one post goes out per run and
+    # the queue's slots are hours apart, so the second firing of an hour almost
+    # always finds nothing due and exits green.
+    - cron: '7,37 * * * *'
   workflow_dispatch:
     inputs:
       mode:
