@@ -75,6 +75,17 @@ const CONFIG = {
    moving period" — it was 25 when this was written, so re-check it on drift. */
 const DAILY_LIMIT = 100;
 
+/* The smallest gap allowed between two posts.
+
+   The workflow is asked to look twice an hour so a dropped firing costs thirty
+   minutes rather than sixty — GitHub sheds scheduled runs, and the first one
+   here was dropped outright. Looking more often must not mean posting more
+   often: the slots in social/queue.json are hours apart, and a queue that has
+   fallen behind should drain at the rate it was written for rather than at
+   whatever rate the cron happens to fire. Below this gap the run holds off and
+   says so. --force is the deliberate override. */
+const MIN_GAP_MS = 55 * 60 * 1000;
+
 const HELP = `
 Vellum social post
 
@@ -465,6 +476,30 @@ try {
       `${post.id} is going out ${(lateMs / 3600000).toFixed(1)} h after its slot — ` +
         `the queue is catching up on missed runs, one post an hour`
     );
+  }
+
+  /* ISO timestamps sort lexicographically, so the largest string is the most
+     recent publish — no parsing needed to find it. */
+  const lastPostedAt = queue.posts.reduce((latest, p) => (p.postedAt > latest ? p.postedAt : latest), '');
+  const sinceLastMs = lastPostedAt ? Date.now() - new Date(lastPostedAt).getTime() : Infinity;
+  if (!opts.force && sinceLastMs < MIN_GAP_MS) {
+    const ago = Math.round(sinceLastMs / 60000);
+    const waitMin = Math.ceil((MIN_GAP_MS - sinceLastMs) / 60000);
+    process.stdout.write(
+      `Holding off — nothing was published.\n` +
+        `  due        ${post.id}\n` +
+        `  last post  ${ago} min ago (${lastPostedAt})\n` +
+        `  waiting    ~${waitMin} min, to keep posts about an hour apart\n`
+    );
+    summary(
+      `### Holding off — nothing published\n\n` +
+        `\`${post.id}\` is due, but the last post went out **${ago} minutes ago**. ` +
+        `Posting resumes in about ${waitMin} minutes.\n\n` +
+        `This is the catch-up rate limit, not a failure: the workflow looks twice an hour so a ` +
+        `dropped firing costs thirty minutes, and this keeps that from becoming two posts thirty ` +
+        `minutes apart.`
+    );
+    process.exit(0);
   }
 
   /* Two days at four a day. Refilling needs a person to read the captions, so

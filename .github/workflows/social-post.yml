@@ -1,11 +1,14 @@
 name: Post to Instagram
 
-# Runs hourly and publishes whatever is due, rather than firing at four exact
-# times. GitHub's scheduled runs are best-effort and are routinely delayed under
-# load, so the schedule lives in social/queue.json — where a human can read it —
-# and this workflow just asks "is anything due yet?". At most one post goes out
-# per run, and the queue is spaced at least an hour apart, so an hourly check
-# drains it at exactly the rate it was written for.
+# Looks twice an hour and publishes whatever is due, rather than firing at four
+# exact times. GitHub's scheduled runs are best-effort and are routinely delayed
+# or dropped under load, so the schedule lives in social/queue.json — where a
+# human can read it — and this workflow just asks "is anything due yet?".
+#
+# Looking often and posting often are separate things. At most one post goes out
+# per run, and scripts/social-post.mjs additionally refuses to post within
+# MIN_GAP_MS of the last one, so a queue that has fallen behind drains at about
+# one an hour no matter how often this runs.
 #
 # Cost: this repository is public, so Actions minutes are free. Each run is a
 # checkout plus one short Node process, and the poster needs no npm install —
@@ -16,9 +19,8 @@ name: Post to Instagram
 # no caption fails this workflow rather than going out unreviewed.
 
 # ── THE SCHEDULE IS ON ───────────────────────────────────────────────────────
-# The cron below is live: every hour at five past, this checks the queue and
-# publishes the next post whose scheduledFor has passed. Nothing else needs to
-# be switched on.
+# The cron below is live: at :07 and :37 this checks the queue and publishes the
+# next post whose scheduledFor has passed. Nothing else needs to be switched on.
 #
 # To stop it, comment the two `schedule` lines back out. Manual runs still work
 # either way, and a manual run defaults to `dry-run` — you have to pick
@@ -70,10 +72,9 @@ jobs:
       # warning on every single run.
       - uses: actions/checkout@v5
         with:
-          # Full history, because the record step below rebases onto whatever
-          # landed on main while this run was working. Rebasing across the
-          # boundary of a depth-1 clone is exactly the kind of thing that works
-          # until the day it doesn't, and the whole repo is 3 MB.
+          # Full history so the record step's fetch/reset resolves against real
+          # history rather than the edge of a depth-1 clone. The whole repo is
+          # 3 MB, so there is nothing to save by shallow-cloning it.
           fetch-depth: 0
 
       - uses: actions/setup-node@v5
@@ -127,8 +128,13 @@ jobs:
           # nothing can conflict — and a human commit that landed mid-run is
           # kept rather than clobbered by a stale copy of the whole file.
           for attempt in 1 2 3; do
+            # FETCH_HEAD, not origin/main: it is exactly what was just fetched,
+            # with no dependence on whether the configured refspec happened to
+            # update the remote-tracking ref. On a retry that distinction is the
+            # difference between landing on the commit that rejected us and
+            # landing on the one that caused the rejection.
             git fetch --quiet origin main
-            git reset --quiet --hard origin/main
+            git reset --quiet --hard FETCH_HEAD
 
             node -e '
               const fs = require("node:fs");
