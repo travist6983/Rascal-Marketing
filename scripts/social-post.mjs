@@ -30,25 +30,41 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { nextDue, readQueue, root, writeQueue } from '../social/queue.mjs';
 
+/**
+ * One environment value, with empty treated as absent.
+ *
+ * `${{ vars.X }}` in a workflow renders to an **empty string** when X is not
+ * set, rather than to nothing at all — so the variable always arrives defined
+ * and `??` never reaches its default. That is not a hypothetical: it shipped a
+ * container request with `image_url=/social/queue/....jpg`, no origin, and
+ * Meta answered `OAuthException 9004: Only photo or video can be accepted as
+ * media type` — which names neither the url nor the problem. Locally the same
+ * variable is genuinely undefined, so the dry run looked perfect.
+ */
+const env = (name) => {
+  const value = process.env[name];
+  return value === undefined || value.trim() === '' ? null : value.trim();
+};
+
 const CONFIG = {
   /* From the Meta app — see docs/social-posting.md. */
-  igUserId: process.env.IG_USER_ID ?? null,
-  accessToken: process.env.IG_ACCESS_TOKEN ?? null,
+  igUserId: env('IG_USER_ID'),
+  accessToken: env('IG_ACCESS_TOKEN'),
 
   /* Where the committed card JPEGs are publicly readable. Default is raw
      githubusercontent, which serves this public repo's files the moment a
      commit lands — no Pages deploy in the path. See docs/social-posting.md
      for the GitHub Pages alternative and why this is the default. */
   imageBase:
-    process.env.SOCIAL_IMAGE_BASE ??
+    env('SOCIAL_IMAGE_BASE') ??
     'https://raw.githubusercontent.com/travist6983/Rascal-Marketing/main',
 
   /* graph.instagram.com is the Instagram-Login flow; graph.facebook.com is the
      Facebook-Login flow. The version string moves — check it against Meta's
      current docs before the first live run.
      verified-on 2026-08-19: content publishing docs are on v25.0 */
-  apiHost: process.env.IG_API_HOST ?? 'https://graph.instagram.com',
-  apiVersion: process.env.IG_API_VERSION ?? 'v25.0'
+  apiHost: env('IG_API_HOST') ?? 'https://graph.instagram.com',
+  apiVersion: env('IG_API_VERSION') ?? 'v25.0'
 };
 
 /* Meta's documented ceiling is 100 API-published posts per rolling 24 hours.
@@ -151,6 +167,13 @@ function preflight(post, { live, force }) {
   if (!post.caption) problems.push('no caption — run `npm run social:captions`');
   if (!post.altText) problems.push('no alt text — run `npm run social:captions`');
   if (!existsSync(join(root, post.image))) problems.push(`image missing at ${post.image}`);
+  /* Meta fetches this url from its own servers, so anything short of an
+     absolute https one is unfetchable — and the error it answers with does not
+     mention the url at all. Fail here, where the message can. */
+  const url = imageUrl(post);
+  if (!url.startsWith('https://')) {
+    problems.push(`image url is not absolute https — "${url}". Check SOCIAL_IMAGE_BASE.`);
+  }
   if (!force && new Date(post.scheduledFor) > new Date()) {
     problems.push(`not due until ${post.scheduledFor} (use --force to post anyway)`);
   }
