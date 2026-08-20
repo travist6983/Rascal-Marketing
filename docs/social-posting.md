@@ -234,6 +234,7 @@ the only place to touch.
 |---|---|
 | `no caption — run npm run social:captions` | The poster refusing to publish something nobody read. Working as intended. |
 | `container … came back ERROR` | Meta couldn't fetch the image. Open the image URL the dry run printed — if it 404s, the card isn't committed and pushed yet. |
+| `OAuthException 9004: Only photo or video can be accepted as media type` | Almost never about the media type. Meta could not fetch the url at all — usually because it isn't absolute. An unset Actions variable arrives as an **empty string**, so `SOCIAL_IMAGE_BASE` can silently resolve to nothing and the request goes out with a bare path. `preflight` now refuses a non-`https://` url before it reaches Meta. |
 | `OAuthException 190` | Token expired or revoked. Regenerate it and update the secret. |
 | `(#10) Application does not have permission` | The token is missing the content-publishing permission. Back to step 1.3. |
 | `nothing due` | Queue is empty, or the next post is scheduled for later. Not an error. |
