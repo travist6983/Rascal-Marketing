@@ -19,11 +19,11 @@ reaches the feed that a person hasn't approved.
 you can tick, with direct links to every console and token tool. This file is
 the reference behind it.
 
-> **Status: nothing here has posted yet.** The queue logic, card rendering,
-> scheduling, dry runs, and every refusal path are tested and working. The two
-> paths that talk to someone else's server — the Claude call and the Instagram
-> call — have never been run. Expect to spend an hour on the first live post,
-> mostly on Meta's side.
+> **Status: live.** The first post published on 2026-08-20 (media id
+> 18616663639048675) from a manual `workflow_dispatch` run, and both paths that
+> talk to someone else's server — the Claude call and the Instagram call — have
+> now been exercised end to end. **The schedule is still off**, so every post so
+> far went out because a person pressed the button.
 
 ---
 

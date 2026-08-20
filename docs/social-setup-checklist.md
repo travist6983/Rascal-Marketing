@@ -204,6 +204,7 @@ and routinely late under load.
 **Captions never run in CI.** They're generated on your machine and committed.
 The poster refuses an entry without one, so nothing posts unread.
 
-**Nothing has posted yet.** Everything up to the network calls is tested; the
-live Claude call and the live Instagram call have never run. Budget an hour for
-section 8.
+**The first post is out.** Published 2026-08-20 from a manual run, so sections
+6 through 9 are proven rather than theoretical. Two things bit us on the way
+that this list now warns about: the cards had to become JPEG, and an unset
+Actions variable arrives as an empty string rather than as nothing.
