@@ -128,22 +128,30 @@ Three steps, each one handing back to you:
 npm run social:queue -- --count 7    # pick 7 prompts, render cards, schedule them
 npm run social:captions              # write captions with Claude — then read them
 npm run social:post                  # dry run; add --live to publish
+npm run social:post -- --check       # which account are the credentials on?
 ```
 
-`.github/workflows/social-post.yml` can run the third step on a schedule, **but
-the schedule is currently commented out** — nothing posts by itself. The only way
-to run it is Actions → Run workflow, which defaults to a dry run. Uncommenting
-the two `schedule` lines is the whole switch.
+`.github/workflows/social-post.yml` runs the third step **hourly**, publishing at
+most one due post per run. Commenting its two `schedule` lines back out is the
+whole off switch. A manual run — Actions → Run workflow — asks for a mode and
+defaults to `dry-run`.
+
+Most hourly runs have nothing due, and exit green having done nothing. That is
+not a failure, and it is why every run writes to its **Summary** page saying in
+words which of the two happened: a green tick on its own means "the check ran",
+not "something posted".
 
 It never runs the first two steps: captions are generated locally, reviewed, and
 committed, and the poster refuses an entry with no caption — so nothing reaches
 the feed that a person hasn't approved.
 
 `social/queue.json` is the schedule and the record of what has gone out.
-`social/queue/*.png` are the card images, committed because Instagram fetches an
-image by public URL rather than accepting an upload.
+`social/queue/*.jpg` are the card images, committed because Instagram fetches an
+image by public URL rather than accepting an upload — and JPEG because the
+publishing API accepts no other format.
 
-**Nothing has posted yet, and setup is mostly on Meta's side.** Two docs:
+**It is live.** The first posts went out 2026-08-20; the rest of the setup is on
+Meta's side. Two docs:
 [`docs/social-setup-checklist.md`](docs/social-setup-checklist.md) is the
 tick-off list with every link you need, and
 [`docs/social-posting.md`](docs/social-posting.md) is the runbook behind it —

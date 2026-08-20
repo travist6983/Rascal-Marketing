@@ -7,23 +7,23 @@ npm run social:queue -- --count 7    # pick 7 prompts, render their cards, sched
 npm run social:captions              # write captions with Claude — then you read them
 npm run social:post                  # dry run: shows exactly what would post
 npm run social:post -- --live        # publishes
+npm run social:post -- --check       # which account are the credentials on?
 ```
 
-The third step can run itself from `.github/workflows/social-post.yml` — **once
-you turn the schedule on, which it currently isn't.** The first two never do:
-captions are generated on your machine, read by you, and committed. Nothing
-reaches the feed that a person hasn't approved.
+The third step **runs itself** from `.github/workflows/social-post.yml`, hourly.
+The first two never do: captions are generated on your machine, read by you, and
+committed. Nothing reaches the feed that a person hasn't approved.
 
 **Setting this up for the first time?** Use
 [`social-setup-checklist.md`](social-setup-checklist.md) — same ground, as boxes
 you can tick, with direct links to every console and token tool. This file is
 the reference behind it.
 
-> **Status: live.** The first post published on 2026-08-20 (media id
-> 18616663639048675) from a manual `workflow_dispatch` run, and both paths that
-> talk to someone else's server — the Claude call and the Instagram call — have
-> now been exercised end to end. **The schedule is still off**, so every post so
-> far went out because a person pressed the button.
+> **Status: live and on a schedule.** The first post published on 2026-08-20
+> (media id 18616663639048675) from a manual `workflow_dispatch` run, and both
+> paths that talk to someone else's server — the Claude call and the Instagram
+> call — have been exercised end to end. The hourly `schedule` block was
+> switched on the same day, so posts now go out on their own.
 
 ---
 
@@ -87,20 +87,57 @@ each on Claude Opus 5, so a month of daily posts is well under a dollar.
 run so you can check that against the Console rather than trusting this
 paragraph.
 
-### 4. Turn the schedule on — when you're ready
+### 4. The schedule
 
-**The schedule is off.** `.github/workflows/social-post.yml` has its `schedule`
-block commented out, so the workflow only ever runs when you press the button.
-Uncomment those two lines to go live; that is the entire switch.
+**The schedule is on.** `.github/workflows/social-post.yml` runs hourly at five
+past and publishes whatever is due — at most one post per run. To stop it,
+comment its two `schedule` lines back out. That is the entire switch, in both
+directions.
 
-Before you do, try it without publishing: **Actions → Post to Instagram → Run
-workflow**, leaving "Check what would post" ticked. That runs the dry run in CI
-and shows you the resolved image URL and caption in the log — the fastest way to
-confirm the secrets and the image URL are right.
+A manual run is **Actions → Post to Instagram → Run workflow**, and it asks
+which of three things you want:
 
-With the schedule on, it runs hourly and publishes whatever is due. Until the
-queue has a post whose `scheduledFor` has passed, every run exits cleanly having
-done nothing.
+| Mode | What it does |
+|---|---|
+| `dry-run` *(default)* | Resolves the next due post and prints its image URL, alt text and caption. Publishes nothing. The fastest way to confirm the secrets and the image URL are right. |
+| `publish` | Posts the next due card for real. |
+| `check-account` | Asks Instagram which account the credentials belong to and lists its last ten posts, with permalinks. Publishes nothing. |
+
+`check-account` is the one to reach for when a run says it published and you
+can't find the post. A `media_publish` call that returns an id **did** publish —
+but to whatever account `IG_USER_ID` names, which is not necessarily the one
+you're looking at. This prints the username, so there's nothing left to guess.
+
+Most hourly runs have nothing to do, and that is not a failure. A run with
+nothing due exits green and says so on its **Summary** page, naming the next
+post and how long until it's due. Read the Summary, not the tick — a green run
+means "the check ran", not "something posted".
+
+**A catch-up is one post per hour, not a burst.** If runs are missed — GitHub
+skips scheduled runs under load, and pauses them entirely on repos with no
+activity for 60 days — the queue doesn't fire all at once when it comes back.
+Each hourly run takes the single oldest due post, so four missed slots take four
+hours to drain. Late posts still go out rather than being dropped: the prompts
+are evergreen and a late one beats a lost one. Anything more than six hours past
+its slot posts with a `::warning::` saying so, so a catch-up is visible in the
+Actions annotations rather than only in the timestamps.
+
+**One bad entry costs one post, not the feed.** The queue is drained
+oldest-first, so an entry that stops the run stops every run after it. It
+doesn't: a post with no caption, no alt text, or a card missing from the
+checkout is skipped with a warning and the run moves to the next due one. Only a
+setup problem — no credentials, no image origin — stops the run outright, since
+every entry would fail that identically. If *every* due post is unpublishable
+the run goes red and stays red each hour, which is the correct alarm: the feed
+has stopped and only a commit restarts it.
+
+**Publishing asks Instagram before it trusts the file.** `postedAt` is written
+after the publish and only becomes durable when the workflow's commit reaches
+main, so a successful publish followed by a failed push would leave the queue
+saying "pending" and post the same card again an hour later. Before creating a
+container the poster checks the account's recent media for the caption; if it's
+already there it records the existing media id and exits green instead of
+posting a duplicate.
 
 ---
 
@@ -237,7 +274,13 @@ the only place to touch.
 | `OAuthException 9004: Only photo or video can be accepted as media type` | Almost never about the media type. Meta could not fetch the url at all — usually because it isn't absolute. An unset Actions variable arrives as an **empty string**, so `SOCIAL_IMAGE_BASE` can silently resolve to nothing and the request goes out with a bare path. `preflight` now refuses a non-`https://` url before it reaches Meta. |
 | `OAuthException 190` | Token expired or revoked. Regenerate it and update the secret. |
 | `(#10) Application does not have permission` | The token is missing the content-publishing permission. Back to step 1.3. |
-| `nothing due` | Queue is empty, or the next post is scheduled for later. Not an error. |
+| `Nothing due yet` | The next post is scheduled for later. Not an error — the Summary names it and says how long the wait is. |
+| `skipped <id> — no caption` | One entry couldn't go out; the run posted the next one instead. Caption it and commit, or it stays skipped. |
+| `nothing publishable is due` | Every due post is missing a caption, alt text, or its card. The feed is stopped until one is fixed and committed. Red every hour on purpose. |
+| `was already on the account … recording it rather than posting it twice` | A previous run published and then failed to save the record. This run repaired it. Nothing is wrong now, but check why the push failed. |
+| `only N posts left in the queue` | Under two days of runway. Refill with `npm run social:queue` — captions need a person, so don't leave it to the day. |
+| `fetch failed (ENOTFOUND …)` | Network-layer failure reaching Meta. The parenthesised cause is the real error; `fetch` alone would only have said "fetch failed". |
+| A green run and no post on Instagram | Almost always "nothing was due". Open the run's **Summary** — it says which of the two happened in words. If it says it published, run the workflow again in `check-account` mode to see which account it published to. |
 | `the model declined this request` | A Claude safety classifier refused. Very unlikely with this copy; nothing is written when it happens. |
 
 Any Instagram error comes through with Meta's own message attached — that text
