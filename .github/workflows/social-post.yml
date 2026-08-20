@@ -1,9 +1,10 @@
 name: Post to Instagram
 
-# Looks twice an hour and publishes whatever is due, rather than firing at four
-# exact times. GitHub's scheduled runs are best-effort and are routinely delayed
-# or dropped under load, so the schedule lives in social/queue.json — where a
-# human can read it — and this workflow just asks "is anything due yet?".
+# Looks every ten minutes and publishes whatever is due, rather than firing at
+# four exact times. GitHub's scheduled runs are best-effort and are routinely
+# delayed or dropped under load, so the schedule lives in social/queue.json —
+# where a human can read it — and this workflow just asks "is anything due yet?"
+# often enough that a dropped firing does not matter.
 #
 # Looking often and posting often are separate things. At most one post goes out
 # per run, and scripts/social-post.mjs additionally refuses to post within
@@ -19,31 +20,37 @@ name: Post to Instagram
 # no caption fails this workflow rather than going out unreviewed.
 
 # ── THE SCHEDULE IS ON ───────────────────────────────────────────────────────
-# The cron below is live: at :07 and :37 this checks the queue. A check is not a
-# post — it publishes the oldest due entry only if the last publish is more than
-# MIN_GAP_MS ago, so looking twice an hour still posts about once. Nothing else
-# needs to be switched on.
+# The cron below is live: every ten minutes this checks the queue. A check is
+# not a post — it publishes the oldest due entry only if the last publish is
+# more than MIN_GAP_MS ago, so six checks an hour still means about one post an
+# hour. Nothing else needs to be switched on.
 #
-# To stop it, comment the two `schedule` lines back out. Manual runs still work
+# To stop it, comment the `schedule` block back out. Manual runs still work
 # either way, and a manual run defaults to `dry-run` — you have to pick
 # `publish` from the dropdown to actually post.
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
   schedule:
-    # Twice an hour, on deliberately unround minutes.
+    # Every ten minutes, on deliberately unround ones.
     #
     # GitHub's scheduler is best-effort and sheds load, and its own docs name
     # "the start of every hour" as the worst time to ask for. :00, :05, :15 and
-    # :30 are what everybody writes, so those are the firings that get delayed
-    # or dropped outright — the first :05 run after this went live never
-    # happened at all. :07 and :37 sit outside that crush.
+    # :30 are what everybody writes, so those are the firings most likely to be
+    # delayed or dropped. This has been measured here, not assumed: the first
+    # :05 firing after the schedule went live never happened at all, and a :37
+    # firing arrived 21 minutes late.
     #
-    # Twice rather than once so a dropped firing costs 30 minutes instead of an
-    # hour. The two firings are 30 minutes apart and MIN_GAP_MS is 55, so the
-    # second one of any hour can never publish behind the first — the rate is
-    # held by the poster, not by hoping the queue happens to be spaced right.
-    - cron: '7,37 * * * *'
+    # So the answer is not a better minute, it is more chances. Six firings an
+    # hour, none of them on a round minute, means GitHub can drop five of the
+    # six and the queue still moves on time.
+    #
+    # This is only safe because looking and posting are separate concerns:
+    # scripts/social-post.mjs refuses to publish within MIN_GAP_MS (55 min) of
+    # the last publish, so six checks an hour still means about one post an
+    # hour. Raising this frequency cannot raise the posting rate. Lowering
+    # MIN_GAP_MS is the only thing that can, and that is deliberate.
+    - cron: '3,13,23,33,43,53 * * * *'
   workflow_dispatch:
     inputs:
       mode:

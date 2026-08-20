@@ -131,10 +131,12 @@ npm run social:post                  # dry run; add --live to publish
 npm run social:post -- --check       # which account are the credentials on?
 ```
 
-`.github/workflows/social-post.yml` runs the third step at **:07 and :37**,
+`.github/workflows/social-post.yml` runs the third step **every ten minutes**,
 publishing at most one due post per run — and never within 55 minutes of the
-last one, so looking twice an hour does not post twice an hour. Commenting its
-two `schedule` lines back out is the whole off switch. A manual run — Actions →
+last one, so looking six times an hour does not post six times an hour. That
+frequency is deliberate: GitHub drops and delays scheduled runs, so the workflow
+buys reliability with chances and holds the rate in the poster instead.
+Commenting its `schedule` block back out is the whole off switch. A manual run — Actions →
 Run workflow — asks for a mode and defaults to `dry-run`.
 
 Most runs have nothing due, and exit green having done nothing. That is not a

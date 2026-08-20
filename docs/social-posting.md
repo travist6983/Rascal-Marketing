@@ -89,18 +89,23 @@ paragraph.
 
 ### 4. The schedule
 
-**The schedule is on.** `.github/workflows/social-post.yml` looks at **:07 and
-:37** and publishes whatever is due — at most one post per run. To stop it,
-comment its two `schedule` lines back out. That is the entire switch, in both
-directions.
+**The schedule is on.** `.github/workflows/social-post.yml` looks **every ten
+minutes** — at :03, :13, :23, :33, :43 and :53 — and publishes whatever is due,
+at most one post per run. To stop it, comment its `schedule` block back out.
+That is the entire switch, in both directions.
 
-**Looking twice an hour is not posting twice an hour.** The two firings exist so
-that a firing GitHub drops costs thirty minutes rather than sixty. The rate is
-held separately, by `MIN_GAP_MS` in `scripts/social-post.mjs`: a run refuses to
-publish within **55 minutes** of the last publish, and says so on a green run.
-So a backlog drains at about one an hour however often the workflow is asked to
-look, and in steady state — slots two hours apart at the closest — the limiter
-never has anything to say.
+**Looking often is not posting often.** GitHub's scheduler is best-effort, and
+that is not theoretical here: the first `:05` firing after the schedule went
+live never happened at all, and a `:37` firing arrived 21 minutes late. The
+answer is not a cleverer minute, it is more chances — six an hour, none of them
+round, so five can be dropped and the queue still moves on time.
+
+That is only safe because the posting rate is held somewhere else: `MIN_GAP_MS`
+in `scripts/social-post.mjs` refuses to publish within **55 minutes** of the
+last publish, and says so on a green run. Raising the cron frequency cannot
+raise the posting rate; only lowering `MIN_GAP_MS` can. In steady state — the
+queue's closest slots are two hours apart — the limiter never has anything to
+say.
 
 A manual run is **Actions → Post to Instagram → Run workflow**, and it asks
 which of three things you want:
@@ -213,7 +218,7 @@ poster that fires an hour early twice a year is worse than one that asks you to
 convert once. Pick your slot in UTC and write it down.
 
 **GitHub's cron is approximate.** Scheduled runs are best-effort and are
-routinely late under load. That's why the workflow runs twice an hour and asks "is
+routinely late under load. That's why the workflow runs every ten minutes and asks "is
 anything due?" rather than firing once at an exact time — the real schedule
 lives in `queue.json`, where you can read it.
 
@@ -233,7 +238,7 @@ lives in `queue.json`, where you can read it.
 | `scripts/social-queue.mjs` | Adds posts to the queue |
 | `scripts/social-caption.mjs` | Writes captions with Claude |
 | `scripts/social-post.mjs` | Publishes the next due post |
-| `.github/workflows/social-post.yml` | The schedule — :07 and :37 |
+| `.github/workflows/social-post.yml` | The schedule — every ten minutes |
 
 ### A queue entry
 
