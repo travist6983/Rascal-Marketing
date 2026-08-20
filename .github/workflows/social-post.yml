@@ -83,9 +83,13 @@ jobs:
         run: |
           # A scheduled run has no inputs, so MODE arrives empty. The schedule
           # exists to publish, so that is what empty means — and the defaulting
-          # is done here rather than in the `${{ }}` expression because an
-          # unexpected empty string would otherwise fall through to the error
-          # branch and quietly turn every scheduled run red.
+          # happens here in the shell rather than up in the env: expression,
+          # because an unexpected empty string would otherwise fall through to
+          # the error branch and quietly turn every scheduled run red.
+          #
+          # Nothing in this file may contain a bare expression delimiter, even
+          # inside a shell comment: Actions expands those before bash ever sees
+          # the script, and an empty one fails the whole workflow to parse.
           case "${MODE:-publish}" in
             dry-run)       node scripts/social-post.mjs ;;
             check-account) node scripts/social-post.mjs --check ;;
