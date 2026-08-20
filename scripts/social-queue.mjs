@@ -30,8 +30,8 @@ Vellum social queue
 
   --count N        how many posts to add                        (7)
   --start DATE     first post date, YYYY-MM-DD, UTC             (tomorrow)
-  --at HH:MM       time of day, UTC                             (15:00)
-  --every N        days between posts                           (1)
+  --at HH:MM[,HH:MM…]  time(s) of day, UTC — several = several a day  (15:00)
+  --every N        days between posting days                     (1)
   --kind K,K       only draw from these kinds
   --slug SLUG      queue one specific prompt (ignores --count)
   --order mix|library                                           (mix)
@@ -66,6 +66,30 @@ function mixed(prompts) {
     for (const lane of lanes) if (i < lane.length) out.push(lane[i]);
   }
   return out;
+}
+
+/**
+ * The times of day a post can land, as `HH:MM` in UTC.
+ *
+ * One value is one post a day; several is several. Sorted, so the day reads in
+ * order however they were typed, and de-duplicated, because two posts claiming
+ * the same minute is a mistake every time rather than a schedule.
+ */
+function slots(at) {
+  const times = at.split(',').map((t) => t.trim()).filter(Boolean);
+  if (times.length === 0) throw new Error('--at needs at least one HH:MM');
+  for (const time of times) {
+    if (!/^\d{2}:\d{2}$/.test(time)) {
+      throw new Error(`--at must be HH:MM, comma-separated for several a day — got "${time}"`);
+    }
+  }
+  if (new Set(times).size !== times.length) throw new Error(`--at repeats a time: "${at}"`);
+  return [...times].sort();
+}
+
+/** The UTC date one day after `iso`, as YYYY-MM-DD. */
+function dayAfter(iso) {
+  return new Date(new Date(iso).getTime() + DAY_MS).toISOString().slice(0, 10);
 }
 
 /** ISO instant for `date` at `time`, both read as UTC. */
@@ -179,18 +203,25 @@ try {
     }
   }
 
-  /* Continue from the last scheduled post rather than colliding with it. */
+  /* Continue from the day after the last scheduled post rather than colliding
+     with it. Day-after rather than one interval later, because with several
+     slots a day "one interval later" is no longer a single answer. */
+  const times = slots(opts.at);
   const last = queue.posts.at(-1);
-  const first = opts.start
-    ? instant(opts.start, opts.at)
-    : last
-      ? new Date(new Date(last.scheduledFor).getTime() + opts.every * DAY_MS)
-      : instant(tomorrowUTC(), opts.at);
+  const startDay = opts.start ?? (last ? dayAfter(last.scheduledFor) : tomorrowUTC());
+
+  /* Fill every slot of a day before moving on, so `--every` stays what it says:
+     days between one posting day and the next, not days between posts. */
+  const when_ = (index) =>
+    new Date(
+      instant(startDay, times[index % times.length]).getTime() +
+        Math.floor(index / times.length) * opts.every * DAY_MS
+    );
 
   const size = { name: opts.size, ...SIZES[opts.size] };
   const entries = chosen.map((prompt, index) => {
     const slug = slugify(plain(prompt));
-    const when = new Date(first.getTime() + index * opts.every * DAY_MS);
+    const when = when_(index);
     const day = when.toISOString().slice(0, 10);
     const id = `${day}-${slug}`;
     return {
