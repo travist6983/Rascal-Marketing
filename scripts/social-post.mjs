@@ -93,7 +93,8 @@ Vellum social post
 
   --live        actually publish (without this, it is a dry run)
   --id ID       post a specific queue entry instead of the next due one
-  --force       post even if the scheduled time has not arrived yet
+  --force       post even if the scheduled time has not arrived yet, and
+                ignore the minimum gap between posts
   --check       print the account the credentials belong to and its last
                 ten posts, and publish nothing. Answers "did it actually
                 go out, and to which account?" without guessing.
@@ -252,6 +253,16 @@ function summary(markdown) {
   if (file) appendFileSync(file, `${markdown}\n`);
 }
 
+/**
+ * Graph returns `2026-08-20T21:29:18+0000` — an offset without the colon that
+ * ISO wants. Normalise it rather than let two shapes into the same field, and
+ * fall back to now if Meta ever sends something unparseable.
+ */
+function graphTime(value) {
+  const at = new Date(value);
+  return Number.isNaN(at.getTime()) ? new Date().toISOString() : at.toISOString();
+}
+
 /** A note that belongs in the run's annotations rather than buried in the log. */
 function warn(message) {
   process.stderr.write(
@@ -267,8 +278,8 @@ function warn(message) {
  * queue.json was read before the run started, and a human commit that landed
  * meanwhile must not be clobbered by it.
  */
-function recordPublished(queue, post, mediaId) {
-  post.postedAt = new Date().toISOString();
+function recordPublished(queue, post, mediaId, postedAt = new Date().toISOString()) {
+  post.postedAt = postedAt;
   post.mediaId = mediaId;
   writeQueue(queue);
   if (process.env.GITHUB_ENV) {
@@ -466,34 +477,50 @@ try {
       `  caption    ${caption.replace(/\n/g, '\n             ')}\n\n`
   );
 
-  /* Catching up after missed runs is deliberate — the prompts are evergreen and
-     a late one is better than a dropped one — but it is worth saying out loud,
-     because it means posts are landing outside the windows the queue was
-     written for. One per run keeps the catch-up gentle either way. */
-  const lateMs = Date.now() - new Date(post.scheduledFor).getTime();
-  if (lateMs > 6 * 3600000) {
-    warn(
-      `${post.id} is going out ${(lateMs / 3600000).toFixed(1)} h after its slot — ` +
-        `the queue is catching up on missed runs, one post an hour`
-    );
+  /* Two days at four a day. Refilling needs a person to read the captions, so
+     the warning has to arrive with time to spare rather than on the day. */
+  if (pending.length <= 8) {
+    warn(`only ${pending.length} posts left in the queue — top it up with \`npm run social:queue\``);
   }
 
-  /* ISO timestamps sort lexicographically, so the largest string is the most
-     recent publish — no parsing needed to find it. */
+  /* How long since the last publish. Measured here so the dry run can mention
+     it, enforced below so it only ever stops a real publish — a dry run is
+     asked "would this post pass", and answering "the rate limiter says wait" is
+     not an answer to that question.
+
+     ISO timestamps sort lexicographically, so the largest string is the most
+     recent publish; unpublished entries hold null and never win the compare. */
   const lastPostedAt = queue.posts.reduce((latest, p) => (p.postedAt > latest ? p.postedAt : latest), '');
   const sinceLastMs = lastPostedAt ? Date.now() - new Date(lastPostedAt).getTime() : Infinity;
-  if (!opts.force && sinceLastMs < MIN_GAP_MS) {
-    const ago = Math.round(sinceLastMs / 60000);
-    const waitMin = Math.ceil((MIN_GAP_MS - sinceLastMs) / 60000);
+  const holding = !opts.force && sinceLastMs < MIN_GAP_MS;
+  const sinceMin = Math.round(sinceLastMs / 60000);
+  const waitMin = Math.ceil((MIN_GAP_MS - sinceLastMs) / 60000);
+
+  if (!opts.live) {
+    process.stdout.write(
+      'Dry run — nothing was published. Everything above checks out; add --live to post it.\n' +
+        (holding ? `  (a live run now would hold off — last post ${sinceMin} min ago, ~${waitMin} min to go)\n` : '')
+    );
+    summary(
+      `### Dry run — nothing was published\n\n` +
+        `\`${post.id}\` is due and passes every check. Re-run with mode **publish** to post it.` +
+        (holding
+          ? `\n\nA live run right now would hold off instead: the last post went out ${sinceMin} minutes ago, and the minimum gap is ${MIN_GAP_MS / 60000} minutes.`
+          : '')
+    );
+    process.exit(0);
+  }
+
+  if (holding) {
     process.stdout.write(
       `Holding off — nothing was published.\n` +
         `  due        ${post.id}\n` +
-        `  last post  ${ago} min ago (${lastPostedAt})\n` +
+        `  last post  ${sinceMin} min ago (${lastPostedAt})\n` +
         `  waiting    ~${waitMin} min, to keep posts about an hour apart\n`
     );
     summary(
       `### Holding off — nothing published\n\n` +
-        `\`${post.id}\` is due, but the last post went out **${ago} minutes ago**. ` +
+        `\`${post.id}\` is due, but the last post went out **${sinceMin} minutes ago**. ` +
         `Posting resumes in about ${waitMin} minutes.\n\n` +
         `This is the catch-up rate limit, not a failure: the workflow looks twice an hour so a ` +
         `dropped firing costs thirty minutes, and this keeps that from becoming two posts thirty ` +
@@ -502,21 +529,17 @@ try {
     process.exit(0);
   }
 
-  /* Two days at four a day. Refilling needs a person to read the captions, so
-     the warning has to arrive with time to spare rather than on the day. */
-  if (pending.length <= 8) {
-    warn(`only ${pending.length} posts left in the queue — top it up with \`npm run social:queue\``);
-  }
-
-  if (!opts.live) {
-    process.stdout.write(
-      'Dry run — nothing was published. Everything above checks out; add --live to post it.\n'
+  /* Catching up after missed runs is deliberate — the prompts are evergreen and
+     a late one is better than a dropped one — but it is worth saying out loud,
+     because it means posts are landing outside the windows the queue was
+     written for. Below the hold-off, so it only annotates a run that is really
+     about to post: "is going out" has to be true when it is said. */
+  const lateMs = Date.now() - new Date(post.scheduledFor).getTime();
+  if (lateMs > 6 * 3600000) {
+    warn(
+      `${post.id} is going out ${(lateMs / 3600000).toFixed(1)} h after its slot — ` +
+        `the queue is catching up on missed runs, about one post an hour`
     );
-    summary(
-      `### Dry run — nothing was published\n\n` +
-        `\`${post.id}\` is due and passes every check. Re-run with mode **publish** to post it.`
-    );
-    process.exit(0);
   }
 
   /* Ask Instagram before trusting the file. If the last run published this and
@@ -527,7 +550,7 @@ try {
   const existing = await findPublished(post);
   if (existing) {
     process.stderr.write(`found\n`);
-    recordPublished(queue, post, existing.id);
+    recordPublished(queue, post, existing.id, graphTime(existing.timestamp));
     warn(
       `${post.id} was already on the account as ${existing.id} — recording it rather than posting it twice. ` +
         `A previous run published and then failed to save the record.`

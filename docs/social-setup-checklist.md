@@ -201,7 +201,7 @@ npm run social:post -- --force        # dry run
 **Times in `queue.json` are UTC.** `--at 15:00` is 15:00 UTC. Pick your slot in
 UTC and write it down.
 
-**GitHub's cron is approximate.** The workflow runs hourly and asks "anything
+**GitHub's cron is approximate.** The workflow runs at :07 and :37 and asks "anything
 due?" rather than firing at an exact minute, because
 [scheduled runs are best-effort](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)
 and routinely late under load.

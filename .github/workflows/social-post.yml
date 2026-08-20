@@ -19,8 +19,10 @@ name: Post to Instagram
 # no caption fails this workflow rather than going out unreviewed.
 
 # ── THE SCHEDULE IS ON ───────────────────────────────────────────────────────
-# The cron below is live: at :07 and :37 this checks the queue and publishes the
-# next post whose scheduledFor has passed. Nothing else needs to be switched on.
+# The cron below is live: at :07 and :37 this checks the queue. A check is not a
+# post — it publishes the oldest due entry only if the last publish is more than
+# MIN_GAP_MS ago, so looking twice an hour still posts about once. Nothing else
+# needs to be switched on.
 #
 # To stop it, comment the two `schedule` lines back out. Manual runs still work
 # either way, and a manual run defaults to `dry-run` — you have to pick
@@ -38,9 +40,9 @@ on:
     # happened at all. :07 and :37 sit outside that crush.
     #
     # Twice rather than once so a dropped firing costs 30 minutes instead of an
-    # hour. It cannot post twice as often: at most one post goes out per run and
-    # the queue's slots are hours apart, so the second firing of an hour almost
-    # always finds nothing due and exits green.
+    # hour. The two firings are 30 minutes apart and MIN_GAP_MS is 55, so the
+    # second one of any hour can never publish behind the first — the rate is
+    # held by the poster, not by hoping the queue happens to be spaced right.
     - cron: '7,37 * * * *'
   workflow_dispatch:
     inputs:
@@ -127,14 +129,18 @@ jobs:
           # tree as it looked when this run started. Nothing is ever rebased, so
           # nothing can conflict — and a human commit that landed mid-run is
           # kept rather than clobbered by a stale copy of the whole file.
+          # The shell is `bash -e`, so a bare failing command ends the step
+          # immediately — which would skip the ::error:: below, the one line
+          # that says a public post went unrecorded. Everything that can fail
+          # transiently carries its own retry instead.
           for attempt in 1 2 3; do
             # FETCH_HEAD, not origin/main: it is exactly what was just fetched,
             # with no dependence on whether the configured refspec happened to
             # update the remote-tracking ref. On a retry that distinction is the
             # difference between landing on the commit that rejected us and
             # landing on the one that caused the rejection.
-            git fetch --quiet origin main
-            git reset --quiet --hard FETCH_HEAD
+            git fetch --quiet origin main || { echo "fetch failed on attempt $attempt"; sleep 5; continue; }
+            git reset --quiet --hard FETCH_HEAD || { echo "reset failed on attempt $attempt"; sleep 5; continue; }
 
             node -e '
               const fs = require("node:fs");
@@ -156,7 +162,7 @@ jobs:
             fi
             [ "$rc" = "0" ] || exit 1
 
-            git add social/queue.json
+            git add social/queue.json || { echo "add failed on attempt $attempt"; sleep 5; continue; }
             git commit --quiet -m "social: record published post"
             git push && exit 0
 

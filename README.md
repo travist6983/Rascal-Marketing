@@ -131,15 +131,16 @@ npm run social:post                  # dry run; add --live to publish
 npm run social:post -- --check       # which account are the credentials on?
 ```
 
-`.github/workflows/social-post.yml` runs the third step **hourly**, publishing at
-most one due post per run. Commenting its two `schedule` lines back out is the
-whole off switch. A manual run — Actions → Run workflow — asks for a mode and
-defaults to `dry-run`.
+`.github/workflows/social-post.yml` runs the third step at **:07 and :37**,
+publishing at most one due post per run — and never within 55 minutes of the
+last one, so looking twice an hour does not post twice an hour. Commenting its
+two `schedule` lines back out is the whole off switch. A manual run — Actions →
+Run workflow — asks for a mode and defaults to `dry-run`.
 
-Most hourly runs have nothing due, and exit green having done nothing. That is
-not a failure, and it is why every run writes to its **Summary** page saying in
-words which of the two happened: a green tick on its own means "the check ran",
-not "something posted".
+Most runs have nothing due, and exit green having done nothing. That is not a
+failure, and it is why every run writes to its **Summary** page saying in words
+which of the several things happened: a green tick on its own means "the check
+ran", not "something posted".
 
 It never runs the first two steps: captions are generated locally, reviewed, and
 committed, and the poster refuses an entry with no caption — so nothing reaches

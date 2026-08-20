@@ -10,7 +10,7 @@ npm run social:post -- --live        # publishes
 npm run social:post -- --check       # which account are the credentials on?
 ```
 
-The third step **runs itself** from `.github/workflows/social-post.yml`, hourly.
+The third step **runs itself** from `.github/workflows/social-post.yml`.
 The first two never do: captions are generated on your machine, read by you, and
 committed. Nothing reaches the feed that a person hasn't approved.
 
@@ -22,8 +22,8 @@ the reference behind it.
 > **Status: live and on a schedule.** The first post published on 2026-08-20
 > (media id 18616663639048675) from a manual `workflow_dispatch` run, and both
 > paths that talk to someone else's server — the Claude call and the Instagram
-> call — have been exercised end to end. The hourly `schedule` block was
-> switched on the same day, so posts now go out on their own.
+> call — have been exercised end to end. The `schedule` block was switched on
+> the same day, so posts now go out on their own.
 
 ---
 
@@ -89,10 +89,18 @@ paragraph.
 
 ### 4. The schedule
 
-**The schedule is on.** `.github/workflows/social-post.yml` runs hourly at five
-past and publishes whatever is due — at most one post per run. To stop it,
+**The schedule is on.** `.github/workflows/social-post.yml` looks at **:07 and
+:37** and publishes whatever is due — at most one post per run. To stop it,
 comment its two `schedule` lines back out. That is the entire switch, in both
 directions.
+
+**Looking twice an hour is not posting twice an hour.** The two firings exist so
+that a firing GitHub drops costs thirty minutes rather than sixty. The rate is
+held separately, by `MIN_GAP_MS` in `scripts/social-post.mjs`: a run refuses to
+publish within **55 minutes** of the last publish, and says so on a green run.
+So a backlog drains at about one an hour however often the workflow is asked to
+look, and in steady state — slots two hours apart at the closest — the limiter
+never has anything to say.
 
 A manual run is **Actions → Post to Instagram → Run workflow**, and it asks
 which of three things you want:
@@ -116,8 +124,8 @@ means "the check ran", not "something posted".
 **A catch-up is one post per hour, not a burst.** If runs are missed — GitHub
 skips scheduled runs under load, and pauses them entirely on repos with no
 activity for 60 days — the queue doesn't fire all at once when it comes back.
-Each hourly run takes the single oldest due post, so four missed slots take four
-hours to drain. Late posts still go out rather than being dropped: the prompts
+Each run takes the single oldest due post and none within 55 minutes of the
+last, so four missed slots take about four hours to drain. Late posts still go out rather than being dropped: the prompts
 are evergreen and a late one beats a lost one. Anything more than six hours past
 its slot posts with a `::warning::` saying so, so a catch-up is visible in the
 Actions annotations rather than only in the timestamps.
@@ -205,7 +213,7 @@ poster that fires an hour early twice a year is worse than one that asks you to
 convert once. Pick your slot in UTC and write it down.
 
 **GitHub's cron is approximate.** Scheduled runs are best-effort and are
-routinely late under load. That's why the workflow runs hourly and asks "is
+routinely late under load. That's why the workflow runs twice an hour and asks "is
 anything due?" rather than firing once at an exact time — the real schedule
 lives in `queue.json`, where you can read it.
 
@@ -225,7 +233,7 @@ lives in `queue.json`, where you can read it.
 | `scripts/social-queue.mjs` | Adds posts to the queue |
 | `scripts/social-caption.mjs` | Writes captions with Claude |
 | `scripts/social-post.mjs` | Publishes the next due post |
-| `.github/workflows/social-post.yml` | The hourly schedule |
+| `.github/workflows/social-post.yml` | The schedule — :07 and :37 |
 
 ### A queue entry
 
