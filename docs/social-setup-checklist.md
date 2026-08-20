@@ -60,10 +60,16 @@ reorganises its docs regularly — if a deep link 404s, start from the
       — see [Content Publishing](https://developers.facebook.com/docs/instagram-platform/content-publishing)
       for which ones the publish endpoints require
 - [ ] Noted the **numeric Instagram user ID** (not the @handle)
-- [ ] Generated a token — [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
-      is the quickest way, or follow
-      [Business Login](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login)
-- [ ] **Exchanged it for a long-lived token** (short-lived ones last an hour)
+- [ ] Added the account as an **Instagram Tester** (App roles → Roles →
+      Add People), then **accepted the invite** from the Instagram side at
+      https://www.instagram.com/accounts/manage_access → Tester Invites.
+      Until that flips Pending → Active, generating a token fails with
+      *"Insufficient Developer Role"*
+- [ ] Generated a token in **Use cases → Instagram API → API setup with
+      Instagram login → Generate access tokens → Add account**
+- [x] ~~Exchange it for a long-lived token~~ — **not needed.** Tokens minted
+      in the App Dashboard are already long-lived (60 days). Only the
+      Business Login OAuth flow hands back a one-hour token needing exchange
 - [ ] Pasted the token into the
       [Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/)
       and confirmed: the scopes are there, and the expiry is ~60 days out
@@ -76,11 +82,19 @@ Meta changes these more often than anything else here. All four live in one
 the environment, so fixing one is a config change, not a code change. Source of
 truth: [Content Publishing](https://developers.facebook.com/docs/instagram-platform/content-publishing).
 
-- [ ] Endpoint host is right for your login flow
-      (`graph.instagram.com` vs `graph.facebook.com`)
-- [ ] API version string is current
-- [ ] `alt_text` is still accepted on media-container creation
-- [ ] Publishing limit is still 25 posts / 24h
+**Checked 2026-08-19** — all four verified against Meta's live docs, and
+`scripts/social-post.mjs` updated to match. Re-check on drift.
+
+- [x] Endpoint host is right for your login flow — `graph.instagram.com`
+      is correct for Instagram Login (`graph.facebook.com` is the Facebook
+      Login flow)
+- [x] API version string is current — **was `v23.0`, now `v25.0`**
+- [x] `alt_text` is still accepted on media-container creation — yes, added
+      by Meta on 2025-03-24 for image posts; reels and stories are excluded
+- [x] Publishing limit — **was 25, is now 100** API-published posts per
+      rolling 24 hours
+- [x] Image format — **JPEG only.** The cards used to be PNG, which would
+      have failed the first live post; they are JPEG now
 
 ## 4. Credentials
 
@@ -131,7 +145,7 @@ npm run social:post -- --force        # dry run
 
 ## 7. Commit
 
-- [ ] `social/queue.json` and `social/queue/*.png` committed and pushed
+- [ ] `social/queue.json` and `social/queue/*.jpg` committed and pushed
       (the image must be on the internet before Instagram can fetch it)
 - [ ] Image URL still loads after the push
 

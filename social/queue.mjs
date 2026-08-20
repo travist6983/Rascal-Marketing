@@ -5,9 +5,10 @@
  * scripts touch the queue and importing a CLI runs its main body.
  *
  * `social/queue.json` is the schedule *and* the record of what has already
- * posted. `social/queue/*.png` are the card images. **Both are committed** —
+ * posted. `social/queue/*.jpg` are the card images. **Both are committed** —
  * Instagram fetches an image by public URL rather than accepting an upload, so
- * the PNG has to be reachable on the internet before the post can be created.
+ * the file has to be reachable on the internet before the post can be created.
+ * JPEG rather than PNG because the publishing API accepts no other format.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';

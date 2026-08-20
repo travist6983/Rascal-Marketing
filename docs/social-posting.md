@@ -109,14 +109,21 @@ done nothing.
 Instagram's publishing API **does not accept an image upload.** You hand it a
 public HTTPS URL, Meta's servers fetch the image, and you publish the container
 that comes back. So the card has to be on the public internet before the post
-can be created — which is why `social/queue/*.png` are committed rather than
+can be created — which is why `social/queue/*.jpg` are committed rather than
 living in the gitignored render directory.
+
+**The cards are JPEG, and that is not a preference.** Meta's content publishing
+doc is blunt about it — *"JPEG is the only image format supported"* — and a PNG
+URL fails as a container in `ERROR` rather than as a readable message. Chrome's
+own `--screenshot` flag only ever writes PNG, which is why `social/card.mjs`
+takes its shots through Playwright pointed at the same Chrome binary: the
+renderer is unchanged, only the encoder is ours to pick.
 
 **The default is `raw.githubusercontent.com`**, which serves this public repo's
 files the moment a commit lands:
 
 ```
-https://raw.githubusercontent.com/travist6983/Rascal-Marketing/main/social/queue/<id>.png
+https://raw.githubusercontent.com/travist6983/Rascal-Marketing/main/social/queue/<id>.jpg
 ```
 
 No deploy step sits between committing a card and being able to post it. That
@@ -132,7 +139,7 @@ files:
 
 ```yaml
 mkdir -p _site/social/queue
-cp social/queue/*.png _site/social/queue/
+cp social/queue/*.jpg _site/social/queue/
 ```
 
 One catch if you go that route: a push made by the workflow's own
@@ -149,10 +156,11 @@ and have to be refreshed before they lapse. Nothing here automates that or warns
 you — the first sign will be a failed workflow run with an auth error in the
 log. Put a calendar reminder somewhere for ~50 days out.
 
-**Instagram's publishing limit is 25 posts per rolling 24 hours.** One a day is
+**Instagram's publishing limit is 100 posts per rolling 24 hours.** One a day is
 nowhere near it. `scripts/social-post.mjs` counts what it has published in the
 last day and stops before hitting the ceiling, so a catch-up run can't drain a
-backlog into a rate-limit error.
+backlog into a rate-limit error. It was 25 until Meta raised it; the number
+lives in `DAILY_LIMIT` and is worth re-reading on drift.
 
 **Times in `queue.json` are UTC.** `--at 15:00` means 15:00 UTC. Doing DST-aware
 local-time conversion properly needs a dependency this repo doesn't have, and a
@@ -175,7 +183,7 @@ lives in `queue.json`, where you can read it.
 | `social/card.css` | The card's design |
 | `social/queue.mjs` | Reading and writing the queue |
 | `social/queue.json` | **The schedule, and the record of what has posted** |
-| `social/queue/*.png` | The card images, committed so Instagram can fetch them |
+| `social/queue/*.jpg` | The card images, committed so Instagram can fetch them |
 | `scripts/social-cards.mjs` | Renders the whole library for review (`npm run social`) |
 | `scripts/social-queue.mjs` | Adds posts to the queue |
 | `scripts/social-caption.mjs` | Writes captions with Claude |
@@ -190,7 +198,7 @@ lives in `queue.json`, where you can read it.
   "slug": "photograph-their-hands-just-their-hands",
   "kind": "PHOTO",
   "prompt": "Photograph their hands. Just their hands.",
-  "image": "social/queue/2026-08-15-photograph-their-hands.png",
+  "image": "social/queue/2026-08-15-photograph-their-hands.jpg",
   "scheduledFor": "2026-08-15T15:00:00.000Z",
   "caption": null,
   "altText": null,

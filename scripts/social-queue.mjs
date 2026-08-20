@@ -200,7 +200,7 @@ try {
         slug,
         kind: prompt.kind,
         prompt: plain(prompt),
-        image: `social/queue/${id}.png`,
+        image: `social/queue/${id}.jpg`,
         scheduledFor: when.toISOString(),
         caption: null,
         altText: null,
@@ -225,9 +225,9 @@ try {
 
   for (const { prompt, entry } of entries) {
     const html = join(QUEUE_DIR, `${entry.id}.html`);
-    const png = join(QUEUE_DIR, `${entry.id}.png`);
+    const image = join(QUEUE_DIR, `${entry.id}.jpg`);
     writeFileSync(html, cardHtml(prompt, { css, fonts, size }));
-    await shoot(chrome, html, png, size);
+    await shoot(chrome, html, image, size);
     rmSync(html);
     queue.posts.push(entry);
     process.stdout.write(`${entry.scheduledFor}  ${entry.kind.padEnd(8)} ${entry.prompt}\n`);

@@ -7,9 +7,8 @@
  * drift into producing different cards from the same prompt.
  */
 import { existsSync, readFileSync } from 'node:fs';
-import { spawn } from 'node:child_process';
 import { basename, dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { KIND } from './prompts.js';
 
 export const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -182,45 +181,63 @@ export function findChrome() {
 }
 
 /**
- * One headless shot per card. Chrome writes a good deal of unsolicited noise to
- * stderr on macOS — allocator warnings, GPU probes — so only a non-zero exit or
- * a missing file counts as a failure.
+ * One headless shot per card, taken through Playwright rather than Chrome's own
+ * `--screenshot` flag. That flag only ever writes PNG, and Instagram's
+ * publishing API accepts JPEG only — so the encoder had to become something
+ * this file chooses rather than something Chrome decides.
  *
- * Deliberately no `--user-data-dir`: pointing each shot at a throwaway profile
- * is the textbook isolation, and on this Chrome build it hangs forever — a
- * single invocation with a fresh profile never returns. The default profile is
- * what works, so that is what this uses.
+ * Still the very same binary `findChrome()` locates, handed over as
+ * `executablePath`. The cards were tuned against that renderer; borrowing
+ * Playwright's bundled Chromium instead would quietly reflow the type. And
+ * Playwright gives it a profile of its own without reproducing the hang that
+ * made the old CLI path avoid `--user-data-dir`.
+ *
+ * A browser per shot, which is the process-per-card the CLI spawn already paid
+ * for. Holding one open across cards would be faster, but it needs a shutdown
+ * the two callers don't have, and an un-closed browser keeps the event loop
+ * alive — a render that finishes and then hangs is worse than a slow one.
+ *
+ * Format follows the extension: `.jpg`/`.jpeg` encodes JPEG, anything else PNG.
+ * The queue writes JPEG because Instagram requires it; the review renders stay
+ * PNG because nothing outside this machine ever fetches those.
+ *
+ * The wait is on the card's own `data-fitted` flag rather than a fixed time
+ * budget. The fit script sets it once the webfont has loaded and the body has
+ * been shrunk to its box, which is exactly when the card is finished — earlier
+ * is a half-drawn card, later is dead time. The contact sheet runs no fit
+ * script, so it waits on the fonts alone.
  */
-export function shoot(chrome, html, png, size) {
-  return new Promise((ok, fail) => {
-    const child = spawn(
-      chrome,
-      [
-        '--headless',
-        '--disable-gpu',
-        '--hide-scrollbars',
-        '--force-device-scale-factor=1',
-        '--allow-file-access-from-files',
-        '--virtual-time-budget=4000',
-        `--window-size=${size.w},${size.h}`,
-        `--screenshot=${png}`,
-        html
-      ],
-      { stdio: ['ignore', 'ignore', 'pipe'] }
-    );
-    let stderr = '';
-    child.stderr.on('data', (chunk) => {
-      stderr += chunk;
-    });
-    child.on('error', fail);
-    child.on('close', (code) => {
-      if (code !== 0 || !existsSync(png)) {
-        fail(new Error(`chrome exited ${code} for ${basename(html)}\n${stderr.trim()}`));
-        return;
-      }
-      ok();
-    });
+export async function shoot(chrome, html, out, size) {
+  const { chromium } = await import('playwright').catch(() => {
+    throw new Error('playwright is missing — run `npm install`');
   });
+
+  const jpeg = /\.jpe?g$/i.test(out);
+  const browser = await chromium.launch({ executablePath: chrome });
+  try {
+    const page = await browser.newPage({
+      viewport: { width: size.w, height: size.h },
+      deviceScaleFactor: 1
+    });
+    await page.goto(pathToFileURL(html).href);
+    await page.waitForFunction(
+      () =>
+        document.fonts.status === 'loaded' &&
+        (!document.querySelector('.body-box') ||
+          document.documentElement.dataset.fitted === 'true'),
+      null,
+      { timeout: 15000 }
+    );
+    await page.screenshot({
+      path: out,
+      type: jpeg ? 'jpeg' : 'png',
+      ...(jpeg ? { quality: 92 } : {})
+    });
+  } catch (error) {
+    throw new Error(`${basename(html)} failed to render — ${error.message.split('\n')[0]}`);
+  } finally {
+    await browser.close();
+  }
 }
 
 /** Bounded fan-out — Chrome is a heavy process and 113 at once is a swap storm. */

@@ -5,7 +5,7 @@
       "slug": "what-did-they-say-this-week-that-you",
       "kind": "QUESTION",
       "prompt": "What did they say this week that you want to remember exactly?",
-      "image": "social/queue/2026-08-15-what-did-they-say-this-week-that-you.png",
+      "image": "social/queue/2026-08-15-what-did-they-say-this-week-that-you.jpg",
       "scheduledFor": "2026-08-15T15:00:00.000Z",
       "caption": "The exact words go first. In a month you'll have the gist, the funny idea, the general shape — but not the wording. Write it down the way they said it, grammar mistakes and all.",
       "altText": "Cream card with a small badge reading QUESTION above the prompt: \"What did they say this week that you want to remember exactly?\"",
@@ -24,7 +24,7 @@
       "slug": "photograph-their-hands-just-their-hands",
       "kind": "PHOTO",
       "prompt": "Photograph their hands. Just their hands.",
-      "image": "social/queue/2026-08-16-photograph-their-hands-just-their-hands.png",
+      "image": "social/queue/2026-08-16-photograph-their-hands-just-their-hands.jpg",
       "scheduledFor": "2026-08-16T15:00:00.000Z",
       "caption": "Faces you have thousands of. Hands you have almost none. The scab on the knuckle, the marker stain, the way they hold a fork wrong. That's the part that changes fastest and gets photographed least.",
       "altText": "Cream card with a small badge reading PHOTO above the prompt text: Photograph their hands. Just their hands.",
@@ -43,7 +43,7 @@
       "slug": "film-them-telling-you-about-their-day-don",
       "kind": "VIDEO",
       "prompt": "Film them telling you about their day. Don’t prompt them.",
-      "image": "social/queue/2026-08-17-film-them-telling-you-about-their-day-don.png",
+      "image": "social/queue/2026-08-17-film-them-telling-you-about-their-day-don.jpg",
       "scheduledFor": "2026-08-17T15:00:00.000Z",
       "caption": "Unprompted, the order comes out strange. The dropped cracker before the field trip. That's the part you'd never have thought to ask about, and the part you'll want back.",
       "altText": "Cream card with a small badge reading VIDEO above the prompt text: Film them telling you about their day. Don't prompt them.",
@@ -53,6 +53,277 @@
         "familyarchive",
         "homevideo",
         "everydaymoments"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-20-record-them-telling-you-a-story-any-story",
+      "slug": "record-them-telling-you-a-story-any-story",
+      "kind": "VOICE",
+      "prompt": "Record them telling you a story. Any story. Don’t correct the words they say wrong.",
+      "image": "social/queue/2026-08-20-record-them-telling-you-a-story-any-story.jpg",
+      "scheduledFor": "2026-08-20T15:00:00.000Z",
+      "caption": "The mispronunciations are the part you'll want later. The wrong word for hospital, the sentence that runs out of road halfway through. Fixing it now costs you the version you'd want to hear in ten years.",
+      "altText": "Cream card with a small badge reading VOICE above the prompt: \"Record them telling you a story. Any story. Don't correct the words they say wrong.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "toddlertalk",
+        "familyarchive",
+        "voicememo",
+        "keepsake"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-21-never-let-go-of-the-hug-first-today",
+      "slug": "never-let-go-of-the-hug-first-today",
+      "kind": "ACTIVITY",
+      "prompt": "Never let go of the hug first today. Let them be the one to pull away.",
+      "image": "social/queue/2026-08-21-never-let-go-of-the-hug-first-today.jpg",
+      "scheduledFor": "2026-08-21T15:00:00.000Z",
+      "caption": "Most hugs end on your schedule. This one won't. Some kids let go in two seconds, some hang on long enough that you notice something. Either way, you learn the length of it.",
+      "altText": "Cream card with a small badge reading ACTIVITY above the prompt: \"Never let go of the hug first today. Let them be the one to pull away.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "dailyprompt",
+        "raisingkids",
+        "familyarchive"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-22-write-them-something-about-money-that-you-wish",
+      "slug": "write-them-something-about-money-that-you-wish",
+      "kind": "LETTER",
+      "prompt": "Write them something about money that you wish someone had told you at nineteen.",
+      "image": "social/queue/2026-08-22-write-them-something-about-money-that-you-wish.jpg",
+      "scheduledFor": "2026-08-22T15:00:00.000Z",
+      "caption": "Most money advice ages badly. What holds up is the specific thing you got wrong at nineteen and how long it took to notice. Write that part. They can decide later what to do with it.",
+      "altText": "A cream card with a small badge reading LETTER above the prompt: \"Write them something about money that you wish someone had told you at nineteen.\"",
+      "hashtags": [
+        "parenting",
+        "lettertomychild",
+        "memorykeeping",
+        "familyarchive",
+        "raisingkids"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-23-what-are-they-obsessed-with-right-now",
+      "slug": "what-are-they-obsessed-with-right-now",
+      "kind": "QUESTION",
+      "prompt": "What are they obsessed with right now?",
+      "image": "social/queue/2026-08-23-what-are-they-obsessed-with-right-now.jpg",
+      "scheduledFor": "2026-08-23T15:00:00.000Z",
+      "caption": "The obsession is usually specific and slightly ridiculous. Trash trucks. A particular blue cup. The word \"actually.\" It will be gone in six weeks and you won't remember it happened unless you write it down.",
+      "altText": "Plain cream card with a small badge reading QUESTION above the prompt text: \"What are they obsessed with right now?\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "toddlerlife",
+        "journalprompt",
+        "raisingkids",
+        "familyarchive"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-24-get-down-to-their-eye-level-and-take",
+      "slug": "get-down-to-their-eye-level-and-take",
+      "kind": "PHOTO",
+      "prompt": "Get down to their eye level and take the photo from there.",
+      "image": "social/queue/2026-08-24-get-down-to-their-eye-level-and-take.jpg",
+      "scheduledFor": "2026-08-24T15:00:00.000Z",
+      "caption": "Most photos of your kid are taken from five feet above them. Crouch down and you get the room the way they actually live in it. Also their face straight on, not tilted up at you.",
+      "altText": "Cream-colored card with a small badge reading PHOTO above the prompt text: \"Get down to their eye level and take the photo from there.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyphotos",
+        "everydaymoments",
+        "raisingkids"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-25-ask-them-ten-questions-about-their-mom-and",
+      "slug": "ask-them-ten-questions-about-their-mom-and",
+      "kind": "VIDEO",
+      "prompt": "Ask them ten questions about their mom and film the answers. Don’t correct anything.",
+      "image": "social/queue/2026-08-25-ask-them-ten-questions-about-their-mom-and.jpg",
+      "scheduledFor": "2026-08-25T15:00:00.000Z",
+      "caption": "The wrong answers are the good part. Your age, your job, your favorite food — all of it filtered through someone four feet tall. Let it stand. In a year you'll want the version they believed.",
+      "altText": "Cream card with a small badge reading VIDEO above the prompt: \"Ask them ten questions about their mom and film the answers. Don't correct anything.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyarchive",
+        "momlife",
+        "kidquotes",
+        "homevideo"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-26-record-them-singing-whatever-they-re-singing",
+      "slug": "record-them-singing-whatever-they-re-singing",
+      "kind": "VOICE",
+      "prompt": "Record them singing. Whatever they’re singing.",
+      "image": "social/queue/2026-08-26-record-them-singing-whatever-they-re-singing.jpg",
+      "scheduledFor": "2026-08-26T15:00:00.000Z",
+      "caption": "The made-up verses. The wrong lyrics they're sure are right. You will not remember what that voice sounded like, and thirty seconds is enough to keep it.",
+      "altText": "Cream card with a small badge reading VOICE above the prompt: \"Record them singing. Whatever they're singing.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "kidquotes",
+        "familyarchive",
+        "voicenotes"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-27-get-on-the-floor-for-ten-minutes-that",
+      "slug": "get-on-the-floor-for-ten-minutes-that",
+      "kind": "ACTIVITY",
+      "prompt": "Get on the floor for ten minutes. That’s the whole mission.",
+      "image": "social/queue/2026-08-27-get-on-the-floor-for-ten-minutes-that.jpg",
+      "scheduledFor": "2026-08-27T15:00:00.000Z",
+      "caption": "Ten minutes on the floor changes the angle. You end up hearing about the sticker under the couch, or the plan for the dinosaurs. Nobody has to say anything, either. That counts.",
+      "altText": "Cream card with a small badge reading ACTIVITY above the prompt: \"Get on the floor for ten minutes. That's the whole mission.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyarchive",
+        "everydaymoments",
+        "toddlerlife"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-28-write-them-a-letter-about-exactly-who-they",
+      "slug": "write-them-a-letter-about-exactly-who-they",
+      "kind": "LETTER",
+      "prompt": "Write them a letter about exactly who they are right now. They won’t be this person next year.",
+      "image": "social/queue/2026-08-28-write-them-a-letter-about-exactly-who-they.jpg",
+      "scheduledFor": "2026-08-28T15:00:00.000Z",
+      "caption": "Not who they're becoming. Who they are today, at this exact size, with this exact set of opinions about socks. Write it down plain. In a year you'll read it and be surprised by how much you'd already forgotten.",
+      "altText": "Cream card with a small badge reading LETTER above the prompt: \"Write them a letter about exactly who they are right now. They won't be this person next year.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "lettertomychild",
+        "familyarchive",
+        "motherhood",
+        "fatherhood"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-29-what-do-they-call-you-write-down-every",
+      "slug": "what-do-they-call-you-write-down-every",
+      "kind": "QUESTION",
+      "prompt": "What do they call you? Write down every version.",
+      "image": "social/queue/2026-08-29-what-do-they-call-you-write-down-every.jpg",
+      "scheduledFor": "2026-08-29T15:00:00.000Z",
+      "caption": "There's the one on the birth certificate and then there's whatever they landed on at fourteen months. The mispronunciations, the singsong one, the one they use only when they want something. Those get replaced without warning.",
+      "altText": "Cream card with a small badge reading QUESTION above the prompt text: \"What do they call you? Write down every version.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "toddlerlife",
+        "familyarchive",
+        "raisingkids"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-30-photograph-their-shoes-by-the-door",
+      "slug": "photograph-their-shoes-by-the-door",
+      "kind": "PHOTO",
+      "prompt": "Photograph their shoes by the door.",
+      "image": "social/queue/2026-08-30-photograph-their-shoes-by-the-door.jpg",
+      "scheduledFor": "2026-08-30T15:00:00.000Z",
+      "caption": "Nobody photographs the shoes. But the size changes every few months, and the way they get kicked off says more than a posed picture would. Takes ten seconds on your way past.",
+      "altText": "A cream card with a small badge reading PHOTO above the prompt text: \"Photograph their shoes by the door.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyarchive",
+        "everydaymoments",
+        "photoprompt"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-08-31-film-them-doing-the-thing-they-re-currently",
+      "slug": "film-them-doing-the-thing-they-re-currently",
+      "kind": "VIDEO",
+      "prompt": "Film them doing the thing they’re currently best at.",
+      "image": "social/queue/2026-08-31-film-them-doing-the-thing-they-re-currently.jpg",
+      "scheduledFor": "2026-08-31T15:00:00.000Z",
+      "caption": "Right now it's probably something small. Peeling a clementine in one strip. Climbing onto the counter without a sound. Skills expire quietly, and nobody announces the last time.",
+      "altText": "Cream card with a small badge reading VIDEO above the prompt text: Film them doing the thing they're currently best at.",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "familyarchive",
+        "everydaymoments",
+        "homevideo"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-09-01-record-them-counting-as-high-as-they-can",
+      "slug": "record-them-counting-as-high-as-they-can",
+      "kind": "VOICE",
+      "prompt": "Record them counting as high as they can go.",
+      "image": "social/queue/2026-09-01-record-them-counting-as-high-as-they-can.jpg",
+      "scheduledFor": "2026-09-01T15:00:00.000Z",
+      "caption": "They'll stall somewhere. Twenty-nine, or that stretch in the sixties where the words run out. The stall is the part you'll want later, along with the breath they take before trying again.",
+      "altText": "Cream card with a small badge reading VOICE above the prompt text: \"Record them counting as high as they can go.\"",
+      "hashtags": [
+        "parenting",
+        "voicememo",
+        "memorykeeping",
+        "toddlerlife",
+        "familyarchive",
+        "everydaymoments"
+      ],
+      "postedAt": null,
+      "mediaId": null
+    },
+    {
+      "id": "2026-09-02-carry-them-when-they-ask-even-though-they",
+      "slug": "carry-them-when-they-ask-even-though-they",
+      "kind": "ACTIVITY",
+      "prompt": "Carry them when they ask, even though they can walk fine.",
+      "image": "social/queue/2026-09-02-carry-them-when-they-ask-even-though-they.jpg",
+      "scheduledFor": "2026-09-02T15:00:00.000Z",
+      "caption": "They can walk. They ask anyway. Ten years from now you won't remember the errand, but you might remember the weight of them on your hip and the exact spot their chin landed.",
+      "altText": "Plain cream card with a small badge reading ACTIVITY above the prompt: \"Carry them when they ask, even though they can walk fine.\"",
+      "hashtags": [
+        "parenting",
+        "memorykeeping",
+        "dailyprompt",
+        "toddlerlife",
+        "familyarchive"
       ],
       "postedAt": null,
       "mediaId": null
