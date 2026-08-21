@@ -1,15 +1,30 @@
 name: Post to Instagram
 
-# Looks every ten minutes and publishes whatever is due, rather than firing at
-# four exact times. GitHub's scheduled runs are best-effort and are routinely
-# delayed or dropped under load, so the schedule lives in social/queue.json —
-# where a human can read it — and this workflow just asks "is anything due yet?"
-# often enough that a dropped firing does not matter.
+# One run watches for five hours, rather than many runs each looking once.
 #
-# Looking often and posting often are separate things. At most one post goes out
-# per run, and scripts/social-post.mjs additionally refuses to post within
-# MIN_GAP_MS of the last one, so a queue that has fallen behind drains at about
-# one an hour no matter how often this runs.
+# This shape exists because GitHub's scheduler could not be relied on to start
+# them. Measured here on 2026-08-20, not assumed: a ':05' cron never fired at
+# all; ':07,:37' delivered two firings 21 and 26 minutes late; raising it to
+# every ten minutes delivered ONE firing and then nothing for over an hour. The
+# Actions status page read operational throughout and push-triggered workflows
+# ran normally, so the schedule was simply being dropped — and asking more often
+# appeared to make it worse rather than better.
+#
+# So the workflow stopped asking for many firings and made one firing worth
+# hours. A job may run for six; this one watches for five, checking the queue
+# every ten minutes from inside a single step. A schedule that drops four
+# firings in a row no longer costs anything, because a watcher is already
+# running when they are dropped.
+#
+# The hourly cron is now only a *starter*. If a watcher is already going, the
+# concurrency group holds the new firing until it finishes and then runs it, so
+# coverage continues across the handover; if none is going, the next firing to
+# survive starts one.
+#
+# Looking often and posting often stay separate things. At most one post goes
+# out per pass, and scripts/social-post.mjs refuses to post within MIN_GAP_MS of
+# the last one, so a queue that has fallen behind drains at about one an hour
+# however often the loop looks.
 #
 # Cost: this repository is public, so Actions minutes are free. Each run is a
 # checkout plus one short Node process, and the poster needs no npm install —
@@ -20,10 +35,10 @@ name: Post to Instagram
 # no caption fails this workflow rather than going out unreviewed.
 
 # ── THE SCHEDULE IS ON ───────────────────────────────────────────────────────
-# The cron below is live: every ten minutes this checks the queue. A check is
-# not a post — it publishes the oldest due entry only if the last publish is
-# more than MIN_GAP_MS ago, so six checks an hour still means about one post an
-# hour. Nothing else needs to be switched on.
+# The cron below is live: hourly at :17 it starts a watcher, which then checks
+# the queue every ten minutes for five hours. A check is not a post — it
+# publishes the oldest due entry only if the last publish is more than
+# MIN_GAP_MS ago. Nothing else needs to be switched on.
 #
 # To stop it, comment the `schedule` block back out. Manual runs still work
 # either way, and a manual run defaults to `dry-run` — you have to pick
@@ -32,25 +47,12 @@ name: Post to Instagram
 
 on:
   schedule:
-    # Every ten minutes, on deliberately unround ones.
-    #
-    # GitHub's scheduler is best-effort and sheds load, and its own docs name
-    # "the start of every hour" as the worst time to ask for. :00, :05, :15 and
-    # :30 are what everybody writes, so those are the firings most likely to be
-    # delayed or dropped. This has been measured here, not assumed: the first
-    # :05 firing after the schedule went live never happened at all, and a :37
-    # firing arrived 21 minutes late.
-    #
-    # So the answer is not a better minute, it is more chances. Six firings an
-    # hour, none of them on a round minute, means GitHub can drop five of the
-    # six and the queue still moves on time.
-    #
-    # This is only safe because looking and posting are separate concerns:
-    # scripts/social-post.mjs refuses to publish within MIN_GAP_MS (55 min) of
-    # the last publish, so six checks an hour still means about one post an
-    # hour. Raising this frequency cannot raise the posting rate. Lowering
-    # MIN_GAP_MS is the only thing that can, and that is deliberate.
-    - cron: '3,13,23,33,43,53 * * * *'
+    # Hourly, on an unround minute, and only to START a watcher — the watching
+    # itself happens inside the job. Deliberately modest: a five-hour watcher
+    # covers everything a more aggressive cron was being throttled out of, and
+    # any firing that lands while one is already running simply queues behind it
+    # and takes over at the handover.
+    - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -58,8 +60,9 @@ on:
         type: choice
         default: dry-run
         options:
-          - dry-run        # say what would post, publish nothing
-          - publish        # actually post the next due card
+          - dry-run        # say what would post, publish nothing, exit
+          - publish        # publish what is due now, then exit
+          - watch          # publish what comes due, for the next five hours
           - check-account  # which Instagram account are the secrets pointing at?
 
 permissions:
@@ -72,9 +75,9 @@ concurrency:
 jobs:
   post:
     runs-on: ubuntu-latest
-    # A run that hangs holds the concurrency group, and every hourly run behind
-    # it queues up behind that. Ten minutes is many times what a publish needs.
-    timeout-minutes: 10
+    # The watch loop stops itself at five hours; this is the backstop above it.
+    # A GitHub-hosted job is killed at six regardless.
+    timeout-minutes: 320
     steps:
       # v5 of both of these is the Node 24 build. v4 still declares Node 20,
       # which the runner now force-upgrades while printing a deprecation
@@ -96,86 +99,155 @@ jobs:
 
       # No `npm ci`: scripts/social-post.mjs imports nothing outside node:*.
       # package-lock.json is gitignored in this repo, so `npm ci` would fail anyway.
-      - name: Post the next due card
+      - name: Publish what is due
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           SOCIAL_IMAGE_BASE: ${{ vars.SOCIAL_IMAGE_BASE }}
           MODE: ${{ inputs.mode }}
+          # Five hours of watching inside a six-hour job ceiling, checking every
+          # ten minutes. The interval only bounds how late a post can be
+          # relative to its slot; MIN_GAP_MS bounds how often one can go out.
+          WATCH_SECONDS: '18000'
+          PASS_INTERVAL: '600'
         run: |
-          # A scheduled run has no inputs, so MODE arrives empty. The schedule
-          # exists to publish, so that is what empty means — and the defaulting
-          # happens here in the shell rather than up in the env: expression,
-          # because an unexpected empty string would otherwise fall through to
-          # the error branch and quietly turn every scheduled run red.
+          # A scheduled run has no inputs, so MODE arrives empty, and the
+          # schedule exists to watch. The defaulting happens here in the shell
+          # rather than up in the env: expression, because an unexpected empty
+          # string would otherwise fall through to the error branch and quietly
+          # turn every scheduled run red.
           #
           # Nothing in this file may contain a bare expression delimiter, even
           # inside a shell comment: Actions expands those before bash ever sees
           # the script, and an empty one fails the whole workflow to parse.
-          case "${MODE:-publish}" in
-            dry-run)       node scripts/social-post.mjs ;;
-            check-account) node scripts/social-post.mjs --check ;;
-            publish)       node scripts/social-post.mjs --live ;;
+          MODE="${MODE:-watch}"
+
+          case "$MODE" in
+            dry-run)       exec node scripts/social-post.mjs ;;
+            check-account) exec node scripts/social-post.mjs --check ;;
+            publish|watch) ;;
             *) echo "::error::unknown mode '$MODE'"; exit 1 ;;
           esac
 
-      - name: Record the post
-        # RECORD_* is set by the poster, and only after Instagram has actually
-        # published. No publish, nothing to record, step skipped.
-        if: env.RECORD_ID != ''
-        run: |
           git config user.name  "vellum-social[bot]"
           git config user.email "vellum-social@users.noreply.github.com"
 
+          export SOCIAL_RECORD_FILE="$RUNNER_TEMP/record.env"
+          rm -f "$SOCIAL_RECORD_FILE"
+
+          # Re-applies a publish onto whatever main looks like now.
+          #
           # Losing this write is the worst outcome in the pipeline: the post is
           # already public, and a queue.json that still says pending makes the
-          # next hourly run publish it again.
-          #
-          # So each attempt starts from a clean origin/main and re-applies the
-          # two fields there, rather than replaying a commit built against the
-          # tree as it looked when this run started. Nothing is ever rebased, so
+          # next pass publish it again. Each attempt starts from a clean fetch
+          # and re-applies only the two fields, so nothing is ever rebased and
           # nothing can conflict — and a human commit that landed mid-run is
           # kept rather than clobbered by a stale copy of the whole file.
-          # The shell is `bash -e`, so a bare failing command ends the step
-          # immediately — which would skip the ::error:: below, the one line
-          # that says a public post went unrecorded. Everything that can fail
-          # transiently carries its own retry instead.
-          for attempt in 1 2 3; do
-            # FETCH_HEAD, not origin/main: it is exactly what was just fetched,
-            # with no dependence on whether the configured refspec happened to
-            # update the remote-tracking ref. On a retry that distinction is the
-            # difference between landing on the commit that rejected us and
-            # landing on the one that caused the rejection.
-            git fetch --quiet origin main || { echo "fetch failed on attempt $attempt"; sleep 5; continue; }
-            git reset --quiet --hard FETCH_HEAD || { echo "reset failed on attempt $attempt"; sleep 5; continue; }
+          record() {
+            local attempt
+            for attempt in 1 2 3; do
+              git fetch --quiet origin main || { echo "fetch failed ($attempt)"; sleep 5; continue; }
+              git reset --quiet --hard FETCH_HEAD || { echo "reset failed ($attempt)"; sleep 5; continue; }
 
-            node -e '
-              const fs = require("node:fs");
-              const file = "social/queue.json";
-              const queue = JSON.parse(fs.readFileSync(file, "utf8"));
-              const post = queue.posts.find((p) => p.id === process.env.RECORD_ID);
-              if (!post) {
-                console.log(`::error::${process.env.RECORD_ID} is not in queue.json on main`);
-                process.exit(1);
-              }
-              if (post.postedAt) process.exit(3);
-              post.postedAt = process.env.RECORD_POSTED_AT;
-              post.mediaId = process.env.RECORD_MEDIA_ID;
-              fs.writeFileSync(file, `${JSON.stringify(queue, null, 2)}\n`);
-            ' && rc=0 || rc=$?
-            if [ "$rc" = "3" ]; then
-              echo "$RECORD_ID is already recorded on main — nothing to do"
-              exit 0
+              node -e '
+                const fs = require("node:fs");
+                const file = "social/queue.json";
+                const queue = JSON.parse(fs.readFileSync(file, "utf8"));
+                const post = queue.posts.find((p) => p.id === process.env.RECORD_ID);
+                if (!post) {
+                  console.log(`::error::${process.env.RECORD_ID} is not in queue.json on main`);
+                  process.exit(1);
+                }
+                if (post.postedAt) process.exit(3);
+                post.postedAt = process.env.RECORD_POSTED_AT;
+                post.mediaId = process.env.RECORD_MEDIA_ID;
+                fs.writeFileSync(file, `${JSON.stringify(queue, null, 2)}\n`);
+              ' && rc=0 || rc=$?
+
+              if [ "$rc" = "3" ]; then
+                echo "$RECORD_ID is already recorded on main — nothing to do"
+                return 0
+              fi
+              [ "$rc" = "0" ] || return 1
+
+              git add social/queue.json || continue
+              git commit --quiet -m "social: record published post"
+              git push && return 0
+
+              echo "push attempt $attempt was rejected — refetching and re-applying"
+              sleep 5
+            done
+            echo "::error::published $RECORD_ID to Instagram but could not record it in social/queue.json. The next pass will find it already on the account and repair the record, but check that it does."
+            return 1
+          }
+
+          # The poster writes a step summary on every pass. Thirty of those would
+          # bury the one that matters, so each pass writes to a scratch file and
+          # only a publish, a failure, or the final state is promoted into the
+          # run's real summary.
+          REAL_SUMMARY="${GITHUB_STEP_SUMMARY:-/dev/null}"
+          export GITHUB_STEP_SUMMARY="$RUNNER_TEMP/pass-summary.md"
+
+          DEADLINE=$(( $(date +%s) + WATCH_SECONDS ))
+          # publish mode is one pass and out; watch mode runs the window.
+          if [ "$MODE" = "publish" ]; then DEADLINE=0; fi
+
+          pass=0
+          failures=0
+          published=0
+
+          while :; do
+            pass=$(( pass + 1 ))
+            echo "── pass $pass at $(date -u '+%H:%M:%SZ') ──"
+            : > "$GITHUB_STEP_SUMMARY"
+            promoted=0
+
+            # Start each pass from main so a caption committed by a person
+            # mid-watch is picked up without waiting for the next firing.
+            git fetch --quiet origin main && git reset --quiet --hard FETCH_HEAD || true
+
+            if node scripts/social-post.mjs --live; then
+              pass_rc=0
+              failures=0
+            else
+              pass_rc=$?
+              failures=$(( failures + 1 ))
+              echo "::warning::pass $pass could not publish ($failures in a row) — see the log above"
+              cat "$GITHUB_STEP_SUMMARY" >> "$REAL_SUMMARY"
+              promoted=1
             fi
-            [ "$rc" = "0" ] || exit 1
 
-            git add social/queue.json || { echo "add failed on attempt $attempt"; sleep 5; continue; }
-            git commit --quiet -m "social: record published post"
-            git push && exit 0
+            if [ -f "$SOCIAL_RECORD_FILE" ]; then
+              if [ "$promoted" = 0 ]; then cat "$GITHUB_STEP_SUMMARY" >> "$REAL_SUMMARY"; promoted=1; fi
+              set -a; . "$SOCIAL_RECORD_FILE"; set +a
+              rm -f "$SOCIAL_RECORD_FILE"
+              record || exit 1
+              unset RECORD_ID RECORD_MEDIA_ID RECORD_POSTED_AT
+              published=$(( published + 1 ))
+            fi
 
-            echo "push attempt $attempt was rejected — refetching and re-applying"
-            sleep 5
+            # Three in a row is a real problem rather than a blip. End the run
+            # red so it is visible, and let the next firing start a clean one.
+            if [ "$failures" -ge 3 ]; then
+              echo "::error::three consecutive passes failed — stopping this watcher"
+              exit 1
+            fi
+
+            if [ "$(date +%s)" -ge "$DEADLINE" ]; then break; fi
+            sleep "$PASS_INTERVAL"
           done
 
-          echo "::error::published $RECORD_ID to Instagram but could not record it in social/queue.json. The next run will find it already on the account and repair the record, but check that it does."
-          exit 1
+          # Whatever the last pass concluded is the state the run ended in — worth
+          # reading, unless that pass already promoted itself for publishing or
+          # failing, in which case saying it twice is just noise.
+          if [ "$promoted" = 0 ]; then cat "$GITHUB_STEP_SUMMARY" >> "$REAL_SUMMARY"; fi
+          printf '\n---\n\n_%s passes over this window, %s published._\n' "$pass" "$published" >> "$REAL_SUMMARY"
+
+          # A one-shot publish reports its own outcome: somebody pressed the
+          # button and wants to know whether it worked. A watcher does not — a
+          # single transient failure mid-window is what the three-in-a-row rule
+          # above is for, and turning the whole window red for one bad pass
+          # would hide the passes that worked.
+          if [ "$MODE" = "publish" ]; then exit "$pass_rc"; fi
+
+          echo "watch window finished after $pass passes"

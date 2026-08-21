@@ -277,14 +277,20 @@ function warn(message) {
  * rather than pushing this whole file over the top of it: this copy of
  * queue.json was read before the run started, and a human commit that landed
  * meanwhile must not be clobbered by it.
+ *
+ * SOCIAL_RECORD_FILE rather than GITHUB_ENV when the caller is a loop inside a
+ * single step: GITHUB_ENV is read once, between steps, so a second publish in
+ * the same step would never be seen. A file the loop deletes after reading it
+ * works for every pass.
  */
 function recordPublished(queue, post, mediaId, postedAt = new Date().toISOString()) {
   post.postedAt = postedAt;
   post.mediaId = mediaId;
   writeQueue(queue);
-  if (process.env.GITHUB_ENV) {
+  const sink = process.env.SOCIAL_RECORD_FILE ?? process.env.GITHUB_ENV;
+  if (sink) {
     appendFileSync(
-      process.env.GITHUB_ENV,
+      sink,
       `RECORD_ID=${post.id}\nRECORD_MEDIA_ID=${post.mediaId}\nRECORD_POSTED_AT=${post.postedAt}\n`
     );
   }
