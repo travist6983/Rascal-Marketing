@@ -89,23 +89,39 @@ paragraph.
 
 ### 4. The schedule
 
-**The schedule is on.** `.github/workflows/social-post.yml` looks **every ten
-minutes** — at :03, :13, :23, :33, :43 and :53 — and publishes whatever is due,
-at most one post per run. To stop it, comment its `schedule` block back out.
-That is the entire switch, in both directions.
+**The schedule is on, and it is a watcher rather than a series of checks.**
+Hourly at :17, `.github/workflows/social-post.yml` starts a job that then checks
+the queue **every ten minutes for five hours**, from inside a single step. To
+stop it, comment its `schedule` block back out. That is the entire switch, in
+both directions.
 
-**Looking often is not posting often.** GitHub's scheduler is best-effort, and
-that is not theoretical here: the first `:05` firing after the schedule went
-live never happened at all, and a `:37` firing arrived 21 minutes late. The
-answer is not a cleverer minute, it is more chances — six an hour, none of them
-round, so five can be dropped and the queue still moves on time.
+**Why that shape, and not a frequent cron.** GitHub's scheduler could not be
+relied on to start anything on time. Measured here on 2026-08-20, not assumed:
 
-That is only safe because the posting rate is held somewhere else: `MIN_GAP_MS`
-in `scripts/social-post.mjs` refuses to publish within **55 minutes** of the
-last publish, and says so on a green run. Raising the cron frequency cannot
-raise the posting rate; only lowering `MIN_GAP_MS` can. In steady state — the
-queue's closest slots are two hours apart — the limiter never has anything to
-say.
+| Cron asked for | What GitHub delivered |
+|---|---|
+| `5 * * * *` | the first firing never happened at all |
+| `7,37 * * * *` | two firings, 21 and 26 minutes late |
+| `3,13,23,33,43,53 * * * *` | one firing, then nothing for 71 minutes |
+
+The Actions status page read operational throughout and push-triggered workflows
+ran normally, so the schedule was simply being dropped — and asking *more* often
+appeared to make it worse, not better. So the workflow stopped needing many
+firings. A job may run for six hours; this one watches for five. A scheduler
+that drops four firings in a row now costs nothing, because a watcher is already
+running when they are dropped.
+
+The hourly cron is only a **starter**. If a watcher is already going, the
+concurrency group holds the new firing until it finishes and then runs it, so
+coverage continues across the handover; if none is going, the next firing to
+survive starts one.
+
+**Looking often is still not posting often.** The rate lives in the poster, not
+the cron: `MIN_GAP_MS` in `scripts/social-post.mjs` refuses to publish within
+**55 minutes** of the last publish, and says so on a green pass. Checking more
+often cannot raise the posting rate; only lowering `MIN_GAP_MS` can. In steady
+state — the queue's closest slots are two hours apart — the limiter never has
+anything to say.
 
 A manual run is **Actions → Post to Instagram → Run workflow**, and it asks
 which of three things you want:
@@ -113,7 +129,8 @@ which of three things you want:
 | Mode | What it does |
 |---|---|
 | `dry-run` *(default)* | Resolves the next due post and prints its image URL, alt text and caption. Publishes nothing. The fastest way to confirm the secrets and the image URL are right. |
-| `publish` | Posts the next due card for real. |
+| `publish` | Posts the next due card for real, once, then exits. |
+| `watch` | What the schedule runs: publishes what comes due over the next five hours. |
 | `check-account` | Asks Instagram which account the credentials belong to and lists its last ten posts, with permalinks. Publishes nothing. |
 
 `check-account` is the one to reach for when a run says it published and you
@@ -218,7 +235,7 @@ poster that fires an hour early twice a year is worse than one that asks you to
 convert once. Pick your slot in UTC and write it down.
 
 **GitHub's cron is approximate.** Scheduled runs are best-effort and are
-routinely late under load. That's why the workflow runs every ten minutes and asks "is
+routinely late under load. That's why one run watches for five hours and asks "is
 anything due?" rather than firing once at an exact time — the real schedule
 lives in `queue.json`, where you can read it.
 
@@ -238,7 +255,7 @@ lives in `queue.json`, where you can read it.
 | `scripts/social-queue.mjs` | Adds posts to the queue |
 | `scripts/social-caption.mjs` | Writes captions with Claude |
 | `scripts/social-post.mjs` | Publishes the next due post |
-| `.github/workflows/social-post.yml` | The schedule — every ten minutes |
+| `.github/workflows/social-post.yml` | The schedule — a five-hour watcher, started hourly |
 
 ### A queue entry
 
