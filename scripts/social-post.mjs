@@ -211,28 +211,70 @@ async function checkAccount() {
 }
 
 /**
- * Has this card already gone out, whatever social/queue.json believes?
+ * The account's most recent posts, whoever made them.
  *
- * `postedAt` is written **after** Instagram has published, and only becomes
- * durable once the workflow's commit reaches main. Publish succeeds, push
- * fails, and the queue still reads pending — so the next hourly run sends the
- * same card again. A duplicate on a public feed is the one failure in this
- * pipeline that strangers see and that nothing here can undo, so the question
- * gets asked of Instagram rather than of the file.
- *
- * Matched on the caption's first line, which is distinctive prose rather than a
- * template, and only when it is long enough to be distinctive at all.
+ * Fetched once and used for two different questions — how long ago anything
+ * went out, and whether this particular card is already up — because the
+ * account is shared and both answers have to come from Instagram rather than
+ * from this repo's own file.
  */
-async function findPublished(post) {
-  const line = (post.caption ?? '').trim().split('\n')[0].trim();
-  if (line.length < 25) return null;
+async function recentMedia() {
   const recent = await graphGet(`${CONFIG.igUserId}/media`, {
     fields: 'id,caption,timestamp,permalink',
     limit: '25'
   });
+  return recent.data ?? [];
+}
+
+/**
+ * Has this card already gone out, whatever social/queue.json believes?
+ *
+ * `postedAt` is written **after** Instagram has published, and only becomes
+ * durable once the workflow's commit reaches main. Publish succeeds, push
+ * fails, and the queue still reads pending — so the next run sends the same
+ * card again. A duplicate on a public feed is the one failure in this pipeline
+ * that strangers see and that nothing here can undo, so the question gets asked
+ * of Instagram rather than of the file.
+ *
+ * Matched on the caption's first line, which is distinctive prose rather than a
+ * template, and only when it is long enough to be distinctive at all. Media
+ * already recorded against some other queue entry are skipped: that one is
+ * accounted for, so a match on it is a collision rather than a discovery.
+ *
+ * The match stays deliberately loose. On a shared account a false positive
+ * records someone else's media id against this card and the card never goes
+ * out — bad, but visible in the queue and recoverable. A false negative posts a
+ * duplicate to a public feed, which is neither. Bias toward matching.
+ */
+function findPublished(media, queue, post) {
+  const line = (post.caption ?? '').trim().split('\n')[0].trim();
+  if (line.length < 25) return null;
+  const spokenFor = new Set(queue.posts.filter((p) => p.mediaId && p.id !== post.id).map((p) => p.mediaId));
   return (
-    (recent.data ?? []).find((m) => (m.caption ?? '').trim().startsWith(line)) ?? null
+    media.find((m) => !spokenFor.has(m.id) && (m.caption ?? '').trim().startsWith(line)) ?? null
   );
+}
+
+/**
+ * When the last post went out — asking Instagram first, this repo second.
+ *
+ * The account is shared with the admin console, which publishes on its own and
+ * writes nothing to social/queue.json. A gap measured from this file alone sees
+ * only this pipeline's own posts, so both posters would honour a 55-minute
+ * spacing and the feed would still get two posts a minute apart.
+ *
+ * The queue's own value is kept as a floor rather than replaced. If the account
+ * cannot be reached, the run must not conclude from that silence that the gap
+ * is wide open — so whichever timestamp is later wins, and a failure to read
+ * the account can only ever make this more cautious, never less.
+ */
+function lastPostAt(media, queue) {
+  const fromQueue = queue.posts.reduce((latest, p) => (p.postedAt > latest ? p.postedAt : latest), '');
+  const fromAccount = media.reduce((latest, m) => {
+    const at = graphTime(m.timestamp);
+    return at > latest ? at : latest;
+  }, '');
+  return fromAccount > fromQueue ? fromAccount : fromQueue;
 }
 
 /* --------------------------------------------------------------------------
@@ -489,14 +531,24 @@ try {
     warn(`only ${pending.length} posts left in the queue — top it up with \`npm run social:queue\``);
   }
 
-  /* How long since the last publish. Measured here so the dry run can mention
-     it, enforced below so it only ever stops a real publish — a dry run is
-     asked "would this post pass", and answering "the rate limiter says wait" is
-     not an answer to that question.
+  /* One read of the account, used for the spacing below and for the duplicate
+     check before publishing. Failing to read it is not fatal — lastPostAt falls
+     back to this repo's own record, and findPublished simply finds nothing,
+     which is the same position this was in before the account was shared. */
+  let media = [];
+  if (CONFIG.igUserId && CONFIG.accessToken) {
+    try {
+      media = await recentMedia();
+    } catch (error) {
+      warn(`could not read the account's recent posts (${error.message}) — falling back to this repo's own record for spacing`);
+    }
+  }
 
-     ISO timestamps sort lexicographically, so the largest string is the most
-     recent publish; unpublished entries hold null and never win the compare. */
-  const lastPostedAt = queue.posts.reduce((latest, p) => (p.postedAt > latest ? p.postedAt : latest), '');
+  /* How long since the last publish, by anyone. Measured here so the dry run
+     can mention it, enforced below so it only ever stops a real publish — a dry
+     run is asked "would this post pass", and answering "the rate limiter says
+     wait" is not an answer to that question. */
+  const lastPostedAt = lastPostAt(media, queue);
   const sinceLastMs = lastPostedAt ? Date.now() - new Date(lastPostedAt).getTime() : Infinity;
   const holding = !opts.force && sinceLastMs < MIN_GAP_MS;
   const sinceMin = Math.round(sinceLastMs / 60000);
@@ -553,7 +605,7 @@ try {
      would post it a second time. Finding it already up repairs the record
      instead — the run goes green, and the next one moves on. */
   process.stderr.write('  checking it is not already up … ');
-  const existing = await findPublished(post);
+  const existing = findPublished(media, queue, post);
   if (existing) {
     process.stderr.write(`found\n`);
     recordPublished(queue, post, existing.id, graphTime(existing.timestamp));
