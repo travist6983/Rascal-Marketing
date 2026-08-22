@@ -58,7 +58,7 @@ already assumes that.
 
 **The single best asset is `/prompts`.** 133 authored prompts (count generated from the app seed; see scripts/prompts.mjs), published browsable, is a long-tail
 surface of several hundred low-competition parenting queries and the only page here anyone would
-link to unprompted. No competitor publishes theirs; Qeepsake meters them by tier. Every other page
+link to unprompted. No competitor publishes theirs; Qeepsake meters them by tier. (Narrowed Aug 21 2026: we meter the *missions* by tier too now — what still separates us is that the daily **question** is never metered, and that all 133 are published to read either way.) Every other page
 asks for something. That one gives something away, which in this category is the brand argument
 made without saying it.
 
@@ -143,7 +143,7 @@ for an ongoing childhood, not the first six months, and ranking would bring traf
 | `/` | private childhood journal app | `{{PRODUCT}} — a daily prompt journal for your kid's childhood` | H1 stays the emotional line; keyword lives in title + first 100 words |
 | `/how-it-works` | daily prompt journal for parents | `How {{PRODUCT}} works — one prompt a day, saved with context` | Best `HowTo` schema candidate |
 | `/prompts` | questions to ask your 4 year old | `Every question {{PRODUCT}} asks — 133 daily prompts` | **Pillar. Highest long-tail surface on the site** |
-| `/pricing` | *(brand + pricing)* | `{{PRODUCT}} pricing — free forever tier, {{PRICE_YEAR}}/year` | Low organic value, high conversion value |
+| `/pricing` | *(brand + pricing)* | `{{PRODUCT}} pricing — the daily question is always free` | Low organic value, high conversion value |
 | `/promise` | ad free childhood memory app | `Our promise — what happens to your archive \| {{PRODUCT}}` | Natural backlink target |
 | `/compare/tinybeans` | tinybeans alternative | `{{PRODUCT}} vs Tinybeans — a private, ad-free alternative` | Highest-value page on the site |
 | `/compare/qeepsake` | qeepsake alternative | `{{PRODUCT}} vs Qeepsake — prompted journaling compared` | |
@@ -249,8 +249,8 @@ and a wrong number about a competitor is the one mistake that costs credibility 
 | Ad-free | **Yes, structurally** | No — ads on free tier | Inherited conflict via parent co. |
 | Prompt saved with the moment | **Yes, unique** | No | No |
 | Never-delete promise | **Yes** | Free-tier fallback | Read-only fallback |
-| Household pricing | **Yes, one price** | Per-account | Per-account |
-| Free tier | **Prompts uncapped forever**, 100 photos lifetime | ~20 uploads/mo, ads | Prompt volume metered by tier |
+| Household pricing | **Yes, one membership** | Per-account | Per-account |
+| Free tier | **The daily question every day, forever**, unlimited text and voice, 100 photos lifetime, full export | ~20 uploads/mo, ads | Prompt volume metered by tier |
 | Paid price | {{PRICE_YEAR}}/yr, {{PRICE_MONTH}}/mo | $74.99/yr or $7.99/mo | Tiered by prompt volume |
 | Export | Full, free, always, offline HTML viewer | Limited | Limited |
 | Platform | iPhone only | iOS + Android + web | SMS + iOS + Android |

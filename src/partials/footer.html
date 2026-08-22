@@ -73,14 +73,13 @@
         <a href="/promise">The promise</a>
         <a href="/waitlist">{{CTA}}</a>
       </div>
-      <div class="foot__col">
-        <h2 class="foot__head">Elsewhere</h2>
-        <a href="{{SOCIAL_INSTAGRAM}}" rel="noopener">Instagram</a>
-        <a href="{{SOCIAL_FACEBOOK}}" rel="noopener">Facebook</a>
-        <a href="{{SOCIAL_X}}" rel="noopener">X</a>
-        <a href="{{SOCIAL_TIKTOK}}" rel="noopener">TikTok</a>
-        <a href="{{SOCIAL_PINTEREST}}" rel="noopener">Pinterest</a>
-      </div>
+      <!-- No Elsewhere column, removed Aug 21 2026. Its five links read
+           Instagram / Facebook / X / TikTok / Pinterest and their hrefs were
+           the bare platform domains — somebody else's home page wearing our
+           label. Four of those accounts do not exist; the Instagram one does,
+           and its handle is recorded nowhere in this repository (the publisher
+           addresses it by numeric id). Restoring it needs one verified profile
+           URL — site-content.md's "Footer social column" has the full note. -->
       <div class="foot__col">
         <h2 class="foot__head">Small print</h2>
         <a href="/privacy">Privacy</a>
@@ -89,9 +88,17 @@
       </div>
     </div>
 
+    <!-- This sentence used to end "no third-party requests on this site", and that
+         was false on the two pages carrying the signup form: site.js loads
+         Cloudflare Turnstile from challenges.cloudflare.com the moment a site key
+         is configured, which it now is. Corrected Aug 21 2026 rather than deleted,
+         because the claim is nearly all true and the exception is one anti-spam
+         check with nothing to consent to — but a site that sells itself on not
+         tracking anybody cannot be approximately right about this. -->
     <p class="foot__fine">
-      No cookies, no analytics, no third-party requests on this site. Nothing to consent to,
-      which is why there is no banner asking you to.
+      No cookies, no analytics, no tracking. The only thing loaded from anywhere else is the
+      anti-spam check on the email form, and it sets nothing — which is why there is still no
+      banner asking you to consent to anything.
     </p>
   </div>
 </footer>

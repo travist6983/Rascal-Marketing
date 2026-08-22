@@ -1,6 +1,6 @@
 <!--page
 title: {{PRODUCT}} — a daily prompt journal for your kid's childhood
-description: One question and one small mission a day. Every moment is saved with the prompt that caused it, so you can still find it in twenty years. No streaks, no ads.
+description: A question about your kid every day, free forever, and a mission with membership. Every moment is saved with the prompt that caused it. No streaks, no ads.
 og: /assets/og/home.png
 class: home
 -->
@@ -21,7 +21,7 @@ class: home
     { "@type": "Question", "name": "What if I miss days?",
       "acceptedAnswer": { "@type": "Answer", "text": "Nothing happens. That's the point." } },
     { "@type": "Question", "name": "Can my partner use it too?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, on the same archive. One subscription covers everyone in the household." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, on the same archive. The second parent is part of membership, and one membership covers everyone in the household — every kid, both of you." } },
     { "@type": "Question", "name": "Do I have to use it for eighteen years for it to be worth anything?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. A hundred entries is already a thing your kid doesn't have. There's no threshold." } },
     { "@type": "Question", "name": "What happens to it when they grow up?",
@@ -51,10 +51,11 @@ class: home
         <h1>Your camera roll remembers what they looked&nbsp;like. {{PRODUCT}} remembers what they <em class="accent" style="font-style:normal">were</em> like.</h1>
 
         <p class="lede">
-          One question and one small mission a day. Answer it in fifteen seconds, or skip it —
-          nothing keeps score. {{PRODUCT}} is a private childhood journal app that grows into a whole
-          archive: every moment is filed with the prompt that caused it, so in 2040 you can search
-          <em>“what he was afraid of”</em> and actually find something.
+A question about your kid every day, free forever, and a mission to go with it. Answer in
+          fifteen seconds, or skip it — nothing keeps score. {{PRODUCT}} is a private childhood
+          journal app that grows into a whole archive: every moment is filed with the prompt that
+          caused it, so in 2040 you can search <em>“what he was afraid of”</em> and actually find
+          something.
         </p>
 
         <div class="ctarow">
@@ -181,16 +182,17 @@ class: home
     <!-- The three things, spelled out -->
     <div class="grid-auto grid-auto--wide">
       <div class="card stack gap-12" data-reveal>
-        <span class="chip chip--peri">One question</span>
+        <span class="chip chip--peri">One question · free forever</span>
         <h3 class="t-card">Something you'd never think to write down</h3>
-        <p class="t-body muted"><em>What is he pretending to be this week?</em> Answer it in a sentence.</p>
+        <p class="t-body muted"><em>What is he pretending to be this week?</em> Answer it in a sentence. This is the half that arrives every day whether you pay or not.</p>
       </div>
       <div class="card stack gap-12" data-reveal style="--reveal-delay:60ms">
-        <span class="chip chip--terra">One mission</span>
+        <span class="chip chip--terra">One mission · with membership</span>
         <h3 class="t-card">Sometimes there's nothing to upload</h3>
         <p class="t-body muted">
           Take a photo, shoot ten seconds of video, record their voice, or just go do something —
           get on the floor for ten minutes. Some missions produce a file. Some don't. Both count.
+          One on a weekday, two at the weekend.
         </p>
       </div>
       <div class="card stack gap-12" data-reveal style="--reveal-delay:120ms">
@@ -447,9 +449,11 @@ class: home
           <hr class="rule--accent" data-rule-grow>
           <h3 class="t-card">We have never deleted a word a parent wrote</h3>
           <p class="t-body muted">
-            If you stop paying, {{PRODUCT}} drops to the free tier. <strong>Nothing is locked.</strong>
-            Your whole archive stays readable. You keep answering the daily question — text and did-it
-            entries never stop. New photo and video uploads pause. After ninety days, original photos
+            If you stop paying, {{PRODUCT}} drops to the free tier. <strong>Nothing you wrote or
+            captured is ever locked behind payment.</strong> Your whole archive stays readable,
+            searchable and exportable. You keep answering the daily question — text and did-it entries
+            never stop. The missions go back to being part of membership, and new photo and video
+            uploads pause. After ninety days, original photos
             move to cheaper cold storage: thumbnails stay instant, search still works, and pulling a
             full-resolution original back takes about an hour. That's a property of the storage, not a
             penalty.
@@ -520,26 +524,31 @@ class: home
     </div>
 
     <div class="stack gap-24 center" style="align-items:center" id="pricing-block">
-      <h2 class="t-section measure" style="max-width:20em">Free to start. Here's what it costs when you outgrow it.</h2>
+      <h2 class="t-section measure" style="max-width:20em">The daily question is always free. Here's what the rest of the day costs.</h2>
       <div class="grid-auto" style="max-width:820px;width:100%;text-align:left">
         <div class="card card--tap stack gap-12" data-reveal>
           <p class="t-label">Free — not a trial</p>
           <p class="num" style="font:700 34px var(--display)">$0</p>
           <p class="t-body muted">
-            Every question and every mission, forever, uncapped. Unlimited written and did-it entries.
-            Voice recordings up to two minutes. <strong>{{FREE_PHOTOS}} photos, lifetime</strong> —
-            that's the line, and it's the only one.
+            A question about your kid every day, forever. Unlimited written and did-it entries.
+            Voice recordings up to two minutes. <strong>{{FREE_PHOTOS}} photos, lifetime</strong>.
+            Search and a full export, always.
           </p>
         </div>
         <div class="card card--tap stack gap-12" data-reveal style="--reveal-delay:60ms">
-          <p class="t-label accent">{{PRODUCT}} Plus</p>
+          <p class="t-label accent">Membership</p>
           <p class="num" style="font:700 34px var(--display)">{{PRICE_YEAR}}<span style="font:400 17px var(--text);color:var(--ink-muted)">/year</span></p>
           <p class="t-body muted">
-            Two months free versus monthly — or {{PRICE_MONTH}} a month. One price covers the whole
-            household: every kid, both parents. {{TRIAL_DAYS}} days free first.
+            Two months free versus monthly — or {{PRICE_MONTH}} a month. Adds the missions, video,
+            photos without a limit and the second parent. One membership covers the whole household:
+            every kid, both parents. Everything open for {{TRIAL}} first — no card, nothing to cancel.
           </p>
         </div>
       </div>
+      <p class="t-body measure" style="max-width:34em">
+        <strong>Nothing you write or capture is ever locked behind payment.</strong> Membership buys
+        more of the day — never access to your own archive.
+      </p>
       <a class="btn btn--quiet" href="/pricing">See what's in each tier →</a>
       <p class="t-meta measure">
         <em>Ships with the App Store launch. Waitlist members will hear the price before it goes live,
@@ -575,7 +584,7 @@ class: home
         </details>
         <details class="faq__item">
           <summary class="faq__q">Can my partner use it too?</summary>
-          <div class="faq__a"><p>Yes, on the same archive. One subscription covers everyone in the household.</p></div>
+          <div class="faq__a"><p>Yes, on the same archive. The second parent is part of membership, and one membership covers everyone in the household — every kid, both of you.</p></div>
         </details>
         <details class="faq__item">
           <summary class="faq__q">Do I have to use it for eighteen years for it to be worth anything?</summary>
