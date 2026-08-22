@@ -401,6 +401,30 @@ for (const rel of ['pricing/index.html', 'pricing.md']) {
   }
 }
 
+/* ------------------------------------------- the two links the app follows */
+/* The iOS paywall renders Terms and Privacy from build variables TERMS_URL and
+   PRIVACY_URL, which must be exactly these two routes. It is a cross-repository
+   dependency that fails SILENTLY in both directions: the app refuses to render a
+   link with no host, but it will happily render one pointing at a 404, so a
+   rename here leaves an App Review reviewer following a dead link and nothing on
+   either side goes red. Missing Terms/Privacy on a subscription paywall is a
+   rejection under guideline 3.1.2(c). Three lines to make a rename loud.
+   The finding, and the values, are in Project-Rascal's
+   docs/design/design-conformance-110.md §7.4. */
+for (const route of ['terms', 'privacy']) {
+  let page;
+  try {
+    page = await readFile(join(dist, route, 'index.html'), 'utf8');
+  } catch {
+    fail.push(`/${route} does not exist — the iOS paywall links to it and cannot tell that it 404s`);
+    continue;
+  }
+  if (/name="robots" content="noindex/.test(page))
+    fail.push(`/${route} is noindex — a legal page an App Review reviewer follows must be indexable`);
+  if (origin && !page.includes(`<link rel="canonical" href="${origin}/${route}"`))
+    fail.push(`/${route}: canonical must be exactly ${origin}/${route}, with no trailing slash`);
+}
+
 /* ------------------------------------------------------- markdown twins */
 /* Every page that declares a markdown alternate must ship one; llms.txt must
    exist and every link in it must resolve; the twins must be actual markdown —
