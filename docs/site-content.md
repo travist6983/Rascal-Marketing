@@ -479,9 +479,9 @@ email. No competitor publishes theirs — Qeepsake meters them by tier. (Narrowe
 missions are metered by tier here too now. What still separates the page is that the daily
 **question** is never metered, and that all 133 are published to read either way.)
 
-- **Title:** `Every question {{PRODUCT}} asks — 133 daily prompts` (52)
+- **Title:** `Every prompt {{PRODUCT}} asks — 133 of them, free to read` (55)
 - **Meta:** `All 133 questions and missions, free to read. Filter by age and type — voice, photo, activity, or just something worth writing down.` (135)
-- **H1:** Every question {{PRODUCT}} asks
+- **H1:** Every prompt {{PRODUCT}} asks — *prompt*, not *question*: 30 of the 133 are questions and the page says so directly below, so the heading cannot call all 133 questions
 
 **Intro:**
 

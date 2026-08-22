@@ -142,7 +142,7 @@ for an ongoing childhood, not the first six months, and ranking would bring traf
 |---|---|---|---|
 | `/` | private childhood journal app | `{{PRODUCT}} — a daily prompt journal for your kid's childhood` | H1 stays the emotional line; keyword lives in title + first 100 words |
 | `/how-it-works` | daily prompt journal for parents | `How {{PRODUCT}} works — one prompt a day, saved with context` | Best `HowTo` schema candidate |
-| `/prompts` | questions to ask your 4 year old | `Every question {{PRODUCT}} asks — 133 daily prompts` | **Pillar. Highest long-tail surface on the site** |
+| `/prompts` | questions to ask your 4 year old | `Every prompt {{PRODUCT}} asks — 133 of them, free to read` | **Pillar. Highest long-tail surface on the site.** The title says *prompt* rather than *question* as of Aug 21 2026: only 30 of the 133 are questions, and the page now says so eight lines under its own H1. The long-tail phrase is unaffected — it is carried by the H2 *"The same questions to ask your 4 year old still work at nine"*, which is where it always did the work |
 | `/pricing` | *(brand + pricing)* | `{{PRODUCT}} pricing — the daily question is always free` | Low organic value, high conversion value |
 | `/promise` | ad free childhood memory app | `Our promise — what happens to your archive \| {{PRODUCT}}` | Natural backlink target |
 | `/compare/tinybeans` | tinybeans alternative | `{{PRODUCT}} vs Tinybeans — a private, ad-free alternative` | Highest-value page on the site |

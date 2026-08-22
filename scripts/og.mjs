@@ -38,7 +38,7 @@ const CARDS = [
   ['default.png', '', 'One question a day. A childhood you can find again.', 'find'],
   ['home.png', 'No streaks · no ads', 'A question about your kid, every day, free.', 'every day, free'],
   ['how-it-works.png', 'How it works', 'Answer it in fifteen seconds. It files itself.', 'files'],
-  ['prompts.png', 'The library', '133 prompts worth using on your kid. 30 are free forever.', '30 are free forever'],
+  ['prompts.png', 'The library', 'Every prompt, published. Read them before you sign up for anything.', 'published'],
   ['pricing.png', 'Pricing', "Free isn't a trial that runs out.", 'Free'],
   ['promise.png', 'The promise', 'Text is never deleted. Not ever.', 'never'],
   ['faq.png', 'FAQ', 'Questions, answered plainly.', 'plainly'],
