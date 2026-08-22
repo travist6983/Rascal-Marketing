@@ -51,6 +51,10 @@ Hard rules:
   reader is failing or running out of time. No guilt, no urgency, no FOMO.
 - Don't describe the card image or say "this prompt" — the image is right there.
 - Don't say "Vellum" more than once, and only if it earns the space.
+- Never say what is free. The free tier is the daily question only; the missions
+  are part of membership, and most cards in this queue are missions. A caption
+  that says "free" about the card it sits under will usually be wrong, and it is
+  wrong in public and permanently.
 `.trim();
 
 const TASK = `

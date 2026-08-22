@@ -381,3 +381,12 @@ if (String(all.length) !== String(config.PROMPT_COUNT)) {
   console.log(`  ! PROMPT_COUNT is ${config.PROMPT_COUNT} in site.config.json but the library has ${all.length} — update it`);
   process.exitCode = 1;
 }
+/* The question count is a separate token because the free tier is the questions
+   and nothing else, so /prompts states how many of the published prompts a free
+   account actually receives. Guarded here rather than trusted, for the same
+   reason PROMPT_COUNT is: both are hand-written in site.config.json and the
+   library is generated, so only this script can tell they still agree. */
+if (String(kindCounts.question ?? 0) !== String(config.QUESTION_COUNT)) {
+  console.log(`  ! QUESTION_COUNT is ${config.QUESTION_COUNT} in site.config.json but the library has ${kindCounts.question ?? 0} — update it`);
+  process.exitCode = 1;
+}

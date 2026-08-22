@@ -1,7 +1,9 @@
 /* ============================================================================
    {{PRODUCT}} — marketing site behaviour
    ----------------------------------------------------------------------------
-   One file, no dependencies, no analytics, no third-party requests. Everything
+   One file, no dependencies, no analytics, and no third-party request except
+   Cloudflare Turnstile on the signup form (section 9), loaded only when a site
+   key is configured. Everything
    here is an enhancement over markup that is already complete and already
    readable: turn this file off and every page still says everything it says.
 

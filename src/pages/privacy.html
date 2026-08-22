@@ -27,8 +27,9 @@ og: /assets/og/default.png
       <h2>What this site collects</h2>
       <p>
         Nothing, until you decide to <a href="/waitlist">join the waitlist</a>. If you do, the
-        form sends your email address, and which page you were on when you typed it. That is the
-        entire request body — you can watch it leave in your browser's network tab.
+        form sends your email address, which page you were on when you typed it, and the token
+        the anti-spam check hands back. Three fields, and that is the entire request body — you
+        can watch it leave in your browser's network tab.
       </p>
       <p>
         There is one hidden field in that form, and it is not a tracker: it's an empty box that a
@@ -45,10 +46,12 @@ og: /assets/og/default.png
         on the pages that carry the signup form — usually you'll never see it do anything.
       </p>
       <p>
-        <strong>Right now it doesn't load at all.</strong> Signups aren't open yet, so the form is
-        switched off, and until it's on there is no third-party code running on this site
-        whatsoever. Both halves of that are checkable in your browser's network tab, which is
-        why they're written down separately.
+        <strong>It is loading now.</strong> This paragraph used to say the opposite — that signups
+        weren't open, so nothing third-party ran here at all — and that stopped being true the day
+        the check was switched on. It is corrected rather than deleted, because this is the page
+        that invites you to open your network tab and check, and a page that does that has to be
+        right. What you will see there: a request to <code>challenges.cloudflare.com</code> on the
+        two pages carrying the form, and nothing third-party on any other page.
       </p>
       <p>
         We chose it because it is the version of this that doesn't track you: it sets no
