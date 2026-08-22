@@ -34,10 +34,32 @@
   "DOMAIN": "getvellumapp.com",
   "ORIGIN": "https://getvellumapp.com",
 
-  "PRICE_YEAR": "$59.99",
-  "PRICE_MONTH": "$5.99",
+  "PRICE_YEAR_NUM": "59.99",
+  "PRICE_MONTH_NUM": "5.99",
+  "PRICE_YEAR": "${{PRICE_YEAR_NUM}}",
+  "PRICE_MONTH": "${{PRICE_MONTH_NUM}}",
+
+  "_price_note": [
+    "The bare numbers are the source and the display strings are derived, so a",
+    "price change is still one edit. Added Aug 21 2026 because layout.html's",
+    "SoftwareApplication JSON-LD carried a hardcoded \"price\": \"59.99\" -- schema.org",
+    "wants a number with no currency symbol, so the display token could not be",
+    "used there and somebody typed the figure instead. It agreed with PRICE_YEAR",
+    "at the time, which is the whole problem with a second copy: it is right",
+    "until the day it is silently wrong, in machine-readable data on every page."
+  ],
   "FREE_PHOTOS": "100",
-  "TRIAL_DAYS": "Fourteen",
+  "TRIAL": "two weeks",
+
+  "_trial_note": [
+    "Was TRIAL_DAYS = 'Fourteen', rendered as 'Fourteen days free'. Replaced",
+    "Aug 21 2026 with the trial's own phrasing, because the sharp fact about it",
+    "is not its length -- it is that there is no card and therefore nothing to",
+    "cancel, and 'two weeks' is the wording the owner-approved app copy uses for",
+    "the same screen. Lowercase on purpose: it reads mid-sentence everywhere it",
+    "appears, so no page starts a sentence with it."
+  ],
+
 
   "CTA": "Get tomorrow's prompt",
   "CTA_SUPPORT": "One a day, by email. A note when it opens and when the price goes live. Nothing else.",
@@ -50,22 +72,40 @@
   ],
 
   "_social_note": [
-    "Placeholders on purpose. No account exists yet, so each link points at the",
-    "bare platform rather than a handle we'd have to invent. Swap in the real",
-    "profile URLs here and the footer follows -- they appear nowhere else in the",
-    "markup. Until they are real, they stay out of the Organization sameAs in",
-    "layout.html: a footer link a reader can shrug at is not the same as telling",
-    "a crawler, in machine-readable terms, that instagram.com IS this product."
+    "The five SOCIAL_* profile tokens are gone, Aug 21 2026, and so is the footer",
+    "column that rendered them. They held the bare platform domains -- a link",
+    "labelled Instagram that went to instagram.com is a link to somebody else's",
+    "home page wearing our label, which is worse than no link. The old note here",
+    "said 'no account exists yet' and that is now half wrong: an Instagram",
+    "account does exist and this repository posts to it hourly. What does not",
+    "exist anywhere in this repository is its HANDLE -- social-post.mjs addresses",
+    "it by the numeric IG_USER_ID secret, and a published row records a mediaId",
+    "with no permalink, so nothing here could be read to produce a profile URL.",
+    "Guessing one is exactly the dead link the removal exists to prevent.",
+    "",
+    "To put it back: add one key per REAL account (SOCIAL_INSTAGRAM = the full",
+    "https://www.instagram.com/<handle> URL, verified by opening it), then the",
+    "foot__col block whose removal is commented in src/partials/footer.html.",
+    "One key, one link -- do not restore a platform whose account does not exist.",
+    "They stay out of the Organization sameAs in layout.html until then: a footer",
+    "link a reader can shrug at is not the same as telling a crawler, in",
+    "machine-readable terms, that a profile IS this product."
   ],
-
-  "SOCIAL_INSTAGRAM": "https://instagram.com",
-  "SOCIAL_FACEBOOK": "https://facebook.com",
-  "SOCIAL_X": "https://x.com",
-  "SOCIAL_TIKTOK": "https://tiktok.com",
-  "SOCIAL_PINTEREST": "https://pinterest.com",
 
   "SUPPORT_EMAIL": "hello@{{DOMAIN}}",
   "PROMPT_COUNT": "133",
+  "QUESTION_COUNT": "30",
+
+  "_prompt_count_note": [
+    "Two counts, both checked by scripts/prompts.mjs against the generated",
+    "library, which exits non-zero if either drifts. QUESTION_COUNT is new on",
+    "Aug 21 2026 and exists because the free tier now serves the daily question",
+    "only: the prompts page has to be able to say how many of the published",
+    "prompts a free account actually receives without hardcoding the number in",
+    "markup. The remainder -- PROMPT_COUNT minus QUESTION_COUNT -- is the",
+    "missions, and no page states that difference as its own literal."
+  ],
+
   "VERIFIED_ON": "August 17, 2026",
   "YEAR": "2026"
 }

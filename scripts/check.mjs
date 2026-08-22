@@ -309,6 +309,122 @@ for (const file of files.filter((f) => /\.(html|md|txt|xml)$/.test(f))) {
   if (stale) fail.push(`/${relative(dist, file)}: stale project URL ${stale[0]}`);
 }
 
+/* ------------------------------------------------- the free tier, in words */
+/* On Aug 21 2026 the owner reversed D2 and narrowed D3 in the app repo: the free
+   tier became the daily question only, and the missions became part of
+   membership. "Every question and every mission, forever, uncapped" was true
+   when it was written and false the next morning — and it was not in one place.
+   It was on the home page, on /faq, inside TWO FAQPage JSON-LD blocks, in the
+   /pricing FAQ, in the Qeepsake and Tinybeans comparisons, in the sitewide
+   SoftwareApplication offer in layout.html, in the llms.txt summary this build
+   writes, and baked into the pixels of two committed OG cards.
+
+   Nothing in this file would have failed if any one of them came back. That is
+   the gap this section closes, and it is deliberately a COPY assertion in a
+   suite that otherwise checks structure — because the failure this phase
+   existed to fix was never structural. The page was valid HTML the whole time.
+
+   Run over dist/ rather than src/, because the markdown twins and llms*.txt are
+   generated from the rendered bodies: a correction applied to a page and not
+   rebuilt shows up here and nowhere else. */
+/* Break-tested, eight ways, and the break-test earned its keep on the first
+   run: five of these ten patterns were written with `\b` word boundaries that a
+   generator turned into literal 0x08 bytes, so they matched nothing and would
+   have matched nothing forever. The suite was green either way. Re-introducing
+   the claim was the only thing that could tell the difference — which is the
+   same lesson the app repo wrote down when a listener guard was pinned by two
+   substrings that survived the edit that broke it. If you add a pattern here,
+   break it before you trust it. */
+const TIER_BANNED = [
+  [/every question and every mission/i, 'the free tier is the daily question; the missions are membership'],
+  [/every prompt,? (?:is )?free|all the prompts,? free/i, 'only the daily question is free; 103 of the 133 prompts are missions'],
+  [/free inside the app forever/i, 'true of the daily question, false of the library'],
+  [/that'?s the line,? and it'?s the only one/i, 'photos are no longer the only line — missions, video and the second parent are too'],
+  [/\bnothing is (?:ever )?locked\b/i, 'the promise is narrowed: nothing you WRITE OR CAPTURE is locked. The day is.'],
+  [/\bprompts?(?: volume)?(?: (?:are|is))? never metered\b/i, 'the QUESTION is never metered; the missions are metered by tier now'],
+  [/\b[A-Z][a-z]+ Plus\b/, 'the paid tier is called membership — never Plus, Premium, Pro'],
+  [/\b(?:Premium|Unlock|Upgrade)\b/i, 'banned by the app\'s own copy rules — a person JOINS, they do not upgrade'],
+  [/\bPro\b/, 'banned tier word (Product, Promise and Prompts are fine — this is the bare word)'],
+  [/limited time|only \d+ left|join before|don'?t lose|you'?ve missed/i, 'no urgency, no scarcity, no guilt — anywhere, ever'],
+];
+for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
+  const raw = await readFile(file, 'utf8');
+  /* HTML comments are where a removal explains itself, and an explanation that
+     quotes the banned phrase is the opposite of a regression. Strip them first
+     so the note above a deleted row cannot fail the build the row's deletion
+     was the point of. */
+  const visible = raw.replace(/<!--[\s\S]*?-->/g, '');
+  for (const [re, why] of TIER_BANNED) {
+    const hit = visible.match(re);
+    if (hit) fail.push(`/${relative(dist, file)}: tier copy "${hit[0]}" — ${why}`);
+  }
+}
+
+/* The other half: one sentence that must be PRESENT. D3 as narrowed says the
+   archive is never locked and the day is, and this is that promise in the
+   reader's own words. The phase brief requires it near the table and at least
+   as prominent as the price, so it is asserted on the page and in the twin —
+   a promise that survives in HTML and vanishes from the Markdown an LLM reads
+   has been half-deleted. */
+for (const rel of ['pricing/index.html', 'pricing.md']) {
+  let text;
+  try {
+    text = await readFile(join(dist, rel), 'utf8');
+  } catch {
+    fail.push(`${rel} is missing — /pricing must ship both an HTML page and a Markdown twin`);
+    continue;
+  }
+  if (!/ever locked behind payment/i.test(text))
+    fail.push(`/${rel}: the load-bearing promise is gone — "Nothing you write or capture is ever locked behind payment"`);
+  if (!/membership buys more of the day/i.test(text))
+    fail.push(`/${rel}: the second half of the promise is gone — "Membership buys more of the day — never access to your own archive"`);
+}
+
+/* The pricing table's paid column is named, and the free column is not a row of
+   dashes. free-tier-copy.md rule 6 says the free tier is described positively
+   and first; a table whose free side is all em dashes reads as a punishment
+   list whatever the prose above it says, so the shape is asserted rather than
+   trusted to survive the next edit. */
+{
+  const html = await readFile(join(dist, 'pricing', 'index.html'), 'utf8').catch(() => '');
+  const table = (html.match(/<table class="tbl">[\s\S]*?<\/table>/) || [''])[0];
+  if (!table) fail.push('/pricing: the comparison table is gone');
+  else {
+    if (!/<th scope="col" class="is-ours">Membership<\/th>/.test(table))
+      fail.push('/pricing: the paid column must be headed "Membership"');
+    const freeCells = [...table.matchAll(/<th scope="row">[\s\S]*?<\/th>\s*<td[^>]*>([\s\S]*?)<\/td>/g)]
+      .map((m) => m[1].replace(/<[^>]*>/g, '').trim());
+    const worded = freeCells.filter((c) => c && c !== '—').length;
+    const dashed = freeCells.filter((c) => c === '—').length;
+    if (worded <= dashed)
+      fail.push(`/pricing: the free column is ${worded} entries against ${dashed} em dashes — it reads as a punishment list`);
+  }
+}
+
+/* ------------------------------------------- the two links the app follows */
+/* The iOS paywall renders Terms and Privacy from build variables TERMS_URL and
+   PRIVACY_URL, which must be exactly these two routes. It is a cross-repository
+   dependency that fails SILENTLY in both directions: the app refuses to render a
+   link with no host, but it will happily render one pointing at a 404, so a
+   rename here leaves an App Review reviewer following a dead link and nothing on
+   either side goes red. Missing Terms/Privacy on a subscription paywall is a
+   rejection under guideline 3.1.2(c). Three lines to make a rename loud.
+   The finding, and the values, are in Project-Rascal's
+   docs/design/design-conformance-110.md §7.4. */
+for (const route of ['terms', 'privacy']) {
+  let page;
+  try {
+    page = await readFile(join(dist, route, 'index.html'), 'utf8');
+  } catch {
+    fail.push(`/${route} does not exist — the iOS paywall links to it and cannot tell that it 404s`);
+    continue;
+  }
+  if (/name="robots" content="noindex/.test(page))
+    fail.push(`/${route} is noindex — a legal page an App Review reviewer follows must be indexable`);
+  if (origin && !page.includes(`<link rel="canonical" href="${origin}/${route}"`))
+    fail.push(`/${route}: canonical must be exactly ${origin}/${route}, with no trailing slash`);
+}
+
 /* ------------------------------------------------------- markdown twins */
 /* Every page that declares a markdown alternate must ship one; llms.txt must
    exist and every link in it must resolve; the twins must be actual markdown —
@@ -404,7 +520,15 @@ for (const [name, viewport] of [
   });
 
   for (const route of ROUTES) {
-    await page.goto(base + route, { waitUntil: 'networkidle' });
+    /* `load` and then fonts, deliberately not `networkidle`. The signup form
+       loads Cloudflare Turnstile, which holds a blob: request open for as long
+       as the widget lives, so networkidle NEVER fires on /waitlist or on / and
+       this suite died at the goto — before the report at the bottom, which is
+       why every static failure it found was invisible. A break-test that cannot
+       print its findings is worse than no break-test. `document.fonts.ready` is
+       what the Nunito assertion below actually needed from networkidle anyway. */
+    await page.goto(base + route, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts.ready);
     const wide = await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
     );
@@ -417,7 +541,8 @@ for (const [name, viewport] of [
   }
 
   /* the form ladder, once per context, on /waitlist */
-  await page.goto(base + '/waitlist', { waitUntil: 'networkidle' });
+  await page.goto(base + '/waitlist', { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
   const laddered = await page.evaluate(() => {
     const form = document.querySelector('[data-signup]');
     const input = form && form.querySelector('input[type=email]');

@@ -176,7 +176,7 @@ production build will be two different pages.
 
 ### Meta
 - **Title tag:** `{{PRODUCT}} — a daily prompt journal for your kid's childhood` (58)
-- **Meta description:** `One question and one small mission a day. Every moment is saved with the prompt that caused it, so you can still find it in twenty years. No streaks, no ads.` (157)
+- **Meta description:** `A question about your kid every day, free forever, and a mission with membership. Every moment is saved with the prompt that caused it. No streaks, no ads.` (155)
 - **OG image:** the hero app frame, cream ground, no child's face
 
 ---
@@ -186,9 +186,9 @@ production build will be two different pages.
 > **Your camera roll remembers what they looked like.**
 > **{{PRODUCT}} remembers what they were like.**
 
-One question and one small mission a day. Answer it in fifteen seconds, or skip it — nothing keeps
-score. Every moment is filed with the prompt that caused it, so in 2040 you can search *"what he was
-afraid of"* and actually find something.
+A question about your kid every day, free forever, and a mission to go with it. Answer in fifteen
+seconds, or skip it — nothing keeps score. Every moment is filed with the prompt that caused it, so
+in 2040 you can search *"what he was afraid of"* and actually find something.
 
 `[ Get tomorrow's prompt ]`  ·  One a day, by email, until {{PRODUCT}} opens. Free.
 
@@ -236,17 +236,25 @@ the section the page is judged on and the only place amplitude is spent.
 
 ### Three things, once a day
 
+> **Tier note, Aug 21 2026.** The question is free forever; the mission is part of membership, and
+> so are the weekly and monthly ones named below. This section describes **the day the product is
+> for**, which is the right thing for the centrepiece to do — the home page does not sell the free
+> tier here, it sells the loop, and the tier split is stated in full in the pricing block further
+> down. **What it must never do is call any of this free.** If a sentence in this section acquires
+> the word *free*, it is wrong.
+
 **One question.** Something you'd never think to write down. *What is he pretending to be this
-week?* Answer it in a sentence.
+week?* Answer it in a sentence. **Free, every day, forever.**
 
 **One mission.** Take a photo, shoot ten seconds of video, record their voice, or just go do
 something — get on the floor for ten minutes. Some missions produce a file. Some don't. Both count.
+**Part of membership** — one on a weekday, two at the weekend.
 
 **It files itself.** The answer, the prompt that asked for it, the date it actually happened, and
 anything you captured all land on one timeline. Nothing to tag. Nothing to organize.
 
 Bigger missions land weekly. A measurement mission lands monthly — height, hand, foot, the things
-you'll want a number for later.
+you'll want a number for later. **Both are membership, like the daily mission above.**
 
 ### The prompt is saved with the moment
 
@@ -341,9 +349,10 @@ The archive is private by default. Nobody sees it unless you invite them.
 
 Most apps handle this badly, so here it is in full, before you sign up.
 
-If you stop paying, {{PRODUCT}} drops to the free tier. **Nothing is locked.** Your whole archive
-stays readable. You keep answering the daily question — text and did-it entries never stop. New
-photo and video uploads pause.
+If you stop paying, {{PRODUCT}} drops to the free tier. **Nothing you wrote or captured is ever
+locked behind payment.** Your whole archive stays readable, searchable and exportable. You keep
+answering the daily question — text and did-it entries never stop. The missions go back to being
+part of membership, and new photo and video uploads pause.
 
 After ninety days, original photos move to cheaper cold storage. Thumbnails stay instant, search
 still works, and pulling a full-resolution original back takes about an hour. That's a property of
@@ -383,15 +392,19 @@ Everything in here is being kept for one person, and it isn't you. When your fam
 ready, they get all of it — the entries, the photos, the recordings, the questions. Some things you
 can seal until a birthday you choose. A letter meant for eighteen stays shut until eighteen.
 
-### Free to start. Here's what it costs when you outgrow it.
+### The daily question is always free. Here's what the rest of the day costs.
 
-Free is not a trial. Every question and every mission, forever, uncapped. Unlimited written and
-did-it entries. Voice recordings up to two minutes. **100 photos, lifetime** — that's the line, and
-it's the only one.
+Free is not a trial. A question about your kid every day, forever. Unlimited written and did-it
+entries. Voice recordings up to two minutes. **100 photos, lifetime.** Search and a full export,
+always.
 
-When you need more than that, it's **{{PRICE_YEAR}} a year** — two months free versus monthly — or
-**{{PRICE_MONTH}} a month.** One price covers the whole household: every kid, both parents. Fourteen
-days free first.
+Membership is **{{PRICE_YEAR}} a year** — two months free versus monthly — or **{{PRICE_MONTH}} a
+month.** It adds the missions, video, photos without a limit and the second parent. One membership
+covers the whole household: every kid, both parents. Everything open for two weeks first — no card,
+nothing to cancel.
+
+**Nothing you write or capture is ever locked behind payment.** Membership buys more of the day —
+never access to your own archive.
 
 `[ See what's in each tier → ]`
 
@@ -415,7 +428,7 @@ Under fifteen seconds for most days, one-handed. If it takes longer than that, t
 Nothing happens. That's the point.
 
 **Can my partner use it too?**
-Yes, on the same archive. One subscription covers everyone in the household.
+Yes, on the same archive. The second parent is part of membership, and one membership covers everyone in the household — every kid, both of you.
 
 **Do I have to use it for eighteen years for it to be worth anything?**
 No. A hundred entries is already a thing your kid doesn't have. There's no threshold.
@@ -444,12 +457,12 @@ in one click.
 
 1. **The morning card** — what actually appears, what the four kinds look like
 2. **The four capture verbs** — photo, video, voice, activity; the fifteen-second claim explained
-3. **Missions** — daily, the weekly bigger one, the monthly measurement
+3. **Missions** — daily, the weekly bigger one, the monthly measurement. **All membership**, and the scene must say so; the daily question is what a free account gets on every one of those days
 4. **Backdating** — filing something under the day it happened
 5. **The timeline** — date-grouped, age on every row, thumbnails
 6. **Search** — what's searchable and why the prompt matters
 7. **Letters** — write something sealed until an age you pick
-8. **Second parent** — one archive, two people
+8. **Second parent** — one archive, two people, **on one membership**; the second parent is not part of the free tier
 9. **Export** — the home block, in full
 10. CTA
 
@@ -462,16 +475,29 @@ Best `HowTo` schema candidate on the site.
 **[MERGE] Imported from the other source and promoted from blog post to route.** It earns a page:
 it targets a long-tail cluster nobody defends, it is the only genuinely linkable asset here, it
 demonstrates the product better than screenshots, and it is the content engine for the waitlist
-email. No competitor publishes theirs — Qeepsake meters them by tier.
+email. No competitor publishes theirs — Qeepsake meters them by tier. (Narrowed Aug 21 2026: the
+missions are metered by tier here too now. What still separates the page is that the daily
+**question** is never metered, and that all 133 are published to read either way.)
 
-- **Title:** `Every question {{PRODUCT}} asks — 133 daily prompts` (52)
+- **Title:** `Every prompt {{PRODUCT}} asks — 133 of them, free to read` (55)
 - **Meta:** `All 133 questions and missions, free to read. Filter by age and type — voice, photo, activity, or just something worth writing down.` (135)
-- **H1:** Every question {{PRODUCT}} asks
+- **H1:** Every prompt {{PRODUCT}} asks — *prompt*, not *question*: 30 of the 133 are questions and the page says so directly below, so the heading cannot call all 133 questions
 
 **Intro:**
 
-> All 133 of them, free to read, free to use, and free inside the app forever. Take them and use
-> them in a notebook if you'd rather — that's fine. The app just remembers so you don't have to.
+> All 133 of them, free to read and free to use, whether you ever open the app or not. Take them
+> and use them in a notebook if you'd rather — that's fine. The app just remembers so you don't
+> have to.
+
+Then, immediately under it and before the library, the honesty line the free tier makes necessary:
+
+> **30 of these are the daily question, and those are free in the app, every day, forever.** The
+> rest are missions — a photo, a video, their voice, something to do together — and those are part
+> of membership. Filter to *Question* below to read exactly what a free account gets.
+
+The 30 is `{{QUESTION_COUNT}}` and the 133 is `{{PROMPT_COUNT}}`; both are hand-written in
+`site.config.json` and both are checked against the generated library by `scripts/prompts.mjs`,
+which exits non-zero if either drifts. **Neither number goes in markup as a literal.**
 
 **Filters:** by kind (question · photo · voice · video · activity · letter · measurement), by age
 band, and a search field over the bodies — the three AND together. No counts on the pills; one live
@@ -498,45 +524,108 @@ divides what little authority a new domain has across pages that then all fail.
 
 # `/pricing`
 
-- **Title:** `{{PRODUCT}} pricing — free forever tier, {{PRICE_YEAR}}/year` (55)
-- **Meta:** `Every prompt free forever. 100 photos on the free tier. {{PRICE_YEAR}} a year for the whole household — every kid, both parents. No ads on any tier.` (152)
-- **H1:** Pricing
+> **Rewritten Aug 21 2026 (phase 109). The free tier changed and this whole section was written on
+> the old one.** Free is now **the daily question only**; the missions are part of membership. The
+> struck version is kept below the new one because two of its arguments survive the change and one
+> does not, and a reader needs to see which. The app-side wording this section must not contradict is
+> `docs/design/free-tier-copy.md` in Project-Rascal — **membership**, never *premium*, *pro*,
+> *upgrade* or *unlock*; a person **joins**, they do not upgrade.
+
+- **Title:** `{{PRODUCT}} pricing — the daily question is always free` (49)
+- **Meta:** `The daily question is free every day, forever, with unlimited writing, voice notes and a full export. Membership adds the missions, from {{PRICE_MONTH}} a month.` (150)
+- **H1:** The daily question is always free.
 
 Opening line, load-bearing:
 
-> Free isn't a trial that runs out. It's a real tier you can stay on. Here's exactly what the paid
-> plan costs so it isn't a surprise later.
+> Every day, forever, with no card and no end date. You can write as much as you like, record their
+> voice as often as you like, keep 100 photographs and take the whole archive out whenever you want
+> it. Membership is what fills in the rest of the day.
 
-| | Free | {{PRODUCT}} Plus |
+**The page leads with what a parent gets for nothing and follows with what membership adds** — two
+lists, free first, before the table. A comparison table whose free column is a row of dashes reads
+as a punishment list, so the rows with a real free entry are ordered above the rows without one.
+
+| | Free | Membership |
 |---|---|---|
-| Daily question and mission | Every one, forever | Every one, forever |
-| Written entries | Unlimited | Unlimited |
-| Did-it entries | Unlimited | Unlimited |
-| Voice recordings | Up to 2 minutes each | Up to 2 minutes each |
-| Photos | 100, lifetime | Unlimited |
-| Video | — | Unlimited |
-| Children | Unlimited | Unlimited |
-| Parents on one archive | Unlimited | Unlimited |
-| Full export | Free and complete | Free and complete |
+| The daily question | Every day, forever | Every day, forever |
+| Written entries and *did it* | Unlimited | Unlimited |
+| Voice notes | Unlimited, two minutes each | Unlimited, two minutes each |
+| Photos | 100, lifetime | No limit |
+| Search and full export | Always | Always |
+| Everything already in the archive | Yours, always | Yours, always |
 | Ads | None | None |
+| Daily missions | — | One on weekdays, two at the weekend |
+| Weekly mission, monthly measurement, sealed letters | — | Included |
+| Video | — | Included |
+| The second parent | — | Included |
 | Price | $0 | **{{PRICE_YEAR}}/yr** or {{PRICE_MONTH}}/mo |
 
 **No red, and no "✗" column.** The palette has no red and the design system forbids adding one. An
 absent feature is an em dash, not a rejection.
 
-**Why the free tier is generous about prompts and strict about photos.**
-The prompts cost us almost nothing and they're the actual product, so they're never metered — some
-apps in this category charge you per question per day, and that's the thing worth not doing. Storage
-is the real cost, and it runs for eighteen years, so that's where the line is. 100 is lifetime rather
-than monthly on purpose: a monthly reset lets a free archive grow forever against no revenue. A cap
-can always be raised. It can never be lowered.
+**The line the whole page carries, near the table and never in the footer**, at least as prominent
+as the price:
 
-**One price, one household.** Not per child. Having another kid shouldn't cost more.
+> **Nothing you write or capture is ever locked behind payment.** Membership buys more of the day —
+> never access to your own archive.
 
-**Fourteen days free**, annual preselected because it's two months cheaper. Cancel in Settings on
-your iPhone, in two taps, like any other subscription — we don't get to make that hard.
+**Two weeks, everything open. No card, nothing to cancel.** Said plainly, because most of this
+category cannot say it. No countdown afterwards, no day-N reminder, no scarcity of any kind.
 
-Then the full `/promise` lapse content, then FAQ.
+**Why the question is the free part.** It is the thing that makes you stop and think about your kid
+for fifteen seconds, and a version of this that charged per question would be a worse product on the
+day it made the most money. Some apps in this category meter questions per day by tier; this one
+does not and will not. The missions are where the money is because that is where the cost is — a
+mission asks for a photograph, a video, thirty seconds of their voice, and files kept for eighteen
+years are the one part of this that gets more expensive every year you use it.
+
+**Why 100 photos is a lifetime number.** Not per month: a monthly reset lets a free archive grow
+forever against no revenue, and the honest version is a number that doesn't move. A cap can always
+be raised and can never be lowered. It is also not a countdown — nothing warns you, nothing turns
+red, and nothing already in the archive is touched when you reach it.
+
+**One membership, the whole family.** Every child, both parents. Not per child.
+
+Then the full `/promise` lapse content — with *"Nothing is locked"* narrowed to *"Your archive is
+never locked"* — then FAQ.
+
+<details>
+<summary>~~The pre-Aug-21 version of this section, kept for the two arguments that survived~~</summary>
+
+~~- **Title:** `{{PRODUCT}} pricing — free forever tier, {{PRICE_YEAR}}/year` (55)~~
+~~- **Meta:** `Every prompt free forever. 100 photos on the free tier. {{PRICE_YEAR}} a year for the whole household — every kid, both parents. No ads on any tier.` (152)~~
+~~- **H1:** Pricing~~
+
+~~> Free isn't a trial that runs out. It's a real tier you can stay on. Here's exactly what the paid plan costs so it isn't a surprise later.~~
+
+~~| | Free | {{PRODUCT}} Plus |~~
+~~| Daily question and mission | Every one, forever | Every one, forever |~~
+~~| Parents on one archive | Unlimited | Unlimited |~~
+~~| Children | Unlimited | Unlimited |~~
+
+~~**Why the free tier is generous about prompts and strict about photos.** The prompts cost us almost nothing and they're the actual product, so they're never metered — some apps in this category charge you per question per day, and that's the thing worth not doing.~~
+
+~~**Fourteen days free**, annual preselected because it's two months cheaper.~~
+
+**What survived, and is repeated above rather than deleted:** *storage is the real cost and it runs
+for eighteen years, so that is where the line is*, and *100 is lifetime rather than monthly because a
+monthly reset lets a free archive grow forever against no revenue*. Both arguments are about photos
+and neither depended on the missions being free.
+
+**What did not survive:** *"the prompts cost us almost nothing and they're the actual product, so
+they're never metered."* Half of it is still true and the half that is true is the half worth
+keeping — **the daily question is never metered by tier** — but the sentence as written covered the
+whole library, and 103 of the 133 published prompts are missions. The competitor jab it carried is
+narrowed rather than dropped: Qeepsake meters *questions per day by tier* and this product does not,
+which is a smaller claim than the one that used to be here and is the one that is actually true.
+
+**Two rows are gone rather than rewritten.** *Parents on one archive: Unlimited / Unlimited* is now
+false on the free side — the second parent is part of membership. *Children: Unlimited / Unlimited*
+was not contradicted by anything, but nothing in the phase-107 entitlement work states it either, so
+it is not asserted on a pricing page; the household claim it was standing in for lives in the
+membership prose, where it is true and sourced.
+
+</details>
 
 ---
 
@@ -661,12 +750,19 @@ No red — the palette has none.)*
 **Failure:** `That didn't go through. Try again, or email hello@{{DOMAIN}}.`
 **Nav CTA (persistent):** `Get tomorrow's prompt`
 **Footer tagline:** `{{PRODUCT}} — one question a day, a childhood you can find again.`
-**Footer social column:** heading `Elsewhere`, then `Instagram` · `Facebook` · `X` · `TikTok` ·
-`Pinterest`. Plain word marks, no icons — a row of five brand glyphs is louder than anything else
-in that footer, and the palette has nowhere to put their colours. The hrefs are
-`{{SOCIAL_*}}` tokens in `site.config.json` and currently point at the bare platforms; they become
-real profile URLs in one edit there. Linking out is not a third-party *request*, so the fine print
-under it stays true.
+**Footer social column:** ~~heading `Elsewhere`, then `Instagram` · `Facebook` · `X` · `TikTok` ·
+`Pinterest`~~ — **removed Aug 21 2026, column and tokens together.** The hrefs were the bare
+platform domains, so a link labelled `Instagram` went to instagram.com: a link to somebody else's
+home page wearing our label, which is worse than no link at all. Four of the five accounts have
+never existed. **The Instagram one does** — this repository publishes to it on a schedule — but
+its *handle* is recorded nowhere here: `social-post.mjs` addresses the account by the numeric
+`IG_USER_ID` secret, and a published row keeps a `mediaId` and no permalink. Nothing in the
+repository could be read to produce a profile URL, and a guessed one is the dead link the removal
+exists to prevent. **When one profile URL is verified**, restore the column as a `foot__col` with
+one `<a>` per real account — plain word marks, no icons, because a row of brand glyphs is louder
+than anything else in that footer and the palette has nowhere to put their colours — and add one
+`SOCIAL_*` key per real account to `site.config.json`. Linking out is not a third-party *request*,
+so the fine print under it stayed true and stays true.
 **404 H1:** `That page doesn't exist.`
 **404 body:** `Nothing was lost — which is sort of the whole idea here.` + links to `/` and
 `/how-it-works`.
