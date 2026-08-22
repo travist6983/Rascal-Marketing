@@ -327,16 +327,24 @@ for (const file of files.filter((f) => /\.(html|md|txt|xml)$/.test(f))) {
    Run over dist/ rather than src/, because the markdown twins and llms*.txt are
    generated from the rendered bodies: a correction applied to a page and not
    rebuilt shows up here and nowhere else. */
+/* Break-tested, eight ways, and the break-test earned its keep on the first
+   run: five of these ten patterns were written with `\b` word boundaries that a
+   generator turned into literal 0x08 bytes, so they matched nothing and would
+   have matched nothing forever. The suite was green either way. Re-introducing
+   the claim was the only thing that could tell the difference — which is the
+   same lesson the app repo wrote down when a listener guard was pinned by two
+   substrings that survived the edit that broke it. If you add a pattern here,
+   break it before you trust it. */
 const TIER_BANNED = [
   [/every question and every mission/i, 'the free tier is the daily question; the missions are membership'],
   [/every prompt,? (?:is )?free|all the prompts,? free/i, 'only the daily question is free; 103 of the 133 prompts are missions'],
   [/free inside the app forever/i, 'true of the daily question, false of the library'],
   [/that'?s the line,? and it'?s the only one/i, 'photos are no longer the only line — missions, video and the second parent are too'],
-  [/nothing is (?:ever )?locked(?![^.]*you (?:write|wrote))/i, 'the promise is narrowed: nothing you WRITE OR CAPTURE is locked. The day is.'],
-  [/prompts? (?:volume )?(?:are|is)? ?never metered/i, 'the QUESTION is never metered; the missions are metered by tier now'],
-  [/[A-Z][a-z]+ Plus/, 'the paid tier is called membership — never Plus, Premium, Pro'],
-  [/(?:Premium|Unlock|Upgrade)/i, 'banned by the app\'s own copy rules — a person JOINS, they do not upgrade'],
-  [/Pro/, 'banned tier word (Product, Promise and Prompts are fine — this is the bare word)'],
+  [/\bnothing is (?:ever )?locked\b/i, 'the promise is narrowed: nothing you WRITE OR CAPTURE is locked. The day is.'],
+  [/\bprompts?(?: volume)?(?: (?:are|is))? never metered\b/i, 'the QUESTION is never metered; the missions are metered by tier now'],
+  [/\b[A-Z][a-z]+ Plus\b/, 'the paid tier is called membership — never Plus, Premium, Pro'],
+  [/\b(?:Premium|Unlock|Upgrade)\b/i, 'banned by the app\'s own copy rules — a person JOINS, they do not upgrade'],
+  [/\bPro\b/, 'banned tier word (Product, Promise and Prompts are fine — this is the bare word)'],
   [/limited time|only \d+ left|join before|don'?t lose|you'?ve missed/i, 'no urgency, no scarcity, no guilt — anywhere, ever'],
 ];
 for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
