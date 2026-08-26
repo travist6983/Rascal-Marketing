@@ -10,3 +10,12 @@ package-lock.json
 # it to .mp4 next to the original and commit that — see assets/README.md.
 assets/**/*.mov
 assets/**/*.MOV
+
+# Credentials. Nothing in this repo has a secret baked into it and nothing
+# should: the poster and the caption writer both read theirs from the
+# environment, and scripts/env.mjs fills that from here when the file exists.
+# Ignored rather than merely absent, because it was one `git add .` away from
+# being committed to a public repo.
+.env
+.env.*
+!.env.example

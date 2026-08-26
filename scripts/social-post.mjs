@@ -29,6 +29,8 @@
  */
 import { appendFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+/* First: fills process.env from .env if there is one, before CONFIG reads it. */
+import './env.mjs';
 import { dueNow, readQueue, root, writeQueue } from '../social/queue.mjs';
 
 /**
