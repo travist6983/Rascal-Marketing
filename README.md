@@ -236,6 +236,117 @@ run and the real run mark which ones. It is worth re-capturing against a
 they/them archive before these go out — the app supports it, and
 [`assets/README.md`](assets/README.md) says which screens are affected.
 
+## Ad creatives
+
+The bought placement — the one with a button on it. Twelve creatives, three
+canvases each, rendered from the same app captures the Instagram set uses.
+
+```bash
+npm run ads                                  # all four, 1080 × 1350
+npm run ads -- --size portrait,square,story  # 1350, 1080 and 1920 tall
+npm run ads -- --id sealed                   # one creative
+npm run ads -- --cta waitlist,launch         # both buttons, side by side
+npm run ads -- --sheet                       # and a contact sheet of the set
+npm run ads -- --help
+```
+
+They land in `social/out/ads/`. Unlike the Instagram set these are **not
+committed** — they are regenerated from source in one command, and a paid
+creative that lives in git is a creative somebody will edit in Photoshop.
+
+**To post one organically instead**, `npm run ads -- --queue --id <id>` renders
+it as the JPEG the publishing API insists on, into the committed
+`social/queue/`, and appends an entry to `social/queue.json` — the same two
+things `npm run social:queue` does for a prompt card. Then
+`npm run social:captions` writes the words, and nothing posts until a person has
+read them. See [`docs/commands.md`](docs/commands.md#putting-a-creative-in-the-instagram-queue).
+
+**All the words live in [`social/ads.js`](social/ads.js)**, the design in
+`social/ad.css`, the four layouts in `social/ad.mjs`. Same split as the prompt
+cards, and the same renderer underneath: system Chrome through Playwright, the
+fonts inlined, no browser download.
+
+**No price, name, domain or prompt count is typed into an ad.** They are
+`{{TOKEN}}`s resolved from `site.config.json` at render time, to a fixed point —
+`PRICE_YEAR`'s own value contains `PRICE_YEAR_NUM`, so one pass is not enough —
+and `adHtml()` refuses to return a document with a token still standing in it. A
+blank where a price should be is the failure that check exists to prevent.
+
+**The lockup and the type are the landing page's, taken rather than matched.**
+The mark is the fan of cards and the drawn wordmark, read straight out of
+`src/partials/header.html` at render time — the same reason the notification's
+app icon is read from `src/assets/icon.svg` rather than copied: an ad carrying an
+older drawing than the site is a defect nobody catches until it is bought. Type
+is `--display` and `--text` from `src/assets/site.css` verbatim: Nunito, which is
+the only webfont this site has, over the system stack. Source Sans 3 still sets
+every prompt card and no longer sets anything on an ad, because it is not a face
+the site uses.
+
+| Template | What it is | Drawn from |
+|---|---|---|
+| `feature` | Two columns, three feature rows, a band carrying the script line and the CTA | The Dinnerbell reference |
+| `notify` | Ink ground, a phone with a notification escaping its bounds, a drawn arrow | The Peggy reference, minus the photograph |
+| `compare` | Two labelled phones — a drawn camera roll beside the real thing | The Catch reference, minus the scolding |
+| `quiet` | One centred statement, ticked promise pills, a phone rising out of the bottom | Ours |
+| `capture` | One capture verb, deep: a headline, one piece of evidence, three ticks | Ours |
+| `ledger` | No phone at all — one question and four years of its answers | Ours |
+| `card` | The ad as a prompt card, in the organic post's own vocabulary | `social/card.css` |
+| `pricing` | The offer stated: the free column first, em dashes where a thing is absent | `/pricing` |
+| `library` | A wall of real prompts dissolving behind one pulled forward | Ours |
+
+**`capture` is a series, not a layout.** `voice`, `photo`, `video` and
+`activity` share one skeleton and differ only in the evidence in the middle —
+a waveform and its transcript, a still and the prompt that sent you looking, or
+no media at all. The third case is why `evidence.kind` is a switch rather than
+one shape with optional parts: an activity has no media, and drawing a
+photograph on that ad to keep the layout regular would be the only dishonest
+frame in the set. **No tick in the series makes a tier claim**, deliberately —
+a capability claim stays true when the tiers move.
+
+**Four rules the copy is written under**, all of them from
+[`docs/site-content.md`](docs/site-content.md) and none of them optional:
+
+- No stock photography of children, which is why the Peggy layout's lifestyle
+  ground became ink rather than a family on grass.
+- Never imply the reader is failing. That is what a `WITHOUT / WITH` comparison
+  does by default, so the `compare` template's left column is a camera roll in
+  ordinary grey with em dashes — not a red column of crosses. A camera roll is
+  not a failure.
+- No photograph of a child, on any surface, ever. The `capture` plates are the
+  site's own `--wash` token for a still and a warm neutral for a frame of video:
+  an abstract reads as an image where a grey box reads as one that failed to
+  load.
+- No social proof. There are no users, so there are no counts, stars or quotes.
+- The CTA is honest about what exists on the day the creative runs. Both strings
+  live in `CTAS` in `social/ads.js` and `--cta` picks one: `waitlist` is `CTA`
+  from `site.config.json` verbatim, `launch` names the App Store. A creative is
+  booked before a store listing is live, and the copy cannot be re-approved on
+  the morning it goes up.
+- The line under the button is `/pricing`'s H1, on every creative. It replaced
+  "Free by email · iPhone app soon" — this set is for after the app ships, and a
+  launched product describing itself as forthcoming is the one claim an ad
+  cannot walk back.
+
+**The copy over the top is they/them; the archive inside the captures is not.**
+Creatives carrying a capture with "him" visible in frame are flagged
+`pronouns: 'he/him'` in `social/ads.js`, exactly as the Instagram set flags its
+own. Two of the four are — see [`assets/README.md`](assets/README.md) §1.
+
+**A render that does not fit fails.** An ad has a headline, a subhead, three
+feature bodies, a script line and a button, all sized independently, and a
+sentence three words too long slides under the band and ships looking
+intentional. So the page reports its own overflow — anything leaving the canvas,
+running under the band, overrunning the band's own margin, or colliding with the
+phone — and `npm run ads` exits non-zero and names the string. The PNGs are
+still written, because you want to look at what went wrong.
+
+The band's row is fitted before it is measured. It is a `space-between` row that
+does not wrap and does not clip: too wide, and it spends the difference on its
+own right padding and walks the button toward the canvas edge, reporting nothing
+until the button has left the canvas entirely. The script line shrinks first
+because it is decoration, then the button, and whatever is still overset is
+reported like any other overrun.
+
 ## Deploying
 
 Live at **https://getvellumapp.com** — registered Aug 18 2026 and pointed at
@@ -298,6 +409,9 @@ form's three validation messages going missing. Screenshots land in
 | `scripts/social-reel.mjs` | Renders a run of prompts as one video |
 | `social/showcase.js` | Copy for the Instagram set — 10 posts, 5 reels |
 | `scripts/social-showcase.mjs` | Renders the Instagram set from the app captures |
+| `social/ads.js` | Copy for the ad creatives — four, one per layout |
+| `social/ad.mjs` · `social/ad.css` | The four ad layouts and their design |
+| `scripts/ad-images.mjs` | Renders the ad creatives, and fails on copy that does not fit |
 | `video/` | The Remotion project — `PromptReel` and `PromptCard` |
 | `docs/commands.md` | Every command, its flags, inputs and outputs |
 | `scripts/build-artifact.mjs` | Bundles everything into one self-contained file |
