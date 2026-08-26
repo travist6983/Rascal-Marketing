@@ -19,6 +19,7 @@ script that takes flags also takes `--help`.
 | `npm run social:post` | Publishes the next due post | `social/queue.json` |
 | `npm run social:reel` | A run of prompts as one video | `social/out/reel.mp4` |
 | `npm run social:showcase` | The Instagram set — 10 posts and 5 reels of the app | `social/out/instagram/` |
+| `npm run ads` | The paid ad creatives — nine layouts, three canvases | `social/out/ads/` |
 | `npm run video` | Remotion Studio, to work on the video | — |
 
 **First run:** `npm install` at the root is only needed for `npm run check` and
@@ -298,6 +299,124 @@ project first, which costs more than all fifteen renders put together.
 Both `--dry-run` and the real run mark every item whose screenshot has he/him
 copy visible in it, because the archive in the captures is written that way and
 the overlaid copy is not. See [`assets/README.md`](../assets/README.md).
+
+### `npm run ads`
+
+The bought placement: twelve creatives with a headline, something to look at,
+and a button. Where `social:showcase` makes the organic post, this makes the ad.
+
+```bash
+npm run ads                                  # all four, portrait, waitlist button
+npm run ads -- --size portrait,square,story
+npm run ads -- --id sealed,no-streaks        # only these
+npm run ads -- --cta waitlist,launch         # both buttons, side by side
+npm run ads -- --sheet                       # and a contact sheet
+npm run ads -- --keep-html                   # leave the HTML beside the PNGs
+```
+
+**Options** `--size portrait,square,story` (`portrait`) · `--cta
+waitlist,launch` (`waitlist`) · `--id ID,ID` · `--out DIR` (`social/out/ads`) ·
+`--sheet` · `--keep-html` · `--concurrency N` (4)
+**Queue options** `--queue` · `--start YYYY-MM-DD` (the day after the queue
+ends) · `--at HH:MM[,HH:MM…]` (`15:00`, UTC) · `--every N` (1) · `--dry-run` ·
+`--force`
+
+#### Putting a creative in the Instagram queue
+
+```bash
+npm run ads -- --queue --id ledger,library --dry-run   # what it would schedule
+npm run ads -- --queue --id ledger,library             # render + schedule
+npm run social:captions                                # write the words
+# read social/queue.json, edit anything that isn't right, then commit and push
+```
+
+`--queue` renders into `social/queue/` **as JPEG** and appends entries to
+`social/queue.json` — the same two things `npm run social:queue` does for prompt
+cards, and for the same reasons: Instagram fetches the image from a public HTTPS
+URL rather than accepting an upload, so the file has to be committed and pushed
+before the post can be created, and the API takes no format but JPEG.
+
+Three things this path does that plain `npm run ads` does not:
+
+- **It never clears the directory.** `social/queue/` holds cards that have
+  already posted. The `rmSync` on the normal path is safe only because that
+  output is disposable.
+- **It refuses to schedule anything if any creative is overset.** Everywhere
+  else an overset render is still written so you can look at it. Here the next
+  thing to touch the file is a poster running unattended on a schedule.
+- **It defaults `--start` to the day after the queue currently ends,** because
+  "tomorrow" drops an ad on top of a prompt card scheduled months ago, and two
+  entries can hold the same minute with no complaint.
+
+Portrait only, and one `--cta`: a feed post is one image, and Instagram's feed
+stops at 4:5 — a story is 9:16 and comes back cropped or refused without saying
+which.
+
+Entries land with `kind: "AD"` and an `ad` object carrying the headline, the
+subhead and the button. `npm run social:captions` reads that and writes to an
+ad brief rather than the prompt-card one, because a caption that restates the
+headline is the post saying the same thing twice. Caption and alt text start
+null and the poster refuses an entry without them — that gate is what keeps
+anything reaching the feed a person hasn't read.
+
+**Reads** `social/ads.js` (all the copy, both CTA strings and the line under the
+button), `social/ad.css` (the design), `social/ad.mjs` (the four layouts),
+`assets/screens/` (the captures), `src/partials/header.html` (the lockup — the
+site's own fan-of-cards mark and drawn wordmark, lifted rather than redrawn),
+`src/assets/icon.svg` and `site.config.json` (the app icon in the notification),
+`fonts/`
+**Writes** `social/out/ads/<id>-<size>-<cta>.png` at 1080 × 1350, 1080 × 1080
+and 1080 × 1920. Not committed — regenerate rather than store.
+**Needs** system Chrome and Playwright. Same pair the prompt cards use.
+
+**Type is the landing page's, not the ad's own.** `--display` is Nunito and
+`--text` is the system stack, copied from `src/assets/site.css`. Nunito is the
+only webfont this site has, so it is the only one an ad inlines; Source Sans 3
+is still shipped and still sets every prompt card, and is simply not a face the
+site uses. `fontFaces()` in `social/card.mjs` takes the list.
+
+**The button has two strings** because a creative is booked before a store
+listing is live: `waitlist` is `CTA` from `site.config.json` verbatim, `launch`
+names the App Store. Ask for both and you get both sets so they can be judged at
+size. The line under the button is `/pricing`'s H1 — it replaced "Free by email
+· iPhone app soon", which described a product that had not shipped.
+
+The nine layouts are `feature`, `notify`, `compare`, `quiet`, `capture`,
+`ledger`, `card`, `pricing` and `library`; which one a creative uses is its
+`template` field. To change the words, edit `social/ads.js` — it is the only
+file with any in it.
+
+`capture` is a series: `voice`, `photo`, `video` and `activity` share the
+skeleton and differ only in `evidence.kind` — `voice` draws a waveform and its
+transcript, `plate` a still and the prompt that sent you looking, `did` no media
+at all, because an activity has none.
+
+**No price, name, domain or prompt count is typed into an ad.** They are
+`{{TOKEN}}`s resolved from `site.config.json`, to a fixed point — `PRICE_YEAR`
+resolves to a string that itself contains `PRICE_YEAR_NUM` — and `adHtml()`
+throws rather than return a document with a token still standing in it.
+
+**It exits non-zero when copy does not fit.** After the webfont loads, the
+headline has been shrunk to its box and the band's row has been shrunk to its
+margin, the page measures every element that carries a word and reports anything
+that leaves the canvas, runs under the band, overruns the band's margin, or
+collides with the phone.
+
+"Overset" is measured as *does any block in the copy column end below the
+column's content edge*, not as `scrollHeight > clientHeight`. The accent's hand
+mark hangs 0.19em below the phrase it underlines and `.accent` is a positioned
+inline whose glyph box escapes a 1.08 line-height — both are descendants of the
+copy box, both count toward its scroll height, and both scale with the font. Ask
+the crude question and any creative whose headline is the LAST thing in its
+column grinds that headline down to its floor chasing an overflow no font size
+can clear, then reports it as overset anyway. A sentence three words too long is invisible
+in a thumbnail and obvious in a paid placement, and this is the only defect the
+renderer cannot show you by rendering. The PNGs are written anyway so you can
+see what happened.
+
+Creatives whose capture has he/him copy visible in frame carry
+`pronouns: 'he/him'` in `social/ads.js`, the same flag the Instagram set uses,
+for the same reason — see [`assets/README.md`](../assets/README.md).
 
 ### `npm run video`
 
