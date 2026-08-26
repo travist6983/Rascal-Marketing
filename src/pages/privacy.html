@@ -1,6 +1,6 @@
 <!--page
 title: Privacy | {{PRODUCT}}
-description: No cookies and no analytics. One third-party script guards the form, and your address is held by our email provider. Here's exactly what that means.
+description: What {{PRODUCT}} collects about you and about your child, where it lives, what runs on your phone instead of our servers, and what we will never do with any of it.
 og: /assets/og/default.png
 -->
 
@@ -11,111 +11,367 @@ og: /assets/og/default.png
       <p class="eyebrow">Small print</p>
       <h1 class="t-hero">Privacy</h1>
       <p class="lede">
-        The short version: this site can only know what you choose to type into one form, and the
-        one thing that form asks for is an email address.
+        This page carries more weight than the terms page, because most of what's in here isn't
+        about you. It's about a child who didn't choose any of it. So it's written to be read all
+        the way through rather than agreed to.
       </p>
     </div>
 
     <div class="prose">
+      <h2>There are two people in this document</h2>
       <p>
-        This site sets no cookies and runs no analytics. The fonts are ours and the images are
-        ours, and no page here phones anywhere to watch you read it. There is no consent banner
-        because there is no tracking to consent to. You can confirm that in your browser's
-        developer tools, and we'd rather you did.
+        <strong>You</strong> — the account holder, a parent or guardian. You signed in, you own the
+        account, and you're the one this page gives rights to.
+      </p>
+      <p>
+        <strong>Your child</strong> — the person the archive is about. They have no account, no
+        login and no way to sign in. Everything held about them was typed, photographed or recorded
+        by you.
+      </p>
+      <p>
+        That split is the unusual thing about this app, and almost every paragraph below turns on
+        it. A privacy page for a social app describes one person describing themselves. This one
+        describes a parent keeping a record of somebody else — somebody who will one day be old
+        enough to have an opinion about it.
       </p>
 
-      <h2>What this site collects</h2>
+      <h2>What we collect</h2>
+      <p>Itemised, because a list is harder to hide things in than a paragraph.</p>
+
+      <h3>How you sign in</h3>
       <p>
-        Nothing, until you decide to <a href="/waitlist">join the waitlist</a>. If you do, the
-        form sends your email address, which page you were on when you typed it, and the token
-        the anti-spam check hands back. Three fields, and that is the entire request body — you
-        can watch it leave in your browser's network tab.
+        Sign in with Apple, Sign in with Google, or a link sent to your email address. Whichever you
+        pick, what we keep is an identifier from that provider, and a display name and an email
+        address <em>if</em> they give us one.
       </p>
       <p>
-        There is one hidden field in that form, and it is not a tracker: it's an empty box that a
-        human never sees and an automated script fills in anyway. If it comes back with anything
-        in it we quietly drop the signup. It is never sent anywhere, and for a real person it is
-        always empty.
+        <strong>An email address is optional on your account and always has been.</strong> If you use
+        Apple's Hide My Email, we get a <code>privaterelay.appleid.com</code> address and that is
+        genuinely all we get — we never inspect it, never try to work out the address behind it, and
+        the app doesn't behave differently when it sees one. Apple can also switch the forwarding off
+        later, at which point our email stops reaching you and we have no way to know that it hasn't.
+        That's a real limitation, not a footnote, and it's why push notifications and in-app
+        messages matter as much as email here.
+      </p>
+      <p>
+        We never see a password, because there isn't one. Sign-in tokens are stored as SHA-256
+        hashes rather than as the token itself, the token your phone carries expires in fifteen
+        minutes, and the longer-lived one rotates every time it's used.
       </p>
 
-      <h2>The one thing on this site that isn't ours</h2>
-      <p>
-        The signup form is checked by <a href="https://www.cloudflare.com/products/turnstile/"
-        rel="noreferrer">Cloudflare Turnstile</a>, which is the only third-party code this site
-        ever loads. It exists to tell a person from a bot without a puzzle to solve, and it loads
-        on the pages that carry the signup form — usually you'll never see it do anything.
-      </p>
-      <p>
-        <strong>It is loading now.</strong> This paragraph used to say the opposite — that signups
-        weren't open, so nothing third-party ran here at all — and that stopped being true the day
-        the check was switched on. It is corrected rather than deleted, because this is the page
-        that invites you to open your network tab and check, and a page that does that has to be
-        right. What you will see there: a request to <code>challenges.cloudflare.com</code> on the
-        two pages carrying the form, and nothing third-party on any other page.
-      </p>
-      <p>
-        We chose it because it is the version of this that doesn't track you: it sets no
-        advertising cookie, it doesn't profile you across other websites, and Cloudflare states
-        it does not use the data to build a profile of you. It does necessarily see your IP
-        address and something about your browser, because that is how it tells a person from a
-        script. That is a real third party seeing something real, and it belongs on this page
-        rather than in a footnote.
-      </p>
-      <p>
-        We don't keep it ourselves. The address goes to Resend, the company that sends our email,
-        and the list lives there — we hold no copy of it in our own database. Resend records your
-        address, whether you've confirmed it, and whether you've unsubscribed, which is the whole
-        of what a mailing list is.
-      </p>
-
-      <h2>What we use it for</h2>
-      <p>
-        {{CTA_SUPPORT}} That's the line under the form, and it's also the whole scope of use. No
-        newsletters you didn't ask for, no surveys, no "we thought you might also like."
-      </p>
-
-      <h2>What we never do with it</h2>
+      <h3>What you put in</h3>
       <ul>
-        <li>Sell it, rent it, or trade it — to anyone, at any size of company.</li>
-        <li>Share it with anyone who wants it for their own purposes. Resend is the one company
-        that touches it, they send only what we ask them to send, and they may not use it for
-        anything else.</li>
-        <li>Enrich it. We don't look up who you are from your address or append data from anywhere.</li>
-        <li>Use it to train anything.</li>
+        <li><strong>Your child.</strong> Their name, their birthdate, their pronouns if you set
+        them, a photograph if you add one, and your household's timezone.</li>
+        <li><strong>Entries.</strong> The title and the body you write, the date the thing actually
+        happened, your child's age in months at that moment, and whether you sealed it for later.</li>
+        <li><strong>Media.</strong> Photographs, video and audio recordings, and when each was
+        captured.</li>
+        <li><strong>Tags</strong>, and a note of whether you chose each one or your phone suggested
+        it.</li>
+        <li><strong>Which prompts you were served, answered or dismissed</strong>, and on what day.</li>
+        <li><strong>Timestamps</strong> on all of it — when a thing was created, changed, or last
+        signed in for.</li>
+      </ul>
+      <p>
+        <strong>One thing on this list is smaller than it sounds.</strong> There's a monthly
+        measurement mission that asks you to measure your child's height and weight and take a
+        photograph against the same wall. That's a question, not a health record: there is no height
+        field and no weight field anywhere in {{PRODUCT}}, nothing connects to Apple Health, and
+        whatever you type goes in as ordinary entry text like every other answer. We say so because
+        "we collect your child's height and weight" would be the wrong thing to picture.
+      </p>
+
+      <h3>What the app needs to run</h3>
+      <p>
+        A push token for your phone, if you've turned notifications on, so Apple can deliver them.
+        Ordinary server logs. Nothing else — there is no advertising identifier, no device
+        fingerprint, and no behavioural event stream.
+      </p>
+      <p>
+        <strong>What a notification contains, since it renders on a locked screen other people can
+        see:</strong> your child's first name, and the text of the day's prompt. It cannot contain
+        an entry, a transcript or a photograph — there is no field on the message that could hold
+        one.
+      </p>
+
+      <h2>Your child does not have an account</h2>
+      <p>
+        <strong>{{PRODUCT}} is not directed to children and is not built for them to use.</strong>
+        There is no child login, no child profile they control, no messaging, no feed and nothing
+        for a child to sign up to. Everything about your child in here is data a parent entered
+        about someone else — which is the ordinary situation for a family record and an unusual one
+        for an app.
+      </p>
+      <p>
+        We don't ask your child anything, we don't ask you anything about them beyond what the
+        prompts ask, and there is no route by which a child could give us data themselves.
+      </p>
+
+      <h2>The AI runs on your phone</h2>
+      <p>
+        Three things in {{PRODUCT}} use a model, and <strong>all three run on your iPhone, against
+        Apple's own on-device models</strong>. None of them sends your child's photographs, video,
+        audio or words to us or to anyone else to be processed.
+      </p>
+      <ul>
+        <li><strong>Transcription.</strong> When you record their voice, the words are worked out on
+        the phone by Apple's speech framework, offline. The audio file is not sent anywhere to be
+        transcribed.</li>
+        <li><strong>Tags.</strong> Your phone reads what you wrote and suggests a few tags, using
+        Apple's on-device model. Sealed entries are skipped entirely — the phone doesn't read
+        those at all.</li>
+        <li><strong>The daily prompt.</strong> Your child's name and pronouns are put into the
+        prompt sentence on the phone, so the personalised version never leaves it.</li>
+      </ul>
+      <p>
+        <strong>Two honest limits on that.</strong> All three need a recent iPhone running a recent
+        version of iOS with Apple Intelligence available; on a phone without it, {{PRODUCT}} simply
+        doesn't do them rather than falling back to a server. And the transcript and the tags, once
+        produced, <strong>are uploaded and stored on our servers as ordinary text</strong>, in the
+        clear, so that search can find them. The processing is private to your phone. The result
+        is stored the same way the words you type are.
+      </p>
+      <p>
+        <strong>No photograph, video or recording you save is ever sent to an AI company.</strong>
+        We want to be precise rather than sweeping about that, because there are AI services in our
+        bill: we use them to write our own marketing posts and to draft candidate prompts for the
+        library. Those calls carry our own words. They have never carried yours, your child's name,
+        an entry, or a file from an archive, and no part of the app can reach them.
+      </p>
+      <!-- TODO(travis): the brief for this page said "transcription, captions and tags" are
+           produced on-device. Captions are NOT, and the sentence is deliberately absent above.
+           There is no caption generator anywhere: `media.caption` is a real column the API
+           accepts and writes, but no client ever populates it. The only caption code in the
+           iOS app is CaptionProbe.swift, and its own doc says it "is a metadata accessor,
+           not a model" — it reads the XMP field Iptc4xmpExt:AOContentDescription that some
+           other app may have written into the photo, and returns nil when nobody has. If
+           image captioning ever ships, this section needs a fourth bullet and a decision
+           about whether an accessibility description a parent never wrote counts as
+           something we collected. -->
+
+      <h2>Where it lives, and who else touches it</h2>
+      <p>
+        We run on other companies' machines, and naming them is more useful than the phrase
+        "trusted partners".
+      </p>
+      <ul>
+        <li><strong>Fly.io</strong> runs the server. Its primary machine is in Chicago.</li>
+        <li><strong>Neon</strong> runs the Postgres database that holds your entries, your child's
+        details, transcripts and tags. It's hosted in the United States.</li>
+        <li><strong>Tigris</strong> holds the photographs, video and recordings. It is a globally
+        distributed store rather than a single-region one, so we're not going to name a region for
+        your media and pretend it means something it doesn't.</li>
+        <li><strong>Apple</strong> — for signing in, for delivering notifications, and for the
+        subscription. <strong>Google</strong> — only if you chose Sign in with Google, and only for
+        signing in.</li>
+        <li><strong>Resend</strong> sends our email.</li>
+      </ul>
+      <p>
+        Those five are the whole list. Each of them keeps its own operational logs, the way any
+        infrastructure company does — that's normal, and pretending otherwise would be the
+        dishonest version of this paragraph.
+      </p>
+      <p>
+        Your media sits in a <strong>private</strong> bucket. Nothing in it is readable by a URL
+        anybody could guess or share for long: the app is handed a short-lived signed link each time
+        it needs a file, and our server never passes the bytes through itself.
+      </p>
+
+      <h2>What we never do</h2>
+      <ul>
+        <li><strong>No advertising.</strong> Not on any tier, not ever. There is no second customer
+        here.</li>
+        <li><strong>We do not sell your data</strong>, rent it, trade it, or hand it to a data
+        broker.</li>
+        <li><strong>We do not train models on your content.</strong> Nothing you or your child put
+        in here is used to improve any model, ours or anyone else's.</li>
+        <li><strong>No third-party analytics.</strong> The iPhone app has no analytics SDK, no crash
+        reporter and no attribution kit in it — it has no third-party code at all. Neither does the
+        server.</li>
+        <li><strong>No enrichment.</strong> We don't look you up, buy data about you, or append
+        anything to what you gave us.</li>
       </ul>
 
-      <h2>Unsubscribing</h2>
+      <h2>How long we keep it</h2>
       <p>
-        Every email has an unsubscribe link, and it works in one click — no login, no survey, no
-        "are you sure." Unsubscribing removes your address; it doesn't move you to a quieter list.
-        Nobody attaches a note about why you left.
+        <strong>Until you tell us not to.</strong> That's the plain answer today, and it is
+        deliberately not dressed up as a schedule.
       </p>
       <p>
-        One honest detail: unsubscribing keeps your address on a suppression list at Resend. That
-        sounds backwards and isn't — it is how they know never to email you again. Ask us to delete
-        it outright and we will, and then nothing stops a future form from mailing you afresh.
+        Nothing in {{PRODUCT}} expires on its own. Stopping paying doesn't start a clock on your
+        archive, going quiet for a year doesn't, and there is no automatic deletion of anything for
+        inactivity. The only thing that removes data is you asking us to.
+      </p>
+      <p>
+        <strong>We intend that to change in one narrow way, and we'd rather tell you before it does
+        than after.</strong> An archive that has been both unpaid and unopened for years costs money
+        to store, and we expect to eventually age out its <em>media</em> — never its text. If we
+        build that, this page changes first, the timings appear here, and you'll get an email and a
+        free export before it could apply to you. None of it exists today, so none of it is written
+        here as though it did.
+      </p>
+      <!-- TODO(travis): decisions.md D3 and D3a settle a full retention schedule — day-90
+           Archive-tier migration for lapsed media, deletion eligibility computed as
+           max(lapsed_at + 24 months, last_sign_in_at + 12 months), T-90/T-30/T-7 warnings
+           with a one-click export, per-channel delivery records, and a hard interlock so
+           deletion cannot fire without a confirmed delivery. Verified against the tree on
+           Aug 25 2026: the ELIGIBILITY ARITHMETIC is built (`services/guardians.py:eligible_at`)
+           and is read by exactly one route and displayed nowhere. Everything else is unbuilt —
+           no storage-tier column, no restore path, no lifecycle rule recorded on the bucket,
+           and `lifecycle_notices` / `lifecycle_notice_deliveries` were specified in
+           data-model.md and never migrated. Phase 38 is the phase. Publishing the schedule
+           now would commit us to a retention policy no code implements, so this section
+           states intent in the future tense instead. When phase 38 ships, this section and
+           the /terms lapse section both want rewriting together, and /pricing and /promise
+           want checking too — they already publish the day-90 and three-warnings behaviour
+           as present-tense fact. -->
+
+      <h2>Seeing it, taking it out, and deleting it</h2>
+      <p>
+        <strong>Export.</strong> There's a full export of the archive, and it's free on every tier
+        including the free one. It's a zip of ordinary files in folders by date plus an
+        <code>index.html</code> that opens in any browser, offline, with no account and no server.
+        It's per child, so a household with three children takes three of them, and the parent role
+        on the archive is what's needed to run one. <a href="/promise">The longer promise about the
+        export is here.</a>
+      </p>
+      <p>
+        <strong>Correction.</strong> Everything about your child is editable in the app, and so is
+        everything you wrote. If something is wrong somewhere you can't reach, email us.
+      </p>
+      <p>
+        <strong>Deletion.</strong> You can ask us to close your account from inside the app —
+        Settings, then the card at the bottom. It waits seven days, signs you out immediately, and
+        is cancelled the moment you sign back in. If you are the only parent on the archive it takes
+        everything, including the files themselves out of storage. If your child's other parent is
+        still on it, it removes you and leaves the archive with them, and the entries you wrote stay
+        there with your name taken off. <a href="/terms">The terms page says the same at more
+        length.</a>
+      </p>
+      <p>
+        <strong>And the part we're not going to smooth over:</strong> the piece that carries out
+        deletion on a schedule is not fully in service yet. Your request is honoured, but if you want
+        it confirmed to you in writing, email
+        <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a> and a person will do it by hand and
+        tell you when it's done.
+      </p>
+      <p>
+        Any of these by email to <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a>, and a
+        person will handle it. No request form, no verification maze. You have these rights whichever
+        privacy law applies to you, and we're not going to make you cite one.
       </p>
 
-      <h2>Seeing it, correcting it, deleting it</h2>
+      <h2>Security, scoped honestly</h2>
       <p>
-        Email <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a> and a person will handle it
-        — there's no request form and no verification maze, because the only thing there is to
-        hold about you is an email address, and a record of when you gave it. You have these rights whichever privacy law applies to you. We're
-        not going to make you cite one.
+        <strong>What we can say:</strong> everything travels over HTTPS and the server refuses plain
+        HTTP. The database connection requires TLS. Media lives in a private bucket reached only by
+        short-lived signed links. Sign-in tokens are stored as hashes, short-lived, and rotated.
+        Your archive is private to you and to anyone you have invited — there is no feed, no
+        discovery and no public profile.
+      </p>
+      <p>
+        <strong>What we're not going to say:</strong> we hold no security certification. Not SOC 2,
+        not ISO 27001, nothing. {{PRODUCT}} is built by one person, and a page claiming an audit that
+        never happened would be a worse breach of trust than the gap it was hiding.
+      </p>
+      <p>
+        <strong>And one thing worth knowing about sealed entries.</strong> Sealing a letter is a
+        promise between you and your future kid, kept by the app's interface — it is not encryption
+        and it is not a lock. You can open a sealed entry yourself at any time, and an export
+        includes sealed entries in plain text. If you write something you'd want protected from
+        somebody with your phone in their hand, that isn't what a seal is for.
+      </p>
+      <!-- TODO(travis): encryption at rest is deliberately NOT claimed above. Nothing in
+           Project-Rascal states it — a grep for "encrypted at rest", "at-rest", "AES-256",
+           "SOC 2" and "ISO 27001" across docs/, api/ and ios/ returns zero hits. Neon and
+           Tigris both encrypt at rest per their own public documentation, but that is a
+           claim about a sub-processor sourced outside the repo, and this site's convention
+           is that an external claim carries a verified-on comment. If you want the sentence,
+           the shape is: cite each vendor's page, date it, and say it is their encryption
+           rather than ours. Related and separate: the iOS app has no PrivacyInfo.xcprivacy
+           manifest, and the App Store privacy labels are unanswered because no App Store
+           Connect session exists (blocked.md §16). Both are submission blockers, and the
+           labels have to agree with this page. -->
+
+      <h2>Children's privacy</h2>
+      <p>
+        <strong>{{PRODUCT}} is not directed to children under 13, and no child has an account here.</strong>
+        We don't knowingly collect anything from a child, because there is no way for a child to give
+        us anything — the only person who can put data in is the signed-in parent.
+      </p>
+      <p>
+        Data <em>about</em> a child is the whole point of the product, and the parent supplying it is
+        the person the law expects to make that decision. If you believe a child has somehow been
+        given access to an account here, email
+        <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a> and we'll close it.
+      </p>
+      <p>
+        <strong>What happens when your child grows up.</strong> The honest answer is that we haven't
+        built a handover yet, and we're not going to describe one as though we had. There is no
+        mechanism today for a grown child to claim their own archive, and no automatic transfer at
+        any age. What exists today is the export — which is the whole archive, in ordinary files,
+        readable without us — and a parent can hand that over on any day they decide is the right
+        one. When something better exists, it will be a thing a family chooses rather than a switch
+        that flips on a birthday, and it will be described here before it ships.
+      </p>
+      <!-- TODO(travis): two open questions this section is holding rather than answering.
+           (1) The App Store age rating and category have never been set, because the app has
+           never been submitted — so "not in the Kids Category" is not yet a fact and is not
+           asserted above. It IS a plausible Kids Category candidate on subject matter, and
+           the Kids Category carries real extra obligations, so it wants a deliberate decision
+           rather than a default. (2) decisions.md open item 3 settles the handoff as "a
+           family-decided moment, shared access rather than transfer, with the export as the
+           durable floor" and nothing is built. The paragraph above is written to that
+           decision. If a real handover ships, it belongs here and on /promise. -->
+
+      <h2>This website</h2>
+      <p>
+        Everything above is about the app. The website you're reading is a much smaller subject.
+      </p>
+      <p>
+        It sets no cookies and runs no analytics. The fonts are ours and the images are ours, and no
+        page here phones anywhere to watch you read it. There is no consent banner because there is
+        no tracking to consent to. You can confirm that in your browser's developer tools, and we'd
+        rather you did.
+      </p>
+      <p>
+        It collects nothing until you decide to <a href="/waitlist">join the waitlist</a>. If you
+        do, the form sends your email address, which page you were on when you typed it, and the
+        token the anti-spam check hands back. Three fields, and that is the entire request body —
+        you can watch it leave in your browser's network tab. There's one hidden field in that form
+        and it is not a tracker: an empty box a human never sees and an automated script fills in
+        anyway. If it comes back with anything in it we quietly drop the signup.
+      </p>
+      <p>
+        <strong>The one thing on this site that isn't ours</strong> is <a
+        href="https://www.cloudflare.com/products/turnstile/" rel="noreferrer">Cloudflare
+        Turnstile</a>, which checks the signup form. It loads on the two pages carrying that form
+        and nowhere else, and it is the only third-party code this site ever runs. It sets no
+        advertising cookie and doesn't profile you across other websites, but it does see your IP
+        address and something about your browser, because that is how it tells a person from a
+        script. That's a real third party seeing something real, and it belongs here rather than in
+        a footnote.
+      </p>
+      <p>
+        Your address then goes to Resend, the company that sends our email, and the list lives
+        there — we keep no copy of it in our own database, and the server that receives the form
+        creates no row. Every email has a one-click unsubscribe, which removes you rather than
+        moving you to a quieter list. One honest detail: unsubscribing leaves your address on a
+        suppression list at Resend, which is how they know never to mail you again. Ask us to delete
+        it outright and we will.
       </p>
 
-      <h2>The app is the bigger subject</h2>
+      <h2>Changes</h2>
       <p>
-        This page covers the website you're reading. What happens inside {{PRODUCT}} itself — to
-        the photos, the recordings, the things your kid said — is a larger promise with its own
-        page: <a href="/promise">what happens to the archive</a>. It covers ads (none), deletion
-        (we never delete a word you wrote unless you ask us to), and the export that works without
-        us.
+        When this page changes, the date below moves with it, and the date is the notice. If a change
+        is one that affects what we collect or how long we keep it, you'll hear about it by email
+        before it takes effect rather than after.
       </p>
 
       <p class="muted">
-        This page was last checked against what the site actually does on {{VERIFIED_ON}}. If the
-        site changes, this page and this date change with it.
+        This page was last checked against what the app and the site actually do on
+        {{LEGAL_UPDATED}}.
       </p>
     </div>
 

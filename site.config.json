@@ -107,5 +107,18 @@
   ],
 
   "VERIFIED_ON": "August 17, 2026",
+
+  "LEGAL_UPDATED": "August 25, 2026",
+
+  "_legal_updated_note": [
+    "The last-updated date on /terms and /privacy, and deliberately NOT VERIFIED_ON.",
+    "VERIFIED_ON is the competitor-claim check date -- it moves when the Tinybeans",
+    "and Qeepsake pages are re-checked quarterly, which has nothing to do with when",
+    "the legal pages last changed. One token for both meant a quarterly comparison",
+    "sweep silently restamped two documents an App Review reviewer reads as a",
+    "notice date, and the terms page says in terms that the date IS the notice.",
+    "Move this only when the words on those two pages change."
+  ],
+
   "YEAR": "2026"
 }
