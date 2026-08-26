@@ -1,0 +1,1307 @@
+/* --------------------------------------------------------------------------
+   Vellum — paid ad creatives
+
+   A different job from social/card.css. That file draws one prompt on paper for
+   the feed; this one draws a *bought* placement: a headline that has to land in
+   under two seconds, the product visible on a phone, and a button.
+
+   Four templates, one stylesheet:
+
+     .ad--feature   two columns, three feature rows, a bottom band with the CTA
+     .ad--notify    ink ground, a phone with a notification escaping its bounds
+     .ad--compare   two labelled phones side by side
+     .ad--quiet     one centred statement, ticked promises, a phone rising
+
+   Palette and type are the landing page's, unchanged — an ad that does not look
+   like the site it lands on wastes the click. The only vocabulary this file adds
+   is the hand-drawn swash under the accent phrase and the script accent line,
+   both of which exist because the reference creatives use a human mark to stop a
+   grid of rectangles from reading as a template.
+
+   Sizing is written for 1080 x 1350. `html[data-size]` blocks at the bottom
+   retune the two other canvases rather than re-laying them out.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --canvas: #FDFAF4;
+  --surface: #FFFDF9;
+  --ink: #23253C;
+  --muted: #6E6A63;
+  --hair: #E7E0D4;
+  --terracotta: #C05A2B;
+  --peri: #5566D6;
+  --peach: #FBEDE2;
+  --lav: #E9EBFB;
+  /* The tint's own hairline. Set per creative alongside --tint, the way
+     --tint-soft and --tint-band are — a rule drawn in the neutral --hair reads
+     as a border, and these two want it to read as part of the accent. */
+  --rule: var(--tint-band);
+
+  /* src/assets/site.css `--display` / `--text`, verbatim. The site self-hosts
+     one webfont and sets body copy in the system stack, so this file does too:
+     an ad whose paragraphs are in a face the landing page has never used is
+     off-brand in the specific way nobody can name and everybody sees. Source
+     Sans 3 is still shipped and still sets every prompt card — it is simply not
+     a face the site has. */
+  --display: 'Nunito', ui-rounded, system-ui, -apple-system, sans-serif;
+  --text: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Snell is a macOS face and the renders are made on a Mac, the same
+     assumption social/card.mjs already makes when it locates Chrome. If this
+     ever has to render elsewhere, the fallback chain ends at the generic
+     cursive rather than at Nunito on purpose: a roman face set at this size in
+     this position reads as a mistake, and a missing flourish reads as a
+     decision. */
+  --script: 'Snell Roundhand', 'Savoye LET', 'Apple Chancery', cursive;
+
+  --pad: 72px;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: var(--w);
+  height: var(--h);
+}
+
+body {
+  font-family: var(--text);
+  background: var(--surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+.ad {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  overflow: hidden;
+  background: var(--canvas);
+  background-image: var(--grain);
+  color: var(--ink);
+}
+
+/* --- lockup -------------------------------------------------------------- */
+
+/* The site's own lockup: the fan of cards and the drawn wordmark, one svg. The
+   word is drawn rather than typed, so there is no <b> here and no second place
+   where the name could end up in the wrong weight.
+
+   Height is the only number this file sets — the viewBox carries the ratio, the
+   same contract .wordmark and .foot__mark keep in site.css. The cards' fills are
+   painted into the drawing; only the wordmark's stroke takes currentColor, which
+   is what lets the ink-ground template flip it with one declaration. */
+.lockup {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  color: var(--ink);
+}
+
+.lockup svg { display: block; height: 56px; width: auto; }
+
+/* --- type ---------------------------------------------------------------- */
+
+.h {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 70px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.sub {
+  margin: 30px 0 0;
+  font-size: 28px;
+  line-height: 1.42;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.kicker {
+  margin: 0 0 20px;
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--tint);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* The accent phrase, and the hand mark under it.
+
+   The swash is one <svg> stretched to the phrase's own width, so a two-word
+   accent and a six-word accent both get an underline that ends where the words
+   do. It is drawn wobbly on purpose — a straight rule reads as a border and
+   stops doing the job it was added for. */
+.accent {
+  position: relative;
+  color: var(--tint);
+  white-space: nowrap;
+}
+
+.accent > svg {
+  position: absolute;
+  left: -2%;
+  width: 104%;
+  bottom: -0.19em;
+  height: 0.22em;
+  overflow: visible;
+}
+
+.accent > svg path {
+  fill: none;
+  stroke: var(--tint);
+  stroke-width: 7;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+
+/* --- feature rows -------------------------------------------------------- */
+
+.features { margin: 46px 0 0; padding: 0; list-style: none; }
+
+.features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.features li + li { margin-top: 30px; }
+
+.chip {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip svg { display: block; width: 34px; height: 34px; }
+
+.f-label {
+  margin: 8px 0 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 29px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.f-body {
+  margin: 7px 0 0;
+  font-size: 23px;
+  line-height: 1.34;
+  color: var(--muted);
+  max-width: 19em;
+}
+
+/* --- the phone ----------------------------------------------------------- */
+
+/* Proportions are video/src/Device.tsx, which is the landing page's `.device`
+   rule scaled up: hairline border, 10/260 padding, 50/260 outer radius,
+   40/260 inner. No chunky bezel, no glare, no hand — the site draws a phone as
+   a thin outline and every surface that shows one agrees. */
+.phone {
+  position: absolute;
+  width: var(--phone-w);
+  padding: calc(var(--phone-w) * 0.0385);
+  border-radius: calc(var(--phone-w) * 0.1923);
+  border: calc(var(--phone-w) * 0.0035) solid var(--ink);
+  background: var(--surface);
+  box-shadow: 0 30px 80px rgba(35, 37, 60, 0.13), 0 6px 20px rgba(35, 37, 60, 0.06);
+}
+
+.phone > .screen {
+  position: relative;
+  width: 100%;
+  /* 1206 x 2622 — the capture size, fixed rather than measured so a screenshot
+     that arrives at some other size letterboxes visibly instead of silently
+     stretching the frame it sits in. */
+  aspect-ratio: 1206 / 2622;
+  border-radius: calc(var(--phone-w) * 0.1538);
+  overflow: hidden;
+  background: var(--canvas);
+}
+
+.phone > .screen > img {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+/* --- CTA ----------------------------------------------------------------- */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 44px;
+  border-radius: 999px;
+  background: var(--tint);
+  color: var(--canvas);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 14px 30px rgba(35, 37, 60, 0.16);
+}
+
+.cta svg { width: 26px; height: 26px; display: block; }
+
+.reassure {
+  margin: 14px 0 0;
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.script {
+  font-family: var(--script);
+  font-size: 56px;
+  white-space: nowrap;
+  line-height: 1.05;
+  color: var(--ink);
+  /* Snell sits high in its box and its swashes want air on the left. */
+  padding-left: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Template — feature
+   -------------------------------------------------------------------------- */
+
+.ad--feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+
+.ad--feature > .head { padding: var(--pad) var(--pad) 0; }
+
+.ad--feature > .body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 520px minmax(0, 1fr);
+  padding: 44px var(--pad) 0;
+  min-height: 0;
+}
+
+.ad--feature .col-copy { padding-right: 26px; }
+
+.ad--feature .h { font-size: 62px; }
+
+/* Anchored to the bottom of the body row and allowed to run under the band —
+   the phone rises out of the band rather than sitting on it, which is what
+   stops the three regions from reading as three stacked boxes. Bleeding past
+   the right edge does the same job horizontally. */
+.ad--feature .phone {
+  --phone-w: 480px;
+  right: -16px;
+  bottom: -104px;
+}
+
+.ad--feature > .band {
+  position: relative;
+  z-index: 2;
+  height: 214px;
+  padding: 0 var(--pad);
+  background: var(--tint-band);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.ad--feature > .band .right { text-align: center; }
+
+/* --------------------------------------------------------------------------
+   Template — notify
+   -------------------------------------------------------------------------- */
+
+/* Ink ground, not a photograph. The reference creative buys its contrast with a
+   stock family on grass; this site does not publish photographs of children on
+   any surface, ever, so the contrast is bought with the darkest ink in the
+   palette instead. */
+.ad--notify {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.ad--notify > .head { padding: var(--pad) var(--pad) 0; }
+.ad--notify .lockup { color: var(--canvas); }
+
+.ad--notify > .copy { position: relative; z-index: 3; padding: 40px var(--pad) 0; max-width: 900px; }
+.ad--notify .h { font-size: 68px; color: var(--canvas); }
+.ad--notify .sub { color: #B9B4C4; max-width: 660px; }
+.ad--notify .accent { color: var(--tint-lift); }
+.ad--notify .accent > svg path { stroke: var(--tint-lift); opacity: 0.75; }
+
+.ad--notify .phone {
+  --phone-w: 500px;
+  left: 58px;
+  bottom: -150px;
+  z-index: 1;
+  transform: rotate(-3.5deg);
+  border-color: rgba(253, 250, 244, 0.9);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.42);
+}
+
+/* Cropped rather than shown whole: at this width the bottom two-thirds of a
+   2622px capture is unreadable anyway, and the room it frees is what lets the
+   headline be a real sentence. */
+.ad--notify .phone > .screen { aspect-ratio: 500 / 900; }
+
+/* The notification is the whole ad: it is the product speaking first, before
+   anyone has opened anything. So it escapes the phone's bounds — clipped by the
+   frame it belongs to, it would read as a screenshot of a screenshot. */
+.ad--notify .notif {
+  position: absolute;
+  left: 292px;
+  bottom: 596px;
+  width: 620px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 26px 28px;
+  border-radius: 34px;
+  background: rgba(255, 253, 249, 0.97);
+  color: var(--ink);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.34);
+  transform: rotate(-2deg);
+}
+
+.ad--notify .notif svg { flex: none; width: 58px; height: 58px; display: block; }
+.ad--notify .notif .n-title {
+  margin: 2px 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.15;
+}
+.ad--notify .notif .n-body {
+  margin: 7px 0 0;
+  font-size: 25px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.ad--notify .arrow {
+  position: absolute;
+  z-index: 2;
+  left: 600px;
+  top: 402px;
+  width: 300px;
+  height: 300px;
+  overflow: visible;
+}
+
+.ad--notify .arrow path {
+  fill: none;
+  stroke: var(--tint-lift);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ad--notify > .foot {
+  position: absolute;
+  z-index: 4;
+  right: var(--pad);
+  bottom: var(--pad);
+  text-align: right;
+}
+
+.ad--notify .reassure { color: #B9B4C4; }
+.ad--notify .cta { background: var(--tint-lift); color: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   Template — compare
+   -------------------------------------------------------------------------- */
+
+.ad--compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  text-align: center;
+}
+
+.ad--compare > .head { padding: var(--pad) var(--pad) 0; display: flex; justify-content: center; }
+.ad--compare > .copy { padding: 32px var(--pad) 0; }
+.ad--compare .h { font-size: 54px; }
+.ad--compare .sub { margin-left: auto; margin-right: auto; max-width: 23em; font-size: 24px; }
+
+.ad--compare > .cols {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 34px;
+  padding: 30px 56px 0;
+  min-height: 0;
+}
+
+.ad--compare .col { position: relative; }
+
+.ad--compare .col-label {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The left column is the world without the product. It is set in the same grey
+   as any other secondary label — never in red, never with an alert glyph. The
+   camera roll is not a failure, it is just a camera roll. */
+.ad--compare .col--before .col-label { color: var(--muted); }
+.ad--compare .col--after .col-label { color: var(--tint); }
+
+.ad--compare .col .phone {
+  --phone-w: 390px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Top-anchored: the captures are 2622 tall and only the top of one is worth
+   showing at this width, so the screen box is short and the image is pinned to
+   its top edge. */
+.ad--compare .col .phone > .screen { aspect-ratio: 390 / 540; }
+
+/* The camera roll is drawn, not screenshotted. There is no capture of somebody
+   else's Photos app in this repo and there should not be one; what the ad is
+   comparing is the *shape* of the thing — tiles with a date and nothing else. */
+.roll { position: absolute; inset: 0; background: var(--surface); padding: 26px 20px 0; }
+.roll .roll-date {
+  margin: 0 0 14px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A9A296;
+  text-align: left;
+}
+.roll .roll-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.roll .roll-grid i { display: block; aspect-ratio: 1; border-radius: 6px; background: #EDE7DC; }
+.roll .roll-grid i:nth-child(3n+2) { background: #E5DED2; }
+.roll .roll-grid i:nth-child(4n+1) { background: #F1ECE3; }
+.roll .roll-note {
+  margin: 22px 0 0;
+  font-size: 21px;
+  line-height: 1.3;
+  color: #A9A296;
+  text-align: left;
+}
+
+.ad--compare .ticks { margin: 26px 0 0; padding: 0; list-style: none; text-align: left; }
+.ad--compare .ticks li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 22px;
+  line-height: 1.32;
+  color: var(--ink);
+}
+.ad--compare .ticks li + li { margin-top: 12px; }
+.ad--compare .ticks svg { flex: none; width: 24px; height: 24px; margin-top: 3px; color: var(--tint); }
+/* An absent thing gets an em dash and grey, which is the site's rule. It is not
+   a cross and it is not red. */
+.ad--compare .ticks li.none { color: var(--muted); }
+.ad--compare .ticks li.none .dash {
+  flex: none; width: 24px; margin-top: -1px; text-align: center; color: #A9A296;
+}
+
+.ad--compare > .band {
+  position: relative;
+  z-index: 2;
+  height: 180px;
+  padding: 0 var(--pad);
+  background: var(--tint-band);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  text-align: left;
+}
+
+.ad--compare > .band .right { text-align: center; }
+
+/* --------------------------------------------------------------------------
+   Template — quiet
+   -------------------------------------------------------------------------- */
+
+/* One sentence, three promises, a phone rising out of the bottom edge. The
+   least decorated of the four on purpose — it is the one that carries a claim
+   about restraint, and an ad that shouts it contradicts itself. */
+.ad--quiet {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  text-align: center;
+}
+
+.ad--quiet > .head { padding: var(--pad) var(--pad) 0; display: flex; justify-content: center; }
+.ad--quiet > .copy { padding: 46px var(--pad) 0; }
+.ad--quiet .h { font-size: 78px; }
+.ad--quiet .sub { margin-left: auto; margin-right: auto; max-width: 20em; }
+
+.ad--quiet .promises {
+  margin: 34px auto 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+}
+
+.ad--quiet .promises li {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 26px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.ad--quiet .promises svg { width: 24px; height: 24px; color: var(--tint); }
+
+.ad--quiet > .stage { position: relative; min-height: 0; }
+
+.ad--quiet .phone {
+  --phone-w: 540px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -430px;
+}
+
+/* The phone does not end, it dissolves — a hard crop at the canvas edge reads
+   as a screenshot that ran out of room, and this is the one ad whose whole
+   claim is that nothing is demanded of you. */
+.ad--quiet > .stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 330px;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    rgba(253, 250, 244, 0) 0%,
+    rgba(253, 250, 244, 0.92) 46%,
+    rgba(253, 250, 244, 1) 76%);
+}
+
+.ad--quiet .foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 66px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ad--quiet .foot > * { position: relative; }
+
+/* --------------------------------------------------------------------------
+   Shared by the five newer templates
+   -------------------------------------------------------------------------- */
+
+/* The marked verb, lifted from social/card.css unchanged: a filled block rather
+   than coloured ink, because a creative scrolling past gets a third of a second
+   and colour alone does not survive that. The padding is optical — Nunito's
+   descenders want the extra below. */
+mark {
+  background: var(--tint);
+  color: var(--canvas);
+  padding: 0.06em 0.16em 0.10em;
+  border-radius: 8px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* A generic middle region for the templates that hold up one object rather than
+   a phone. `min-height: 0` is what lets it actually give the row back when the
+   copy above it runs long, instead of pushing the button off the canvas. */
+.stage--capture,
+.stage--price,
+.stage--wall {
+  position: relative;
+  min-height: 0;
+  padding: 0 var(--pad);
+}
+
+.ad--capture > .foot,
+.ad--pricing > .foot {
+  padding: 0 var(--pad) 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.ad--pricing > .foot { align-items: center; }
+
+.ad--capture > .foot .reassure,
+.ad--pricing > .foot .reassure { text-align: center; }
+
+/* The band, for the two newer templates that carry one. `.band` has never had a
+   bare rule — it is declared under each template that uses it, because the
+   height differs — so a template that emitted one without claiming it here got
+   block layout, a script line stacked above the button, and a band 80px taller
+   than the row it was budgeted for. */
+.ad--ledger > .band,
+.ad--library > .band {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--pad);
+  background: var(--tint-band);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.ad--ledger > .band .right,
+.ad--library > .band .right { text-align: center; }
+
+.ad--ledger > .band { height: 214px; }
+
+/* --------------------------------------------------------------------------
+   Template — ledger
+   -------------------------------------------------------------------------- */
+
+/* No phone. The product is the archive, so the evidence is the archive: one
+   question and four years under it, read down rather than across. */
+.ad--ledger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+}
+
+.ad--ledger > .head { padding: var(--pad) var(--pad) 0; }
+.ad--ledger > .copy { padding: 44px var(--pad) 0; }
+.ad--ledger .h { font-size: 62px; }
+.ad--ledger .sub { max-width: 22em; }
+
+.ledger {
+  min-height: 0;
+  padding: 34px var(--pad) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ledger-rule { display: flex; align-items: baseline; gap: 16px; padding-bottom: 6px; }
+.ledger-rule i { flex: 1; height: 1px; background: var(--rule); }
+
+.ledger-label {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ledger-q {
+  margin: 0 0 8px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.entries { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+
+.entry {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  padding: 21px 30px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  box-shadow: 0 2px 8px rgba(35, 37, 60, 0.04);
+}
+
+.entry-when { flex: none; width: 186px; }
+.entry-date { margin: 0; font-family: var(--display); font-weight: 700; font-size: 23px; line-height: 1.2; }
+.entry-age { margin: 5px 0 0; font-size: 20px; line-height: 1.2; color: var(--tint); }
+.entry-answer { margin: 0; font-size: 24px; line-height: 1.34; text-wrap: pretty; }
+
+/* --------------------------------------------------------------------------
+   Template — card
+   -------------------------------------------------------------------------- */
+
+/* The organic post's own layout, bought. Paper rather than canvas, the wide
+   card padding rather than the ad padding, and the lockup and the button
+   demoted to the foot — everything that says "ad" made quiet, because the whole
+   idea is a placement that does not announce itself as one. */
+.ad--card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  background: var(--surface);
+  background-image: none;
+}
+
+.card-head {
+  padding: 96px 96px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.badge {
+  padding: 19px 28px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--tint);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.stamp { margin: 0; font-size: 24px; line-height: 1; color: #B4ADA3; }
+
+.card-body { min-height: 0; padding: 84px 96px 0; overflow: hidden; }
+
+.card-prompt {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 76px;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.card-foot {
+  padding: 0 96px 84px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.card-foot .right { text-align: right; }
+
+/* --------------------------------------------------------------------------
+   Template — capture
+   -------------------------------------------------------------------------- */
+
+.ad--capture {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+}
+
+.ad--capture > .head { padding: var(--pad) var(--pad) 0; }
+.ad--capture > .copy { padding: 44px var(--pad) 0; }
+.ad--capture .h { font-size: 62px; }
+.ad--capture .sub { max-width: 21em; }
+
+.stage--capture {
+  padding-top: 48px;
+  padding-bottom: 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* `flex: none` is load-bearing. Without it the column squashes the evidence
+   when the copy above runs long, and the card's own overflow clips its meta row
+   from the inside — a defect that looks like a crop, not like overset copy. */
+.ev {
+  flex: none;
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  box-shadow: 0 14px 36px rgba(35, 37, 60, 0.09);
+  overflow: hidden;
+}
+
+.ev-foot {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hair);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ev-stamp { margin: 0; flex: none; font-size: 21px; color: #B4ADA3; white-space: nowrap; }
+.ev-quote { margin: 0; font-size: 26px; line-height: 1.35; text-wrap: pretty; }
+.ev-note { margin: 0; font-size: 22px; line-height: 1.3; color: var(--muted); }
+.ev-prompt {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.said { font-style: normal; background: var(--tint-soft); border-radius: 6px; padding: 0 6px; }
+
+/* — voice — */
+
+.ev--voice { padding: 42px 44px 38px; }
+.ev--voice .ev-track { display: flex; align-items: center; gap: 26px; }
+
+.ev-glyph {
+  flex: none;
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  background: var(--tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ev-glyph svg { display: block; width: 38px; height: 38px; color: var(--canvas); }
+
+/* Heights are percentages of the track, so one set of fifty numbers draws at
+   every canvas without a size block of its own. */
+.wave { flex: 1; display: flex; align-items: center; gap: 4px; height: 126px; }
+.wave i { flex: 1; border-radius: 999px; background: var(--rule); }
+.wave i.on { background: var(--tint); }
+
+/* — plate — */
+
+.plate { position: relative; height: 296px; display: flex; align-items: center; justify-content: center; }
+
+/* The site's own --wash for a still, a warm neutral for a frame of video. No
+   surface this repo builds shows a photograph of a child; an abstract reads as
+   an image where a grey box reads as one that failed to load. */
+.plate--wash { background: linear-gradient(135deg, #FDE8DC 0%, #F7DDE8 50%, #FBF6EF 100%); }
+.plate--still {
+  height: 242px;
+  background: linear-gradient(150deg, #F1ECE3 0%, #E9E1D4 58%, #EFE7DA 100%);
+}
+
+.plate-badge {
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--tint);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.plate > .plate-badge {
+  position: absolute;
+  left: 26px;
+  top: 26px;
+  background: rgba(253, 250, 244, 0.92);
+}
+
+.plate-play {
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  background: rgba(253, 250, 244, 0.94);
+  box-shadow: 0 10px 28px rgba(35, 37, 60, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plate-play svg { display: block; width: 38px; height: 38px; margin-left: 5px; fill: var(--tint); }
+
+.plate-time {
+  position: absolute;
+  right: 26px;
+  bottom: 26px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(35, 37, 60, 0.72);
+  color: var(--canvas);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.ev-body { padding: 28px 40px 32px; }
+.ev-body .ev-foot { margin-top: 20px; padding-top: 20px; }
+
+/* — did — */
+
+/* No plate. An activity has no media, and drawing one to keep the layout
+   regular would be the only dishonest frame in the series. */
+.ev--did { padding: 38px 44px 34px; }
+.ev--did .ev-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.ev--did .ev-prompt { margin-top: 26px; font-size: 36px; }
+
+/* Sage is the app's completed state and it is the third colour in the system
+   that is not red — which is the whole reason this ad can show a finished thing
+   without the palette reaching for one. */
+.did {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 26px;
+  border-radius: 18px;
+  background: #E8F0E6;
+  border: 1px solid #D8E4D5;
+}
+
+.did svg { display: block; width: 24px; height: 24px; flex: none; color: #4B7A4F; }
+.did-label { margin: 0; font-family: var(--display); font-weight: 700; font-size: 25px; line-height: 1; color: #4B7A4F; }
+.did-note { margin: 0 0 0 auto; font-size: 21px; line-height: 1; color: var(--muted); }
+
+/* — the ticks under the evidence — */
+
+.ad--capture .ticks { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 15px; }
+.ad--capture .ticks li { display: flex; gap: 14px; align-items: flex-start; font-size: 24px; line-height: 1.32; }
+.ad--capture .ticks svg { flex: none; width: 24px; height: 24px; margin-top: 3px; color: var(--tint); }
+
+/* --------------------------------------------------------------------------
+   Template — pricing
+   -------------------------------------------------------------------------- */
+
+.ad--pricing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  text-align: center;
+}
+
+.ad--pricing > .head { padding: 66px var(--pad) 0; display: flex; justify-content: center; }
+.ad--pricing > .head .lockup svg { height: 50px; }
+.ad--pricing > .copy { padding: 34px var(--pad) 0; }
+.ad--pricing .h { font-size: 54px; }
+.ad--pricing .sub { margin: 22px auto 0; font-size: 24px; line-height: 1.4; max-width: 25em; }
+
+.stage--price { padding-top: 30px; display: flex; flex-direction: column; justify-content: center; }
+
+.ptable {
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  overflow: hidden;
+  box-shadow: 0 14px 36px rgba(35, 37, 60, 0.09);
+  text-align: left;
+}
+
+.prow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 13px 30px;
+  font-size: 20px;
+  line-height: 1.3;
+  border-top: 1px solid #F0EAE0;
+}
+
+.prow--head {
+  padding: 17px 30px;
+  background: var(--tint-soft);
+  border-top: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.prow--head .pcol-free { color: var(--tint); }
+.prow:nth-of-type(2) { border-top: 0; }
+.prow-label { font-family: var(--display); font-weight: 700; padding-right: 16px; }
+
+/* An absent thing is an em dash in grey. There is no cross column and there is
+   no red — the same rule the compare template's left column keeps. */
+.prow .none { color: var(--muted); }
+.prow .dash { color: #A9A296; }
+
+.prow--price {
+  padding: 18px 30px;
+  border-top: 1px solid var(--hair);
+  background: var(--tint-band);
+  align-items: baseline;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 21px;
+}
+
+.price-free { font-size: 28px; color: var(--tint); }
+.price-paid em { font-style: normal; font-weight: 600; font-size: 18px; color: var(--muted); }
+
+.promise {
+  margin: 24px 0 0;
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------------------------------
+   Template — library
+   -------------------------------------------------------------------------- */
+
+.ad--library {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+}
+
+.ad--library > .head { padding: var(--pad) var(--pad) 0; }
+.ad--library > .copy { padding: 44px var(--pad) 0; }
+.ad--library .h { font-size: 62px; }
+
+.stage--wall { padding-top: 38px; overflow: hidden; }
+
+.wall { display: flex; flex-wrap: wrap; gap: 12px; opacity: 0.55; }
+
+.qchip {
+  display: inline-block;
+  padding: 13px 20px;
+  border-radius: 999px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  background: var(--peach);
+  color: #9A431E;
+}
+
+/* Kind carries colour here exactly as it does on a prompt card: question and
+   voice are periwinkle, every other verb terracotta. */
+.qchip--q,
+.qchip--v { background: var(--lav); color: #3F4FB0; }
+
+/* The wall does not stop, it dissolves. It has to be fully cream before the
+   featured card's bottom edge — reach only half opacity there and one row
+   surfaces underneath the card as ghost text, which reads as a rendering fault
+   rather than as depth. */
+.wall-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 420px;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    rgba(253, 250, 244, 0) 0%,
+    rgba(253, 250, 244, 0.98) 22%,
+    rgba(253, 250, 244, 1) 38%);
+}
+
+.featured {
+  position: absolute;
+  z-index: 2;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: 96px;
+  padding: 44px 48px;
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  box-shadow: 0 40px 90px rgba(35, 37, 60, 0.22), 0 4px 14px rgba(35, 37, 60, 0.08);
+}
+
+.featured-label {
+  display: inline-block;
+  margin-bottom: 22px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  background: var(--tint-soft);
+  color: var(--tint);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.featured-prompt {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.wall-note {
+  position: absolute;
+  z-index: 3;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: 26px;
+  margin: 0;
+  font-size: 25px;
+  line-height: 1.4;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.ad--library > .band { height: 200px; }
+
+/* --------------------------------------------------------------------------
+   Other canvases
+   -------------------------------------------------------------------------- */
+
+/* Square loses 270px of height. The feature ad gives it up from the feature
+   list and the headline rather than from the phone, because the phone is the
+   only part of the ad that is evidence. */
+html[data-size='square'] .ad--feature .h { font-size: 60px; }
+html[data-size='square'] .ad--feature .sub { font-size: 25px; margin-top: 16px; }
+html[data-size='square'] .ad--feature .features { margin-top: 30px; }
+html[data-size='square'] .ad--feature .features li + li { margin-top: 20px; }
+html[data-size='square'] .ad--feature .chip { width: 58px; height: 58px; }
+html[data-size='square'] .ad--feature .chip svg { width: 29px; height: 29px; }
+html[data-size='square'] .ad--feature .f-label { font-size: 26px; }
+html[data-size='square'] .ad--feature .f-body { font-size: 21px; }
+html[data-size='square'] .ad--feature .phone { --phone-w: 460px; bottom: -170px; right: -30px; }
+html[data-size='square'] .ad--feature > .body { grid-template-columns: 560px minmax(0, 1fr); }
+html[data-size='square'] .ad--feature > .band { height: 180px; }
+html[data-size='square'] .script { font-size: 52px; }
+html[data-size='square'] .lockup svg { height: 50px; }
+
+html[data-size='square'] .ad--notify .h { font-size: 64px; }
+html[data-size='square'] .ad--notify .phone { --phone-w: 430px; bottom: -210px; }
+html[data-size='square'] .ad--notify .notif { width: 540px; left: 210px; bottom: 470px; }
+html[data-size='square'] .ad--notify .arrow { left: 400px; top: 330px; }
+
+html[data-size='square'] .ad--compare .h { font-size: 46px; }
+html[data-size='square'] .ad--compare .sub { font-size: 22px; margin-top: 22px; }
+html[data-size='square'] .ad--compare > .cols { padding-top: 22px; }
+html[data-size='square'] .ad--compare .col-label { margin-bottom: 16px; font-size: 19px; }
+html[data-size='square'] .ad--compare .col .phone { --phone-w: 330px; }
+html[data-size='square'] .ad--compare .col .phone > .screen { aspect-ratio: 330 / 372; }
+html[data-size='square'] .ad--compare .ticks { margin-top: 18px; }
+html[data-size='square'] .ad--compare .ticks li { font-size: 19px; }
+html[data-size='square'] .ad--compare .ticks li + li { margin-top: 9px; }
+html[data-size='square'] .roll .roll-grid i { border-radius: 5px; }
+html[data-size='square'] .roll .roll-note { margin-top: 16px; font-size: 18px; }
+html[data-size='square'] .ad--compare > .band { height: 150px; }
+
+html[data-size='square'] .ad--ledger .h { font-size: 52px; }
+html[data-size='square'] .ad--ledger > .copy { padding-top: 28px; }
+html[data-size='square'] .ad--ledger .sub { margin-top: 18px; font-size: 23px; max-width: 27em; }
+html[data-size='square'] .ad--ledger > .band { height: 176px; }
+html[data-size='square'] .ledger { padding-top: 22px; gap: 12px; }
+html[data-size='square'] .ledger-label { font-size: 18px; }
+html[data-size='square'] .ledger-q { margin-bottom: 4px; font-size: 28px; }
+html[data-size='square'] .entries { gap: 10px; }
+html[data-size='square'] .entry { padding: 14px 24px; border-radius: 16px; }
+html[data-size='square'] .entry-when { width: 148px; }
+html[data-size='square'] .entry-date { font-size: 20px; }
+html[data-size='square'] .entry-age { margin-top: 3px; font-size: 18px; }
+html[data-size='square'] .entry-answer { font-size: 20px; line-height: 1.32; }
+
+html[data-size='square'] .ad--library .h { font-size: 52px; }
+html[data-size='square'] .ad--library > .copy { padding-top: 30px; }
+html[data-size='square'] .featured { padding: 34px 38px; bottom: 84px; }
+html[data-size='square'] .featured-label { margin-bottom: 16px; font-size: 18px; padding: 11px 18px; }
+html[data-size='square'] .featured-prompt { font-size: 36px; }
+html[data-size='square'] .wall-note { font-size: 21px; bottom: 22px; }
+html[data-size='square'] .qchip { font-size: 18px; padding: 11px 17px; }
+html[data-size='square'] .wall-fade { height: 340px; }
+
+html[data-size='square'] .ad--quiet .h { font-size: 60px; }
+html[data-size='square'] .ad--quiet > .copy { padding-top: 34px; }
+html[data-size='square'] .ad--quiet .sub { font-size: 25px; }
+html[data-size='square'] .ad--quiet .promises { margin-top: 26px; gap: 12px 20px; }
+html[data-size='square'] .ad--quiet .promises li { font-size: 23px; padding: 13px 21px; }
+html[data-size='square'] .ad--quiet .phone { --phone-w: 470px; bottom: -470px; }
+html[data-size='square'] .ad--quiet > .stage::after { height: 270px; }
+
+/* Story gains 570px. It goes to the phone — a story is watched at arm's length
+   and the screenshot is what has to survive that distance. */
+/* Story is the same 1080 wide and 570 taller, so the second column buys nothing
+   and the height buys everything: the copy takes the full measure and the phone
+   rises out of the bottom edge underneath it. */
+html[data-size='story'] .ad--feature > .body { grid-template-columns: minmax(0, 1fr); }
+html[data-size='story'] .ad--feature .col-copy { padding-right: 0; }
+html[data-size='story'] .ad--feature .h { font-size: 84px; }
+html[data-size='story'] .ad--feature .sub { font-size: 32px; max-width: 20em; }
+html[data-size='story'] .ad--feature .features { margin-top: 52px; }
+html[data-size='story'] .ad--feature .features li + li { margin-top: 34px; }
+html[data-size='story'] .ad--feature .chip { width: 78px; height: 78px; }
+html[data-size='story'] .ad--feature .chip svg { width: 39px; height: 39px; }
+html[data-size='story'] .ad--feature .f-label { font-size: 33px; }
+html[data-size='story'] .ad--feature .f-body { font-size: 26px; max-width: 24em; }
+html[data-size='story'] .ad--feature .phone {
+  --phone-w: 640px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  bottom: -790px;
+}
+html[data-size='story'] .ad--feature > .band { height: 250px; }
+/* The band is the same 1080 wide on every canvas, so the story's larger type
+   has to stop at the one row that is measured horizontally rather than
+   vertically: a script line and a button, side by side. */
+html[data-size='story'] .script { font-size: 52px; }
+html[data-size='story'] .cta { font-size: 28px; padding: 22px 36px; }
+html[data-size='story'] .cta svg { width: 23px; height: 23px; }
+html[data-size='story'] .reassure { font-size: 20px; }
+html[data-size='story'] .lockup svg { height: 66px; }
+
+html[data-size='story'] .ad--notify .h { font-size: 88px; }
+html[data-size='story'] .ad--notify .phone { --phone-w: 620px; bottom: -220px; }
+html[data-size='story'] .ad--notify .notif { width: 760px; left: 180px; bottom: 900px; }
+html[data-size='story'] .ad--notify .arrow { left: 560px; top: 620px; }
+
+html[data-size='story'] .ad--compare .h { font-size: 62px; }
+html[data-size='story'] .ad--compare .sub { font-size: 28px; }
+html[data-size='story'] .ad--compare .col-label { font-size: 25px; margin-bottom: 28px; }
+html[data-size='story'] .ad--compare .col .phone { --phone-w: 440px; }
+html[data-size='story'] .ad--compare .col .phone > .screen { aspect-ratio: 440 / 700; }
+html[data-size='story'] .ad--compare .ticks { margin-top: 32px; }
+html[data-size='story'] .ad--compare .ticks li { font-size: 25px; }
+html[data-size='story'] .roll .roll-date { font-size: 22px; }
+html[data-size='story'] .roll .roll-note { font-size: 24px; margin-top: 26px; }
+html[data-size='story'] .ad--compare > .band { height: 240px; }
+
+html[data-size='story'] .ad--quiet .h { font-size: 92px; }
+html[data-size='story'] .ad--quiet .phone { --phone-w: 700px; bottom: -520px; }

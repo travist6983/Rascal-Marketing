@@ -17,6 +17,7 @@
     "social:post": "node scripts/social-post.mjs",
     "social:reel": "node scripts/social-reel.mjs",
     "social:showcase": "node scripts/social-showcase.mjs",
+    "ads": "node scripts/ad-images.mjs",
     "video": "npm --prefix video run dev",
     "design": "npx --yes impeccable@3.5.0 detect index.html styles.css app.js",
     "design:live": "node scripts/design-live.mjs"

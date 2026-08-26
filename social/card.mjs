@@ -88,21 +88,41 @@ export const escapeHtml = (value) =>
    Page
    -------------------------------------------------------------------------- */
 
-/** The self-hosted variable fonts, inlined — no network, no CORS, no fallback. */
-export function fontFaces() {
-  const face = (family, file, weights) => {
-    const path = join(root, 'fonts', file);
-    if (!existsSync(path)) throw new Error(`missing ${path} — the card sets its type in ${family}`);
-    const data = readFileSync(path).toString('base64');
-    return (
-      `@font-face{font-family:'${family}';font-style:normal;font-weight:${weights};` +
-      `font-display:block;src:url(data:font/woff2;base64,${data}) format('woff2');}`
-    );
-  };
-  return [
-    face('Nunito', 'nunito-var-latin.woff2', '600 800'),
-    face('Source Sans 3', 'source-sans-3-var-latin.woff2', '400 600')
-  ].join('\n');
+/** Every face this repo ships, with the weight range each one is subset to. */
+const FACES = {
+  Nunito: { file: 'nunito-var-latin.woff2', weights: '600 800' },
+  'Source Sans 3': { file: 'source-sans-3-var-latin.woff2', weights: '400 600' }
+};
+
+/**
+ * The self-hosted variable fonts, inlined — no network, no CORS, no fallback.
+ *
+ * Which faces a surface needs is the surface's call, and the two surfaces
+ * disagree: a prompt card sets its body copy in Source Sans 3, and an ad sets
+ * body copy in the system stack the landing page itself uses, so it wants
+ * Nunito on its own. Default to both, because a card asked for both long
+ * before an ad asked for one.
+ *
+ * Asking for a face this repo does not ship throws. Left to itself it would
+ * render the fallback and look merely a little off, which is the defect a
+ * headline is worst at showing you.
+ */
+export function fontFaces(families = Object.keys(FACES)) {
+  return families
+    .map((family) => {
+      const face = FACES[family];
+      if (!face) {
+        throw new Error(`no face "${family}" — this repo ships ${Object.keys(FACES).join(', ')}`);
+      }
+      const path = join(root, 'fonts', face.file);
+      if (!existsSync(path)) throw new Error(`missing ${path} — the type is set in ${family}`);
+      const data = readFileSync(path).toString('base64');
+      return (
+        `@font-face{font-family:'${family}';font-style:normal;font-weight:${face.weights};` +
+        `font-display:block;src:url(data:font/woff2;base64,${data}) format('woff2');}`
+      );
+    })
+    .join('\n');
 }
 
 /** Reads the two files every card needs. Both callers want the same pair. */
