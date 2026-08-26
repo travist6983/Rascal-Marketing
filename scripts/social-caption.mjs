@@ -17,6 +17,8 @@
  * rewriting: it decides how every caption sounds. Everything else is plumbing.
  * ─────────────────────────────────────────────────────────────────────────────
  */
+/* First: fills process.env from .env if there is one, before CONFIG reads it. */
+import './env.mjs';
 import { readQueue, writeQueue } from '../social/queue.mjs';
 
 /* The SDK is imported where it is used, not at the top, so `--dry-run` and
@@ -71,6 +73,32 @@ Write:
   nothing that reads as engagement bait.
 `.trim();
 
+/* A creative from `npm run ads -- --queue` is not a prompt card and the caption
+   cannot pretend otherwise: it already carries a headline, a subhead and a
+   button, so a caption that restates the headline is the post saying the same
+   thing twice. The alt text has more to describe too — a screen reader user
+   gets nothing from "a cream card" when the image is a price table. */
+const AD_TASK = `
+The image is an ad creative, not a prompt card. It already carries a headline, a
+line under it and a button, so the caption must not restate the headline — its
+job is the thing the creative had no room for.
+
+Write:
+- caption: 1–3 short sentences, under 300 characters. It must not repeat the
+  headline in different words. No hashtags in this field. Do not mention the
+  button or tell anyone to tap anything; the button is in the image.
+- alt_text: a literal description of the image for a screen reader. Use ONLY
+  what "What is actually in the image" below says is there — do not add a phone,
+  a photo or a waveform that is not listed. The headline as written, what is
+  shown, and the button's words. Under 200 characters.
+- The caption must not describe a different prompt from the one on the creative.
+  If the image shows one specific prompt, anything you say about "the prompt"
+  has to be about that one.
+- hashtags: 3 to 6, lowercase, no punctuation beyond the words themselves.
+  Relevant to parenting and memory-keeping. No banned or spammy tags, and
+  nothing that reads as engagement bait.
+`.trim();
+
 const SCHEMA = {
   type: 'object',
   properties: {
@@ -101,6 +129,14 @@ Vellum social captions
 `;
 
 function userPrompt(post) {
+  if (post.kind === 'AD' && post.ad) {
+    const sub = post.ad.subhead ? `\n\nThe line under it:\n\n"${post.ad.subhead}"` : '';
+    const shows = post.ad.shows ? `\n\nWhat is actually in the image:\n\n${post.ad.shows}` : '';
+    return (
+      `${AD_TASK}\n\nThe headline on the creative:\n\n"${post.ad.headline}"${sub}` +
+      `\n\nThe button says: "${post.ad.cta}"${shows}`
+    );
+  }
   return `${TASK}\n\nThe prompt on the card (kind: ${post.kind}):\n\n"${post.prompt}"`;
 }
 
