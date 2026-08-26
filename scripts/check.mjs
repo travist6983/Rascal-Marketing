@@ -503,9 +503,16 @@ const shots = join(root, 'screenshots');
 await mkdir(shots, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 
+/* /terms and /privacy joined this list on Aug 25 2026, when both were rewritten to
+   cover the app. They had been checked statically and never rendered, which was
+   defensible while they were two screens of site copy and stopped being so the day
+   an App Review reviewer follows them out of a paywall on a 320px phone. They are
+   also the two longest pieces of unbroken prose on the site, so the overflow check
+   has more to find on them than on a page built out of cards. */
 const ROUTES = ['/', '/how-it-works', '/prompts', '/pricing', '/promise', '/faq',
   '/compare/tinybeans', '/compare/qeepsake', '/compare/camera-roll',
-  '/blog', '/blog/the-photo-survives', '/waitlist', '/thanks'];
+  '/blog', '/blog/the-photo-survives', '/waitlist', '/thanks',
+  '/terms', '/privacy'];
 
 for (const [name, viewport] of [
   ['desktop', { width: 1400, height: 1000 }],
