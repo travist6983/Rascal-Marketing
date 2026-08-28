@@ -1,4 +1,6 @@
-> **Historical export. The product is now called Vellum** (owner decision, Aug 17 2026).
+> **Historical export. The product was renamed to Vellum on Aug 17 2026 and to
+> Pocket Chronicle on Aug 27 2026** (owner decisions; the second followed an
+> attorney confirming a trademark conflict on Vellum).
 > Everything in `docs/marketing-site/` — the `.dc.html` canvases, `tokens.css`, `app.js`,
 > `uploads/` — is a point-in-time export from Claude Design made while the product was
 > called Dogear, including the filenames. It is kept unmodified as provenance for the

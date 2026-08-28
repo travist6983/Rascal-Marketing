@@ -9,11 +9,18 @@
  * NOTE: the "133" in prompts.png is baked into the image. When the prompt
  * library count changes, regenerate the set with `npm run og`.
  *
- * Deliberately absent: the product name, child photos, screenshots. The name is
- * settled (Vellum) but not cleared — no trademark search has been run, and the
- * cards carry the promise instead ("one question a day"). Keeping the name out
- * of the pixels is also what makes a rename cheap: these 17 PNGs did not need
- * re-rendering when Dogear became Vellum, and would not need it again.
+ * Deliberately absent: the product name, child photos, screenshots. That was
+ * hedging when it was written — the name was Vellum, unsearched, and might have
+ * to move. It did: an attorney found a trademark conflict and it became Pocket
+ * Chronicle on Aug 27 2026. Pocket Chronicle has had no clearance search either,
+ * so the hedge stands rather than being retired. The cards carry the promise
+ * instead ("one question a day").
+ *
+ * Keeping the name out of the pixels is also what makes a rename cheap, and that
+ * claim has now been tested twice rather than argued once: these 17 PNGs needed
+ * no re-rendering when Dogear became Vellum, and needed none again when Vellum
+ * became Pocket Chronicle. Compare social/card.mjs and the three Remotion
+ * components, which do draw the name and cost 23 re-rendered binaries.
  *
  * Also renders src/assets/icon-180.png (the apple-touch-icon) from icon.svg,
  * so every image asset the layout references comes out of one command.

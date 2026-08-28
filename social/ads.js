@@ -35,8 +35,11 @@
  * The button, in the two states the product has.
  *
  * `waitlist` is CTA in site.config.json verbatim — the string the site's own
- * button carries, and the only honest one while the App Store listing is the
- * cluster of unrelated apps described in that file's note. `launch` is the one
+ * button carries, and the only honest one while there is no App Store listing
+ * to send anybody to. That was true for one reason when this was written (the
+ * name Dogear was occupied by a cluster of book-tracking apps, per that file's
+ * note) and is true for another now: the product was renamed to Pocket
+ * Chronicle on Aug 27 2026 and has never been listed under it. `launch` is the one
  * these creatives run with once the app is up, which is what they were drawn
  * for. Choose with `npm run ads -- --cta launch`; ask for both and you get both
  * sets, which is the only way to compare them at the size they will be seen.
@@ -72,7 +75,7 @@ export const ADS = [
     headline: 'One question a day about your kid.',
     accent: 'about your kid',
     subhead:
-      'Vellum asks something you would never think to write down, and keeps the answer with the question that caused it.',
+      '{{PRODUCT}} asks something you would never think to write down, and keeps the answer with the question that caused it.',
     features: [
       {
         icon: 'question',
@@ -121,9 +124,9 @@ export const ADS = [
     headline: 'The photo survives. The reason doesn’t.',
     accent: 'The reason doesn’t.',
     subhead:
-      'Four thousand photos and no idea why you took them. Vellum keeps the question that caused the moment, filed with the moment.',
+      'Four thousand photos and no idea why you took them. {{PRODUCT}} keeps the question that caused the moment, filed with the moment.',
     features: [],
-    columns: ['Camera roll', 'Vellum'],
+    columns: ['Camera roll', '{{PRODUCT}}'],
     roll: { date: 'Tuesday', note: 'A shoe. A puddle. A drawing.', tiles: 12 },
     beforeTicks: [{ none: 'The date, and nothing else' }, { none: 'No idea why you took it' }],
     afterTicks: ['The question that caused it', 'Their exact age that day'],

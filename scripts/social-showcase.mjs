@@ -27,7 +27,7 @@ import { root } from '../social/queue.mjs';
 const VIDEO_DIR = join(root, 'video');
 
 const HELP = `
-Vellum Instagram set
+Pocket Chronicle Instagram set
 
   npm run social:showcase -- [options]
 
@@ -147,7 +147,7 @@ try {
   if (opts.dryRun) process.exit(0);
 
   mkdirSync(opts.out, { recursive: true });
-  propsDir = mkdtempSync(join(tmpdir(), 'vellum-showcase-'));
+  propsDir = mkdtempSync(join(tmpdir(), 'pocket-chronicle-showcase-'));
 
   process.stderr.write('\n  bundling once…\n');
   const bundleDir = join(propsDir, 'bundle');

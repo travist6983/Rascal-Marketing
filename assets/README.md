@@ -100,11 +100,25 @@ its own; ★★ supports one; ★ is a reference capture.
 
 #### Onboarding — the "it takes a minute" argument
 
-> **Re-captured Aug 18 2026 for the Vellum rename — resolved.** `onboarding-welcome.png` was
-> the only screenshot here that showed the product name (a `DOGEAR` eyebrow). It was
-> re-captured off a device from `main` after the iOS rename merged, with
-> `CFBundleDisplayName` verified as **Vellum** in the built `.app` rather than only in
-> source. Same 1206×2622, same 9:41 status bar; the eyebrow now reads `VELLUM`.
+> **Re-captured Aug 18 2026 for the Vellum rename, and BROKEN AGAIN by the Pocket
+> Chronicle rename on Aug 27 2026.** `onboarding-welcome.png` is the only screenshot here
+> that shows the product name. It read `DOGEAR`; it was re-captured off a device from
+> `main` after the iOS rename merged, with `CFBundleDisplayName` verified as **Vellum** in
+> the built `.app` rather than only in source; same 1206×2622, same 9:41 status bar, and
+> the eyebrow then read `VELLUM`. It still reads `VELLUM`, and that is now a dead name on
+> a mark an attorney found a conflict with.
+>
+> **Do not publish this screenshot.** It cannot be fixed here — no crop or edit removes an
+> eyebrow that is the point of the shot — and it cannot be fixed by a substitution
+> anywhere in this repository, because the string lives in pixels off a device. It needs
+> an iOS rebuild and a fresh capture, which is tracked separately.
+>
+> **What the eyebrow should read is `Chronicle`, not `Pocket Chronicle`.** The App Store
+> name is Pocket Chronicle; the home-screen label — and therefore
+> `CFBundleDisplayName` — is `Chronicle`. Verifying the capture against "Pocket
+> Chronicle" would be checking for a string the device will never show. This is the
+> second time this screenshot has cost a capture, which is the argument for a hero that
+> does not have the name in it.
 >
 > Every other screenshot was checked individually and needed nothing — they are in-app
 > content screens whose chrome is generic (TODAY / TIMELINE / MOMENTS / SETTINGS). That
@@ -122,7 +136,7 @@ its own; ★★ supports one; ★ is a reference capture.
 
 | File | What it shows | Good for | |
 |---|---|---|---|
-| `onboarding-welcome.png` | *"Let's save today before it's gone."* under a **`VELLUM`** eyebrow, with Sign in with Apple and Continue with Google | Ready-made hero copy, and correct branding. **Crop out the "Use the development account" link — and see the Apple ID caveat above before using the sub-headline** | ★★★ |
+| `onboarding-welcome.png` | *"Let's save today before it's gone."* under a **`VELLUM`** eyebrow, with Sign in with Apple and Continue with Google | **Nothing, until it is re-captured.** The eyebrow shows a dead name in pixels — see the note above. The copy and the layout are still the hero we want; the branding is wrong and unfixable here | — |
 | `onboarding-pronouns.png` | *"What are Hendrix's pronouns?"* — he/him, she/her, they/them | **Directly answers the site's they/them position**, and evidence the app was built for it. Worth its own post | ★★★ |
 | `onboarding-birthdate.png` | A date wheel: *"It's what stamps every entry with an exact age, forever."* | Explains the age-stamping the timeline shows. Good second panel in a carousel | ★★ |
 | `onboarding-notifications.png` | *"One note a day? … Never more than one. Off whenever you want."* | The anti-engagement promise, in the app's own words. Strong for a privacy/calm-tech angle | ★★ |

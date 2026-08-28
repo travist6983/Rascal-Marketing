@@ -36,7 +36,7 @@ import {
 } from '../social/ad.mjs';
 
 const HELP = `
-Vellum ad creatives
+Pocket Chronicle ad creatives
 
   npm run ads -- [options]
 
@@ -474,7 +474,7 @@ try {
   if (opts.sheet) {
     const html = join(opts.out, '_contact-sheet.html');
     const png = join(opts.out, '_contact-sheet.png');
-    writeFileSync(html, sheetHtml(jobs, { fonts, title: 'Vellum — ad creatives' }));
+    writeFileSync(html, sheetHtml(jobs, { fonts, title: 'Pocket Chronicle — ad creatives' }));
     /* The sheet is a wall of finished PNGs — no copy to fit, so it takes the
        card renderer's plain shot rather than the ad one that waits for a fit
        flag no sheet ever sets. */

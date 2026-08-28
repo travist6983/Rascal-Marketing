@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-   Vellum — paid ad creatives
+   Pocket Chronicle — paid ad creatives
 
    A different job from social/card.css. That file draws one prompt on paper for
    the feed; this one draws a *bought* placement: a headline that has to land in
@@ -85,22 +85,49 @@ body {
 
 /* --- lockup -------------------------------------------------------------- */
 
-/* The site's own lockup: the fan of cards and the drawn wordmark, one svg. The
-   word is drawn rather than typed, so there is no <b> here and no second place
-   where the name could end up in the wrong weight.
+/* The site's own lockup: the fan of cards, then the name. The word WAS drawn —
+   inside the same svg, which is why this file used to say there was no <b> here
+   and no second place the name could end up in the wrong weight. That stopped
+   being true on Aug 27 2026: "Vellum" was six outlined letterforms and could not
+   be renamed to "Pocket Chronicle" by substitution, so the site set the name as
+   live text and this file follows it rather than re-drawing anything.
 
-   Height is the only number this file sets — the viewBox carries the ratio, the
-   same contract .wordmark and .foot__mark keep in site.css. The cards' fills are
-   painted into the drawing; only the wordmark's stroke takes currentColor, which
-   is what lets the ink-ground template flip it with one declaration. */
+   So there IS a second place now, and it is styled here deliberately: the word
+   must scale with the svg or the two halves of the lockup drift apart at the
+   square and story sizes, which set the svg height and nothing else.
+
+   Height is still the only number the size variants set — the viewBox carries
+   the ratio, the same contract .wordmark and .foot__mark keep in site.css, and
+   the word's size is derived from it below. The cards' fills are painted into
+   the drawing; the word takes currentColor, which is what lets the ink-ground
+   template flip it with one declaration.
+
+   SIZING WARNING: the name is about 2.7x wider than "Vellum" was, and ad.mjs's
+   FIT script watches the canvas, the band and the phone but NOT .lockup. A
+   lockup that runs off the edge will render silently. Eyeball all twelve
+   creatives after any change here. */
 .lockup {
+  --lockup-h: 56px;
   display: flex;
   align-items: center;
+  gap: 14px;
   line-height: 0;
   color: var(--ink);
 }
 
-.lockup svg { display: block; height: 56px; width: auto; }
+.lockup svg { display: block; height: var(--lockup-h); width: auto; flex: none; }
+
+.lockup .brand__word {
+  font-family: var(--display);
+  font-weight: 800;
+  /* Tracks the mark: the site sets a 22px word against a 30-34px svg, and this
+     keeps that ratio at every ad size rather than pinning a second number. */
+  font-size: calc(var(--lockup-h) * 0.68);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  color: currentColor;
+}
 
 /* --- type ---------------------------------------------------------------- */
 
@@ -1011,7 +1038,7 @@ mark {
 }
 
 .ad--pricing > .head { padding: 66px var(--pad) 0; display: flex; justify-content: center; }
-.ad--pricing > .head .lockup svg { height: 50px; }
+.ad--pricing > .head .lockup { --lockup-h: 50px; }
 .ad--pricing > .copy { padding: 34px var(--pad) 0; }
 .ad--pricing .h { font-size: 54px; }
 .ad--pricing .sub { margin: 22px auto 0; font-size: 24px; line-height: 1.4; max-width: 25em; }
@@ -1204,7 +1231,7 @@ html[data-size='square'] .ad--feature .phone { --phone-w: 460px; bottom: -170px;
 html[data-size='square'] .ad--feature > .body { grid-template-columns: 560px minmax(0, 1fr); }
 html[data-size='square'] .ad--feature > .band { height: 180px; }
 html[data-size='square'] .script { font-size: 52px; }
-html[data-size='square'] .lockup svg { height: 50px; }
+html[data-size='square'] .lockup { --lockup-h: 50px; }
 
 html[data-size='square'] .ad--notify .h { font-size: 64px; }
 html[data-size='square'] .ad--notify .phone { --phone-w: 430px; bottom: -210px; }
@@ -1285,7 +1312,7 @@ html[data-size='story'] .script { font-size: 52px; }
 html[data-size='story'] .cta { font-size: 28px; padding: 22px 36px; }
 html[data-size='story'] .cta svg { width: 23px; height: 23px; }
 html[data-size='story'] .reassure { font-size: 20px; }
-html[data-size='story'] .lockup svg { height: 66px; }
+html[data-size='story'] .lockup { --lockup-h: 66px; }
 
 html[data-size='story'] .ad--notify .h { font-size: 88px; }
 html[data-size='story'] .ad--notify .phone { --phone-w: 620px; bottom: -220px; }

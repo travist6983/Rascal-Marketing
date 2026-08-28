@@ -81,7 +81,10 @@ async function copyTree(from, to) {
  * literal `mailto:hello@{{DOMAIN}}` — on five pages, four Markdown twins,
  * llms-full.txt and site.js. It was invisible for exactly as long as DOMAIN's own
  * value was the string "{{DOMAIN}}", and would have gone public the hour a real
- * domain replaced it (getvellumapp.com, Aug 18 2026).
+ * domain replaced it — which was getvellumapp.com on Aug 18 2026, and is
+ * pocketchronicle.app since the Aug 27 2026 rename. The bug was fixed before
+ * either of them landed, so neither shipped it; the second domain move is the
+ * first one to have run through this expander with the guard already in place.
  *
  * A self-referencing value is still safe, which is what the single pass was
  * protecting against: replacing "{{DOMAIN}}" with "{{DOMAIN}}" changes nothing,
@@ -224,6 +227,27 @@ for (const file of pages) {
        an entity a crawler cannot tie to anything. The domain is what supplies it,
        so this stays gated on ORIGIN exactly like the canonicals above. */
     JSONLD_URL: origin ? `"url": ${JSON.stringify(origin)},\n      ` : '',
+    /* sameAs is a machine-readable claim that a profile IS this product, which is a
+       stronger thing to say than a footer link a reader can shrug at. So it is built
+       from the SOCIAL_* keys rather than written into the markup: a platform with no
+       key emits nothing, and the JSON stays valid either way. Adding a second real
+       account is one key in site.config.json and no edit here.
+
+       Empty until Aug 27 2026 for a reason worth keeping: an Instagram account existed
+       from Aug 20 2026 but its handle was recorded nowhere in this repository, and a
+       guessed sameAs is a crawler-legible lie. The Pocket Chronicle rename supplied the
+       handle, so the list is no longer empty — and it points at the NEW account, never
+       at the frozen @getvellum.app. */
+    JSONLD_SAMEAS: (() => {
+      const profiles = Object.keys(config)
+        .filter((k) => k.startsWith('SOCIAL_') && typeof config[k] === 'string')
+        .sort()
+        .map((k) => fill(String(config[k])))
+        .filter(Boolean);
+      return profiles.length
+        ? `"sameAs": ${JSON.stringify(profiles)},\n      `
+        : '';
+    })(),
     HEAD_EXTRA: fill(pageHead),
     BODY: body
   });

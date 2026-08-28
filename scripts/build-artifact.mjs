@@ -28,7 +28,7 @@ for (const [match, path] of fontRefs) {
   inlinedCss = inlinedCss.replace(match, `url(data:font/woff2;base64,${b64})`);
 }
 
-const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [, 'Vellum'])[1];
+const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [, 'Pocket Chronicle'])[1];
 const body = html
   .slice(html.indexOf('<body>') + '<body>'.length, html.lastIndexOf('</body>'))
   .replace('<script src="app.js"></script>', '')

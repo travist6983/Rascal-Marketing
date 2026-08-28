@@ -1012,8 +1012,31 @@ body.post--sage .prose blockquote { border-color: var(--rule-sage); }
 
    The mask's shapes carry .brand__card too, so the gap travels with the cards when the
    fan opens. Leave that class off them and the mark tears the moment it moves. */
-.brand { display: inline-block; line-height: 0; color: var(--ink); border-radius: 6px; }
-.brand svg { display: block; height: 34px; width: auto; overflow: visible; }
+/* The mark and the name, not one drawn object. Until the Pocket Chronicle rename on
+   Aug 27 2026 the whole lockup was geometry — the card fan AND the six letterforms of
+   "Vellum", inlined as a single path on all 21 pages. That was fine while the name was
+   six characters and settled. It was not survivable: an attorney found a trademark
+   conflict, the name moved, and a drawn word cannot be renamed by substitution. So the
+   letterforms are gone and the name is live text again, which is what it was before the
+   drawn lockup landed. The card fan stays — it spells nothing, so it survived the rename
+   the letters could not.
+
+   This is the honest interim, not the destination: a drawn "Pocket Chronicle" lockup is
+   real design work and is owed. Text set in the display face is the right thing to ship
+   in the meantime, because it is correct at every width and in every renderer, and it
+   cannot go on quietly asserting a name the product has lost. */
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  line-height: 0; color: var(--ink); border-radius: 6px;
+  text-decoration: none;
+}
+.brand svg { display: block; height: 34px; width: auto; overflow: visible; flex: none; }
+.brand__word {
+  font: 800 22px/1 var(--display);
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
 
 /* One rule, two jobs. The cards carry this class and so do the shapes inside each
    knockout mask, so the gap between two cards travels with the cards rather than staying
@@ -1042,9 +1065,26 @@ body.post--sage .prose blockquote { border-color: var(--rule-sage); }
 }
 
 /* Sized at the use site — the viewBox carries the proportion, so height is the only
-   number either surface sets. 30px puts the word's ascender at roughly the 22px the
-   live-text wordmark occupied, so the masthead's rhythm is unchanged. */
+   number either surface sets.
+
+   The note here used to explain that 30px put the drawn word's ascender at roughly the
+   22px the live-text wordmark occupied, so the masthead's rhythm was unchanged across the
+   switch to geometry. The word is live text again as of Aug 27 2026, so the 22px is now
+   set directly on .brand__word rather than approximated by a viewBox height — but the
+   target is the same number it has been through all three names, which is the point:
+   the masthead's rhythm was never a Dogear, a Vellum or a Pocket Chronicle decision. */
 .wordmark svg { height: 30px; }
 .foot__mark { margin-bottom: 18px; }
 .foot__mark svg { height: 32px; }
-@media (max-width: 599px) { .wordmark svg { height: 26px; } }
+
+/* "Pocket Chronicle" is sixteen characters where "Vellum" was six. At 320px the masthead
+   has to hold the lockup and the Menu toggle on one line, so the word steps down with the
+   mark rather than pushing the toggle off the edge. */
+@media (max-width: 599px) {
+  .wordmark svg { height: 26px; }
+  .wordmark .brand__word { font-size: 18px; }
+  .brand { gap: 8px; }
+}
+@media (max-width: 379px) {
+  .wordmark .brand__word { font-size: 16px; }
+}

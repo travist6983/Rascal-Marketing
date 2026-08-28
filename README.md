@@ -1,6 +1,6 @@
-# Vellum — marketing site
+# Pocket Chronicle — marketing site
 
-Landing page for Vellum: one question a day about your kid, free by email, with an
+Landing page for Pocket Chronicle: one question a day about your kid, free by email, with an
 iOS app in App Store review.
 
 No framework, no build step, no third-party requests — `index.html`, `styles.css`,
@@ -154,8 +154,14 @@ the feed that a person hasn't approved.
 image by public URL rather than accepting an upload — and JPEG because the
 publishing API accepts no other format.
 
-**It is live.** The first posts went out 2026-08-20; the rest of the setup is on
-Meta's side. Two docs:
+**It was live, and it is paused.** The first posts went out 2026-08-20 and it ran
+hourly until 2026-08-27, when the Pocket Chronicle rename froze the account: the
+`schedule:` trigger in `.github/workflows/social-post.yml` is commented out and
+the site will not post again until `IG_USER_ID` and `IG_ACCESS_TOKEN` point at
+`@pocketchronicle.app` instead of the old `@getvellum.app`. Manual
+`workflow_dispatch` runs still work and still default to `dry-run`. The old
+account is frozen rather than deleted — its 33 published posts stay up and their
+captions are never edited. Two docs:
 [`docs/social-setup-checklist.md`](docs/social-setup-checklist.md) is the
 tick-off list with every link you need, and
 [`docs/social-posting.md`](docs/social-posting.md) is the runbook behind it —
@@ -349,9 +355,14 @@ reported like any other overrun.
 
 ## Deploying
 
-Live at **https://getvellumapp.com** — registered Aug 18 2026 and pointed at
-Pages, which replaced `travist6983.github.io/Rascal-Marketing` as the address
-this site is built for.
+Live at **https://pocketchronicle.app**, since the rename on Aug 27 2026.
+
+Before that it was `getvellumapp.com`, registered Aug 18 2026, which is what
+replaced `travist6983.github.io/Rascal-Marketing` as the address this site is
+built for. `getvellumapp.com` is being **killed outright — there is no
+redirect**, so it is not a fallback and nothing in this repository should still
+name it. `npm run check` sweeps `dist/` for both it and the old project URL and
+fails on either.
 
 The domain is one line: `ORIGIN` in `site.config.json`. Setting it is what makes
 the build emit self-referencing canonicals, absolute OG URLs, an Organization
@@ -360,13 +371,16 @@ serve at the domain root instead of `/<repo-name>/`. Clearing `ORIGIN` turns all
 five off together, and `npm run check` fails if any of them disagree about the
 host.
 
-The product is Vellum; the repo is still `Rascal-Marketing`. The product has now
-outlived two names — Rascal, then Dogear — and the repo has kept the first one
-through both. One of the two reasons has now expired: the Pages project URL is no
-longer the address anybody visits. The other still holds — `Rascal-Marketing` is
-in the `raw.githubusercontent.com` base in `scripts/social-post.mjs` that
-Instagram fetches card images from, and renaming the repo breaks that until it
-changes with it. So it stays, on one reason instead of two.
+The product is Pocket Chronicle; the repo is still `Rascal-Marketing`. The
+product has now outlived three names — Rascal, then Dogear, then Vellum — and the
+repo has kept the first one through all of them, which is a better argument for
+keeping it than the one this paragraph used to make with two. One of the two
+original reasons has expired: the Pages project URL is no longer the address
+anybody visits. The other still holds — `Rascal-Marketing` is in the
+`raw.githubusercontent.com` base in `scripts/social-post.mjs` that Instagram
+fetches card images from, and renaming the repo breaks that until it changes with
+it. So it stays, on one reason instead of two, having outlasted a third brand in
+the meantime.
 
 Pages Source is set to **GitHub Actions**, so
 `.github/workflows/pages-actions.yml` is the deploy. It stages the site, adds a
