@@ -836,6 +836,23 @@ mark {
   text-wrap: pretty;
 }
 
+/* The lockup and the CTA share one row here, and neither can shrink: the mark is
+   flex:none and both the name and the button are nowrap. That was comfortable
+   while the name was "Vellum" — the pair came to roughly 790px of the 888px this
+   row has between its margins. "Pocket Chronicle" is about 2.7x wider than
+   "Vellum", which pushed the pair to ~983px and ran the CTA pill off the right
+   edge of the canvas on the two `launch` variants, whose button carries the
+   longest string in the set ("Download on the App Store").
+
+   So the lockup gives, not the button. In a card foot the mark is the signature
+   and the CTA is the thing being asked for; shrinking the signature costs less
+   than shrinking the ask, and the mark and the word scale together because the
+   word's size is derived from --lockup-h rather than set beside it.
+
+   Caught by ad.mjs's FIT pass, which reported it as a CTA overflow because it
+   measures where elements end up rather than what pushed them. It does not watch
+   .lockup directly — so if this row is edited again, re-render all twelve and
+   read the fit report rather than trusting a green exit. */
 .card-foot {
   padding: 0 96px 84px;
   display: flex;
@@ -843,6 +860,14 @@ mark {
   justify-content: space-between;
   gap: 40px;
 }
+
+/* Carries [data-size] purely to win on specificity. The per-size rules at the
+   bottom of this file are `html[data-size='story'] .lockup` — one attribute, one
+   class, one element — which outranks a plain `.card-foot .lockup` and silently
+   restored the 66px lockup on story only. Portrait passed and story did not,
+   from the same declaration. The row is the same 1080px wide at every size, so
+   the number is the same at every size too. */
+html[data-size] .card-foot .lockup { --lockup-h: 40px; }
 
 .card-foot .right { text-align: right; }
 
