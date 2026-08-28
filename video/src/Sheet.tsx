@@ -70,11 +70,14 @@ export const Wordmark: React.FC<WordmarkProps> = ({ fadeInAt }) => {
             letterSpacing: "-0.02em",
           }}
         >
-          Vellum
+          Pocket Chronicle
         </div>
         {/* The still card signs off with the wordmark alone. A video ends on
-            bare paper with the wordmark held, which reads thin at one word, so
-            this line is the site's own tagline rather than anything new. */}
+            bare paper with the wordmark held, which read thin when the name was
+            one word, so this line is the site's own tagline rather than anything
+            new. The name is two words as of the Aug 27 2026 rename and the hold
+            is less bare than it was — the tagline stays anyway, because it says
+            what the product does and the name only says what it is called. */}
         <div style={{ marginTop: 10, fontSize: 36, color: MUTED }}>
           One question a day about your kid
         </div>

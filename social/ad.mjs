@@ -129,23 +129,37 @@ function brandMark() {
 }
 
 /**
- * The site's own lockup — the fan of cards and the drawn wordmark — lifted out
- * of src/partials/header.html rather than redrawn here, for the same reason
+ * The site's own lockup — the fan of cards and the name — lifted out of
+ * src/partials/header.html rather than redrawn here, for the same reason
  * brandMark() reads icon.svg instead of copying it: an ad carrying an older
  * drawing than the site is a defect nobody catches until it is bought.
  *
- * Two things change on the way through.
+ * It takes the anchor's whole contents now, not just its <svg>. Until the
+ * Pocket Chronicle rename on Aug 27 2026 the name was drawn — six outlined
+ * letterforms reading "Vellum", inside the same svg as the card fan — so the
+ * svg alone was the whole lockup. A drawn word cannot be renamed by
+ * substitution, so the letterforms went and the name is live text in a sibling
+ * <span class="brand__word">. Lifting only the svg from here on would render an
+ * ad with a fan of cards and no name anywhere on it, which is the failure this
+ * function's whole existence is meant to prevent.
+ *
+ * Three things change on the way through.
  *
  * The mask ids are namespaced `vlh-` → `vla-`. Nothing collides today, because
  * an ad has exactly one lockup on it; it would the moment one had two, and a
  * duplicate id in SVG fails by rendering the wrong mask rather than by
  * complaining.
  *
+ * {{PRODUCT}} is resolved, because the span carries the token rather than the
+ * name — same reason brandMark() resolves icon.svg's aria-label, and from the
+ * same config.
+ *
  * And the svg's `aria-hidden` becomes a name. On the site the mark sits inside
  * an <a aria-label="{{PRODUCT}}"> that carries the name for it. The ad drops
- * the anchor — there is nothing to click in a PNG — and this is the only thing
- * on the canvas that says what the product is called, so the name moves onto
- * the element that survived rather than being lost with the one that did not.
+ * the anchor — there is nothing to click in a PNG — so the name moves onto the
+ * element that survived rather than being lost with the one that did not. It is
+ * redundant with the visible word now, which is the right kind of redundant:
+ * whichever half a future edit removes, the ad still says what it is selling.
  */
 function siteLockup() {
   const path = join(root, 'src', 'partials', 'header.html');
@@ -155,12 +169,22 @@ function siteLockup() {
   if (!anchor) {
     throw new Error(`no .wordmark.brand anchor in ${path} — the site's lockup moved or was renamed`);
   }
-  const svg = anchor[0].match(/<svg[\s\S]*<\/svg>/);
-  if (!svg) throw new Error(`the .wordmark.brand anchor in ${path} has no drawing in it`);
 
-  return svg[0]
+  const inner = anchor[0].replace(/^<a\b[^>]*>/, '').replace(/<\/a>$/, '').trim();
+  if (!/<svg[\s\S]*<\/svg>/.test(inner)) {
+    throw new Error(`the .wordmark.brand anchor in ${path} has no drawing in it`);
+  }
+  /* The name is the point of the lockup on an ad — there is no <title>, no URL
+     bar and no surrounding page to supply it. Fail loudly rather than shipping a
+     bought placement with an anonymous fan of cards on it. */
+  if (!/class="brand__word"/.test(inner)) {
+    throw new Error(`the .wordmark.brand anchor in ${path} has no .brand__word — the ad lockup would render nameless`);
+  }
+
+  return inner
     .replace(/vlh-/g, 'vla-')
-    .replace(/aria-hidden="true"/, `role="img" aria-label="${escapeHtml(PRODUCT)}"`);
+    .replace(/aria-hidden="true"/, `role="img" aria-label="${escapeHtml(PRODUCT)}"`)
+    .replace(/\{\{PRODUCT\}\}/g, escapeHtml(PRODUCT));
 }
 
 export function lockup() {
@@ -711,7 +735,7 @@ export function describe(ad) {
 
   const shape = shapes[ad.template];
   if (!shape) throw new Error(`no description for template "${ad.template}"`);
-  return `${shape()} The lockup — a fan of cards and the word Vellum — sits at the top.`;
+  return `${shape()} The lockup — a fan of cards and the name {{PRODUCT}} — sits at the top.`;
 }
 
 /* --------------------------------------------------------------------------

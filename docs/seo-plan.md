@@ -30,12 +30,21 @@ book trackers — one with homepage copy nearly identical in tone to this produc
 that you would not rank for your own name, and branded search is normally the cheapest traffic a
 new product gets. The owner settled on **Vellum** instead.
 
-**That fixes the old collision. Whether it avoids a new one is, as of Aug 18 2026, disputed.**
-One collision is known without looking: **Vellum by 180g**, a live and well-regarded book-formatting
-app for authors — software, actively sold, in a publishing-adjacent category, which is nearer to
-this product than most of the Dogear cluster was. There is also the ordinary-word problem: *vellum*
-is a material, so generic results compete for the bare term in a way they never did for a
-coined-ish name.
+**That fixed the old collision and walked into a new one. Settled Aug 27 2026: the name is now
+Pocket Chronicle.** An attorney confirmed the conflict this section had been worried about since
+Aug 18, and everything below it — recorded while the question was open — turned out to be right.
+
+The collision that was known without looking: **Vellum by 180g**, a live and well-regarded
+book-formatting app for authors — software, actively sold, in a publishing-adjacent category,
+which was nearer to this product than most of the Dogear cluster was. There was also the
+ordinary-word problem: *vellum* is a material, so generic results competed for the bare term in a
+way they never did for a coined-ish name. Neither observation needed a search to make, which is
+the part worth keeping.
+
+**No clearance search has been run on "Pocket Chronicle" either.** It is a name with one known
+conflict removed, not a name with a search behind it, and *chronicle* is an ordinary English noun
+in exactly the way *vellum* was. The rule the rest of this section states — do not treat clearance
+as done and do not treat it as failed until a dated search is on file — applies to it unchanged.
 
 **Two accounts of the clearance status are on record and they contradict each other.** The owner
 has said the name was already checked and is fine. A separate open item filed the same night
@@ -63,8 +72,12 @@ asks for something. That one gives something away, which in this category is the
 made without saying it.
 
 **Top three priorities:**
-1. Resolve the name, or accept that branded search is a write-off and budget entirely for
-   non-branded and comparison traffic.
+1. ~~Resolve the name, or accept that branded search is a write-off and budget entirely for
+   non-branded and comparison traffic.~~ **Done Aug 27 2026, by moving the name to Pocket
+   Chronicle** — and it did not come cheap: every drawn surface carrying the old wordmark had
+   to be redrawn or re-rendered. The successor priority is the same sentence with the new name
+   in it: get a dated clearance search on file for *Pocket Chronicle* before more surfaces are
+   built on top of it.
 2. Ship the three comparison pages at launch, not later. Highest-intent, lowest-difficulty traffic
    available, and the competitive window is open now.
 3. Build `/prompts` properly — filterable, per-item anchors, working token renderer.
@@ -123,9 +136,11 @@ addressable surface here, and none of them are contested by anyone with a budget
 (ourtifacts.com, nappi.app and similar) publishing dozens of posts on this exact cluster. Do not
 build a strategy on outranking them in year one. Target the term; do not depend on it.
 
-**Brand terms are absent from this table on purpose.** Bare "vellum" is a lost cause for a
-different reason than bare "dogear" was — not a cluster of book-tracking apps but an ordinary
-English noun plus an established formatting app. Either way the bare term is not winnable, and
+**Brand terms are absent from this table on purpose.** Bare "dogear" was a lost cause to a
+cluster of book-tracking apps; bare "vellum" was a lost cause to an ordinary English noun plus an
+established formatting app. Bare "pocket chronicle" has not been researched at all — this table's
+own opening rule is that volume and difficulty are directional until a tool is connected, so
+treat it as unmeasured rather than as won or lost. What holds across all three names is that
 qualified brand terms — *{{PRODUCT}} app for parents*, *{{PRODUCT}} childhood archive* — are, and
 belong in every title tag, OG title, social bio and the App Store subtitle. **Never ship a title
 tag that reads only `{{PRODUCT}}`.**
@@ -283,7 +298,7 @@ product whose entire pitch is trustworthiness it is actively off-brand.
 
 | Action | Impact | Effort | Depends on |
 |---|---|---|---|
-| **Resolve the brand-name collision** | **Highest** | Unknown | Trademark search + App Store name reservation |
+| ~~**Resolve the brand-name collision**~~ **Done Aug 27 2026 — renamed to Pocket Chronicle.** Its dependencies are still owed for the new name | **Highest** | Unknown | Trademark search + App Store name reservation |
 | Build `/prompts` filterable, with the real token renderer | **Highest** | Multi-day | Library export + `app.js` token table |
 | Ship all three comparison pages **at launch** | **Highest** | 1.5 days | Verified competitor facts |
 | Launch the daily-prompt waitlist email | High | Multi-day | ESP + the two consent lanes per D3a |
@@ -293,7 +308,12 @@ product whose entire pitch is trustworthiness it is actively off-brand.
 | Refresh comparison pages quarterly with dated verification | Medium | 1 hr/qtr | Ongoing |
 
 **The name row is the dependency everything else sits on**, and the only item here that can
-invalidate work already done. It should be resolved before the site is public, not after.
+invalidate work already done. It said so should be resolved before the site is public, not after
+— and it was not. The site went public on getvellumapp.com on Aug 18 2026 and the name moved on
+Aug 27, which is precisely the sequence this line warned against; the cost was a dead domain with
+no redirect, a re-drawn lockup, and 23 committed binaries carrying a name the product no longer
+has. Keeping the warning rather than ticking the row, because its dependencies — a dated
+trademark search, an App Store name reservation — are still owed, now for *Pocket Chronicle*.
 
 **One process rule, because it's the thing that will bite:** every factual claim about a competitor
 carries a *verified-on* date in the page source and gets re-checked quarterly. Prices and free-tier

@@ -89,7 +89,7 @@ const DAILY_LIMIT = 100;
 const MIN_GAP_MS = 55 * 60 * 1000;
 
 const HELP = `
-Vellum social post
+Pocket Chronicle social post
 
   npm run social:post -- [options]
 

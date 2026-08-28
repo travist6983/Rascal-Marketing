@@ -1,12 +1,14 @@
 # Dogear — Claude Design prompt sequence (final)
 
-> **Historical record. The product is now called Vellum** (owner decision, Aug 17 2026).
+> **Historical record. The product was renamed to Vellum on Aug 17 2026 and to
+> Pocket Chronicle on Aug 27 2026** (owner decisions; the second followed an
+> attorney confirming a trademark conflict on Vellum).
 > This file is left saying "Dogear" on purpose: it is a transcript of prompts that were
 > actually sent to Claude Design, and its output is checked in at `docs/marketing-site/`.
 > Rewriting the name here would misrepresent what was run. It also references
 > `dogear-site-content.md` and `dogear-seo-plan.md`, which no longer exist — they were
 > merged into `docs/site-content.md` and `docs/seo-plan.md` on Aug 15 2026.
-> **If you re-run this sequence, substitute Vellum throughout and re-point those two
+> **If you re-run this sequence, substitute Pocket Chronicle throughout and re-point those two
 > attachments first.**
 
 **Three prompts, run in order, in one Claude Design project on Fable.** Wait for each to finish

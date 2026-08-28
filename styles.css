@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Vellum landing page
+   Pocket Chronicle landing page
 
    No framework, no build step. index.html + styles.css + app.js, fonts
    self-hosted from fonts/. Single theme by intent — not light/dark aware.
@@ -67,9 +67,16 @@ html, body { margin: 0; padding: 0; }
    consecutive design imports. It survives only because this root page is legacy and is
    not deployed: pages-actions.yml builds src/ into dist/, and src/assets/site.css has no
    texture. Left in place rather than quietly removed, but flagged, because the Aug 17
-   2026 rename to Vellum makes it read like brand direction — a writing surface with a
-   tooth to it — when it is actually a known defect in dead code. If this page is ever
-   revived, the grain goes; it is not a Vellum decision that anyone made. */
+   2026 rename to Vellum made it read like brand direction — a writing surface with a
+   tooth to it — when it is actually a known defect in dead code.
+
+   The Aug 27 2026 rename to Pocket Chronicle makes that worse rather than better. A
+   chronicle is a paper record too, so the grain now flatters the second name as
+   readily as it flattered the first, and an accident that survives two renames by
+   looking deliberate each time is exactly the kind that gets adopted on purpose by
+   somebody who never read this. It was not a Dogear decision, it was not a Vellum
+   decision, and it is not a Pocket Chronicle decision. If this page is ever revived,
+   the grain goes. */
 body {
   background-color: var(--canvas);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
@@ -113,9 +120,17 @@ input, button { font-family: inherit; }
    letters that have no ascenders or descenders to tell them apart. That was
    observed on "Dogear" in Aug 2026, when the all-caps "RASCAL" lockup became a
    title-case name and the same value started reading as a gap rather than a
-   wordmark. The name has since changed again, to "Vellum", and the value still
-   holds — which is the point: 0.01em is right for a title-case word, not for a
-   particular one. */
+   wordmark. The name changed again to "Vellum" on Aug 17 2026 and the value
+   still held — which is the point: 0.01em is right for a title-case word, not
+   for a particular one.
+
+   Aug 27 2026 makes it "Pocket Chronicle", and that is the first of the three
+   that is not a single word. The claim above was only ever tested on one-word
+   names, so a two-word name is new evidence rather than more of the same, and
+   this page is not deployed — nobody has looked at 0.01em set on it. Treat the
+   value as unverified for this name rather than as proven three times over. The
+   argument survives either way: whatever the right number is, it is a property
+   of title-case setting and not of whatever the product is called this month. */
 .wordmark {
   font-family: var(--display);
   font-weight: 800;
