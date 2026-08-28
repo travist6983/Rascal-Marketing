@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Vellum landing page — behaviour
+   Pocket Chronicle landing page — behaviour
 
    No framework, no build step, no third-party requests. Motion is scroll-driven
    where it can be: sticky pins with scroll progress mapped to transform and
@@ -21,6 +21,16 @@
    -------------------------------------------------------------------------- */
 const SIGNUP = {
   ENDPOINT: '',
+  /* Left as 'vellum-landing' through the Aug 27 2026 Pocket Chronicle rename,
+     and flagged rather than swapped. It is a `source` tag, not display copy: it
+     names the surface an address came from, and it is the kind of string that
+     is worth more as a stable key than as an accurate one. Nothing has been
+     recorded under it — ENDPOINT above is empty and this prototype has never
+     posted anywhere, so there is no stored data to keep continuity with; the
+     live signup is src/assets/site.js, which sends `source` from the page's own
+     data-route and never sees this constant. So renaming it is safe and leaving
+     it is safe, which is exactly why it needs a decision from an owner rather
+     than a sweep. README.md:37 quotes this line verbatim and must move with it. */
   SOURCE: 'vellum-landing'
 };
 

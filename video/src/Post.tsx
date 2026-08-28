@@ -59,7 +59,7 @@ export const Post: React.FC<Props> = ({
             letterSpacing: "-0.02em",
           }}
         >
-          Vellum
+          Pocket Chronicle
         </div>
 
         <div

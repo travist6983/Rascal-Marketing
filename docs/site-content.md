@@ -6,18 +6,26 @@ Merged Aug 15 2026. Where the two sources conflicted, the resolution is recorded
 
 ---
 
-**Product name is written as `{{PRODUCT}}` throughout.** Set it once. This has now earned itself:
-the name was *Dogear*, and on Aug 17 2026 the owner changed it to **Vellum**, and the whole rename
-was one edit to `PRODUCT` in `site.config.json` plus the handful of places a token cannot reach.
-Every string below survived it untouched.
+**Product name is written as `{{PRODUCT}}` throughout.** Set it once. This has now earned itself
+twice: the name was *Dogear*, on Aug 17 2026 the owner changed it to **Vellum**, and on Aug 27 2026
+it changed again to **Pocket Chronicle**. Every string below survived both renames untouched.
 
-**It stays a token, because the new name is not verified either.** Dogear was abandoned over App
-Store and domain collisions with the reading-app cluster (Dogear: Social Reading Tracker, Dogear'd,
-`thedogearapp.com`, `getdogear.com`, the Play Store widget, the Chrome extension, mozilla/dogear).
-One collision is known — **Vellum by 180g**, a live book-formatting app for authors — and the
-clearance status is disputed: the owner says the name was checked and is fine, while a separate
-open item filed the same night says no search has been run (see `seo-plan.md`). Until a dated
-search is on file, assume the name can still move, and never hardcode it.
+**The two renames did not cost the same, and the difference is the lesson.** Dogear → Vellum was
+one edit to `PRODUCT` in `site.config.json` plus the handful of places a token cannot reach.
+Vellum → Pocket Chronicle moved `PRODUCT`, `DOMAIN` and `ORIGIN`, and then ran into everything a
+token cannot reach after all: the header and footer lockups **drew** the old name as outlined SVG
+letterforms, six page titles went over the 60-character cap because the new name is ten characters
+longer, and 23 committed binaries still carry the old wordmark in pixels. The token bought the
+copy. It did not buy the artwork, the metadata lengths, or the domain.
+
+**It stays a token, because Pocket Chronicle is not verified either.** Dogear was abandoned over
+App Store and domain collisions with the reading-app cluster (Dogear: Social Reading Tracker,
+Dogear'd, `thedogearapp.com`, `getdogear.com`, the Play Store widget, the Chrome extension,
+mozilla/dogear). Vellum was abandoned over **Vellum by 180g**, a live book-formatting app for
+authors: the clearance status sat disputed from Aug 18 — the owner said the name was checked and
+was fine, a separate open item filed the same night said no search had been run — until an
+attorney confirmed the conflict on Aug 27 (see `seo-plan.md`). No dated search exists for Pocket
+Chronicle. Assume the name can still move, and never hardcode it.
 
 **Price strings are `{{PRICE_YEAR}}` = $59.99 and `{{PRICE_MONTH}}` = $5.99.** Same reason, plus a
 better one: `decisions.md` says unit economics are measured before a price is set, and `blocked.md`
@@ -33,8 +41,9 @@ swap, not a rebuild.
 ## Brand mark
 
 **`src/assets/icon.svg` is a placeholder, not a resolved mark.** It draws a page with the corner
-folded down. That was a pun: the product used to be called *Dogear*. Since Aug 17 2026 it is
-called **Vellum**, so the mark now illustrates a name the product no longer has.
+folded down. That was a pun: the product used to be called *Dogear*. It was **Vellum** from Aug 17
+2026 and has been **Pocket Chronicle** since Aug 27, so the mark has now been illustrating a name
+the product does not have for longer than it ever illustrated one it did.
 
 The artwork is deliberately unchanged — a folded page still reads as *something kept, and
 findable*, which is on-message — but nobody should mistake it for a decision. Three things are
@@ -42,16 +51,26 @@ open, and all of them are the owner's call:
 
 1. **The site mark and the app icon are already different marks.** This is a folded page; the iOS
    app icon is a fan. One product, two symbols.
-2. **A real Vellum set now exists** in `Project-Rascal/docs/app-icon/` (uncommitted there as of
+2. **A real Vellum set was built** in `Project-Rascal/docs/app-icon/` (uncommitted there as of
    Aug 18 2026): `vellum-wordmark.svg`, `vellum-mark.svg`, `vellum-mark-compact.svg` (3 cards, for
    ≤24px — favicons, avatars), horizontal and stacked lockups, `vellum-logo-mono.svg`, three
    app-icon candidates, and `generate-vellum.mjs`, which produces all of them deterministically.
 
-   **`vellum-logo-mono.svg` is the one for this site.** It paints in `currentColor` and separates
-   its cards with a knockout mask rather than a stroke in the ground colour, so one file works on
-   cream, ink and terracotta — reportedly tested at 56px and 24px on all three. The wordmark is
-   drawn geometry (monolinear, round terminals), not outlined type, so no font file and no licence
-   question. Adopting it here is still a separate pass, and the files are not in this repo.
+   **Every file in that set is now unusable, and the filenames above are kept only so they can be
+   found.** The rename to Pocket Chronicle on Aug 27 2026 obsoleted the lot: each one draws the
+   Vellum wordmark, and the chosen app icon bakes it into the front card — which is precisely the
+   failure this section warns about six paragraphs down. The generator is the recoverable part.
+   `generate-vellum.mjs` produces the set deterministically, so re-running it against the new name
+   is the cheap path and redrawing by hand is not. **That work is in Project-Rascal, not here.**
+
+   What survives the rename is the *reasoning*, and it is worth carrying to whatever replaces it:
+   `vellum-logo-mono.svg` was the one for this site because it paints in `currentColor` and
+   separates its cards with a knockout mask rather than a stroke in the ground colour, so one file
+   works on cream, ink and terracotta — reportedly tested at 56px and 24px on all three. Its
+   wordmark was drawn geometry (monolinear, round terminals), not outlined type, so no font file
+   and no licence question. Ask the replacement for the same four properties. Ask it for one more
+   the old set did not have to answer: **the name is two words now**, so the lockup has to hold a
+   ~2.7x wider word without the fan and the text drifting apart at 24px.
 
    **If the animated header lockup is adopted** (`vellum-logo-hover.html` in that directory is
    generated from the artwork and carries the markup and CSS as copy-paste blocks): its SVG is
@@ -96,22 +115,35 @@ open, and all of them are the owner's call:
    which by the rule at the end of this section ages badly. It was chosen knowingly, with two
    wordless candidates on the table, and both are kept for the day that matters. Relevant to the OG
    cards: if one can carry the mark instead of the word, prefer that.
-3. **Casing: the site ships title case; lowercase has reportedly been chosen.** The drawn wordmark
-   is lowercase *vellum*, and the owner is reported to have picked lowercase explicitly, against
-   the title-case specimen. That reached this repo secondhand, so **nothing has been changed on
-   it** — *Vellum* is what ships, in five places: `src/partials/header.html`, `social/card.mjs`,
-   and the three Remotion components `Post.tsx` / `Sheet.tsx` / `Showcase.tsx`.
+3. **Casing: the site ships title case. The lowercase question is now moot.** It concerned a
+   lowercase *vellum* specimen in the Project-Rascal artwork that the owner was reported,
+   secondhand, to have picked over the title-case one. That artwork draws a name the product no
+   longer has, so there is nothing left to decide; the question comes back only if a lowercase
+   *pocket chronicle* specimen is ever drawn, and it should be asked firsthand next time.
 
-   Two rules until it is confirmed firsthand: all five move together or none do, and **do not add
-   a sixth title-case rendering** — a new surface should wait rather than deepen the change.
+   *Pocket Chronicle* is what ships, in four places — `social/card.mjs` and the three Remotion
+   components `Post.tsx` / `Sheet.tsx` / `Showcase.tsx`. It was five: `src/partials/header.html`
+   was the fifth until Aug 27 2026, when its drawn lockup could not be renamed by substitution
+   and the word went back to live text. That is the rule these two lists were always pointing at
+   — **a name in artwork is a name you pay for again at every rename** — and the header stopped
+   paying it.
 
-   Worth knowing before scheduling it: this is not five text edits. Four of the five are pixels —
-   changing the Remotion components means re-rendering the 15-file Instagram set and both prompt
-   reels, and `social/card.mjs` means re-rendering the queue cards.
+   The remaining four are all pixels, so this is not four text edits: changing the Remotion
+   components means re-rendering the 15-file Instagram set and both prompt reels, and
+   `social/card.mjs` means re-rendering the queue cards. **The 33 already-published queue cards
+   are excluded** — they are public on the frozen `@getvellum.app` account and are never
+   re-rendered or re-uploaded.
 
 Until then, and this is the part worth keeping: **in the site's own markup the name is live text**,
 set in Nunito 800 — `src/partials/header.html` and `src/partials/footer.html` resolve it from
 `{{PRODUCT}}`, so 21 pages and 18 Markdown twins renamed themselves on a rebuild.
+
+That was only half true before Aug 27 2026, and the correction is the whole argument of this
+section. The two partials resolved `{{PRODUCT}}` into an `aria-label` — but the *visible* lockup
+was an inline SVG drawing the letters of "Vellum", so the accessible name renamed itself on a
+rebuild while the glyphs on all 21 pages did not. It took a rename to notice. The letterforms are
+gone and the word is live text in a `.brand__word` span; a drawn "Pocket Chronicle" lockup is
+owed, and it should be drawn knowing it will cost this again.
 
 **It is not live text everywhere, and that half is a re-render, not an edit.** The wordmark is
 drawn into pixels by `social/card.mjs` (the queue cards) and by the three Remotion components
@@ -750,19 +782,32 @@ No red — the palette has none.)*
 **Failure:** `That didn't go through. Try again, or email hello@{{DOMAIN}}.`
 **Nav CTA (persistent):** `Get tomorrow's prompt`
 **Footer tagline:** `{{PRODUCT}} — one question a day, a childhood you can find again.`
-**Footer social column:** ~~heading `Elsewhere`, then `Instagram` · `Facebook` · `X` · `TikTok` ·
-`Pinterest`~~ — **removed Aug 21 2026, column and tokens together.** The hrefs were the bare
-platform domains, so a link labelled `Instagram` went to instagram.com: a link to somebody else's
-home page wearing our label, which is worse than no link at all. Four of the five accounts have
-never existed. **The Instagram one does** — this repository publishes to it on a schedule — but
-its *handle* is recorded nowhere here: `social-post.mjs` addresses the account by the numeric
-`IG_USER_ID` secret, and a published row keeps a `mediaId` and no permalink. Nothing in the
-repository could be read to produce a profile URL, and a guessed one is the dead link the removal
-exists to prevent. **When one profile URL is verified**, restore the column as a `foot__col` with
-one `<a>` per real account — plain word marks, no icons, because a row of brand glyphs is louder
-than anything else in that footer and the palette has nowhere to put their colours — and add one
-`SOCIAL_*` key per real account to `site.config.json`. Linking out is not a third-party *request*,
-so the fine print under it stayed true and stays true.
+**Footer social column:** heading `Elsewhere`, then **`Instagram` and nothing else.**
+
+It read `Instagram` · `Facebook` · `X` · `TikTok` · `Pinterest` until Aug 21 2026, when the column
+and its five tokens were removed together: the hrefs were the bare platform domains, so a link
+labelled `Instagram` went to instagram.com — a link to somebody else's home page wearing our
+label, which is worse than no link at all. Four of the five accounts had never existed. The
+Instagram one did, but its *handle* was recorded nowhere here, because `social-post.mjs` addresses
+the account by the numeric `IG_USER_ID` secret and a published row keeps a `mediaId` and no
+permalink. Nothing in the repository could be read to produce a profile URL, and a guessed one is
+the dead link the removal exists to prevent.
+
+**Restored Aug 27 2026 with the rename**, as a `foot__col` with one `<a>` — plain word mark, no
+icon, because a row of brand glyphs is louder than anything else in that footer and the palette
+has nowhere to put their colours. The href is `{{SOCIAL_INSTAGRAM}}`, and the handle came from the
+owner with the rename brief rather than from anything in this repository; `social-post.mjs` still
+cannot produce one. Facebook, X, TikTok and Pinterest still have no accounts and still get no
+links. Linking out is not a third-party *request*, so the fine print under it stayed true and
+stays true.
+
+Two things to know about that link. It points at **`@pocketchronicle.app`, the new account** —
+never at the frozen `@getvellum.app`, whose posts stay up under a name the product does not have.
+And the profile URL has **not been opened and confirmed**: an unauthenticated request to
+instagram.com returns 200 for a handle that does not exist, so the check the removal asked for
+cannot be automated and is still owed by a person. Each `SOCIAL_*` key also lands in the
+Organization `sameAs`, which tells a crawler in machine-readable terms that the profile *is* this
+product — a stronger claim than a footer link, and the reason the unopened URL matters.
 **404 H1:** `That page doesn't exist.`
 **404 body:** `Nothing was lost — which is sort of the whole idea here.` + links to `/` and
 `/how-it-works`.

@@ -37,7 +37,7 @@ const COMPOSITION = 'PromptReel';
 const VIDEO_DIR = join(root, 'video');
 
 const HELP = `
-Vellum prompt reel
+Pocket Chronicle prompt reel
 
   npm run social:reel -- [options]
 

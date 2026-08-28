@@ -105,7 +105,7 @@ const BrandMark: React.FC = () => (
       color: INK,
     }}
   >
-    Vellum
+    Pocket Chronicle
   </div>
 );
 
