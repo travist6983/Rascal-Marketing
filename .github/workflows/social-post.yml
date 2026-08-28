@@ -34,25 +34,37 @@ name: Post to Instagram
 # with `npm run social:captions`, read by a person, and committed. A post with
 # no caption fails this workflow rather than going out unreviewed.
 
-# ── THE SCHEDULE IS ON ───────────────────────────────────────────────────────
-# The cron below is live: hourly at :17 it starts a watcher, which then checks
-# the queue every ten minutes for five hours. A check is not a post — it
-# publishes the oldest due entry only if the last publish is more than
-# MIN_GAP_MS ago. Nothing else needs to be switched on.
+# ── THE SCHEDULE IS OFF ──────────────────────────────────────────────────────
+# It was on — hourly at :17, starting a five-hour watcher — from Aug 20 2026
+# until the Pocket Chronicle rename on Aug 27 2026. It is commented out below,
+# not deleted, because the shape of the cron is the thing that took a week of
+# measurement to arrive at and there is nothing wrong with it.
 #
-# To stop it, comment the `schedule` block back out. Manual runs still work
-# either way, and a manual run defaults to `dry-run` — you have to pick
-# `publish` from the dropdown to actually post.
+# Why it is off: the secrets still point at @getvellum.app, and Vellum is a
+# name this product no longer has. That account is being FROZEN, not deleted —
+# its posts stay up, its captions are never edited — but it must stop receiving
+# new ones. Left running, this workflow would keep publishing under a dead brand
+# on a dead domain for as long as the rename takes.
+#
+# THE SITE WILL NOT POST AGAIN UNTIL THE CREDENTIALS ARE SWAPPED. Restoring the
+# schedule needs, in this order: IG_USER_ID and IG_ACCESS_TOKEN repointed at the
+# new @pocketchronicle.app account, `workflow_dispatch` → `check-account` run
+# once to confirm the secrets resolve to that account and not the old one, and
+# only then the `schedule` block below uncommented.
+#
+# Manual runs still work, and default to `dry-run` — you have to pick `publish`
+# from the dropdown to actually post. Nothing else in this file changed: the
+# duplicate guard, the caption matching and MIN_GAP_MS are all untouched.
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
-  schedule:
-    # Hourly, on an unround minute, and only to START a watcher — the watching
-    # itself happens inside the job. Deliberately modest: a five-hour watcher
-    # covers everything a more aggressive cron was being throttled out of, and
-    # any firing that lands while one is already running simply queues behind it
-    # and takes over at the handover.
-    - cron: '17 * * * *'
+  # schedule:
+  #   # Hourly, on an unround minute, and only to START a watcher — the watching
+  #   # itself happens inside the job. Deliberately modest: a five-hour watcher
+  #   # covers everything a more aggressive cron was being throttled out of, and
+  #   # any firing that lands while one is already running simply queues behind it
+  #   # and takes over at the handover.
+  #   - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -129,8 +141,12 @@ jobs:
             *) echo "::error::unknown mode '$MODE'"; exit 1 ;;
           esac
 
-          git config user.name  "vellum-social[bot]"
-          git config user.email "vellum-social@users.noreply.github.com"
+          # Renamed with the product on Aug 27 2026. Commits already on main keep
+          # the vellum-social[bot] authorship they were made under — that is the
+          # record of who published what and when, and rewriting it would be the
+          # same mistake as editing a published caption.
+          git config user.name  "pocket-chronicle-social[bot]"
+          git config user.email "pocket-chronicle-social@users.noreply.github.com"
 
           export SOCIAL_RECORD_FILE="$RUNNER_TEMP/record.env"
           rm -f "$SOCIAL_RECORD_FILE"

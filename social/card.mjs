@@ -177,7 +177,12 @@ ${css}
 <article class="card" style="--tint: ${kind.ink}; --tint-soft: ${kind.bg}">
   <p class="badge">${escapeHtml(prompt.kind)}</p>
   <div class="body-box"><p class="body">${body}</p></div>
-  <p class="wordmark">Vellum</p>
+  <!-- Typed, not tokenised: this file reads no config and giving it one is a
+       separate change. It is the second copy of the product name outside
+       site.config.json (social/ad.mjs resolves {{PRODUCT}} properly), so a
+       rename has to come here by hand — as it did on Aug 27 2026, and as it
+       will next time. Every card in social/queue/ must be re-rendered after. -->
+  <p class="wordmark">Pocket Chronicle</p>
 </article>
 <script>${FIT}</script>
 </body>

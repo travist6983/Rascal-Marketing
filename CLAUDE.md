@@ -1,4 +1,4 @@
-# Vellum marketing site
+# Pocket Chronicle marketing site
 
 Static site, zero dependencies at runtime. Pages live in `src/pages/`, partials in
 `src/partials/`, and `node scripts/build.mjs` (npm run build) renders everything to
@@ -30,8 +30,9 @@ overflow, and the form ladder in real Chromium.
 
 ## Other conventions that must survive edits
 
-- Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Vellum",
-  DOMAIN is "getvellumapp.com", ORIGIN is "https://getvellumapp.com". Never
+- Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Pocket
+  Chronicle", DOMAIN is "pocketchronicle.app", ORIGIN is
+  "https://pocketchronicle.app". Never
   hardcode the name, the domain, prices, or the prompt count in markup. A token's
   value may contain another token (SUPPORT_EMAIL is `hello@{{DOMAIN}}`); `fill()`
   resolves to a fixed point, so nesting is fine and nothing is exempt from the

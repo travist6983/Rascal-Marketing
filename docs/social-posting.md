@@ -19,11 +19,41 @@ committed. Nothing reaches the feed that a person hasn't approved.
 you can tick, with direct links to every console and token tool. This file is
 the reference behind it.
 
-> **Status: live and on a schedule.** The first post published on 2026-08-20
-> (media id 18616663639048675) from a manual `workflow_dispatch` run, and both
-> paths that talk to someone else's server — the Claude call and the Instagram
-> call — have been exercised end to end. The `schedule` block was switched on
-> the same day, so posts now go out on their own.
+> **Status: PAUSED for the rename. Nothing posts.** The `schedule` block in
+> `.github/workflows/social-post.yml` was commented out on 2026-08-27 because the
+> `IG_USER_ID` / `IG_ACCESS_TOKEN` secrets still point at `@getvellum.app`, and
+> Vellum is a name this product no longer has. That account is **frozen, not
+> deleted** — its 33 published posts stay up and their captions are never edited
+> — and it must stop receiving new ones. To restart: repoint both secrets at
+> `@pocketchronicle.app`, run `workflow_dispatch` → `check-account` once to
+> confirm which account they resolve to, then uncomment the `schedule` block.
+>
+> **Before the schedule goes back on, re-render the twelve pending ad creatives.**
+> `social/queue.json`'s twelve entries dated 2026-09-03 → 2026-09-14 had their
+> `subhead`, `shows` and `altText` renamed to Pocket Chronicle on Aug 27 2026, but
+> the committed JPEGs in `social/queue/` still draw the old wordmark in their
+> pixels. Publishing one now would post a Vellum image under alt text that says
+> Pocket Chronicle — a description of an image that is not there, which is worse
+> than either half alone.
+>
+> It was left that way deliberately rather than fixed in the rename pass, because
+> `npm run ads -- --queue --force` re-renders the images **and nulls `caption`,
+> `altText` and `hashtags`** on the entries it rewrites, and those captions were
+> written and read by a person. Whoever does it must re-render and then restore
+> the five hand-written alt texts (`2026-09-05-sealed`, `-09-06-camera-roll`,
+> `-09-08-photo`, `-09-09-video`, `-09-14-no-streaks`) and the twelve captions —
+> or re-render the JPEGs out-of-band and leave `queue.json` alone.
+>
+> **The 33 already-published cards are not in scope and must not be re-rendered.**
+> They are public on the frozen `@getvellum.app` account. None of them contains
+> the product name in text — checked — so nothing about them is stale except the
+> wordmark in the pixels, which is history now.
+>
+> What was proven before the pause still stands and does not need re-proving:
+> the first post published on 2026-08-20 (media id 18616663639048675) from a
+> manual `workflow_dispatch` run, and both paths that talk to someone else's
+> server — the Claude call and the Instagram call — were exercised end to end.
+> The schedule ran from that day until the pause.
 
 ---
 
@@ -89,11 +119,16 @@ paragraph.
 
 ### 4. The schedule
 
-**The schedule is on, and it is a watcher rather than a series of checks.**
-Hourly at :17, `.github/workflows/social-post.yml` starts a job that then checks
-the queue **every ten minutes for five hours**, from inside a single step. To
-stop it, comment its `schedule` block back out. That is the entire switch, in
-both directions.
+**The schedule is OFF as of 2026-08-27 — see the status note at the top.** What
+follows describes it as it ran from 2026-08-20 until then, and as it will run
+again once the credentials are swapped; the shape is unchanged and the block is
+commented out rather than deleted.
+
+**It is a watcher rather than a series of checks.** Hourly at :17,
+`.github/workflows/social-post.yml` starts a job that then checks the queue
+**every ten minutes for five hours**, from inside a single step. To stop it,
+comment its `schedule` block back out. That is the entire switch, in both
+directions, and it is currently in the "out" position.
 
 **Why that shape, and not a frequent cron.** GitHub's scheduler could not be
 relied on to start anything on time. Measured here on 2026-08-20, not assumed:
@@ -200,7 +235,7 @@ at the top of `.github/workflows/pages-actions.yml`), and a poster that depends
 on a deploy landing is a poster that silently stops when Pages has a bad day.
 
 **If you'd rather serve them from Pages**, set the `SOCIAL_IMAGE_BASE` variable
-to `https://getvellumapp.com` and add the queue directory
+to `https://pocketchronicle.app` and add the queue directory
 to the staging step in `pages-actions.yml`, which currently copies only four
 files:
 
@@ -255,7 +290,7 @@ lives in `queue.json`, where you can read it.
 | `scripts/social-queue.mjs` | Adds posts to the queue |
 | `scripts/social-caption.mjs` | Writes captions with Claude |
 | `scripts/social-post.mjs` | Publishes the next due post |
-| `.github/workflows/social-post.yml` | The schedule — a five-hour watcher, started hourly |
+| `.github/workflows/social-post.yml` | The schedule — a five-hour watcher, started hourly. **Commented out since 2026-08-27; manual runs only** |
 
 ### A queue entry
 

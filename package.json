@@ -1,8 +1,9 @@
 {
   "name": "vellum-marketing",
+  "_name_note": "Not a typo and not a survivor of a lazy sweep. This is a private, unpublished npm identifier that nothing reads: no script, no workflow and no import resolves it, and package-lock.json is gitignored. It kept the Vellum name through the Aug 27 2026 Pocket Chronicle rename for the same reason the repository is still called Rascal-Marketing — an internal identifier that changes costs more than it buys. Leave it; the product name lives in site.config.json PRODUCT.",
   "version": "1.0.0",
   "private": true,
-  "description": "Landing page for Vellum — one prompt a day about your kid",
+  "description": "Landing page for Pocket Chronicle — one prompt a day about your kid",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",

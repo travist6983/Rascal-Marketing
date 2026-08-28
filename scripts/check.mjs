@@ -18,18 +18,24 @@
  *     marks this row Critical, and this is the launch break-test it asks for.
  *   - no unresolved {{TOKEN}}. Nothing is exempt any more. {{PRODUCT}} was,
  *     "until the name is resolved", and {{DOMAIN}} was, until a domain was
- *     bought. Both resolved (Vellum Aug 17 2026, getvellumapp.com Aug 18), and
+ *     bought. Both resolved — Vellum Aug 17 2026, getvellumapp.com Aug 18, then
+ *     Pocket Chronicle and pocketchronicle.app together on Aug 27 — and
  *     an exemption that outlives its reason is worse than no check: DOMAIN's
  *     covered a real bug for a day — SUPPORT_EMAIL is "hello@{{DOMAIN}}", the
  *     token expander ran one pass, and `mailto:hello@{{DOMAIN}}` was sitting in
  *     five pages, four twins and site.js while this file reported zero failures.
- *     A rename or a domain move is exactly the operation this should guard.
+ *     A rename or a domain move is exactly the operation this should guard,
+ *     which stopped being a prediction on Aug 27 2026: the Pocket Chronicle
+ *     rename moved PRODUCT, DOMAIN and ORIGIN in one commit and this pass is
+ *     what proved no page shipped a literal {{PRODUCT}} behind it.
  *   - every internal link and anchor resolves to a built file / a real id
  *   - every og: image referenced actually exists
  *   - the domain is used consistently: canonicals self-reference on ORIGIN and
  *     only on indexable pages, OG URLs are absolute, sitemap.xml and the set of
  *     canonicals agree exactly, robots.txt points at the sitemap, CNAME matches
- *     ORIGIN's host, and nothing shipped still names the old project URL
+ *     ORIGIN's host, and nothing shipped still names the old project URL or any
+ *     retired domain — see RETIRED_HOSTS, which exists because every other check
+ *     here only asks about the CURRENT host and a dead one passes them all
  *   - every <script type="application/ld+json"> parses as JSON
  *
  * BROWSER — key routes through a real Chromium over a local server:
@@ -307,6 +313,28 @@ if (origin) {
 for (const file of files.filter((f) => /\.(html|md|txt|xml)$/.test(f))) {
   const stale = (await readFile(file, 'utf8')).match(/[^\s"'<>()]*github\.io[^\s"'<>()]*/);
   if (stale) fail.push(`/${relative(dist, file)}: stale project URL ${stale[0]}`);
+}
+
+/* Retired hosts. The sweep above catches the project URL because it at least
+   still redirects; these are worse. getvellumapp.com was the site's address from
+   Aug 18 2026 until the Pocket Chronicle rename on Aug 27, and it is being killed
+   outright with NO redirect — so a surviving reference is not a slow link, it is
+   a dead one, and in a canonical or an OG tag it points a crawler at nothing.
+
+   This exists because nothing else would have caught it. Every other origin check
+   here is gated on ORIGIN and only ever asks whether the CURRENT host is used
+   consistently; a stale reference to a PREVIOUS one passes all of them silently.
+   The rename is what made that gap visible.
+
+   One line per host that has been given up. Add to it rather than replacing it —
+   the list is the only place that remembers a domain nobody should link to. */
+const RETIRED_HOSTS = ['getvellumapp.com'];
+for (const file of files.filter((f) => /\.(html|md|txt|xml|json)$/.test(f))) {
+  const text = await readFile(file, 'utf8');
+  for (const host of RETIRED_HOSTS) {
+    if (text.includes(host))
+      fail.push(`/${relative(dist, file)}: retired domain ${host} — it is dead with no redirect`);
+  }
 }
 
 /* ------------------------------------------------- the free tier, in words */

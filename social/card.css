@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-   Vellum — social card
+   Pocket Chronicle — social card
 
    One prompt on warm paper, the instruction marked, the wordmark quiet at the
    bottom. Same palette and same two typefaces as the landing page; the only new
@@ -122,13 +122,21 @@ mark {
 
 /* Title case, matching the landing page — so no uppercasing, and tracking drops
    from the 0.18em that kept a small caps label legible to near-neutral.
-   line-height stays at 1, but the reason it used to give is gone: that note was
-   about "Dogear", whose g tail painted a few px below the line box into the
-   card's 96px bottom padding. "Vellum" has no descender — it sits entirely on
-   the baseline — so nothing hangs below any more. The value is kept because it
-   still renders correctly, not because it is still doing that job: checked
-   against the regenerated cards, the wordmark is unclipped top and bottom. If
-   this lockup is ever redrawn, this is a free line-height to re-pick. */
+
+   line-height stays at 1, and the reason has now outlived two names. The note
+   was originally about "Dogear", whose g tail painted a few px below the line
+   box into the card's 96px bottom padding. "Vellum" has no descender, so
+   nothing hung below it. "Pocket Chronicle" has none either — P o c k e t
+   C h r o n i c l e, not a descender among them — so the value survives a third
+   name for the same reason it survived the second: it is kept because it still
+   renders correctly, not because it is still doing the job it was chosen for.
+
+   What does NOT carry across is the verification. "checked against the
+   regenerated cards, the wordmark is unclipped top and bottom" was checked
+   against Vellum cards. The new name is roughly 2.7x wider and the cards have
+   not been re-rendered yet, so that line is a claim about images that no longer
+   exist. Re-run it after `npm run social`, and watch the horizontal fit rather
+   than the vertical — width is the axis this name changed. */
 .wordmark {
   margin: 0;
   font-family: var(--display);

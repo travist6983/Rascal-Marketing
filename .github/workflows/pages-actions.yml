@@ -85,9 +85,15 @@ jobs:
 
           # No base-path rewrite. The build emits root-absolute URLs (/assets/…,
           # /pricing) because the deployment target is a custom domain at its
-          # root, and as of Aug 18 2026 that domain exists: getvellumapp.com is
-          # in site.config.json, and the build writes _site/CNAME from it, which
-          # is what tells Pages to serve here rather than at /<repo-name>/.
+          # root, and since Aug 18 2026 that domain has existed. It was
+          # getvellumapp.com until Aug 27 2026 and is pocketchronicle.app now;
+          # whichever it is, it is in site.config.json and the build writes
+          # _site/CNAME from it, which is what tells Pages to serve here rather
+          # than at /<repo-name>/. The rename did not change this reasoning — it
+          # changed the host in the file the reasoning points at. Note the half
+          # this workflow cannot do: Pages will keep serving the old custom
+          # domain until it is changed in the repository's Pages settings, so a
+          # green deploy here is not yet a live site on the new host.
           #
           # A prefixing pass used to live here for the project URL. It is gone
           # rather than switched off, because the two are mutually exclusive and
