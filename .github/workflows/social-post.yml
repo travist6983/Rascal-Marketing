@@ -58,13 +58,13 @@ name: Post to Instagram
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
-  # schedule:
-  #   # Hourly, on an unround minute, and only to START a watcher — the watching
-  #   # itself happens inside the job. Deliberately modest: a five-hour watcher
-  #   # covers everything a more aggressive cron was being throttled out of, and
-  #   # any firing that lands while one is already running simply queues behind it
-  #   # and takes over at the handover.
-  #   - cron: '17 * * * *'
+  schedule:
+    # Hourly, on an unround minute, and only to START a watcher — the watching
+    # itself happens inside the job. Deliberately modest: a five-hour watcher
+    # covers everything a more aggressive cron was being throttled out of, and
+    # any firing that lands while one is already running simply queues behind it
+    # and takes over at the handover.
+    - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       mode:
