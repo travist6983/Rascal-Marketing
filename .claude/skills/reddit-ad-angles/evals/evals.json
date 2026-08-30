@@ -1,0 +1,53 @@
+{
+  "skill_name": "reddit-ad-angles",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "eval-general-launch-angles",
+      "prompt": "I'm getting close to launching my parenting app and need to start testing ad creative. Can you dig into Reddit for how parents actually talk about this problem and turn it into some ad angles I could test on Meta or Reddit ads?",
+      "expected_output": "A research report covering all four default subreddits (r/daddit, r/Mommit, r/beyondthebump, r/NewParents), using the current product name/price pulled from site.config.json, with all five required sections (ranked pain points, ranked desires, ranked objections, a 15-20 item verbatim swipe file, and 8-10 sourced ad angles). Hook lines should respect the site's voice rules (no guilt/urgency framing, no exclamation marks, no 'baby').",
+      "files": [],
+      "assertions": [
+        {"text": "Uses the current product name (Pocket Chronicle), not a stale name (Dogear/Vellum)", "type": "manual_or_grep"},
+        {"text": "References the correct current price ($59.99/yr or $5.99/mo) if a price appears", "type": "manual_or_grep"},
+        {"text": "Covers all four default subreddits (daddit, Mommit, beyondthebump, NewParents), or explicitly says one was too quiet", "type": "manual_or_grep"},
+        {"text": "All five output sections present: pain points, desires, objections, swipe file, ad angles", "type": "manual"},
+        {"text": "Swipe file has roughly 15-20 verbatim quotes, each attributable to a source", "type": "manual"},
+        {"text": "Every ad angle cites a source (thread/quote), none are unsourced", "type": "manual"},
+        {"text": "No fabricated/invented quotes - swipe file and angle sources trace to real fetched content", "type": "manual"},
+        {"text": "Hook lines avoid 'baby' (use 'child'/'childhood' instead)", "type": "manual_or_grep"},
+        {"text": "Hook lines avoid exclamation marks and guilt/urgency phrasing ('before it's too late', 'don't let...slip away')", "type": "manual_or_grep"}
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "eval-tinybeans-price-angle",
+      "prompt": "I want to run some ads specifically targeting people who are fed up with Tinybeans raising prices. Can you find real complaints about that and turn it into angles?",
+      "expected_output": "Angles focused on Tinybeans price/ads dissatisfaction, sourced from real Reddit complaints, with the ~87% price-increase claim treated as needing verification rather than stated as flat settled fact, and the four default subreddits still checked alongside any Tinybeans-specific search.",
+      "files": [],
+      "assertions": [
+        {"text": "Uses the current product name/price from site.config.json", "type": "manual_or_grep"},
+        {"text": "If the 87% price-increase figure appears, it is hedged/flagged as needing verification, not stated as a bare settled fact", "type": "manual"},
+        {"text": "Default four subreddits still checked, not replaced entirely by a Tinybeans-only search", "type": "manual_or_grep"},
+        {"text": "All five output sections present", "type": "manual"},
+        {"text": "Ad angles cite real sources, no fabricated quotes/stats", "type": "manual"},
+        {"text": "Hook lines avoid 'baby', exclamation marks, and guilt/urgency phrasing", "type": "manual_or_grep"},
+        {"text": "Concedes at least one fair point about Tinybeans rather than pure attack (matches site's own comparison-page ground rules)", "type": "manual"}
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "eval-kids-voice-hypothesis",
+      "prompt": "I have a hunch that 'your kid's voice changes way faster than you think' could be a strong angle - can you check r/toddlers too and see if there's real language backing that up, plus whatever else you find?",
+      "expected_output": "r/toddlers checked in addition to (not instead of) the four defaults. Honest reporting on whether the voice-change hypothesis is actually well-supported by what was found, rather than forced quotes. Full five-section output.",
+      "files": [],
+      "assertions": [
+        {"text": "r/toddlers checked ADDITIVELY - the four defaults (daddit, Mommit, beyondthebump, NewParents) are also covered", "type": "manual_or_grep"},
+        {"text": "Reports honestly on whether the voice-change hypothesis was well-supported, mixed, or weak - doesn't force-fit quotes to confirm it", "type": "manual"},
+        {"text": "All five output sections present", "type": "manual"},
+        {"text": "Ad angles cite real sources, no fabricated quotes/stats", "type": "manual"},
+        {"text": "Hook lines avoid 'baby', exclamation marks, and guilt/urgency phrasing", "type": "manual_or_grep"}
+      ]
+    }
+  ]
+}
