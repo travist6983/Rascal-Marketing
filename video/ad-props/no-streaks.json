@@ -1,0 +1,11 @@
+{
+  "kicker": "No streaks",
+  "headline": "Miss a day and nothing happens.",
+  "accent": "nothing happens.",
+  "subhead": "No streak to keep, no badge to clear, nothing to catch up on. The archive does not keep score of you.",
+  "ticks": ["No streaks", "No badges", "No red"],
+  "screen": "onboarding-notifications",
+  "tint": "peri",
+  "cta": "Download on the App Store",
+  "reassurance": "The daily question is always free"
+}

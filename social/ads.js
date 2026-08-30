@@ -394,5 +394,43 @@ export const ADS = [
     script: '',
     screen: 'onboarding-notifications',
     tint: 'peri'
+  },
+
+  /* ── Two angles pulled straight from Reddit research, not from the site ────
+     `docs/marketing/reddit-ad-angles-*.md` (the reddit-ad-angles skill's
+     output) ranks these as the two best-evidenced pain points the existing
+     twelve don't answer: what happens to the archive if you stop paying, and
+     whether the archive is training anything. Same 'quiet' shape as no-streaks
+     on purpose — all three are calm, ticked reassurances, not comparisons or
+     features, and reading as a set matters more than each standing out. */
+
+  {
+    id: 'keep-what-you-wrote',
+    template: 'quiet',
+    kicker: 'If you stop paying',
+    headline: 'You still keep everything you wrote.',
+    accent: 'everything you wrote.',
+    subhead:
+      'Drop to the free tier and the archive stays whole — searchable, exportable, yours.',
+    features: [],
+    promises: ['Nothing locked', 'Free export', 'Never deleted'],
+    script: '',
+    screen: 'settings-archive-edit',
+    tint: 'peri'
+  },
+
+  {
+    id: 'no-ads',
+    template: 'quiet',
+    kicker: 'The promise',
+    headline: 'No ads. Your kid trains nothing.',
+    accent: 'trains nothing.',
+    subhead:
+      'Not now, not at a bigger scale, not ever. The archive is private by default.',
+    features: [],
+    promises: ['No ads, ever', 'Never sold or trained', 'No Facebook'],
+    script: '',
+    screen: 'timeline-all',
+    tint: 'terracotta'
   }
 ];

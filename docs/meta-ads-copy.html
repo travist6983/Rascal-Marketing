@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket Chronicle — Meta Ads copy</title>
+<style>
+  :root {
+    --ink: #23253C; --muted: #6E6A63; --canvas: #FDFAF4; --surface: #FFFFFF;
+    --terracotta: #C05A2B; --terracotta-soft: #FBEDE2;
+    --peri: #5566D6; --peri-soft: #E9EBFB;
+    --border: #E7E1D6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--canvas); color: var(--ink);
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding: 40px 24px 100px;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  .sub { color: var(--muted); margin: 0 0 36px; font-size: 15px; }
+  .sub code { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px; margin-bottom: 28px;
+  }
+  .card--terracotta { border-top: 4px solid var(--terracotta); }
+  .card--peri { border-top: 4px solid var(--peri); }
+  .card h2 { margin: 0 0 4px; font-size: 21px; }
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .card--terracotta .tag { background: var(--terracotta-soft); color: var(--terracotta); }
+  .card--peri .tag { background: var(--peri-soft); color: var(--peri); }
+  .evidence { font-size: 13.5px; color: var(--muted); margin: 0 0 20px; padding-left: 14px; border-left: 2px solid var(--border); }
+  .media { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+  .media a, .media .video-block {
+    display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none;
+  }
+  .media img, .media video {
+    height: 220px; width: auto; max-width: 100%; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--canvas); object-fit: cover; display: block;
+  }
+  .media span { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .media a img { transition: transform .15s ease; }
+  .media a:hover img { transform: scale(1.02); }
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .field-row { display: flex; gap: 8px; align-items: flex-start; }
+  .field-text {
+    flex: 1; background: var(--canvas); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; font-size: 15px; user-select: all; cursor: text;
+  }
+  button.copy {
+    flex-shrink: 0; border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+    border-radius: 8px; padding: 0 14px; font-size: 13px; cursor: pointer; font-weight: 600;
+  }
+  button.copy:hover { background: var(--canvas); }
+  button.copy.copied { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .meta-row { display: flex; gap: 24px; font-size: 13.5px; color: var(--muted); margin-top: 18px; flex-wrap: wrap; }
+  .meta-row strong { color: var(--ink); }
+  .files { margin-top: 10px; font-size: 13px; color: var(--muted); font-family: ui-monospace, monospace; }
+  .platform-note {
+    margin-top: 36px; padding: 18px 20px; background: var(--surface); border: 1px dashed var(--border);
+    border-radius: 12px; font-size: 14px; color: var(--muted);
+  }
+  .platform-note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Meta Ads copy — launch set</h1>
+  <p class="sub">
+    Five ad concepts, ready to paste into Meta Ads Manager for an App Install campaign.
+    Each has a static image (feed 4:5, feed 1:1, story/reel 9:16) at
+    <code>social/out/ads/</code> and a ~6.5s vertical video at <code>video/out/ads/</code>.
+    Click a field to select it, or use the Copy button.
+  </p>
+
+  <div class="card card--terracotta">
+    <span class="tag">Camera roll</span>
+    <h2>The photo survives. The reason doesn't.</h2>
+    <p class="evidence">#1 most repeated pain point across every reddit-ad-angles research run —
+      r/daddit: "everything just disappears into my photos app" · r/Mommit: "8500 pictures...
+      it feels so daunting".</p>
+
+    <div class="media">
+      <a href="../social/out/ads/camera-roll-portrait-launch.png" target="_blank"><img src="../social/out/ads/camera-roll-portrait-launch.png" alt="Feed 4:5"><span>Feed 4:5</span></a>
+      <a href="../social/out/ads/camera-roll-square-launch.png" target="_blank"><img src="../social/out/ads/camera-roll-square-launch.png" alt="Feed 1:1"><span>Feed 1:1</span></a>
+      <a href="../social/out/ads/camera-roll-story-launch.png" target="_blank"><img src="../social/out/ads/camera-roll-story-launch.png" alt="Story 9:16"><span>Story 9:16</span></a>
+      <div class="video-block"><video src="../video/out/ads/camera-roll.mp4" controls muted playsinline></video><span>Reel / Story video</span></div>
+    </div>
+
+    <div class="field">
+      <label>Headline</label>
+      <div class="field-row"><div class="field-text">The photo survives. The reason doesn't.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Primary text</label>
+      <div class="field-row"><div class="field-text">Four thousand photos and no idea why you took them. Pocket Chronicle keeps the question that caused the moment, filed with the moment.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Description / reassurance</label>
+      <div class="field-row"><div class="field-text">The daily question is always free</div><button class="copy">Copy</button></div>
+    </div>
+
+    <div class="meta-row">
+      <span><strong>CTA button:</strong> Download</span>
+      <span><strong>Tint:</strong> Terracotta</span>
+    </div>
+    <div class="files">
+      social/out/ads/camera-roll-{portrait,square,story}-launch.png<br>
+      video/out/ads/camera-roll.mp4
+    </div>
+  </div>
+
+  <div class="card card--peri">
+    <span class="tag">No streaks</span>
+    <h2>Miss a day and nothing happens.</h2>
+    <p class="evidence">Direct answer to tracking-app guilt in every research run —
+      r/beyondthebump: "the guilt is eating me alive" · r/NewParents: "I also ditched the milestone
+      tracker because it was making me crazy". The one angle where a baseline (no-skill) run reached
+      for forbidden "urgency" framing and this calm version deliberately doesn't.</p>
+
+    <div class="media">
+      <a href="../social/out/ads/no-streaks-portrait-launch.png" target="_blank"><img src="../social/out/ads/no-streaks-portrait-launch.png" alt="Feed 4:5"><span>Feed 4:5</span></a>
+      <a href="../social/out/ads/no-streaks-square-launch.png" target="_blank"><img src="../social/out/ads/no-streaks-square-launch.png" alt="Feed 1:1"><span>Feed 1:1</span></a>
+      <a href="../social/out/ads/no-streaks-story-launch.png" target="_blank"><img src="../social/out/ads/no-streaks-story-launch.png" alt="Story 9:16"><span>Story 9:16</span></a>
+      <div class="video-block"><video src="../video/out/ads/no-streaks.mp4" controls muted playsinline></video><span>Reel / Story video</span></div>
+    </div>
+
+    <div class="field">
+      <label>Headline</label>
+      <div class="field-row"><div class="field-text">Miss a day and nothing happens.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Primary text</label>
+      <div class="field-row"><div class="field-text">No streak to keep, no badge to clear, nothing to catch up on. The archive does not keep score of you.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Description / reassurance</label>
+      <div class="field-row"><div class="field-text">The daily question is always free</div><button class="copy">Copy</button></div>
+    </div>
+
+    <div class="meta-row">
+      <span><strong>CTA button:</strong> Download</span>
+      <span><strong>Tint:</strong> Peri</span>
+    </div>
+    <div class="files">
+      social/out/ads/no-streaks-{portrait,square,story}-launch.png<br>
+      video/out/ads/no-streaks.mp4
+    </div>
+  </div>
+
+  <div class="card card--peri">
+    <span class="tag">Their voice</span>
+    <h2>In 2041 you can still hear them say it.</h2>
+    <p class="evidence">Validated twice independently: the with-skill run found real
+      mispronunciation-loss grief (r/Mommit: "fuffins" → "muffins", "I was so sad when she learned
+      to say it right"); the baseline run separately found "a million videos... zero audio
+      recordings" (r/daddit). Strongest, most-repeated theme in the whole kids'-voice research pass.</p>
+
+    <div class="media">
+      <a href="../social/out/ads/voice-portrait-launch.png" target="_blank"><img src="../social/out/ads/voice-portrait-launch.png" alt="Feed 4:5"><span>Feed 4:5</span></a>
+      <a href="../social/out/ads/voice-square-launch.png" target="_blank"><img src="../social/out/ads/voice-square-launch.png" alt="Feed 1:1"><span>Feed 1:1</span></a>
+      <a href="../social/out/ads/voice-story-launch.png" target="_blank"><img src="../social/out/ads/voice-story-launch.png" alt="Story 9:16"><span>Story 9:16</span></a>
+      <div class="video-block"><video src="../video/out/ads/voice.mp4" controls muted playsinline></video><span>Reel / Story video</span></div>
+    </div>
+
+    <div class="field">
+      <label>Headline</label>
+      <div class="field-row"><div class="field-text">In 2041 you can still hear them say it.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Primary text</label>
+      <div class="field-row"><div class="field-text">Ten seconds of them talking, transcribed on the way in — so an archive you can read is also one you can search by what they actually said.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Description / reassurance</label>
+      <div class="field-row"><div class="field-text">The daily question is always free</div><button class="copy">Copy</button></div>
+    </div>
+
+    <div class="meta-row">
+      <span><strong>CTA button:</strong> Download</span>
+      <span><strong>Tint:</strong> Peri</span>
+    </div>
+    <div class="files">
+      social/out/ads/voice-{portrait,square,story}-launch.png<br>
+      video/out/ads/voice.mp4
+    </div>
+  </div>
+
+  <div class="card card--peri">
+    <span class="tag">Keep what you wrote &middot; new</span>
+    <h2>You still keep everything you wrote.</h2>
+    <p class="evidence">The best-evidenced gap the original 12-ad set didn't cover: Tinybeans'
+      "cancel button doesn't work" thread was the single highest-engagement thread found in the
+      whole research pass, and a separate, unanswered Reddit question — "do the photos you
+      uploaded remain available after you cancel?" — is exactly the fear this ad answers.</p>
+
+    <div class="media">
+      <a href="../social/out/ads/keep-what-you-wrote-portrait-launch.png" target="_blank"><img src="../social/out/ads/keep-what-you-wrote-portrait-launch.png" alt="Feed 4:5"><span>Feed 4:5</span></a>
+      <a href="../social/out/ads/keep-what-you-wrote-square-launch.png" target="_blank"><img src="../social/out/ads/keep-what-you-wrote-square-launch.png" alt="Feed 1:1"><span>Feed 1:1</span></a>
+      <a href="../social/out/ads/keep-what-you-wrote-story-launch.png" target="_blank"><img src="../social/out/ads/keep-what-you-wrote-story-launch.png" alt="Story 9:16"><span>Story 9:16</span></a>
+      <div class="video-block"><video src="../video/out/ads/keep-what-you-wrote.mp4" controls muted playsinline></video><span>Reel / Story video</span></div>
+    </div>
+
+    <div class="field">
+      <label>Headline</label>
+      <div class="field-row"><div class="field-text">You still keep everything you wrote.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Primary text</label>
+      <div class="field-row"><div class="field-text">Drop to the free tier and the archive stays whole — searchable, exportable, yours.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Description / reassurance</label>
+      <div class="field-row"><div class="field-text">The daily question is always free</div><button class="copy">Copy</button></div>
+    </div>
+
+    <div class="meta-row">
+      <span><strong>CTA button:</strong> Download</span>
+      <span><strong>Tint:</strong> Peri</span>
+    </div>
+    <div class="files">
+      social/out/ads/keep-what-you-wrote-{portrait,square,story}-launch.png<br>
+      video/out/ads/keep-what-you-wrote.mp4
+    </div>
+  </div>
+
+  <div class="card card--terracotta">
+    <span class="tag">No ads &middot; new</span>
+    <h2>No ads. Your kid trains nothing.</h2>
+    <p class="evidence">Second gap-filling angle: Tinybeans ads-on-paid-tier complaints, plus a
+      Family Album AI-integration backlash thread ("Time to go back to hard drives") and a
+      repeated desire to keep a kid's photos off any AI training pipeline.</p>
+
+    <div class="media">
+      <a href="../social/out/ads/no-ads-portrait-launch.png" target="_blank"><img src="../social/out/ads/no-ads-portrait-launch.png" alt="Feed 4:5"><span>Feed 4:5</span></a>
+      <a href="../social/out/ads/no-ads-square-launch.png" target="_blank"><img src="../social/out/ads/no-ads-square-launch.png" alt="Feed 1:1"><span>Feed 1:1</span></a>
+      <a href="../social/out/ads/no-ads-story-launch.png" target="_blank"><img src="../social/out/ads/no-ads-story-launch.png" alt="Story 9:16"><span>Story 9:16</span></a>
+      <div class="video-block"><video src="../video/out/ads/no-ads.mp4" controls muted playsinline></video><span>Reel / Story video</span></div>
+    </div>
+
+    <div class="field">
+      <label>Headline</label>
+      <div class="field-row"><div class="field-text">No ads. Your kid trains nothing.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Primary text</label>
+      <div class="field-row"><div class="field-text">Not now, not at a bigger scale, not ever. The archive is private by default.</div><button class="copy">Copy</button></div>
+    </div>
+    <div class="field">
+      <label>Description / reassurance</label>
+      <div class="field-row"><div class="field-text">The daily question is always free</div><button class="copy">Copy</button></div>
+    </div>
+
+    <div class="meta-row">
+      <span><strong>CTA button:</strong> Download</span>
+      <span><strong>Tint:</strong> Terracotta</span>
+    </div>
+    <div class="files">
+      social/out/ads/no-ads-{portrait,square,story}-launch.png<br>
+      video/out/ads/no-ads.mp4
+    </div>
+  </div>
+
+  <div class="platform-note">
+    <strong>On CTA buttons:</strong> the on-image button reads "Download on the App Store" to
+    match the App Store's own convention — Meta's CTA dropdown doesn't have that exact string, so
+    pick <strong>Download</strong> (App Install objective) for all five.
+    <br><br>
+    <strong>On sizes:</strong> portrait (1080×1350, 4:5) and square (1080×1080, 1:1) both work for
+    Facebook/Instagram Feed — Meta will pick the closest crop per placement if you upload only
+    one, but portrait is the safer single upload since Feed favors taller creative. Story
+    (1080×1920, 9:16) is required for Stories/Reels placements — use the video there when you can;
+    video consistently outperforms static in that placement.
+    <br><br>
+    <strong>Full reference:</strong> <code>docs/ad-launch-matrix.csv</code> has every field above
+    in one importable sheet, including the reddit-ad-angles source evidence for each angle.
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('button.copy').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const text = btn.previousElementSibling.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {
+      const range = document.createRange();
+      range.selectNodeContents(btn.previousElementSibling);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1400);
+  });
+});
+</script>
+</body>
+</html>
