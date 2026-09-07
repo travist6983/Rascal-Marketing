@@ -49,7 +49,7 @@ const CARDS = [
   ['pricing.png', 'Pricing', "Free isn't a trial that runs out.", 'Free'],
   ['promise.png', 'The promise', 'Text is never deleted. Not ever.', 'never'],
   ['faq.png', 'FAQ', 'Questions, answered plainly.', 'plainly'],
-  ['waitlist.png', 'The waitlist', "Get tomorrow's prompt.", "tomorrow's"],
+  ['waitlist.png', 'The daily email', "Get tomorrow's prompt.", "tomorrow's"],
   ['blog.png', 'The blog', 'Notes on keeping a childhood.', 'childhood'],
   ['blog-the-photo-survives.png', 'Memory', "The photo survives. The story doesn't.", 'story'],
   ['blog-what-to-write-in-a-keepsake-book.png', 'Prompts', 'What to write in a keepsake book when you have no idea what to write.', 'keepsake book'],
@@ -128,7 +128,7 @@ function cardHtml({ label, headlineHtml }) {
 
 await mkdir(outDir, { recursive: true });
 const tmp = await mkdtemp(join(tmpdir(), 'og-'));
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 
 try {
   const page = await browser.newPage({

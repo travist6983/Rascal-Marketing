@@ -1,17 +1,22 @@
 <!--page
 title: Get tomorrow's prompt | {{PRODUCT}}
-description: One question from {{PRODUCT}}'s library, by email, every morning, starting tomorrow. It runs until the app opens on iPhone. Free. Unsubscribe anytime.
+description: One question from {{PRODUCT}}'s library, by email, every morning, starting tomorrow. Answer it in the app or a notebook. Free. Unsubscribe anytime.
 og: /assets/og/waitlist.png
 -->
 
 <section class="section section--tight">
   <div class="wrap wrap--narrow stack gap-20">
+    <!-- This was the waitlist until September 7 2026, and the route is still
+         /waitlist because renaming a URL people have bookmarked and search engines
+         have indexed buys nothing. What changed is what it IS: there is nothing left
+         to wait for, so it is the daily prompt email, which is what it always
+         actually delivered. -->
     <div class="stack gap-14">
-      <p class="eyebrow">The waitlist</p>
+      <p class="eyebrow">The daily email</p>
       <h1 class="t-hero">Get tomorrow&rsquo;s prompt</h1>
       <p class="lede">
-        One real question from the library, by email, every morning, starting tomorrow &mdash;
-        until {{PRODUCT}} opens on iPhone. Free.
+        One real question from the library, by email, every morning, starting tomorrow. Answer it
+        in the app, in a notebook, or in your head on the way to school. Free, and not a trial.
       </p>
     </div>
 
@@ -20,6 +25,11 @@ og: /assets/og/waitlist.png
     <p class="t-body muted">
       Every question is public, so nothing here is on faith &mdash;
       <a href="/prompts">read all {{PROMPT_COUNT}} first if you&rsquo;d rather</a>.
+    </p>
+
+    <p class="t-body muted">
+      Looking for the app instead? {{PRODUCT}} is on iPhone and free to start &mdash;
+      <a href="{{APP_STORE_URL}}">{{CTA_APP}}</a>. The email works with it or without it.
     </p>
   </div>
 </section>
@@ -38,10 +48,11 @@ og: /assets/og/waitlist.png
         </p>
       </div>
       <div class="card stack gap-12" data-reveal style="--reveal-delay:60ms">
-        <h3 class="t-card">Two notes, later</h3>
+        <h3 class="t-card">It doesn&rsquo;t need the app</h3>
         <p class="t-body muted">
-          One when {{PRODUCT}} opens on iPhone, and one when pricing goes live. People on this
-          list hear the price before it&rsquo;s public.
+          The email stands on its own &mdash; answer in a notebook, a notes app, anywhere. If you do
+          have <a href="{{APP_STORE_URL}}">{{PRODUCT}} on your phone</a>, backdating means a paper
+          answer still files under the day it happened.
         </p>
       </div>
       <div class="card stack gap-12" data-reveal style="--reveal-delay:120ms">

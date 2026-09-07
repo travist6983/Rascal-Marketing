@@ -45,7 +45,7 @@ class: home
       <div class="stack gap-24">
         <p class="hero__badge">
           <span class="dot" aria-hidden="true"></span>
-          <span class="t-label">Free by email · iPhone app soon</span>
+          <span class="t-label">Out now on iPhone · Free to start</span>
         </p>
 
         <h1>Your camera roll remembers what they looked&nbsp;like. {{PRODUCT}} remembers what they <em class="accent" style="font-style:normal">were</em> like.</h1>
@@ -58,9 +58,24 @@ class: home
           something.
         </p>
 
+        <!-- Apple's own badge artwork, and the ONE place on this site it appears:
+             everywhere else the store link is plain text in .btn--primary. Both
+             treatments are permitted; mixing them page after page is what would look
+             like a mistake. src/assets/app-store-badge.svg carries the rules it came
+             with, and site.config.json's _app_store_note says why the link is a token.
+
+             The email keeps second billing rather than losing its place. It was never
+             a queue for the app — the prompts work in a notebook, and they did before
+             there was anything to download. -->
         <div class="ctarow">
-          <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
-          <p class="ctarow__note">One a day, by email, until {{PRODUCT}} opens. Free.</p>
+          <div class="ctarow__pair">
+            <a class="storebadge" href="{{APP_STORE_URL}}">
+              <img src="/assets/app-store-badge.svg" width="120" height="40"
+                   alt="{{CTA_APP}}" fetchpriority="high" decoding="async">
+            </a>
+            <a class="btn--text" href="/waitlist">or get tomorrow&rsquo;s prompt by email</a>
+          </div>
+          <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
         </div>
       </div>
 
@@ -322,8 +337,11 @@ class: home
     </div>
 
     <div class="ctarow ctarow--center">
-      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
-      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+      <div class="ctarow__pair">
+        <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
+        <a class="btn--text" href="/waitlist">{{CTA}} by email</a>
+      </div>
+      <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
     </div>
   </div>
 </section>
@@ -551,8 +569,8 @@ class: home
       </p>
       <a class="btn btn--quiet" href="/pricing">See what's in each tier →</a>
       <p class="t-meta measure">
-        <em>Ships with the App Store launch. Waitlist members will hear the price before it goes live,
-        not after.</em>
+        <em>Membership is bought in the app, through the App Store, at the price Apple shows you on
+        the purchase screen. The daily question never asks for a card.</em>
       </p>
     </div>
   </div>
@@ -597,21 +615,41 @@ class: home
       </div>
     </div>
 
+    <!-- The page's last word is the download, and the email card below it is the
+         second offer rather than the only one. Both were the same block until
+         September 7 2026, when there was nothing to download and the email had to
+         carry the ending on its own. -->
+    <div class="center stack gap-20">
+      <h2 class="t-section">It&rsquo;s on the App Store.</h2>
+      <p class="lede" style="max-width:none">
+        Free to start, on iPhone. The daily question arrives every morning and stays free forever;
+        everything else is open for {{TRIAL}} with no card and nothing to cancel.
+      </p>
+      <div class="ctarow ctarow--center">
+        <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
+        <p class="ctarow__note">
+          <a href="/pricing">What membership costs</a> ·
+          <a href="/promise">what happens to your archive</a>
+        </p>
+      </div>
+    </div>
+
     <div class="card card--canvas card--pad has-blobs" id="waitlist">
       <div class="blob blob--a blob--breathe" aria-hidden="true" style="top:-140px;right:-80px;width:520px;height:520px"></div>
       <div class="wrap" style="padding:0">
         <div class="cols cols--2 cols--mid">
           <div class="stack gap-24">
             <div class="stack gap-14" data-reveal>
-              <h2 class="t-section">One question. Tonight.</h2>
+              <h2 class="t-section">Or one question. Tonight.</h2>
               <p class="lede">
-                {{PRODUCT}} is in private testing and opening soon on iPhone. Until then the prompts
-                come to you by email — the same ones from the deck, one a day, free.
+                No phone required. The prompts come by email too — the same ones from the deck, one a
+                day, free — and an answer you write in a notebook tonight files under tonight
+                whenever you get round to typing it in.
               </p>
             </div>
             <!--#include partials/signup.html -->
             <ul class="check-list">
-              <li><span class="tick" aria-hidden="true">✓</span><span>Free, and not a trial — the email prompts stay free whatever happens to the app.</span></li>
+              <li><span class="tick" aria-hidden="true">✓</span><span>Free, and not a trial — the email prompts stay free whether you install the app or not.</span></li>
               <li><span class="tick" aria-hidden="true">✓</span><span>No third-party trackers, no ad pixels, no analytics on this page. Your address goes nowhere else.</span></li>
               <li><span class="tick" aria-hidden="true">✓</span><span>One click unsubscribes, and we say so in every send.</span></li>
             </ul>

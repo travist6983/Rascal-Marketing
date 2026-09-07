@@ -388,6 +388,69 @@ for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
   }
 }
 
+/* ------------------------------------------------------- the launch, in words */
+/* {{PRODUCT}} shipped on the App Store on September 7 2026. Until that morning the
+   whole site was written as a waitlist: the masthead sold an email, /pricing said
+   the price wasn't live, /faq answered "when does it open?" with "we don't have a
+   date", and five blog posts closed with "until the app opens". None of that is
+   structurally wrong — every one of those pages was valid HTML with a working link
+   — which is exactly why it needs a copy assertion rather than a markup one. A
+   single surviving "opening soon" on a site with a Download button two sections up
+   is worse than either sentence alone: it reads as a site nobody maintains.
+
+   Scoped tightly on purpose. "Opens" is an ordinary word here — a sealed letter
+   opens at an age you choose, the export opens in any browser — so these patterns
+   name the launch-waiting PHRASES and nothing looser. Break-test any pattern you
+   add by pasting the old sentence back in and watching this fail; a pattern that
+   has never failed is a pattern that may not work. */
+const LAUNCH_BANNED = [
+  [/coming soon/i, 'the app is out — nothing on this site is coming'],
+  [/(?:app|iphone|it)\s+(?:is\s+)?(?:opening\s+)?soon\b/i, 'pre-launch copy: the app shipped Sept 7 2026'],
+  [new RegExp(`until (?:the app|${config.PRODUCT.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}|it) opens`, 'i'),
+    'the app has opened; the email is not a queue for it'],
+  [/private testing/i, 'private testing ended at launch'],
+  [/(?:hasn'?t|has not) opened on the App Store/i, 'it has'],
+  [/ships with the App Store launch/i, 'the launch happened — say what the price IS'],
+  [/join the waitlist/i, 'there is no waitlist any more, only the daily prompt email'],
+  [/when it opens and when the price goes live/i, 'both of those happened on Sept 7 2026'],
+  [/no app required yet|no app to install/i, 'there is an app and it is a free download'],
+  [/we don'?t have a date/i, 'the date arrived'],
+];
+for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
+  const raw = await readFile(file, 'utf8');
+  /* Comments again, for the TIER_BANNED reason: a note explaining what a launch
+     removed will quote the sentence it removed, and that is the opposite of a
+     regression. The .md twins carry no comments, so this only affects the HTML. */
+  const visible = raw.replace(/<!--[\s\S]*?-->/g, '');
+  for (const [re, why] of LAUNCH_BANNED) {
+    const hit = visible.match(re);
+    if (hit) fail.push(`/${relative(dist, file)}: launch copy "${hit[0]}" — ${why}`);
+  }
+}
+
+/* The other half again: the store link must actually be THERE. It is in the footer,
+   so every page carries it, and that is the point — the check fails loudly if the
+   footer column is ever reshuffled away rather than quietly leaving a site with no
+   way to get the app. */
+{
+  const store = config.APP_STORE_URL;
+  if (!store) fail.push('site.config.json: APP_STORE_URL is empty — the site has no way to the app');
+  else {
+    for (const { rel, html } of pages) {
+      if (!html.includes(store)) fail.push(`${rel}: no link to the App Store anywhere on the page`);
+    }
+    /* One source for the link. A second copy typed into markup is right until the
+       storefront, the app id or Apple's slug changes, and then it is a dead button
+       on one page while every other page works — the failure mode the price tokens
+       already exist to prevent. */
+    for (const file of (await walk(join(root, 'src'))).filter((f) => /\.(html|css|js|svg|txt)$/.test(f))) {
+      const text = await readFile(file, 'utf8');
+      if (/apps\.apple\.com/.test(text))
+        fail.push(`src/${relative(join(root, 'src'), file)}: apps.apple.com typed into source — use {{APP_STORE_URL}}`);
+    }
+  }
+}
+
 /* The other half: one sentence that must be PRESENT. D3 as narrowed says the
    archive is never locked and the day is, and this is that promise in the
    reader's own words. The phase brief requires it near the table and at least
@@ -570,6 +633,20 @@ for (const [name, viewport] of [
     if (wide) fail.push(`${name} ${route}: horizontal scroll`);
     const font = await page.evaluate(() => document.fonts.check('700 22px Nunito'));
     if (!font) fail.push(`${name} ${route}: Nunito did not load`);
+
+    /* An image that 404s is loud. An image whose FILE is there and whose contents do
+       not parse is silent: no console error, no failed request, just alt text where
+       the picture was. That shipped once — the App Store badge is an SVG, an SVG is
+       XML, and an XML comment may not contain a double hyphen, so an em dash typed as
+       two hyphens in a provenance note made the whole file unparseable. Every static
+       check passed: the img had alt, width and height, and the file existed at the
+       path. naturalWidth is the only thing that can tell the difference. */
+    const broken = await page.evaluate(() =>
+      [...document.images]
+        .filter((i) => i.complete && i.naturalWidth === 0)
+        .map((i) => i.getAttribute('src'))
+    );
+    for (const src of broken) fail.push(`${name} ${route}: image did not render — ${src}`);
     if (name === 'desktop' && (route === '/' || route === '/blog' || route === '/prompts')) {
       await page.screenshot({ path: join(shots, `check-${route.replace(/\W+/g, '-') || 'home'}.png`), fullPage: false });
     }

@@ -32,8 +32,10 @@ overflow, and the form ladder in real Chromium.
 
 - Every `{{TOKEN}}` resolves from `site.config.json` — PRODUCT is "Pocket
   Chronicle", DOMAIN is "pocketchronicle.app", ORIGIN is
-  "https://pocketchronicle.app". Never
-  hardcode the name, the domain, prices, or the prompt count in markup. A token's
+  "https://pocketchronicle.app", APP_STORE_URL is the App Store listing. Never
+  hardcode the name, the domain, prices, the prompt count, or the store link in
+  markup — `npm run check` fails on a literal `apps.apple.com` anywhere in `src/`,
+  and fails again on any page that carries no store link at all. A token's
   value may contain another token (SUPPORT_EMAIL is `hello@{{DOMAIN}}`); `fill()`
   resolves to a fixed point, so nesting is fine and nothing is exempt from the
   unresolved-token check any more.
@@ -45,5 +47,13 @@ overflow, and the form ladder in real Chromium.
   frozen in `scripts/prompt-anchors.json` — never renumber them.
 - No red anywhere; an absent feature is an em dash. ✓ ticks affirm promises,
   never anti-features. Competitor claims carry `verified-on` HTML comments.
+- The app shipped on the App Store on September 7 2026, so nothing on this site
+  is forthcoming any more. `npm run check` bans "coming soon", "opening soon",
+  "until the app opens", "in private testing", "join the waitlist" and the rest
+  of the waitlist-era phrasings. The store link is the primary CTA everywhere;
+  the daily email at `/waitlist` is the secondary one and keeps its route.
+  Apple's badge artwork appears exactly once, in the home hero — everywhere else
+  the store button is `{{CTA_APP}}` as plain text in the site's own pill, and the
+  badge SVG is never redrawn or recoloured.
 - Voice rules live in `docs/site-content.md` §Voice and §"Do not write" — they
   are binding for any copy change, including the Markdown twins by construction.

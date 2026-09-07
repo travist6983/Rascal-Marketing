@@ -1,6 +1,6 @@
 <!--page
 title: Frequently asked questions | {{PRODUCT}}
-description: Plain answers about the daily loop, the money, the archive, and trust — including the ones we can't answer yet, like the launch date.
+description: Plain answers about the daily loop, the money, the archive, and trust — including where to get the app and what it costs once you have it.
 og: /assets/og/faq.png
 -->
 
@@ -52,8 +52,8 @@ og: /assets/og/faq.png
       "acceptedAnswer": { "@type": "Answer", "text": "No. Nothing about your child is sold, brokered, or used to train anything." } },
     { "@type": "Question", "name": "Is there an Android app?",
       "acceptedAnswer": { "@type": "Answer", "text": "Not today. As of {{VERIFIED_ON}}, {{PRODUCT}} is iPhone only — no Android app and no web app. We'd rather say that plainly than hint at a roadmap we can't promise." } },
-    { "@type": "Question", "name": "When does it open?",
-      "acceptedAnswer": { "@type": "Answer", "text": "{{PRODUCT}} is in private testing now and opening on iPhone soon. We don't have a date to give you, so we won't give you one. The waitlist gets one prompt a day by email in the meantime, and hears the price before it goes live, not after." } }
+    { "@type": "Question", "name": "Where do I get it?",
+      "acceptedAnswer": { "@type": "Answer", "text": "{{PRODUCT}} is on the App Store, free to download, on iPhone. The daily question is free forever and everything else is open for {{TRIAL}} with no card and nothing to cancel. There is no Android app and no web app, and the daily prompt still goes out by email for anyone who would rather answer it in a notebook." } }
   ]
 }
 </script>
@@ -65,9 +65,9 @@ og: /assets/og/faq.png
       <p class="eyebrow">Questions</p>
       <h1 class="t-hero">Frequently asked questions</h1>
       <p class="lede">
-        Short answers, grouped by subject. A couple of things can't be answered yet — when it opens,
-        and what it will finally be called — and where that's true, this page says so instead of
-        talking around it.
+        Short answers, grouped by subject. Where something isn't built yet — the Android app, the
+        printed book, the handover to a grown child — this page says so instead of talking around
+        it.
       </p>
     </div>
   </div>
@@ -207,8 +207,8 @@ og: /assets/og/faq.png
             <div class="faq__a"><p>Not today. As of {{VERIFIED_ON}}, {{PRODUCT}} is iPhone only — no Android app and no web app. We'd rather say that plainly than hint at a roadmap we can't promise.</p></div>
           </details>
           <details class="faq__item">
-            <summary class="faq__q">When does it open?</summary>
-            <div class="faq__a"><p>{{PRODUCT}} is in private testing now and opening on iPhone soon. We don't have a date to give you, so we won't give you one. The waitlist gets one prompt a day by email in the meantime, and hears the price before it goes live, not after.</p></div>
+            <summary class="faq__q">Where do I get it?</summary>
+            <div class="faq__a"><p><a href="{{APP_STORE_URL}}">{{PRODUCT}} is on the App Store</a>, free to download, on iPhone. The daily question is free forever and everything else is open for {{TRIAL}} with no card and nothing to cancel. There is no Android app and no web app, and the daily prompt still goes out by email for anyone who would rather answer it in a notebook.</p></div>
           </details>
         </div>
       </div>
@@ -221,12 +221,15 @@ og: /assets/og/faq.png
   <div class="wrap wrap--narrow center stack gap-20">
     <h2 class="t-section">Anything we missed?</h2>
     <p class="lede" style="max-width:none">
-      Email <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a> and a person answers. Or start
-      with a prompt, by email, tomorrow morning — no card, no app, no tier.
+      Email <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a> and a person answers. Or just
+      start — the download is free and so is the question it asks you tomorrow.
     </p>
     <div class="ctarow ctarow--center">
-      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
-      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+      <div class="ctarow__pair">
+        <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
+        <a class="btn--text" href="/waitlist">{{CTA}} by email</a>
+      </div>
+      <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
     </div>
     <p class="t-meta">
       <a href="/compare/camera-roll">Still wondering why not just use your camera roll?</a>
