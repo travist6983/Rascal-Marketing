@@ -164,7 +164,15 @@ export function htmlToMarkdown(html, options = {}) {
         inline += ' '; continue;
       case 'img': {
         const alt = decode(attrs.alt || '').trim();
-        if (alt) { flush(); blocks.push('*[Image: ' + alt + ']*'); }
+        if (!alt) continue;
+        /* An image that IS a link's whole content has to stay inline, or flushing it
+           to its own block splits the surrounding [ ... ](href) across three
+           paragraphs and the link stops being a link. The live case is the home
+           hero's App Store badge: an anchor whose only child is the badge artwork.
+           Everywhere else an image is its own block and reads better as one. */
+        if (aHref.length) { inline += `![${alt}](${decode(attrs.src || '')})`; continue; }
+        flush();
+        blocks.push('*[Image: ' + alt + ']*');
         continue;
       }
       case 'a':

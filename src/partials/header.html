@@ -66,7 +66,13 @@
         <a href="/pricing">Pricing</a>
         <a href="/promise">The promise</a>
         <a href="/blog">Blog</a>
-        <a class="btn btn--primary btn--sm nav__cta" href="/waitlist">{{CTA}}</a>
+        <!-- The masthead's one action. It pointed at /waitlist until September 7 2026,
+             which was right while the only thing anybody could get was an email; the
+             app is on the App Store now, so the primary action everywhere is the
+             download and the email is the secondary one. CTA_APP_SHORT rather than
+             CTA_APP because this pill sits in a single desktop row next to five nav
+             links — the long form is what every in-page button uses. -->
+        <a class="btn btn--primary btn--sm nav__cta" href="{{APP_STORE_URL}}">{{CTA_APP_SHORT}}</a>
       </nav>
     </details>
   </div>

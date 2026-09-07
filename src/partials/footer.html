@@ -54,6 +54,12 @@
     <div class="foot__cols">
       <div class="foot__col">
         <h2 class="foot__head">The product</h2>
+        <!-- First link in the first column, on all 21 pages: the store is the one
+             thing a reader who scrolled the whole way down is most likely to want,
+             and the footer is the only place the download appears below the fold.
+             Resolved from APP_STORE_URL like every other store link here — see
+             site.config.json's _app_store_note. -->
+        <a href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
         <a href="/how-it-works">How it works</a>
         <a href="/prompts">All {{PROMPT_COUNT}} prompts</a>
         <a href="/pricing">Pricing</a>

@@ -365,6 +365,24 @@ body[data-route^="/blog"]        .nav a[href="/blog"] {
 .btn--sm { min-height: 44px; padding: 10px 20px; font-size: 15px; }
 .btn--lg { padding: 17px 34px; font-size: 20px; }
 
+/* .btn is nowrap, which is right for a pill and wrong for a 320px screen. The site's
+   longest label went from "Get tomorrow's prompt" to "Download on the App Store" at
+   the App Store launch, and at 20px/700 that plus .btn--lg's padding is wider than
+   the 288px a 320px viewport leaves inside the gutter — and a nowrap pill does not
+   overflow politely, it takes the whole document sideways. Scaled rather than
+   wrapped: a two-line pill reads as a broken button.
+
+   This also closes eight 320px overflow failures that predate the launch and were
+   the same bug on the old label: /how-it-works, /prompts, /pricing, /promise, /faq,
+   the three comparisons and, through the signup form's submit, /waitlist. The order
+   inside the block matters — .btn--sm and .btn--lg have the same specificity as .btn
+   and only win by coming after it. The 44px tap target survives everywhere. */
+@media (max-width: 380px) {
+  .btn { padding-inline: 20px; font-size: 17px; }
+  .btn--sm { padding-inline: 16px; font-size: 15px; }
+  .btn--lg { padding: 15px 20px; font-size: 17px; }
+}
+
 /* Secondary is a link, never a second filled button. */
 .btn--text {
   background: none; border: none; box-shadow: none;
@@ -377,6 +395,24 @@ body[data-route^="/blog"]        .nav a[href="/blog"] {
 .ctarow { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .ctarow--center { align-items: center; }
 .ctarow__note { font: 400 14px var(--text); color: var(--ink-muted); }
+
+/* Two actions on one line, the store first. Wraps rather than shrinking, because
+   the second one is a text link and a text link that has to hyphenate reads as
+   damage. Used wherever a page ends on "download it, or get the email instead". */
+.ctarow__pair { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
+.ctarow--center .ctarow__pair { justify-content: center; }
+
+/* Apple's badge, used ONCE — the home hero. Everywhere else the store link is
+   plain text in .btn--primary, which is the treatment that matches this design
+   and the treatment Apple's guidelines also allow. The intrinsic 120x40 stays on
+   the img element (CLS), and height here is what scales it; Apple asks for at
+   least 40px tall and for clear space around it of a tenth of its height, which
+   the 52px box and the 12px .ctarow gap both clear. Do not put a border, a
+   shadow or a background behind it. */
+.storebadge { display: inline-flex; align-items: center; }
+.storebadge img { height: 52px; width: auto; display: block; }
+.storebadge:active { transform: scale(0.98); }
+@media (prefers-reduced-motion: reduce) { .storebadge:active { transform: none; } }
 
 /* ------------------------------------------------------------------ cards */
 .card {

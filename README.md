@@ -1,14 +1,16 @@
 # Pocket Chronicle — marketing site
 
-Landing page for Pocket Chronicle: one question a day about your kid, free by email, with an
-iOS app in App Store review.
+Landing page for Pocket Chronicle: one question a day about your kid, free by email, with the
+iOS app [out now on the App Store](https://apps.apple.com/us/app/pocketchronicle-app/id6800155810).
 
 No framework, no build step, no third-party requests — `index.html`, `styles.css`,
 `app.js`, two self-hosted webfonts, and `assets/` for app screenshots.
 
-The page has two jobs, in this order: get the email signup (the prompts are live
-now), then build anticipation for the app. The countdown is the drama; it is never
-the ask.
+The page had two jobs while the app was unreleased: get the email signup, then build
+anticipation. Since September 7 2026 the app is on the App Store, so the order flipped
+— the download is the ask and the email is the second one. The countdown is finished
+drama: `SHIPPED_URL` is set, so the hero renders the Download button and the clock
+never runs. See [The launch countdown](#the-launch-countdown).
 
 ## Running it
 
@@ -44,16 +46,23 @@ the signup block at the bottom of `app.js`.
 
 ## The launch countdown
 
-`LAUNCH` at the top of `app.js` drives the whole thing. The target date is
-expected to move — App Store review runs on its own schedule.
+`LAUNCH` at the top of `app.js` drives the whole thing. It is **settled**: the app
+shipped on September 7 2026 and `SHIPPED_URL` holds the store link, so
+`launchState()` returns `shipped` before it ever reads the clock. `TARGET` and
+`GRACE_COPY` are history now rather than configuration — editing either changes
+nothing while the URL is set.
 
 ```js
 const LAUNCH = {
-  TARGET: '2026-08-27T16:00:00Z',   // App Store target — pending review
+  TARGET: '2026-08-27T16:00:00Z',   // the target it was submitted against
   GRACE_COPY: 'In review with Apple',
-  SHIPPED_URL: null                  // set to the App Store link on launch day
+  SHIPPED_URL: 'https://apps.apple.com/us/app/pocketchronicle-app/id6800155810'
 };
 ```
+
+The two unreachable states are kept rather than deleted: this file is the prototype
+the built site was cut from, and a state machine with a state removed is harder to
+read than one with a state that has been reached.
 
 Three states, all implemented and all visually complete:
 
@@ -61,7 +70,7 @@ Three states, all implemented and all visually complete:
 |---|---|---|
 | **Counting** | before `TARGET` | Days / hours / minutes, live, digits rolling in masked tracks |
 | **Grace** | at or past `TARGET`, `SHIPPED_URL` still null | `GRACE_COPY` plus "Submitted. Apple reviews on its own schedule." No dead zeros, no negatives |
-| **Shipped** | `SHIPPED_URL` set | A Download on the App Store button. The email signup stays on the page below it |
+| **Shipped** | `SHIPPED_URL` set — **the live state** | A Download on the App Store button. The email signup stays on the page below it |
 
 Time is computed from a fixed UTC instant and recomputed from `Date.now()` on
 every tick and on `visibilitychange`, so a tab left open overnight is never
@@ -325,9 +334,9 @@ a capability claim stays true when the tiers move.
 - No social proof. There are no users, so there are no counts, stars or quotes.
 - The CTA is honest about what exists on the day the creative runs. Both strings
   live in `CTAS` in `social/ads.js` and `--cta` picks one: `waitlist` is `CTA`
-  from `site.config.json` verbatim, `launch` names the App Store. A creative is
-  booked before a store listing is live, and the copy cannot be re-approved on
-  the morning it goes up.
+  from `site.config.json` verbatim, `launch` names the App Store. `launch` is the
+  default since the app shipped on September 7 2026; `--cta waitlist` still renders
+  the email set, because the daily email did not go away with the launch.
 - The line under the button is `/pricing`'s H1, on every creative. It replaced
   "Free by email · iPhone app soon" — this set is for after the app ships, and a
   launched product describing itself as forthcoming is the one claim an ad

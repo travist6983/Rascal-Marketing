@@ -36,6 +36,17 @@ change is one edit, not a crawl through markup.
 comparisons, FAQ — is fully written so the site flips to "Download on the App Store" with a CTA
 swap, not a rebuild.
 
+> **The flip happened on September 7 2026.** {{PRODUCT}} is on the App Store, and the store link
+> lives in `site.config.json` as `APP_STORE_URL` with `CTA_APP` for the button. Every CTA on the
+> site now leads with the download and offers the daily email second. It cost one config block,
+> one asset and a pass over the copy — no rebuild, which is the claim above being cashed.
+>
+> This document is the brief the site was built to, and it is kept as written. Where a line below
+> describes the waitlist era it is marked **[SHIPPED]** with what replaced it. Nothing pre-launch
+> here is a live instruction any more: `npm run check` fails the build on "coming soon", "opening
+> soon", "until the app opens", "join the waitlist" and six more, so re-introducing one of these
+> sentences from this document cannot reach production quietly.
+
 ---
 
 ## Brand mark
@@ -222,7 +233,13 @@ A question about your kid every day, free forever, and a mission to go with it. 
 seconds, or skip it — nothing keeps score. Every moment is filed with the prompt that caused it, so
 in 2040 you can search *"what he was afraid of"* and actually find something.
 
-`[ Get tomorrow's prompt ]`  ·  One a day, by email, until {{PRODUCT}} opens. Free.
+`[ Download on the App Store ]`  ·  `or get tomorrow's prompt by email`
+Under both: `Free on iPhone. The daily question is free forever, and the first {{TRIAL}} are open
+with no card.`
+
+**[SHIPPED]** Was `[ Get tomorrow's prompt ]` · *One a day, by email, until {{PRODUCT}} opens.
+Free.* The hero is the one place on the site that carries Apple's own badge artwork; every other
+store button is `CTA_APP` as plain text in the site's own pill.
 
 **[MERGE] Two decisions here.**
 *H1:* the parallelism version above wins over the other source's *"Your camera roll has the photos.
@@ -230,9 +247,12 @@ in 2040 you can search *"what he was afraid of"* and actually find something.
 that does the work.
 *CTA:* `Get tomorrow's prompt` describes the outcome; `Join the waitlist` describes the mechanism.
 The outcome version is only honest if the daily email in §Waitlist email actually ships. **If it
-doesn't, revert every CTA on the site to `Join the waitlist` and change the support line to
-`We'll email when it opens and when pricing goes live. Nothing else.`** One-line swap; keep both
-strings in one place.
+doesn't, change `CTA` to `Get the daily prompt` and the support line to `We'll only ever email you
+the prompt itself. Nothing else.`** One-line swap; keep both strings in one place.
+
+**[SHIPPED]** The fallback used to be `Join the waitlist`, and that phrase is now banned by
+`npm run check` — there is no waitlist to join, only a daily email that outlived the launch it was
+built to fill. The email's CTA is the SECOND action everywhere now; the first is `CTA_APP`.
 
 *[Motion: the phone frame arrives with a today-card already asking a question; the question text
 swaps through three real prompts on a slow cycle. Not a typewriter effect.]*
@@ -440,8 +460,11 @@ never access to your own archive.
 
 `[ See what's in each tier → ]`
 
-*Ships with the App Store launch. Waitlist members will hear the price before it goes live, not
-after.*
+*Membership is bought in the app, through the App Store, at the price Apple shows you on the
+purchase screen. The daily question never asks for a card.*
+
+**[SHIPPED]** Was *Ships with the App Store launch. Waitlist members will hear the price before it
+goes live, not after.* Both halves expired on September 7 2026: it shipped, and the price is live.
 
 ---
 
@@ -470,14 +493,24 @@ That's a decision the family makes, not one the app makes for you. Sealed entrie
 open at an age you choose. The export means the archive is handed over as a real object, whatever
 you decide.
 
-### One question. Tonight.
+### It's on the App Store.
 
-{{PRODUCT}} is in private testing and opening soon on iPhone.
+Free to start, on iPhone. The daily question arrives every morning and stays free forever;
+everything else is open for {{TRIAL}} with no card and nothing to cancel.
+
+`[ Download on the App Store ]`
+
+### Or one question. Tonight.
+
+No phone required. The prompts come by email too — the same ones from the deck, one a day, free.
 
 `[ Get tomorrow's prompt ]`
 
-One a day, by email. A note when it opens and when the price goes live. Nothing else. Unsubscribe
-in one click.
+One a day, by email. Nothing else. Unsubscribe in one click.
+
+**[SHIPPED]** The page used to end on the email alone, under *"{{PRODUCT}} is in private testing
+and opening soon on iPhone."* It ends on the download now, with the email card kept underneath it
+as the second offer rather than the only one.
 
 ---
 
@@ -753,7 +786,13 @@ Form: **one field, email only.** Optional second field, "your kid's age" as a ra
 only if you'll act on it, otherwise it's friction for nothing.
 
 Button: `Get tomorrow's prompt`
-Under it: `One a day, by email. A note when it opens and when the price goes live. Nothing else.`
+Under it: `One a day, by email. Nothing else.`
+
+**[SHIPPED]** The support line used to promise *a note when it opens and when the price goes live*;
+both arrived on September 7 2026, so the clause was describing a future that had already happened.
+`/terms` renders `CTA_SUPPORT` verbatim as the whole agreement for this list, which is why
+`LEGAL_UPDATED` moved with it. The route is still `/waitlist` — a URL people bookmarked and search
+engines indexed — but the page calls itself the daily email.
 
 `/thanks`:
 > **You're on the list.**

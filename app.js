@@ -41,12 +41,21 @@ const PROPS = {
   submitDelayMs: 800  // only used as the minimum spinner time
 };
 
-/* Launch. TARGET is expected to move — App Store review has its own schedule,
-   so treat this date as provisional and edit it whenever it slips. */
+/* Launch. Settled on September 7 2026: SHIPPED_URL is set, so launchState() returns
+   'shipped' before it ever looks at the clock and the countdown and the in-review
+   copy below are both unreachable. They are kept rather than deleted because this
+   file is the prototype the design was cut from, and a state machine with a state
+   removed is harder to read than one with a state that has been reached.
+
+   TARGET and GRACE_COPY are therefore history now, not configuration — editing
+   either changes nothing while SHIPPED_URL holds a value. The live site is built
+   from src/ by scripts/build.mjs and takes its store link from site.config.json's
+   APP_STORE_URL; this constant is the same URL and the only reason it is a second
+   copy is that nothing here reads that file. */
 const LAUNCH = {
-  TARGET: '2026-08-27T16:00:00Z',   // App Store target — pending review
+  TARGET: '2026-08-27T16:00:00Z',   // the target it was submitted against
   GRACE_COPY: 'In review with Apple',
-  SHIPPED_URL: null                  // set to the App Store link on launch day
+  SHIPPED_URL: 'https://apps.apple.com/us/app/pocketchronicle-app/id6800155810'
 };
 
 /* App screenshots. `src: null` renders the designed empty state; setting src
@@ -246,6 +255,7 @@ const cdGrace = document.querySelector('[data-role="cdGrace"]');
 const cdShipped = document.querySelector('[data-role="cdShipped"]');
 const chipEl = document.querySelector('[data-role="chip"]');
 const chipValue = document.querySelector('[data-role="chipValue"]');
+const chipLabel = document.querySelector('[data-role="chipLabel"]');
 const closeCountdown = document.querySelector('[data-role="closeCountdown"]');
 const cdEyebrow = document.querySelector('[data-role="cdEyebrow"]');
 const mastheadEl = document.querySelector('.masthead');
@@ -303,6 +313,8 @@ function paintCountdown() {
   cdEyebrow.hidden = state === 'shipped';
   cdEyebrow.textContent = state === 'grace' ? 'The app is' : 'The app ships in';
 
+  chipLabel.textContent = state === 'counting' ? 'Ships in' : 'Status';
+
   if (state === 'counting') {
     const { days, hours, minutes } = remaining();
     renderDigits(cdEl.querySelector('[data-unit="days"]'), days);
@@ -328,11 +340,6 @@ function paintCountdown() {
 paintCountdown();
 setInterval(paintCountdown, 1000);
 addEventListener('visibilitychange', () => { if (!document.hidden) paintCountdown(); });
-
-/** Local-time launch date, for the screenshot placeholders. */
-const LAUNCH_LABEL = new Date(TARGET_MS)
-  .toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
-  .toUpperCase();
 
 /* --------------------------------------------------------------------------
    "What lands" beats and screenshot slots
@@ -398,7 +405,7 @@ function shotSlot(key, tint) {
     empty.className = 'shot-empty';
     const cap = document.createElement('span');
     cap.className = 'shot-empty__caption';
-    cap.textContent = `${key} screen · coming ${LAUNCH_LABEL}`.toUpperCase();
+    cap.textContent = `${key} screen`.toUpperCase();
     empty.append(cap);
     empty.setAttribute('role', 'img');
     empty.setAttribute('aria-label', `Placeholder. ${cfg.alt}`);

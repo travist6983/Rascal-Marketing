@@ -85,14 +85,57 @@
   ],
 
 
+  "APP_STORE_URL": "https://apps.apple.com/us/app/pocketchronicle-app/id6800155810",
+  "APP_STORE_ID": "6800155810",
+  "CTA_APP": "Download on the App Store",
+  "CTA_APP_SHORT": "Get the app",
+  "CTA_APP_SUPPORT": "Free on iPhone. The daily question is free forever, and the first {{TRIAL}} are open with no card.",
+
+  "_app_store_note": [
+    "{{PRODUCT}} shipped on the App Store on September 7 2026. These four keys are",
+    "the whole switch: APP_STORE_URL is the only place the store link exists, so a",
+    "change of storefront, of app id, or of the slug Apple derives from the app's",
+    "name is one edit here and none in markup. Every store CTA on the site resolves",
+    "APP_STORE_URL, and check.mjs fails the build if a page links to apps.apple.com",
+    "by a literal instead.",
+    "",
+    "APP_STORE_ID is the numeric id inside that URL. Nothing on the site renders it",
+    "today -- it is here because the two things that would need it next each need",
+    "the number on its own rather than the URL: a Safari smart app banner",
+    "(<meta name=apple-itunes-app content=\"app-id=...\">) and any App Store link",
+    "built for a non-US storefront. The banner is DELIBERATELY not shipped: Safari",
+    "fetches the app's metadata from Apple to draw it, which would falsify the",
+    "footer's sentence that the anti-spam check is the only thing this site loads",
+    "from anywhere else. That sentence is worth more than the banner. If a future",
+    "owner disagrees, the trade is explicit: add the meta tag AND rewrite the",
+    "footer line in the same commit.",
+    "",
+    "CTA_APP is the store button's words everywhere except the masthead, which uses",
+    "CTA_APP_SHORT because the nav is a single row on desktop and a 320px drawer on",
+    "mobile. Both are plain text in the site's own button. The ONE place Apple's",
+    "own badge artwork appears is the home hero, as src/assets/app-store-badge.svg",
+    "-- see the comment at the top of that file for why it must not be redrawn.",
+    "",
+    "CTA below is unchanged and still points at the daily email, which outlived the",
+    "launch it was built to fill: the prompts were never a queue for the app, they",
+    "are their own free thing and the app can now be downloaded from the same page.",
+    "The store link is the primary action sitewide; the email is the secondary one."
+  ],
+
   "CTA": "Get tomorrow's prompt",
-  "CTA_SUPPORT": "One a day, by email. A note when it opens and when the price goes live. Nothing else.",
+  "CTA_SUPPORT": "One a day, by email. Nothing else.",
 
   "_cta_note": [
-    "CTA describes the outcome, which is only honest if the daily waitlist email",
-    "actually ships. If it doesn't: set CTA to 'Join the waitlist' and CTA_SUPPORT",
-    "to \"We'll email when it opens and when pricing goes live. Nothing else.\"",
-    "That is the whole revert -- both strings live here and nowhere else."
+    "CTA describes the outcome, which is only honest if the daily email actually",
+    "ships. If it doesn't: set CTA to 'Get the daily prompt' and CTA_SUPPORT to",
+    "\"We'll only ever email you the prompt itself. Nothing else.\" That is the",
+    "whole revert -- both strings live here and nowhere else.",
+    "",
+    "CTA_SUPPORT lost its middle clause on September 7 2026. It used to promise",
+    "'a note when it opens and when the price goes live', and both of those",
+    "happened that day, so the sentence was describing a future that had already",
+    "arrived. Note where else it lands: /terms renders this token as the whole",
+    "agreement for the email list, which is why LEGAL_UPDATED moved with it."
   ],
 
   "_social_note": [
@@ -148,7 +191,7 @@
 
   "VERIFIED_ON": "August 17, 2026",
 
-  "LEGAL_UPDATED": "August 25, 2026",
+  "LEGAL_UPDATED": "September 7, 2026",
 
   "_legal_updated_note": [
     "The last-updated date on /terms and /privacy, and deliberately NOT VERIFIED_ON.",
@@ -157,7 +200,11 @@
     "the legal pages last changed. One token for both meant a quarterly comparison",
     "sweep silently restamped two documents an App Review reviewer reads as a",
     "notice date, and the terms page says in terms that the date IS the notice.",
-    "Move this only when the words on those two pages change."
+    "Move this only when the words on those two pages change. It moved on",
+    "September 7 2026 for exactly that reason: the App Store launch rewrote the",
+    "waitlist section of /terms into a daily-email section, and CTA_SUPPORT --",
+    "which /terms renders verbatim as the agreement -- lost a clause about a",
+    "launch that had happened. Two changes to the words a reader is noticed about."
   ],
 
   "YEAR": "2026"

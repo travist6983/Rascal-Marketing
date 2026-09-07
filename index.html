@@ -19,9 +19,12 @@
 <header class="masthead">
   <div class="page masthead__in">
     <span class="wordmark">Pocket Chronicle</span>
-    <span class="masthead__tag" data-role="tag">Free by email &middot; iOS app soon</span>
+    <span class="masthead__tag" data-role="tag">Out now on iOS &middot; Free by email too</span>
     <span class="chip" data-role="chip" aria-hidden="true">
-      <span class="chip__label">Ships in</span>
+      <!-- The label moves with the state, like the value beside it: "Ships in 3d 04h"
+           was right while there was a countdown and reads as nonsense next to "Out
+           now". paintCountdown() writes both. -->
+      <span class="chip__label" data-role="chipLabel">Ships in</span>
       <span class="chip__value" data-role="chipValue">&nbsp;</span>
     </span>
   </div>
@@ -69,7 +72,7 @@
 
       <p class="hero__note">
         <span class="hero__star" aria-hidden="true">*</span>
-        Pending App Store review. The prompts start tomorrow either way.
+        Out now on the App Store. The prompts arrive by email either way.
       </p>
 
       <h1 class="hero__title" data-lines>
@@ -234,11 +237,11 @@
           </div>
           <div class="spec__row">
             <dt class="spec__key">Launch</dt>
-            <dd class="spec__val">The app ships pending review. Subscribers get the link first.</dd>
+            <dd class="spec__val">Out now on the App Store, free to download, on iPhone.</dd>
           </div>
           <div class="spec__row">
             <dt class="spec__key">Later</dt>
-            <dd class="spec__val">The iOS app is coming, and it keeps every answer you&rsquo;ve already sent.</dd>
+            <dd class="spec__val">Backdating keeps every answer you&rsquo;ve already sent &mdash; a prompt you answered on paper still files under the day it happened.</dd>
           </div>
         </dl>
       </div>

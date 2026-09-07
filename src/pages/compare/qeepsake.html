@@ -243,14 +243,18 @@ og: /assets/og/compare-qeepsake.png
      directly. Two plain .section blocks in a row read as one long block. -->
 <section class="section section--surface">
   <div class="wrap wrap--narrow center stack gap-20">
-    <h2 class="t-section">Try the question before the app</h2>
+    <h2 class="t-section">Try the question, then the app</h2>
     <p class="lede" style="max-width:none">
-      One prompt a day, by email, starting tomorrow morning. No app to install and nothing to
-      cancel later.
+      {{PRODUCT}} is a free download on iPhone, and one prompt a day comes by email whether you
+      install it or not. Nothing to cancel either way — there's no card in this until you decide
+      there is.
     </p>
     <div class="ctarow ctarow--center">
-      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
-      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+      <div class="ctarow__pair">
+        <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
+        <a class="btn--text" href="/waitlist">{{CTA}} by email</a>
+      </div>
+      <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
     </div>
   </div>
 </section>

@@ -328,7 +328,8 @@ for (const file of pages) {
     `> A private, prompted archive of your kid's childhood — every moment saved with the question that caused it.\n\n` +
     `{{PRODUCT}} asks parents a question about their kid every day — free, forever — and adds a ` +
     `daily mission with membership. It files every answer with the prompt that caused it and ` +
-    `builds a searchable archive a kid can inherit. No streaks, no ads, on iPhone. Every page ` +
+    `builds a searchable archive a kid can inherit. No streaks, no ads, on iPhone: ` +
+    `[{{CTA_APP}}]({{APP_STORE_URL}}). Every page ` +
     `below is available as Markdown; the whole site's text is in ` +
     `[llms-full.txt](/llms-full.txt).\n\n` +
     GROUPS.map(section).filter(Boolean).join('\n\n') + '\n'

@@ -5,7 +5,7 @@
  *   npm run ads                          every ad, Instagram portrait
  *   npm run ads -- --size square,story   the other two canvases as well
  *   npm run ads -- --id daily-question   one ad
- *   npm run ads -- --cta launch          the App Store button, not the waitlist
+ *   npm run ads -- --cta waitlist        the email button, not the App Store one
  *   npm run ads -- --sheet               and a contact sheet of the set
  *   npm run ads -- --queue --id ledger   put one in the Instagram queue
  *
@@ -42,7 +42,7 @@ Pocket Chronicle ad creatives
 
   --size portrait,square,story   canvases to render          (portrait)
   --id ID,ID                     only these ads              (all)
-  --cta waitlist,launch          which button to set         (waitlist)
+  --cta waitlist,launch          which button to set         (launch)
   --out DIR                      where the PNGs land         (social/out/ads)
   --sheet                        also write a contact sheet
   --keep-html                    leave the intermediate HTML beside the PNGs
@@ -248,7 +248,12 @@ function queueEntry(ad, size, cta, when) {
 function parseArgs(argv) {
   const opts = {
     sizes: ['portrait'],
-    ctas: ['waitlist'],
+    /* Was ['waitlist'] until the app shipped on September 7 2026. The default is
+       the button the product can actually honour today: an ad asking a stranger to
+       join a list, run against a live App Store listing, spends money to send them
+       somewhere slower than the thing they wanted. `--cta waitlist` still renders
+       the other one, and `--cta waitlist,launch` renders both to compare. */
+    ctas: ['launch'],
     ids: null,
     out: join(root, 'social', 'out', 'ads'),
     sheet: false,

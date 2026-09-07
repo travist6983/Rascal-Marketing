@@ -315,6 +315,13 @@ no redirect, a re-drawn lockup, and 23 committed binaries carrying a name the pr
 has. Keeping the warning rather than ticking the row, because its dependencies — a dated
 trademark search, an App Store name reservation — are still owed, now for *Pocket Chronicle*.
 
+**Half of that closed on Sept 7 2026 and the more important half did not.** The app is live on the
+App Store as *PocketChronicle*, so the name is reserved there in the only sense Apple recognises —
+it is taken, by us, and cannot now be taken by somebody else. That is a listing, not a clearance.
+The dated trademark search is still owed, and a live listing raises the cost of losing it rather
+than lowering it: a rename now means a new App Store record, not an edit to a draft, and every
+install already out there points at the old one. Run the search.
+
 **One process rule, because it's the thing that will bite:** every factual claim about a competitor
 carries a *verified-on* date in the page source and gets re-checked quarterly. Prices and free-tier
 caps in this category move — Tinybeans moved theirs ~87% in a single year. A stale claim about a

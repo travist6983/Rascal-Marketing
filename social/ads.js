@@ -35,14 +35,16 @@
  * The button, in the two states the product has.
  *
  * `waitlist` is CTA in site.config.json verbatim — the string the site's own
- * button carries, and the only honest one while there is no App Store listing
- * to send anybody to. That was true for one reason when this was written (the
- * name Dogear was occupied by a cluster of book-tracking apps, per that file's
- * note) and is true for another now: the product was renamed to Pocket
- * Chronicle on Aug 27 2026 and has never been listed under it. `launch` is the one
- * these creatives run with once the app is up, which is what they were drawn
- * for. Choose with `npm run ads -- --cta launch`; ask for both and you get both
- * sets, which is the only way to compare them at the size they will be seen.
+ * button carries. It was the only honest one for as long as there was no App Store
+ * listing to send anybody to, first because the name Dogear was occupied by a
+ * cluster of book-tracking apps (see that file's note) and then because Pocket
+ * Chronicle had not been listed under its new name either.
+ *
+ * That ended on September 7 2026: the app is on the App Store, `launch` is what
+ * these creatives were drawn for, and it is the default `npm run ads` now renders.
+ * `--cta waitlist` still produces the other set — the daily email did not go away
+ * with the launch — and asking for both gets both, which is the only way to compare
+ * them at the size they will be seen.
  *
  * An ad may still carry its own `cta` and win. None does, and one probably
  * should not: four creatives in one campaign that ask for four different things

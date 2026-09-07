@@ -100,9 +100,17 @@ og: /assets/og/pricing.png
     </div>
 
     <p class="t-meta" style="margin-top:20px">
-      <em>Ships with the App Store launch. Waitlist members will hear the price before it goes live,
-      not after.</em>
+      <em>Membership is bought inside the app, through the App Store. The price on Apple's purchase
+      screen is the price that applies — the two figures here are the United States ones.</em>
     </p>
+
+    <!-- The store link sits directly under the table, which is where somebody who has
+         just read both columns decides. Plain text in the site's button; Apple's badge
+         artwork appears once, in the home hero. -->
+    <div class="ctarow" style="margin-top:24px">
+      <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
+      <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
+    </div>
   </div>
 </section>
 
@@ -272,8 +280,8 @@ og: /assets/og/pricing.png
           <div class="faq__a"><p>No. One membership covers the household — every kid, both parents. Having another child shouldn't cost more.</p></div>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">Why isn't the price live yet?</summary>
-          <div class="faq__a"><p>{{PRODUCT}} hasn't opened on the App Store. When it does, {{PRICE_YEAR}} a year or {{PRICE_MONTH}} a month is what it will be, and waitlist members hear about any change to that before it goes live rather than after.</p></div>
+          <summary class="faq__q">Where do I buy it?</summary>
+          <div class="faq__a"><p>Inside the app, through the App Store — <a href="{{APP_STORE_URL}}">{{PRODUCT}} is a free download</a> and the daily question needs nothing else. {{PRICE_YEAR}} a year or {{PRICE_MONTH}} a month is the United States price; Apple sets the local equivalent everywhere else, and the figure on the purchase screen is the one that applies. If we ever change it, you'll be told before a renewal is charged at the new one.</p></div>
         </details>
         <details class="faq__item">
           <summary class="faq__q">How do I cancel?</summary>
@@ -288,11 +296,15 @@ og: /assets/og/pricing.png
   <div class="wrap wrap--narrow center stack gap-20">
     <h2 class="t-section">The question is free either way</h2>
     <p class="lede" style="max-width:none">
-      One a day, by email, starting tomorrow. No card, no tier, no app required yet.
+      In the app, every morning, forever — or by email, if you'd rather answer it in a notebook.
+      No card either way.
     </p>
     <div class="ctarow ctarow--center">
-      <a class="btn btn--primary btn--lg" href="/waitlist">{{CTA}}</a>
-      <p class="ctarow__note">{{CTA_SUPPORT}}</p>
+      <div class="ctarow__pair">
+        <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
+        <a class="btn--text" href="/waitlist">{{CTA}} by email</a>
+      </div>
+      <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
     </div>
   </div>
 </section>
