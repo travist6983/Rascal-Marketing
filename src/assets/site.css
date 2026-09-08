@@ -1129,65 +1129,376 @@ body.post--sage .prose blockquote { border-color: var(--rule-sage); }
    One page a journalist can work from: the facts, the images at a size worth
    downloading, and the video playing where they are rather than behind a link.
    Everything here is scoped to .press-* because it is the only page that has a
-   screenshot wall, and the site's own card/grid vocabulary carries the rest. */
+   screenshot wall and a stage, and the site's own column/card vocabulary
+   carries the rest.
 
-.press-hero { display: grid; grid-template-columns: 132px 1fr; gap: 28px; align-items: start; }
+   The page's two moving parts share one object: a phone. .press-phone is the
+   chrome, drawn in CSS at whatever width the slot sets, so the hero's arc and
+   the demo's flanking stills are the same thing at two sizes rather than two
+   drawings. It is the home hero's .device with its width made a variable. */
+
+/* --pw is the slot's width, set by whatever holds the phone; --phone is the
+   phone's own copy of it, with a default for a phone placed on its own. Read
+   the slot's value through var() rather than redeclaring --pw here, or every
+   phone in every slot comes out the default size. */
+.press-phone {
+  --phone: var(--pw, 232px);
+  width: var(--phone);
+  padding: calc(var(--phone) * 0.033);
+  border-radius: calc(var(--phone) * 0.16);
+  background: var(--ink);
+  box-shadow: var(--shadow-deep);
+}
+.press-phone__screen {
+  position: relative; overflow: hidden;
+  border-radius: calc(var(--phone) * 0.128);
+  aspect-ratio: 520 / 1130;
+  background: var(--surface);
+}
+.press-phone__screen img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+.press-phone--light {
+  background: var(--surface);
+  border: 1px solid var(--sealed-border);
+  box-shadow: 0 30px 70px rgba(35, 37, 60, 0.28);
+}
+
+/* --- hero ----------------------------------------------------------------- */
+.press-hero { display: grid; gap: clamp(36px, 5vw, 56px); align-items: center; }
+@media (min-width: 900px) {
+  .press-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(48px, 6vw, 80px); }
+}
 .press-hero__icon {
-  width: 132px; height: 132px; border-radius: 29.4%;
-  box-shadow: 0 10px 30px rgba(35, 37, 60, 0.13); display: block;
+  width: 96px; height: 96px; border-radius: 22%;
+  box-shadow: 0 10px 30px rgba(35, 37, 60, 0.13);
+  margin-bottom: 12px;
 }
 .press-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 
-/* The facts read as rows rather than prose: a writer is scanning for one line. */
-.press-facts { border-collapse: collapse; width: 100%; max-width: 780px; }
+/* The arc. Three real screenshots on a perspective stage; the front one sits
+   proud, the other two fall back at an angle. data-pos on the wrapper says
+   which phone is in front, and the transforms carry the phones between slots
+   when press.js advances it, so a phone that was in front arcs to the back
+   rather than blinking there. --tx/--ty are the pointer's lean, set by script
+   and zero without it. The whole arc is aria-hidden: it repeats screenshots
+   that appear with captions further down, and says nothing they don't. */
+.press-fan {
+  --tx: 0deg; --ty: 0deg;
+  --pw: clamp(148px, 18.5vw, 216px);
+  position: relative;
+  height: calc(var(--pw) * 2.4);
+  perspective: 1300px;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 560px;
+}
+.press-fan__stage {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--ty)) rotateY(var(--tx));
+  transition: transform 0.55s var(--ease);
+}
+.press-fan__phone {
+  position: absolute; left: 50%; top: 50%;
+  margin: calc(var(--phone) * -1.12) 0 0 calc(var(--phone) * -0.5);
+  transform-style: preserve-3d;
+  transition: transform 1.1s var(--ease), opacity 0.7s var(--ease);
+  will-change: transform;
+}
+/* Slot 0 (front), 1 (back left), 2 (back right), by phone and by position. */
+.press-fan[data-pos="0"] .press-fan__phone:nth-child(1),
+.press-fan[data-pos="1"] .press-fan__phone:nth-child(3),
+.press-fan[data-pos="2"] .press-fan__phone:nth-child(2) {
+  transform: translateZ(80px); opacity: 1;
+}
+.press-fan[data-pos="0"] .press-fan__phone:nth-child(2),
+.press-fan[data-pos="1"] .press-fan__phone:nth-child(1),
+.press-fan[data-pos="2"] .press-fan__phone:nth-child(3) {
+  transform: translateX(-56%) rotateY(28deg) translateZ(-110px); opacity: 0.94;
+}
+.press-fan[data-pos="0"] .press-fan__phone:nth-child(3),
+.press-fan[data-pos="1"] .press-fan__phone:nth-child(2),
+.press-fan[data-pos="2"] .press-fan__phone:nth-child(1) {
+  transform: translateX(56%) rotateY(-28deg) translateZ(-110px); opacity: 0.94;
+}
+@media (max-width: 599px) {
+  .press-fan { --pw: min(42vw, 168px); }
+  .press-fan[data-pos] .press-fan__phone { transition-duration: 0.9s; }
+}
+/* The site's reveal resolves to transform: none on the wrapper, which is
+   fine — the 3D lives one level down, on the stage and the phones. */
+
+/* --- the facts ------------------------------------------------------------ */
+.press-facts { border-collapse: collapse; width: 100%; }
 .press-facts th, .press-facts td {
   text-align: left; vertical-align: top;
-  padding: 11px 14px; border-bottom: 1px solid var(--border);
-  font: 400 var(--t-body) var(--text);
+  padding: 13px 14px; border-bottom: 1px solid var(--border);
+  font: 400 var(--t-body)/1.5 var(--text);
 }
 .press-facts th {
-  width: 190px; color: var(--ink-muted);
+  width: 170px; color: var(--ink-muted);
   font: 600 var(--t-meta) var(--display); letter-spacing: 0.01em;
+  padding-top: 15px;
 }
-.press-facts tr:last-child th, .press-facts tr:last-child td { border-bottom: 0; }
+.press-facts tr:first-child th, .press-facts tr:first-child td { border-top: 1px solid var(--border); }
 
-.press-video {
-  display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 26px; align-items: start;
-  background: var(--canvas); border: 1px solid var(--border);
-  border-radius: var(--radius-card, 18px); padding: 18px;
+/* --- why it exists --------------------------------------------------------- */
+.press-prose > * + * { margin-top: 22px; }
+.press-prose p { font: 400 19px/1.65 var(--text); color: var(--ink-muted); text-wrap: pretty; }
+.press-prose p:first-child { color: var(--ink); font-size: 21px; }
+
+/* --- the demo ------------------------------------------------------------- */
+.press-demo__grid { display: grid; gap: clamp(36px, 5vw, 64px); align-items: center; }
+@media (min-width: 900px) {
+  .press-demo__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
 }
-.press-video__player { width: 100%; height: auto; border-radius: 12px; display: block; background: var(--ink); }
-.press-beats { margin: 0; padding-left: 20px; color: var(--ink-muted); font: 400 var(--t-body) var(--text); }
-.press-beats li { margin-bottom: 5px; }
+.press-demo__copy > * + * { margin-top: 14px; }
+.press-demo__lede { font: 400 17px/1.55 var(--text); color: var(--ink-faint); max-width: 34em; }
+.press-demo__label { margin-top: 30px; color: var(--ink-faint); }
+.press-demo__meta { margin-top: 24px; color: var(--ink-faint); }
+.press-demo__meta a { color: var(--canvas); text-decoration-color: rgba(253, 250, 244, 0.5); }
 
+/* The chapters. A plain list with timestamps until press.js wraps each row in
+   a button; then the row is a control, the current one is lit, and a hairline
+   under it fills as the recording plays through that chapter. */
+.press-beats { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+.press-beat { position: relative; }
+.press-beat:not(:has(button)) {
+  display: grid; grid-template-columns: 44px 1fr; gap: 12px;
+  padding: 10px 0; color: rgba(253, 250, 244, 0.72);
+  font: 400 16px/1.45 var(--text);
+}
+.press-beat__btn {
+  display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start;
+  width: 100%; text-align: left;
+  padding: 11px 12px 15px;
+  border: 1px solid transparent; border-radius: var(--r-row);
+  background: transparent; color: rgba(253, 250, 244, 0.62);
+  font: 400 16px/1.45 var(--text); cursor: pointer;
+  transition: background var(--dur-tap) ease-out, color var(--dur-tap) ease-out,
+              border-color var(--dur-tap) ease-out;
+}
+.press-beat__btn:hover { color: var(--canvas); background: rgba(253, 250, 244, 0.05); }
+.press-beat__btn:focus-visible { outline: 2px solid var(--canvas); outline-offset: 2px; }
+.press-beat__at {
+  font: 600 13px/1.6 var(--text); letter-spacing: 0.04em;
+  color: var(--ink-faint); font-variant-numeric: tabular-nums;
+}
+.press-beat.is-on .press-beat__btn {
+  color: var(--canvas);
+  background: rgba(253, 250, 244, 0.08);
+  border-color: rgba(253, 250, 244, 0.12);
+}
+.press-beat.is-on .press-beat__at { color: #E28B5B; }
+.press-beat__bar {
+  position: absolute; left: 12px; right: 12px; bottom: 7px; height: 2px;
+  border-radius: var(--r-pill); background: rgba(253, 250, 244, 0.1);
+  overflow: hidden; opacity: 0; transition: opacity var(--dur-enter) var(--ease);
+}
+.press-beat__bar::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--terracotta); border-radius: inherit;
+  transform: scaleX(var(--p, 0)); transform-origin: left;
+}
+.press-beat.is-on .press-beat__bar { opacity: 1; }
+
+/* The stage. The recording, proud in the middle; two stills leaning in from
+   behind on a shared perspective. Below 900px only the recording survives —
+   a triptych 250px wide is three postage stamps. */
+.press-stage {
+  --tx: 0deg; --ty: 0deg;
+  --vw: min(340px, 78vw);
+  position: relative;
+  perspective: 1500px;
+}
+.press-stage__in {
+  position: relative;
+  display: flex; justify-content: center;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--ty)) rotateY(var(--tx));
+  transition: transform 0.55s var(--ease);
+}
+.press-stage__video {
+  position: relative;
+  width: var(--vw);
+  border-radius: 26px; overflow: hidden;
+  background: var(--canvas);
+  box-shadow: 0 50px 110px rgba(0, 0, 0, 0.45), 0 6px 18px rgba(0, 0, 0, 0.25);
+  transform: translateZ(50px);
+  /* Safari drops overflow clipping on a transformed box without this. */
+  isolation: isolate;
+}
+.press-video { width: 100%; height: auto; display: block; aspect-ratio: 9 / 16; background: var(--canvas); }
+.js .press-stage.is-wired .press-video { cursor: pointer; }
+
+/* The big play. Visible while the recording is paused so the thing reads as a
+   video at a glance; gone the moment it plays. Pointer events stay off so a
+   click lands on the video behind it, which press.js toggles. */
+.press-stage__big {
+  position: absolute; left: 50%; top: 50%;
+  width: 72px; height: 72px; margin: -36px 0 0 -36px;
+  border: 0; border-radius: var(--r-pill);
+  background: var(--terracotta); color: var(--surface);
+  display: grid; place-items: center; cursor: pointer;
+  box-shadow: 0 14px 34px rgba(192, 90, 43, 0.45);
+  transition: transform var(--dur-enter) var(--ease), opacity var(--dur-enter) var(--ease);
+}
+.press-stage__big svg { margin-left: 4px; }
+.press-stage__big:hover { background: var(--terracotta-deep); }
+.press-stage.is-playing .press-stage__big { opacity: 0; transform: scale(0.8); pointer-events: none; }
+/* Both ship hidden and press.js shows them: a display rule outranks the
+   attribute, so the no-script page needs these said explicitly. */
+.press-stage__big[hidden], .press-player[hidden] { display: none; }
+
+.press-stage__side { display: none; }
+@media (min-width: 900px) {
+  .press-stage__side {
+    --pw: calc(var(--vw) * 0.66);
+    display: block;
+    position: absolute; top: 50%;
+    margin-top: calc(var(--phone) * -1.14);
+  }
+  .press-stage__side--l { left: 2%;  transform: rotateY(32deg)  translateZ(-170px); }
+  .press-stage__side--r { right: 2%; transform: rotateY(-32deg) translateZ(-170px); }
+}
+/* Two images per still, so a chapter change is a cross-fade and never a flash
+   of empty screen while the next file arrives. */
+.press-stage__side img { opacity: 0; transition: opacity 0.5s var(--ease); }
+.press-stage__side img.is-on { opacity: 1; }
+
+/* The player bar: play, a scrubber, the clock. Styled from the palette rather
+   than the browser's — a default range slider on a navy panel is the one
+   thing on this page that would look assembled. */
+.press-player {
+  display: flex; align-items: center; gap: 12px;
+  width: var(--vw); max-width: 100%; margin: 22px auto 0;
+  padding: 8px 16px 8px 8px;
+  border-radius: var(--r-pill);
+  background: rgba(253, 250, 244, 0.07);
+  border: 1px solid rgba(253, 250, 244, 0.14);
+}
+.press-player__btn {
+  flex: none; width: 44px; height: 44px;
+  border: 0; border-radius: var(--r-pill);
+  background: var(--terracotta); color: var(--surface);
+  display: grid; place-items: center; cursor: pointer;
+  transition: background var(--dur-tap) ease-out, transform var(--dur-tap) ease-out;
+}
+.press-player__btn:hover { background: var(--terracotta-deep); }
+.press-player__btn:active { transform: scale(0.96); }
+.press-player__btn:focus-visible { outline: 2px solid var(--canvas); outline-offset: 2px; }
+.press-player__btn .press-player__play { margin-left: 2px; }
+.press-player__btn .press-player__pause { display: none; }
+.press-stage.is-playing .press-player__play { display: none; }
+.press-stage.is-playing .press-player__pause { display: block; }
+
+.press-player__scrub {
+  --fill: 0%;
+  flex: 1 1 auto; min-width: 0; margin: 0;
+  -webkit-appearance: none; appearance: none;
+  height: 28px; background: transparent; cursor: pointer;
+}
+.press-player__scrub::-webkit-slider-runnable-track {
+  height: 4px; border-radius: var(--r-pill);
+  background: linear-gradient(to right, var(--terracotta) var(--fill), rgba(253, 250, 244, 0.2) var(--fill));
+}
+.press-player__scrub::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; margin-top: -5px;
+  border-radius: var(--r-pill); background: var(--canvas);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+.press-player__scrub::-moz-range-track { height: 4px; border-radius: var(--r-pill); background: rgba(253, 250, 244, 0.2); }
+.press-player__scrub::-moz-range-progress { height: 4px; border-radius: var(--r-pill); background: var(--terracotta); }
+.press-player__scrub::-moz-range-thumb {
+  width: 14px; height: 14px; border: 0;
+  border-radius: var(--r-pill); background: var(--canvas);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+.press-player__scrub:focus-visible { outline: 2px solid var(--canvas); outline-offset: 4px; border-radius: 3px; }
+.press-player__time {
+  flex: none;
+  font: 600 13px var(--text); letter-spacing: 0.04em;
+  color: var(--ink-faint); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.press-stage__note { margin-top: 12px; text-align: center; color: var(--ink-faint); }
+
+/* --- screenshots ------------------------------------------------------------ */
 /* A wall of phones. The tile width is set by the screenshot rather than the
    grid, so a 1206-wide capture never renders wider than it was taken. */
 .press-shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(212px, 100%), 1fr)); gap: 22px; }
+.press-shots > :nth-child(2) { --reveal-delay: 50ms; }
+.press-shots > :nth-child(3) { --reveal-delay: 100ms; }
+.press-shots > :nth-child(4) { --reveal-delay: 150ms; }
+.press-shots > :nth-child(5) { --reveal-delay: 200ms; }
 .press-shot { margin: 0; }
 .press-shot a {
   display: block; border-radius: 14px; overflow: hidden;
   border: 1px solid var(--border); background: var(--canvas);
+  transition: transform var(--dur-enter) var(--ease), box-shadow var(--dur-enter) var(--ease);
 }
+.press-shot a:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
 .press-shot img { width: 100%; height: auto; display: block; }
-.press-shot figcaption { margin-top: 9px; line-height: 1.45; }
+.press-shot figcaption { margin-top: 10px; line-height: 1.45; }
 .press-shot figcaption b { display: block; color: var(--ink); margin-bottom: 2px; }
 
+/* --- quotes ----------------------------------------------------------------- */
+.press-quotes > * + * { margin-top: 36px; }
 .press-quote {
-  margin: 0; padding: 20px 24px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-left: 3px solid var(--terracotta); border-radius: 0 18px 18px 0;
+  margin: 0; padding-left: 22px;
+  border-left: 2px solid var(--rule-terracotta);
 }
-.press-quote p { margin: 0 0 8px; }
-.press-quote cite { font-style: normal; }
+.press-quote__text {
+  font: 600 clamp(1.25rem, 1.05rem + 0.9vw, 1.625rem)/1.38 var(--display);
+  color: var(--ink); text-wrap: pretty;
+}
+.press-quote__foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.press-quote__foot cite { font-style: normal; }
 
-.press-list { margin: 0; padding-left: 20px; }
-.press-list li { margin-bottom: 10px; color: var(--ink-muted); font: 400 var(--t-body) var(--text); }
-.press-list strong { color: var(--ink); }
+/* --- boilerplate ------------------------------------------------------------ */
+.press-boiler { border-top: 1px solid var(--border); }
+.press-boiler__row {
+  display: grid; grid-template-columns: minmax(96px, 120px) minmax(0, 1fr) auto;
+  gap: 8px 20px; align-items: start;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.press-boiler__row .t-label { padding-top: 3px; }
+.press-boiler__text { line-height: 1.55; }
+.press-boiler__tools { display: flex; justify-content: flex-end; min-width: 0; }
+@media (max-width: 599px) {
+  .press-boiler__row { grid-template-columns: minmax(0, 1fr) auto; }
+  .press-boiler__row .t-label { grid-column: 1; }
+  .press-boiler__row .press-boiler__text { grid-column: 1 / -1; }
+  .press-boiler__tools { grid-column: 2; grid-row: 1; }
+}
+
+/* The copy button. Script-made, so it only exists where it works. Done is
+   sage: the tick colour, because a sentence landed where it was asked to. */
+.press-copy {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 34px; padding: 6px 13px;
+  border: 1px solid var(--border); border-radius: var(--r-pill);
+  background: var(--surface); color: var(--ink-muted);
+  font: 600 13px var(--text); cursor: pointer; white-space: nowrap;
+  transition: border-color var(--dur-tap) ease-out, color var(--dur-tap) ease-out,
+              background var(--dur-tap) ease-out;
+}
+.press-copy:hover { border-color: var(--terracotta); color: var(--ink); }
+.press-copy.is-done { background: var(--sage); border-color: var(--sage-border); color: var(--sage-ink); }
+
+/* --- fact check / access ----------------------------------------------------- */
+.press-check > li > span { font: 400 var(--t-body)/1.55 var(--text); color: var(--ink-muted); padding-top: 8px; }
+.press-check strong { color: var(--ink); }
+.press-access__aside { display: flex; flex-direction: column; gap: 14px; }
+.press-kitlist { padding-left: 18px; color: var(--ink-muted); font: 400 15px/1.55 var(--text); }
+.press-kitlist li + li { margin-top: 6px; }
 
 @media (max-width: 720px) {
-  .press-hero { grid-template-columns: 1fr; gap: 20px; }
-  .press-hero__icon { width: 104px; height: 104px; }
-  .press-video { grid-template-columns: 1fr; }
   .press-facts th { width: auto; display: block; padding-bottom: 0; border-bottom: 0; }
-  .press-facts td { display: block; padding-top: 2px; }
+  .press-facts td { display: block; padding-top: 4px; }
+  .press-facts tr:first-child td { border-top: 0; }
+  .press-prose p { font-size: 17px; }
+  .press-prose p:first-child { font-size: 18px; }
 }
