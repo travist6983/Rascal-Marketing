@@ -15,7 +15,7 @@ class: home
   "@type": "FAQPage",
   "mainEntity": [
     { "@type": "Question", "name": "My kid is seven. Is it too late?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app. And Look back walks your camera roll month by month to show you the months with photographs and nothing written — on your phone, reading only dates and counts, uploading nothing until you pick one." } },
     { "@type": "Question", "name": "How long does this actually take?",
       "acceptedAnswer": { "@type": "Answer", "text": "Under fifteen seconds for most days, one-handed. If it takes longer than that, that's a bug." } },
     { "@type": "Question", "name": "What if I miss days?",
@@ -166,7 +166,7 @@ class: home
 
     <div class="stack gap-14 center measure" style="margin-inline:auto;align-items:center" data-reveal>
       <p class="eyebrow">02 · The prompt engine</p>
-      <h2 class="t-section">Three things, once a day</h2>
+      <h2 class="t-section">Two things a day. Three at the weekend.</h2>
       <p class="lede" style="max-width:38em">
         There are <strong class="num" data-count-to="{{PROMPT_COUNT}}">{{PROMPT_COUNT}}</strong> of them.
         Here's the deck — drag a card away, or filter it down to one kind.
@@ -183,6 +183,7 @@ class: home
         <button class="filter" type="button" data-deck="VIDEO" aria-pressed="false">Video</button>
         <button class="filter" type="button" data-deck="ACTIVITY" aria-pressed="false">Activity</button>
         <button class="filter" type="button" data-deck="LETTER" aria-pressed="false">Letters</button>
+        <button class="filter" type="button" data-deck="MEASUREMENT" aria-pressed="false">Measurement</button>
       </div>
 
       <div class="deck" id="deck"></div>
@@ -194,18 +195,18 @@ class: home
       <p class="vh" role="status" id="deck-live"></p>
     </div>
 
-    <!-- The three things, spelled out -->
+    <!-- The day, spelled out -->
     <div class="grid-auto grid-auto--wide">
       <div class="card stack gap-12" data-reveal>
         <span class="chip chip--peri">One question · free forever</span>
         <h3 class="t-card">Something you'd never think to write down</h3>
-        <p class="t-body muted"><em>What is he pretending to be this week?</em> Answer it in a sentence. This is the half that arrives every day whether you pay or not.</p>
+        <p class="t-body muted"><em>What is your kid afraid of right now?</em> Answer it in a sentence. This is the half that arrives every day whether you pay or not.</p>
       </div>
       <div class="card stack gap-12" data-reveal style="--reveal-delay:60ms">
         <span class="chip chip--terra">One mission · with membership</span>
         <h3 class="t-card">Sometimes there's nothing to upload</h3>
         <p class="t-body muted">
-          Take a photo, shoot ten seconds of video, record their voice, or just go do something —
+          Take a photo, film thirty seconds, record their voice, or just go do something —
           get on the floor for ten minutes. Some missions produce a file. Some don't. Both count.
           One on a weekday, two at the weekend.
         </p>
@@ -215,8 +216,9 @@ class: home
         <h3 class="t-card">Nothing to tag, nothing to organise</h3>
         <p class="t-body muted">
           The answer, the prompt that asked for it, the date it actually happened, and anything you
-          captured all land on one timeline. Bigger missions land weekly; a measurement mission lands
-          monthly — height, hand, foot, the things you'll want a number for later.
+          captured all land on one timeline. Bigger missions land weekly; once a month something asks for
+          a number — height, hand, foot — or sends you back through this month last year in your
+          camera roll.
         </p>
       </div>
     </div>
@@ -231,17 +233,17 @@ class: home
         </p>
         <p class="t-body muted">
           A picture of a half-eaten sandwich is nothing. A picture of a half-eaten sandwich filed
-          under <em>“what will he eat only if it's cut a specific way”</em> is a story.
+          under <em>“what food is your kid refusing this week”</em> is a story.
         </p>
         <p class="t-body muted">
           That's also why search works. You are not searching filenames and dates. You are searching
-          the questions you were asked and the answers you gave.
+          the answers you gave — and each one comes back with the question that asked for it.
         </p>
       </div>
       <div class="stack gap-14">
         <div class="card card--peri stack gap-12">
           <span class="chip chip--peri">Question</span>
-          <p class="t-prompt">What will he eat only if it's cut a specific way?</p>
+          <p class="t-prompt">What food is your kid refusing this week?</p>
           <p class="t-meta">Asked Tuesday · answered in nine seconds</p>
         </div>
         <div class="card stack gap-12">
@@ -315,12 +317,13 @@ class: home
         <h2 class="t-section">Record how they actually sound</h2>
         <p class="t-body muted">
           Their voice changes faster than their face and nobody thinks to record it. Some missions ask
-          for ten seconds of audio — a song they're mangling, how they say a word wrong, what they
-          think a job is.
+          for their voice — them singing, whatever they're singing; them telling a joke; two minutes
+          of dinner with nobody announcing it. The recorder holds up to ten minutes.
         </p>
         <p class="t-body muted">
-          It's transcribed on your phone, so you can search a recording you'll never have time to
-          relisten to.
+          On iOS 26 it's transcribed on your phone, so you can search a recording you'll never have
+          time to relisten to. On an older iPhone the recording is saved and kept exactly the same
+          way — it simply has no transcript behind it.
         </p>
         <p><a href="/blog/record-your-kids-voice">How to record your kid's voice before it changes →</a></p>
       </div>
@@ -392,9 +395,10 @@ class: home
         <div class="arch__step" data-arch="1">
           <h3 class="t-title">Search everything — even what was spoken</h3>
           <p class="t-body muted measure--tight">
-            Everything you wrote, everything they said, and every prompt you were asked. Voice notes
-            are transcribed on your phone, so a sentence forty seconds into a recording you'll never
-            relisten to is still one search away.
+            Everything you wrote, every caption you added, and every transcript of something they
+            said. Voice notes recorded on iOS 26 are transcribed on your phone, so a sentence forty
+            seconds into a recording you'll never relisten to is still one search away. On an older
+            iPhone the recording is kept without one.
           </p>
         </div>
         <div class="arch__step" data-arch="2">
@@ -402,7 +406,9 @@ class: home
           <p class="t-body muted measure--tight">
             Every entry keeps the prompt that caused it. And <strong>backdating is normal here, not a
             workaround</strong> — the day something happened and the day you got around to writing it
-            down are two different facts, and both are kept.
+            down are two different facts, and both are kept. And Look back walks your camera roll
+            month by month, showing you the months you have never written about. It reads dates and
+            counts on your phone and uploads nothing until you pick a photograph.
           </p>
         </div>
       </div>
@@ -451,8 +457,9 @@ class: home
           <h3 class="t-card">No ads. No data sale. Ever.</h3>
           <p class="t-body muted">
             Not now, not at a bigger scale, not ever. Nothing about your child is sold, brokered, or
-            used to train anything. Sign in with Apple, or Google. No Facebook login — routing a
-            private record of a child through an ad company contradicts the thing being sold.
+            used to train anything. Sign in with Apple, with Google, or with a link sent to your
+            email. No Facebook login — routing a private record of a child through an ad company
+            contradicts the thing being sold.
           </p>
         </div>
         <div class="stack gap-12">
@@ -470,17 +477,11 @@ class: home
             If you stop paying, {{PRODUCT}} drops to the free tier. <strong>Nothing you wrote or
             captured is ever locked behind payment.</strong> Your whole archive stays readable,
             searchable and exportable. You keep answering the daily question — text and did-it entries
-            never stop. The missions go back to being part of membership, and new photo and video
-            uploads pause. After ninety days, original photos
-            move to cheaper cold storage: thumbnails stay instant, search still works, and pulling a
-            full-resolution original back takes about an hour. That's a property of the storage, not a
-            penalty.
+            never stop. The missions go back to being part of membership.
           </p>
           <p class="t-body">
-            <strong>We never delete a word you wrote unless you ask us to.</strong> And if media is ever going to be removed,
-            you get warned three times — ninety days out, thirty days out, seven days out — each with a
-            free one-click export of the whole archive. Sign in once during that window and it's
-            cancelled outright. If we can't reach you, we keep it.
+            <strong>We never delete a word you wrote unless you ask us to.</strong> The export is free
+            on every tier and always one tap away, so the whole archive is yours to take at any point.
           </p>
         </div>
         <div class="stack gap-12">
@@ -549,7 +550,6 @@ class: home
           <p class="num" style="font:700 34px var(--display)">$0</p>
           <p class="t-body muted">
             A question about your kid every day, forever. Unlimited written and did-it entries.
-            Voice recordings up to two minutes. <strong>{{FREE_PHOTOS}} photos, lifetime</strong>.
             Search and a full export, always.
           </p>
         </div>
@@ -557,9 +557,10 @@ class: home
           <p class="t-label accent">Membership</p>
           <p class="num" style="font:700 34px var(--display)">{{PRICE_YEAR}}<span style="font:400 17px var(--text);color:var(--ink-muted)">/year</span></p>
           <p class="t-body muted">
-            Two months free versus monthly — or {{PRICE_MONTH}} a month. Adds the missions, video,
-            photos without a limit and the second parent. One membership covers the whole household:
-            every kid, both parents. Everything open for {{TRIAL}} first — no card, nothing to cancel.
+            Two months free versus monthly — or {{PRICE_MONTH}} a month. Adds the missions, the
+            photographs, the video, the voice notes and the second parent. One membership covers the
+            whole household: every kid, both parents. Everything open for {{TRIAL}} first — no card,
+            nothing to cancel.
           </p>
         </div>
       </div>
@@ -590,7 +591,7 @@ class: home
       <div class="faq">
         <details class="faq__item">
           <summary class="faq__q">My kid is seven. Is it too late?</summary>
-          <div class="faq__a"><p>No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app.</p></div>
+          <div class="faq__a"><p>No. Backdating is a normal part of the app, not a workaround — you file a memory under the day it happened, whenever you get to it. Plenty of the archive will be older than the app. And Look back walks your camera roll month by month to show you the months with photographs and nothing written — on your phone, reading only dates and counts, uploading nothing until you pick one.</p></div>
         </details>
         <details class="faq__item">
           <summary class="faq__q">How long does this actually take?</summary>
@@ -662,23 +663,23 @@ class: home
             </p>
             <div class="card inbox__item inbox__item--peri stack gap-8">
               <span style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-                <span class="chip chip--peri">Question</span><span class="t-meta">Tomorrow, 7:00</span>
+                <span class="chip chip--peri">Question</span><span class="t-meta">Tomorrow, 8:00</span>
               </span>
-              <span class="pcard__body" style="font-size:16px">What are they obsessed with right now?</span>
+              <span class="pcard__body" style="font-size:16px">What is your kid obsessed with right now?</span>
             </div>
             <div class="card inbox__item inbox__item--terra stack gap-8">
               <span style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-                <span class="chip chip--terra">Photo</span><span class="t-meta">Monday, 7:00</span>
+                <span class="chip chip--terra">Photo</span><span class="t-meta">Monday, 8:00</span>
               </span>
               <span class="pcard__body" style="font-size:16px">Photograph their hands. Just their hands.</span>
             </div>
             <div class="card inbox__item inbox__item--terra stack gap-8">
               <span style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-                <span class="chip chip--terra">Activity</span><span class="t-meta">Tuesday, 7:00</span>
+                <span class="chip chip--terra">Activity</span><span class="t-meta">Tuesday, 8:00</span>
               </span>
               <span class="pcard__body" style="font-size:16px">Get on the floor for ten minutes. That's the whole mission.</span>
             </div>
-            <p class="t-meta">…and 130 more after that. No streaks, no reminders about the ones you skip.</p>
+            <p class="t-meta">…and the rest of the {{PROMPT_COUNT}} after that. No streaks, no reminders about the ones you skip.</p>
           </div>
         </div>
       </div>

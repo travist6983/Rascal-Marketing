@@ -1,6 +1,6 @@
 <!--page
 title: {{PRODUCT}} pricing — the daily question is always free
-description: The daily question is free every day, forever, with unlimited writing, voice notes and a full export. Membership adds the missions, from {{PRICE_MONTH}} a month.
+description: The daily question is free every day, forever, with unlimited writing and a full export. Membership adds the missions and what they store, from {{PRICE_MONTH}} a month.
 og: /assets/og/pricing.png
 -->
 
@@ -10,9 +10,9 @@ og: /assets/og/pricing.png
       <p class="eyebrow">Pricing</p>
       <h1 class="t-hero">The daily question is always free.</h1>
       <p class="lede">
-        Every day, forever, with no card and no end date. You can write as much as you like, record
-        their voice as often as you like, keep {{FREE_PHOTOS}} photographs and take the whole
-        archive out whenever you want it. Membership is what fills in the rest of the day.
+        Every day, forever, with no card and no end date. You can write as much as you like and
+        take the whole archive out whenever you want it. Membership is what fills in the rest of
+        the day &mdash; the missions, and the photographs, video and recordings they ask for.
       </p>
     </div>
   </div>
@@ -26,8 +26,7 @@ og: /assets/og/pricing.png
         <ul class="check-list">
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>A question about your kid, every morning, forever.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>As many written entries and <em>did it</em> entries as you want.</span></li>
-          <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Voice notes, as many as you want, two minutes each.</span></li>
-          <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>{{FREE_PHOTOS}} photographs, and they are yours for good.</span></li>
+          <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Any day, any year &mdash; every entry backdates to the day it happened.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Search across everything, including what was said out loud.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>A full export, complete, any time, on any tier.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>No ads. Not on the free tier, not on any tier, not ever.</span></li>
@@ -41,7 +40,8 @@ og: /assets/og/pricing.png
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Two of them at the weekend, when there's an afternoon for it.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>The bigger mission each week, and the monthly measurement.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Letters you seal until they're old enough to read them.</span></li>
-          <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Video, and photographs without a limit.</span></li>
+          <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Photographs, video and their voice &mdash; everything that has to be stored somewhere.</span></li>
+          <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Their voice, recorded &mdash; up to ten minutes at a time, as often as you like.</span></li>
           <li><span class="tick tick--terra" aria-hidden="true">✓</span><span>Their other parent, writing into the same archive.</span></li>
         </ul>
       </div>
@@ -64,8 +64,8 @@ og: /assets/og/pricing.png
         <tbody>
           <tr><th scope="row">The daily question</th><td>Every day, forever</td><td class="is-ours">Every day, forever</td></tr>
           <tr><th scope="row">Written entries and <em>did it</em></th><td>Unlimited</td><td class="is-ours">Unlimited</td></tr>
-          <tr><th scope="row">Voice notes</th><td>Unlimited, two minutes each</td><td class="is-ours">Unlimited, two minutes each</td></tr>
-          <tr><th scope="row">Photos</th><td>{{FREE_PHOTOS}}, lifetime</td><td class="is-ours">No limit</td></tr>
+          <tr><th scope="row">Filling in the past</th><td>Any day, any year</td><td class="is-ours">Any day, any year</td></tr>
+          <tr><th scope="row">Moments &mdash; this day in earlier years</th><td>Always</td><td class="is-ours">Always</td></tr>
           <tr><th scope="row">Search and full export</th><td>Always</td><td class="is-ours">Always</td></tr>
           <tr><th scope="row">Everything already in the archive</th><td>Yours, always</td><td class="is-ours">Yours, always</td></tr>
           <tr><th scope="row">Ads</th><td>None</td><td class="is-ours">None</td></tr>
@@ -77,6 +77,8 @@ og: /assets/og/pricing.png
                that shape: worded free cells must outnumber the em dashes. -->
           <tr><th scope="row">Daily missions</th><td class="none">—</td><td class="is-ours">One on weekdays, two at the weekend</td></tr>
           <tr><th scope="row">Weekly mission, monthly measurement, sealed letters</th><td class="none">—</td><td class="is-ours">Included</td></tr>
+          <tr><th scope="row">Photographs</th><td class="none">—</td><td class="is-ours">No limit</td></tr>
+          <tr><th scope="row">Voice notes</th><td class="none">—</td><td class="is-ours">Up to ten minutes each, as many as you want</td></tr>
           <tr><th scope="row">Video</th><td class="none">—</td><td class="is-ours">Included</td></tr>
           <tr><th scope="row">The second parent</th><td class="none">—</td><td class="is-ours">Included</td></tr>
           <tr><th scope="row">Price</th><td><strong class="num">$0</strong></td><td class="is-ours"><strong class="num">{{PRICE_YEAR}}/yr</strong> or {{PRICE_MONTH}}/mo</td></tr>
@@ -110,6 +112,9 @@ og: /assets/og/pricing.png
     <div class="ctarow" style="margin-top:24px">
       <a class="btn btn--primary btn--lg" href="{{APP_STORE_URL}}">{{CTA_APP}}</a>
       <p class="ctarow__note">{{CTA_APP_SUPPORT}}</p>
+      <!-- Apple's name field is the domain-styled one. Said once, here, where somebody
+           is about to search the store for a name that will not match what they read. -->
+      <p class="ctarow__note">On the App Store it&rsquo;s listed as PocketChronicle.App.</p>
     </div>
   </div>
 </section>
@@ -122,7 +127,8 @@ og: /assets/og/pricing.png
         <p class="t-body muted">
           <strong>No card, nothing to cancel.</strong> You are not signing up for a subscription you
           have to remember to stop. There is no card on file to charge, so nothing happens when the
-          {{TRIAL}} are up except that the missions become part of membership and the daily question
+          {{TRIAL}} are up except that the missions become part of membership &mdash; along with the
+          photographs, the video and the recordings they ask for &mdash; and the daily question
           carries on the way it always has.
         </p>
         <p class="t-body muted">
@@ -162,7 +168,7 @@ og: /assets/og/pricing.png
 
 <section class="section">
   <div class="wrap">
-    <div class="cols cols--2 cols--top">
+    <div class="measure">
       <div class="stack gap-16">
         <h2 class="t-section">Why the question is the free part</h2>
         <p class="t-body muted">
@@ -174,20 +180,8 @@ og: /assets/og/pricing.png
         </p>
         <p class="t-body muted">
           The missions are where the money is because that is where the cost is. A mission asks for
-          a photograph, a video, thirty seconds of their voice — files, kept for eighteen years,
+          a photograph, a video, their voice — files, kept for eighteen years,
           which is the one part of this that gets more expensive every year you use it.
-        </p>
-      </div>
-      <div class="stack gap-16">
-        <h2 class="t-section">Why {{FREE_PHOTOS}} photos is a lifetime number</h2>
-        <p class="t-body muted">
-          Not per month. A monthly reset lets a free archive grow forever against no revenue, and
-          the honest version of this is a number that doesn't move. A cap can always be raised. It
-          can never be lowered, so it is set where it can stay.
-        </p>
-        <p class="t-body muted">
-          It is also not a countdown. Nothing warns you, nothing turns red, and nothing you have
-          already put in there is touched when you reach it.
         </p>
       </div>
     </div>
@@ -214,29 +208,15 @@ og: /assets/og/pricing.png
             If you stop paying, {{PRODUCT}} drops to the free tier. Everything you have written and
             captured stays exactly where it is — readable, searchable, exportable. The daily
             question keeps arriving and written and <em>did it</em> entries never stop. The missions
-            go back to being part of membership, and new photo and video uploads pause.
-          </p>
-        </div>
-        <div class="stack gap-12">
-          <hr class="rule--accent" data-rule-grow>
-          <h3 class="t-card">After ninety days, photos get cheaper to store</h3>
-          <p class="t-body muted">
-            Original photos move to cold storage. Thumbnails stay instant, search still works, and
-            pulling a full-resolution original back takes about an hour. That's a property of the
-            storage, not a penalty, and it's described that way because that's what it is.
+            go back to being part of membership.
           </p>
         </div>
         <div class="stack gap-12">
           <hr class="rule--accent" data-rule-grow>
           <h3 class="t-card">We never delete a word you wrote unless you ask us to.</h3>
           <p class="t-body muted">
-            And if media is ever going to be removed, you get warned three times — ninety days out,
-            thirty days out, seven days out — each with a free one-click export of the whole archive.
-            Sign in once during that window and it's cancelled outright. If we can't reach you, we
-            keep it.
-          </p>
-          <p class="t-body">
-            <strong>We have never deleted a word a parent wrote.</strong>
+            Asking us to is the one thing that does delete an archive. It waits seven days, and
+            signing in during that week calls it off.
           </p>
         </div>
         <div class="stack gap-12">
@@ -265,15 +245,15 @@ og: /assets/og/pricing.png
       <div class="faq">
         <details class="faq__item">
           <summary class="faq__q">Is the free tier a trial?</summary>
-          <div class="faq__a"><p>No. It has no end date and no countdown. The daily question arrives every day, forever, and everything you write, record and already have stays yours. The missions are the part that's membership.</p></div>
+          <div class="faq__a"><p>No. It has no end date and no countdown. The daily question arrives every day, forever, and everything you have already written and captured stays yours. The missions are the part that's membership.</p></div>
         </details>
         <details class="faq__item">
           <summary class="faq__q">What do I have to give you to try the whole thing?</summary>
-          <div class="faq__a"><p>Nothing at all. You get {{TRIAL}} with everything open — every mission, video, the lot — and there's no card, so there's nothing to cancel. When it ends, the daily question carries on and the missions become part of membership.</p></div>
+          <div class="faq__a"><p>Nothing at all. You get {{TRIAL}} with everything open — every mission, video, the lot — and there's no card, so there's nothing to cancel. When it ends, the daily question carries on, and the missions — with the photographs, video and recordings they ask for — become part of membership.</p></div>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">What happens when I hit {{FREE_PHOTOS}} photos?</summary>
-          <div class="faq__a"><p>New photo uploads stop. Nothing already in the archive changes, and you keep answering the daily question, writing entries and recording voice exactly as before.</p></div>
+          <summary class="faq__q">What happens to the photographs I already have?</summary>
+          <div class="faq__a"><p>They stay exactly where they are — readable, searchable, exportable, on any tier, whether you paid once or never. What membership buys is adding new ones.</p></div>
         </details>
         <details class="faq__item">
           <summary class="faq__q">Do I pay more for a second child?</summary>

@@ -827,11 +827,11 @@
     if (!main || !window.URLSearchParams) return;
 
     var STATES = {
-      /* "Prompt", not "question". The daily send draws from the whole library,
-         and only 30 of its 133 entries are questions — the rest are photo (43),
-         activity (25), video (12), audio (12), letter (8) and measurement (3).
-         So "the first question comes by email" was wrong about three times in
-         four. "Prompt" is the kind-neutral noun this site already uses for the
+      /* "Prompt", not "question". The daily send draws from the DAILY prompts —
+         111 of the library's 133, the weekly missions, monthly measurements and
+         sealed letters being deliberately filtered out (broadcast.py's pick_prompt
+         filters Prompt.cadence == "daily"). Only 30 of those 111 are questions, so
+         "the first question comes by email" was wrong about three times in four. "Prompt" is the kind-neutral noun this site already uses for the
          set (the CTA is "Get tomorrow's prompt", PROMPT_COUNT counts prompts),
          and it stays true whichever kind lands first.
 

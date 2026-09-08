@@ -198,7 +198,7 @@ selling?*
 /blog                    Index
 /blog/[5 launch posts]   See §Blog
 /waitlist                Form (also inline on /)
-/thanks                  Post-signup
+/unsubscribed            Unsubscribe destination (noindex, unlinked)
 /privacy  /terms         Legal
 ```
 
@@ -780,7 +780,7 @@ answer."** That sentence is why the page works.
 
 ---
 
-# `/waitlist` and `/thanks`
+# `/waitlist`
 
 Form: **one field, email only.** Optional second field, "your kid's age" as a range select — but
 only if you'll act on it, otherwise it's friction for nothing.
@@ -794,12 +794,14 @@ both arrived on September 7 2026, so the clause was describing a future that had
 `LEGAL_UPDATED` moved with it. The route is still `/waitlist` — a URL people bookmarked and search
 engines indexed — but the page calls itself the daily email.
 
-`/thanks`:
-> **You're on the list.**
-> First one lands tomorrow morning. Here's one you can answer tonight, on paper, and type in later:
-> *"What are they pretending to be this week?"*
-
-That last touch does the actual work of the product on the thank-you page. Keep it.
+**[REMOVED Sept 7 2026]** `/thanks` is deleted. It never had a way in: `subscribe.py`'s
+`confirm()` returns `RedirectResponse(f"{site}/?confirmed=1", 303)` and `site.js` draws the
+confirmation banner on the home page, so the thank-you copy was written for a route nothing
+reached. The page's own opening comment claimed to be "where the confirmation link lands", which
+is the kind of sentence that stays wrong for a year because nobody visits the page that would
+show it. Its one good instinct — a prompt to answer tonight, on paper — already lives in the
+`?confirmed=1` banner and on `/waitlist`. If the confirmation destination is ever brought
+in-house, bring the page back with the redirect, not before.
 
 **Consent, per `decisions.md` D3a.** The form writes **two separate boolean fields** —
 `marketing_consent` and `transactional_consent` — not one flag. Untangling one flag into two later,

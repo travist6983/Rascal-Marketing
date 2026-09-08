@@ -1,4 +1,13 @@
-<!-- The waitlist form. Used inline on / and as the whole of /waitlist.
+<!-- The daily email form. Used inline on / and as the whole of /waitlist.
+
+     The route keeps the name /waitlist because it is bookmarked and indexed,
+     but nothing here is a queue for a launch any more: the app shipped on the
+     App Store on September 7 2026 and this form signs a reader up for one
+     prompt a morning at 8:00. The old pre-launch description of this form was
+     rewritten on that date, and the reason it had survived is that build.mjs
+     does not strip comments: this text ships to dist and a reader can
+     view-source it, so it is copy, not a note. check.mjs now sweeps comments
+     in dist for exactly that reason -- see the LAUNCH_BANNED section there.
 
      It posts to POST /v1/subscribe, whose contract is settled and narrow: it
      takes { email, turnstile_token, source }, stores nothing, and hands the

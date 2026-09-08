@@ -416,14 +416,22 @@ const LAUNCH_BANNED = [
   [/no app required yet|no app to install/i, 'there is an app and it is a free download'],
   [/we don'?t have a date/i, 'the date arrived'],
 ];
+/* Comments are NOT stripped here, and that is the correction of Sept 7 2026.
+   This sweep runs over dist/, and build.mjs does not strip comments — so an
+   HTML comment in a partial is shipped bytes a reader can view-source. The
+   earlier version stripped them for the TIER_BANNED reason (a note explaining
+   what a launch removed will quote the sentence it removed), and the cost of
+   that exemption was exactly the bug it was written to tolerate: the launch
+   pass certified clean while src/partials/signup.html:1 shipped "The waitlist
+   form" into every page carrying the form. A note that ships is copy.
+
+   So the rule for dist is: if you want to record what a launch removed,
+   record it where it does not ship — in scripts/, in docs/, or in a build-time
+   note this sweep never sees. Do not quote a banned sentence in a partial. */
 for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
   const raw = await readFile(file, 'utf8');
-  /* Comments again, for the TIER_BANNED reason: a note explaining what a launch
-     removed will quote the sentence it removed, and that is the opposite of a
-     regression. The .md twins carry no comments, so this only affects the HTML. */
-  const visible = raw.replace(/<!--[\s\S]*?-->/g, '');
   for (const [re, why] of LAUNCH_BANNED) {
-    const hit = visible.match(re);
+    const hit = raw.match(re);
     if (hit) fail.push(`/${relative(dist, file)}: launch copy "${hit[0]}" — ${why}`);
   }
 }
@@ -602,7 +610,7 @@ const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PAT
    has more to find on them than on a page built out of cards. */
 const ROUTES = ['/', '/how-it-works', '/prompts', '/pricing', '/promise', '/faq',
   '/compare/tinybeans', '/compare/qeepsake', '/compare/camera-roll',
-  '/blog', '/blog/the-photo-survives', '/waitlist', '/thanks',
+  '/blog', '/blog/the-photo-survives', '/waitlist',
   '/terms', '/privacy'];
 
 for (const [name, viewport] of [
