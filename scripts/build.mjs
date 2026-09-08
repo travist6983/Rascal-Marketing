@@ -297,6 +297,7 @@ for (const file of pages) {
   const GROUPS = [
     ['Product', ['/', '/how-it-works', '/prompts', '/pricing', '/promise', '/faq', '/waitlist']],
     ['Comparisons', ['/compare/tinybeans', '/compare/qeepsake', '/compare/camera-roll']],
+    ['Press', ['/press']],
     ['Blog', ['/blog', '/blog/the-photo-survives', '/blog/what-to-write-in-a-keepsake-book',
       '/blog/streaks-are-a-bad-idea', '/blog/record-your-kids-voice', '/blog/an-archive-they-can-inherit']],
     ['Small print', ['/privacy', '/terms']]
@@ -311,6 +312,7 @@ for (const file of pages) {
     '/waitlist': 'Get tomorrow’s prompt',
     '/compare/tinybeans': '{{PRODUCT}} vs Tinybeans', '/compare/qeepsake': '{{PRODUCT}} vs Qeepsake',
     '/compare/camera-roll': 'Why not just use your camera roll?',
+    '/press': 'Press kit',
     '/blog': 'Blog', '/privacy': 'Privacy', '/terms': 'Terms'
   };
   const byRoute = new Map(mdPages.map((p) => [p.route, p]));

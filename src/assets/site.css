@@ -1124,3 +1124,70 @@ body.post--sage .prose blockquote { border-color: var(--rule-sage); }
 @media (max-width: 379px) {
   .wordmark .brand__word { font-size: 16px; }
 }
+
+/* ── Press kit (/press) ───────────────────────────────────────────────────────
+   One page a journalist can work from: the facts, the images at a size worth
+   downloading, and the video playing where they are rather than behind a link.
+   Everything here is scoped to .press-* because it is the only page that has a
+   screenshot wall, and the site's own card/grid vocabulary carries the rest. */
+
+.press-hero { display: grid; grid-template-columns: 132px 1fr; gap: 28px; align-items: start; }
+.press-hero__icon {
+  width: 132px; height: 132px; border-radius: 29.4%;
+  box-shadow: 0 10px 30px rgba(35, 37, 60, 0.13); display: block;
+}
+.press-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* The facts read as rows rather than prose: a writer is scanning for one line. */
+.press-facts { border-collapse: collapse; width: 100%; max-width: 780px; }
+.press-facts th, .press-facts td {
+  text-align: left; vertical-align: top;
+  padding: 11px 14px; border-bottom: 1px solid var(--border);
+  font: 400 var(--t-body) var(--text);
+}
+.press-facts th {
+  width: 190px; color: var(--ink-muted);
+  font: 600 var(--t-meta) var(--display); letter-spacing: 0.01em;
+}
+.press-facts tr:last-child th, .press-facts tr:last-child td { border-bottom: 0; }
+
+.press-video {
+  display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 26px; align-items: start;
+  background: var(--canvas); border: 1px solid var(--border);
+  border-radius: var(--radius-card, 18px); padding: 18px;
+}
+.press-video__player { width: 100%; height: auto; border-radius: 12px; display: block; background: var(--ink); }
+.press-beats { margin: 0; padding-left: 20px; color: var(--ink-muted); font: 400 var(--t-body) var(--text); }
+.press-beats li { margin-bottom: 5px; }
+
+/* A wall of phones. The tile width is set by the screenshot rather than the
+   grid, so a 1206-wide capture never renders wider than it was taken. */
+.press-shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(212px, 100%), 1fr)); gap: 22px; }
+.press-shot { margin: 0; }
+.press-shot a {
+  display: block; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border); background: var(--canvas);
+}
+.press-shot img { width: 100%; height: auto; display: block; }
+.press-shot figcaption { margin-top: 9px; line-height: 1.45; }
+.press-shot figcaption b { display: block; color: var(--ink); margin-bottom: 2px; }
+
+.press-quote {
+  margin: 0; padding: 20px 24px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--terracotta); border-radius: 0 18px 18px 0;
+}
+.press-quote p { margin: 0 0 8px; }
+.press-quote cite { font-style: normal; }
+
+.press-list { margin: 0; padding-left: 20px; }
+.press-list li { margin-bottom: 10px; color: var(--ink-muted); font: 400 var(--t-body) var(--text); }
+.press-list strong { color: var(--ink); }
+
+@media (max-width: 720px) {
+  .press-hero { grid-template-columns: 1fr; gap: 20px; }
+  .press-hero__icon { width: 104px; height: 104px; }
+  .press-video { grid-template-columns: 1fr; }
+  .press-facts th { width: auto; display: block; padding-bottom: 0; border-bottom: 0; }
+  .press-facts td { display: block; padding-top: 2px; }
+}
