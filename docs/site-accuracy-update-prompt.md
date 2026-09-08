@@ -28,6 +28,19 @@ The server half puts a `402 subscription_required` on `POST /media/upload-url` u
 
 **Sequencing, and it matters:** today, a free household can still upload, because that gate is not in production. If the site ships the new free-tier copy first, the site is stricter than the product. **Publish the copy in the same window that phase 147 merges and deploys**, or hold the copy until it does.
 
+> **[RESOLVED Sep 7 2026, later the same day.]** Phase 147 merged (PRs #197 and #198) and
+> **deployed** while the copy pass was in flight. Verified against production rather than
+> assumed: `https://rascal-api.fly.dev/openapi.json` carries the `402 subscription_required`
+> paragraph on `POST /v1/media/upload-url`, and `services/media.py:144` gates on
+> `if not household.entitled` with no feature flag behind it. So the gate is live and the
+> sequencing worked out.
+>
+> The owner's answer to question 2 below — *say only what is true today* — was given while the
+> gate was still unmerged, and the six sentences shipped in that form. They were flipped to the
+> other version once the deploy was confirmed, so the site now says that adding new photographs,
+> video and voice recordings is part of membership. Both answers were right when they were given;
+> only the fact underneath moved.
+
 * * *
 ## How to work
 - **Voice is binding.** `docs/site-content.md` §Voice and §"Do not write". Plain, warm, specific, unhurried. Short declarative sentences. No exclamation marks. No "revolutionize", "effortlessly", "magical", "unlock", "upgrade", "premium", "pro". Never the word "baby" — the subject is a child. No urgency, no guilt, no countdowns, no invented testimonials. An absent feature is an em dash, never a red X. One test per sentence: would it embarrass you to read in 2040, in the archive it is selling?
