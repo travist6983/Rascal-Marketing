@@ -65,12 +65,14 @@
     el.addEventListener('pointerleave', function () { held = false; });
 
     /* Paused while the reader is over it — a phone that slides away from under
-       the pointer is the deck's rule too — and off entirely when the tab is. */
+       the pointer is the deck's rule too — and off entirely when the tab is.
+       4.3s: the owner asked for a third faster than the 6.5s it launched at,
+       having not noticed it moved. */
     setInterval(function () {
       if (!visible || held || document.hidden) return;
       pos = (pos + 1) % 3;
       el.setAttribute('data-pos', String(pos));
-    }, 6500);
+    }, 4300);
   })();
 
   /* ---------------------------------------------------------- the stage */
