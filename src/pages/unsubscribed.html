@@ -5,7 +5,14 @@ og: /assets/og/default.png
 noindex: true
 -->
 
-<!-- Where an unsubscribe link lands.
+<!-- An unsubscribe page with, today, no way in.
+
+     Corrected September 7 2026. This page used to describe itself as where an
+     unsubscribe link lands. It is not: the daily email's unsubscribe is
+     Resend's own token by design, so a reader who clicks it lands on Resend's
+     page and never sees this one. Nothing on the site links here either. The
+     page is kept, noindex and out of the nav, because it costs nothing and is
+     the right destination the day the unsubscribe becomes ours.
 
      One screen, one line, and no attempt to win anybody back. The runbook is
      explicit that a resubscribe link is fine and an "are you sure?" is not,
@@ -13,14 +20,12 @@ noindex: true
      is leaving has already decided, and asking twice is a small punishment
      for having decided.
 
-     Reached from an email footer rather than from the site, so noindex and
-     out of the nav.
-
-     One honest caveat lives here rather than in the privacy page's fine
-     print: unsubscribing leaves the address on a suppression list, which is
-     the mechanism that guarantees we never mail it again. It is stated in
-     the same breath as the confirmation, because finding it out later reads
-     like a thing that was hidden. -->
+     The paragraph about a do-not-email list went in the same pass. There is
+     no suppression list of ours -- the flag is Resend's, there is no
+     subscribers table, and confirm_contact PATCHes unsubscribed: false with
+     no suppression check, so a future signup plus one click on the
+     confirmation link flips it back. The page's own last paragraph already
+     said as much. What is written now is what the code does. -->
 <section class="section">
   <div class="wrap wrap--narrow stack gap-24">
     <h1 class="t-hero">Unsubscribed.</h1>
@@ -30,10 +35,10 @@ noindex: true
     </p>
 
     <p class="t-body muted">
-      Your address stays on a do-not-email list so that a future signup form can&rsquo;t put you
-      back by accident. That list is the reason the unsubscribe sticks. If you&rsquo;d rather it
-      were gone entirely, <a href="mailto:{{SUPPORT_EMAIL}}">ask us</a> and we&rsquo;ll remove
-      it &mdash; and then a future form could sign you up again, which is the honest trade.
+      You stay unsubscribed until you ask to come back. Signing up again takes the form and a click
+      on the confirmation link &mdash; nothing happens by accident, and nothing happens without you.
+      If you&rsquo;d rather your address were off the list entirely rather than marked unsubscribed,
+      <a href="mailto:{{SUPPORT_EMAIL}}">ask us and we&rsquo;ll remove it</a>.
     </p>
 
     <p class="t-body muted">

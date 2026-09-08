@@ -72,7 +72,16 @@
     "at the time, which is the whole problem with a second copy: it is right",
     "until the day it is silently wrong, in machine-readable data on every page."
   ],
-  "FREE_PHOTOS": "100",
+  "_free_photos_note": [
+    "FREE_PHOTOS is retired as of September 7 2026. There is no free photograph",
+    "allowance -- the free tier is the daily question, and everything that needs",
+    "storage is membership. No cap was ever built; grep api/src for one and you",
+    "will not find it. FREE_SLOTS in api/src/rascal/constants.py is ('question',),",
+    "and there is no photo counter, cap or column anywhere in the service. The key",
+    "rendered in twelve places across seven pages and every one of them was an",
+    "invented number. Do not reintroduce a free-tier quantity the code does not",
+    "enforce: there is no value of this key that would be correct."
+  ],
   "TRIAL": "two weeks",
 
   "_trial_note": [
@@ -158,6 +167,18 @@
     "is owed by a person. One column, one link, and it is the weakest-evidenced",
     "string in this file.",
     "",
+    "CHECKED September 7 2026, by the owner via Claude, in a browser: the URL",
+    "resolves to a real profile -- handle pocketchronicle.app, display name",
+    "\"Pocket Chronicle\", 29 posts, bio describing the daily question. That is",
+    "profile content, not a bare 200, so the failure mode this note warned about",
+    "does not apply. The debt above is paid; leave the record here rather than",
+    "deleting it, so the next person can see what was checked and when.",
+    "",
+    "One thing found in the same check and NOT fixable from this repository: the",
+    "profile bio still says \"Vellum\", the name retired on Aug 27 2026. Same class",
+    "of stale string as api/seeds/email_copy.yaml. It is owed an edit in the",
+    "Instagram app by a person.",
+    "",
     "It points at @pocketchronicle.app, the NEW account. The old one,",
     "@getvellum.app, is frozen as of Aug 27 2026 rather than deleted -- its posts",
     "stay up and its captions are never edited, it simply stops receiving new",
@@ -189,7 +210,23 @@
     "missions, and no page states that difference as its own literal."
   ],
 
-  "VERIFIED_ON": "August 17, 2026",
+  "VERIFIED_ON": "August 15, 2026",
+
+  "_verified_on_note": [
+    "The competitor-claim re-check date, and NOTHING else. It backs the twenty",
+    "inline `verified 2026-08-15` comments on /compare/tinybeans and",
+    "/compare/qeepsake, and it moves only when those figures are re-checked.",
+    "Corrected from August 17 to August 15 on September 7 2026: every evidence",
+    "comment in the repository is dated 2026-08-15, so the published check date",
+    "was two days ahead of any source behind it.",
+    "",
+    "It is NOT a date for facts about us. Four sentences on /faq, /promise and",
+    "/compare/tinybeans used to render it against our own availability, one of",
+    "which (\"new on the App Store\") was false on that date. Those now say",
+    "September 7 2026 in words, because the live listing is the evidence and",
+    "needs no re-check date. Never move this token to fix a sentence about us --",
+    "it would silently restamp two competitor comparisons nobody re-read."
+  ],
 
   "LEGAL_UPDATED": "September 7, 2026",
 

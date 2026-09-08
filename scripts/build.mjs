@@ -190,7 +190,7 @@ for (const file of pages) {
   const expanded = await expandIncludes(rawBody);
   const { head: pageHead, body } = hoistHead(expanded);
 
-  /* noindex: true in front-matter — /thanks is a post-signup page, not a result. */
+  /* noindex: true in front-matter — /404 and /unsubscribed are destinations, not results. */
   const noindex = meta.noindex === 'true';
   const robots = noindex ? '<meta name="robots" content="noindex">\n' : '';
 
@@ -200,9 +200,12 @@ for (const file of pages) {
 
      The canonical waits on one more thing: the page being indexable. A noindex
      page with a self-canonical asks a crawler to keep the URL and to drop it in
-     the same breath, and the three noindex pages here (404, thanks, unsubscribed)
-     want only the robots tag. The absolute OG URLs still go on all of them —
-     /thanks does get pasted into a group chat, it just isn't a search result. */
+     the same breath, and the two noindex pages here (404, unsubscribed) want
+     only the robots tag. The absolute OG URLs still go on both of them — a
+     noindex page still gets pasted into a group chat, it just isn't a search
+     result. (/thanks was the third until September 7 2026, when it was deleted:
+     the subscribe confirmation redirects to /?confirmed=1 and always had, so
+     nothing ever reached it.) */
   const origin = (config.ORIGIN || '').replace(/\/$/, '');
   const pageUrl = origin + (route === '/' ? '/' : route);
   const ogImage = meta.og || '/assets/og/default.png';
